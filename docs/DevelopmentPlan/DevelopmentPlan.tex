@@ -2,6 +2,7 @@
 
 \usepackage{booktabs}
 \usepackage{tabularx}
+\usepackage{parskip}
 
 \title{Development Plan\\\progname}
 
@@ -84,12 +85,59 @@ likely change throughout the year.}
 
 \section{Workflow Plan}
 
+To ensure efficient collaboration and seamless project development, the following workflow processes will be adopted:
+
+\subsection{Git Workflow}
+The team will follow the Git Feature Branch Workflow, but instead of "feature" branches, we will refer to them as "task" branches to better reflect the variety of work being done (e.g., adding documentation, fixing bugs, or developing new features).
+
 \begin{itemize}
-	\item How will you be using git, including branches, pull request, etc.?
-	\item How will you be managing issues, including template issues, issue
-	classification, etc.?
-  \item Use of CI/CD
+    \item Main Branch: The main branch will always contain production-ready code. Only tested and approved code will be merged into this branch.
+    \item Development Branch: All new tasks, whether for coding, documentation, or bug fixes, will be developed in task branches created from the development branch.
+    \item Task Branches: Each new task (feature, bug fix, or documentation section) will have its own dedicated branch named descriptively (e.g., webpage-login-feature, webpage-signout-fix). This allows team members to work independently without affecting the main codebase.
+    \item Pull Requests (PRs): Once a task is complete, the developer will submit a pull request (PR) to merge the code into the development branch. PRs must be reviewed by at least two rotating team members before merging to ensure code quality and consistency.
 \end{itemize}
+
+\subsection{Issue Management}
+\textbf{GitHub Issues} will be used to track tasks, bugs, and feature requests throughout the project. Each issue will:
+\begin{itemize}
+    \item Be clearly described, outlining the task, bug, or enhancement in detail.
+    \item Include relevant labels to indicate priority (e.g., high, medium, low) and type (bug, task, improvement).
+    \item Have a designated assignee to ensure accountability.
+    \item Include milestones and deadlines where applicable.
+\end{itemize}\par
+
+\textbf{Issue Templates} will be created to standardize how issues are reported:
+\begin{itemize}
+    \item Bug Report Template: A form to report bugs, with fields for reproduction steps, expected behavior, and actual behavior.
+    \item Task/Request Template: A form to describe tasks, such as documentation sections or new features, detailing the goal and steps for completion.
+\end{itemize}
+
+\subsection{Continuous Integration (CI)}
+The team will implementContinuous Integration (CI) to ensure that the code remains stable as new changes are introduced.
+\begin{itemize}
+    \item A basic CI pipeline (using a tool like \textbf{GitHub Actions}) will be configured to automatically run tests whenever a new pull request is opened. This will ensure that the new code doesn’t break existing functionality or introduce bugs.
+    \item The CI pipeline will run simple unit tests and style checks, ensuring the code is clean and functional.
+    \item Only code that passes all CI checks will be eligible for merging into the development branch.
+\end{itemize}
+
+\subsection{Code Review Process}
+Every pull request will require at least two reviews from rotating team members before being merged.
+\begin{itemize}
+    \item Rotating Reviewers: Team members will take turns reviewing pull requests to ensure that everyone contributes to maintaining code quality.
+    \item Review Feedback: Reviewers will provide constructive feedback through GitHub, and any requested changes must be implemented before approval.
+\end{itemize}
+
+\subsection{GitHub Projects \& Kanban Board}
+The team will use \textbf{GitHub Projects} with a kanban board to visually track progress. GitHub Projects allows automatic creation of tasks on the Kanban board from GitHub Issues, ensuring that both issue tracking and task tracking are seamlessly integrated. The Kanban board will include the following columns:
+\begin{itemize}
+    \item To Do: Automatically populated with new issues created in GitHub.
+    \item In Progress: Tasks/issues that are actively being worked on will be moved to this column.
+    \item In Review: Pull requests awaiting review will be placed here.
+    \item Completed: Once a task is fully completed and merged, it will be moved to the Completed column.
+\end{itemize}
+
+\subsection{Task Assignment}
+Tasks will be assigned via GitHub Issues and reflected on the kanban board. Team members can self-assign tasks or be assigned by the project manager. Larger tasks will be broken down into smaller sub-tasks to ensure steady progress. This process ensures that task assignment, status, and completion are always visible, helping the team stay on track and maintain accountability.
 
 \section{Project Decomposition and Scheduling}
 
