@@ -299,7 +299,54 @@ Topics to discuss include the following:
 
 \section{Coding Standard}
 
-\wss{What coding standard will you adopt?}
+Similar to any engineering project, there are practices and rules that our web development project must adhere to. This list will contain the rules that we want to follow to make our project maintainable and scalable long-term for the present and future.
+
+\subsection*{Consistent Code}
+
+Everyone must write code that is easy to read and understand for others. Examples of this could be concise and descriptive variable names, function names, and consistent formatting of code, such as spaces on new lines instead of jamming them together on one. Code should be broken down smaller with an identifiable purpose so that it can be easily tested. We also do not want to duplicate code to avoid wasting time in the future.
+
+\subsection*{SOLID}
+
+Our code will follow the SOLID principles, which we learned in our previous software engineering classes. These principles are standard practices, ensuring that any code we write will be easily readable by others for interpretation or future usage.
+
+\subsubsection*{Single Responsibility Principle}
+
+A class should only have one responsibility. Responsibilities should obviously be separate to avoid confusion and code duplication. This principle also makes it easier to locate specific functionalities since we're purposely separating them.
+
+\subsubsection*{Open/close Principle}
+
+Open for extension, closed for modification. This principle means that any time we want to add a new functionality, there should be no need to change or modify the original code. This principle avoids bugs and allows us to update the website smoothly without any loss of functionalities.
+
+\subsubsection*{Liskov Substitution Principle}
+
+A subclass should behave correctly according to its parent class. For example, if we have a bird class that has method fly(), we should not create a subclass called penguin because penguins cannot fly. If we ever used a penguin to substitute for a bird, our program would break. Any subclasses of the class bird should adhere to its rules, such as a pigeon.
+
+\subsubsection*{Interface Segregation Principle}
+
+Smaller, more specific interfaces to avoid unnecessary methods. Our clients should only access the interfaces they need. \\
+
+\noindent For example, our playerStats interface should only handle player statistics, while our teamStats interface should only handle team stats. This way, we do not have one big interface that handles both player and team stats, when we are only looking for one or the other.
+
+
+\subsubsection*{Dependency Inversion Principle}
+
+High-level modules should not depend on low-level modules; rather, both should rely on abstractions. This principle increases flexibility and modularity. \\
+
+\noindent For example, our platform (high-level) should not depend directly on a specific database (low-level), such as MongoDB. Instead, there should be an abstract data layer, allowing us to swap out the database for another if needed, without impacting the rest of the system. In this way, the platform can work with a database, but the specific implementation remains flexible.
+
+\subsection*{Responsive and Accessible Design}
+
+Users have a variety of needs, as all users are different individuals. We want our features to be mobile-friendly and accessible. The standard here is to use ARIA roles, keyboard navigation support, semantic HTML, etc. We also do not want the colours to be negatively affecting user experience.
+
+\subsection*{API Design \& Error Handling}
+
+We want our design to follow REST API conventions, including descriptive endpoints that are well documented. We also need proper error handling throughout our functionalities to ensure that both the user and our system understand what error is being communicated, which will enhance the overall experience of our platform. \\
+
+\noindent For example, if a user enters the wrong password when logging in, that message should be conveyed back to the user. This password error must also be logged into our system so that our developers can see the error.
+
+\subsection*{Documentation}
+
+Everyone needs to document their work, so others can understand the process that leads to the result. It is insufficient to only look at the final result because without understanding we are unable to make modifications when needed. In the engineering world, changes are bound to happen and we must document our process to reflect our understanding of that. This concept will help future developers understand and improve upon what we have built here.
 
 \newpage{}
 
