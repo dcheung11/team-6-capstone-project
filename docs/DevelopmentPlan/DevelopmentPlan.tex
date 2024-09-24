@@ -104,9 +104,24 @@ for deadlines.}
 
 \section{Proof of Concept Demonstration Plan}
 
-What is the main risk, or risks, for the success of your project?  What will you
-demonstrate during your proof of concept demonstration to convince yourself that
-you will be able to overcome this risk?
+\subsection{Project Risks}
+
+\begin{itemize}
+  \item \textbf{Login, Registration, and User Roles:} Establishing a secure login and registration system while ensuring proper role assignments for users, captains, commissioner levels can present challenges, particularly in preventing unauthorized access and special permissions.
+  \item \textbf{Scheduling:} Managing game schedules across multiple divisions and handling rescheduling due to conflicts can introduce complexities in both logic and user interface design. It may be tricky to implement schedule generation, game rescheduling, team preferences, etc. Some research on schedule generation is required.
+  \item \textbf{Deployment and Scalability:} Deploying the application in a secure and stable manner also entails ensuring the platform is reliable under real-world conditions, especially as traffic increases during the season, and that updates or patches don’t introduce bugs or downtime. Approximately 1000 unique participants across 30-40 teams are using the current web page, and scalability must be acknowledged in design and implementation.
+  \item \textbf{Roster Management:} Difficulty in implementing the "Request To Join Team" functionality for players and sending email notifications to the captains, as well as general roster management available to the captain.
+\end{itemize}
+\subsection{Proof of Concept Demonstration}
+
+To address these risks, the PoC demonstration will focus on the following key areas to mitigate these concerns:
+
+\begin{itemize}
+	\item \textbf{Login, Registration, and User Roles:} \\ Goal: A working registration page where users can create accounts, log in, and see different views based on their roles. A demo admin will be able to access restricted settings while regular users can only view their team pages. 
+  \item \textbf{Scheduling:} \\ Goal: A minimal working scheduling system that auto-generates a schedule for all divisions with an interface allowing captains to request a rescheduled game and set the preferred time slots.
+  \item \textbf{Deployment and Scalability:} \\ Goal: A live deployment of the minimal POC on Heroku or similar hosting platforms, demonstrating real-time accessibility and showcasing a the ability for simultaneous user interactions with the platform.
+  \item \textbf{Roster Management:} \\ Goal: Demonstrate a simple roster management interface where team captains can invite (and manage) players, with a live update of the team's roster, and players can request to join teams, notifying the captain. 
+\end{itemize}
 
 \section{Expected Technology}
 
