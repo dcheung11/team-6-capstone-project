@@ -77,27 +77,84 @@ Date 2 & 1.1 & Notes\\
 \lips
 
 \section{Mandated Constraints}
+
 \subsection{Solution Constraints}
-\lips
+Constraints that limit the design of the solution:
+\begin{itemize}
+    \item \textbf{Scalability}: The initial version of the platform must support 30-40 teams, with future scalability to accommodate more teams.
+    \item \textbf{Device Accessibility}: The system must be optimized for desktops, tablets, and mobile phones.
+\end{itemize}
+
 \subsection{Implementation Environment of the Current System}
-\lips
+The current implementation environment includes:
+\begin{itemize}
+    \item \textbf{Operating Systems}: Compatibility with Windows, macOS, Android, and iOS.
+    \item \textbf{Supported Browsers}: The platform must be fully functional on Chrome, Firefox, Safari, and Edge.
+    \item \textbf{Hosting Environment}: The platform will continue to use the existing hosting environment, which has already been established for the current website. No changes to the hosting infrastructure are anticipated unless new features require additional support.
+\end{itemize}
+
 \subsection{Partner or Collaborative Applications}
-\lips
+There are no partner or collaborative applications required for this project.
+
 \subsection{Off-the-Shelf Software}
-\lips
+No off-the-shelf software will be utilized for payment handling or calendar integration.
+
 \subsection{Anticipated Workplace Environment}
-\lips
+The platform is anticipated to be used in various environments:
+\begin{itemize}
+    \item \textbf{Users}: The platform will be accessed by league commissioners, team captains, players, and administrators.
+    \item \textbf{Device Types}: Users are expected to use the platform on personal laptops, desktops, and mobile devices.
+\end{itemize}
+
 \subsection{Schedule Constraints}
-\lips
+The project is constrained by a strict timeline, with key milestones that must be met:
+\begin{itemize}
+    \item \textbf{Development Timeline}: The platform must be completed within the designated course timeline (approximately 8 months).
+    \item \textbf{Fixed Milestones}: Deliverables must be submitted according to predefined deadlines.
+\end{itemize}
+
 \subsection{Budget Constraints}
-\lips
+There are no budget constraints applicable to this project. The existing infrastructure and hosting environment will be reused, and no additional licensing fees are required.
+
 \subsection{Enterprise Constraints}
-\lips
+\begin{itemize}
+    \item \textbf{Hosting Environment}: The platform must utilize the existing hosting environment already set up for the current system, which may come with certain limitations or capabilities that need to be respected.
+    \item \textbf{No External Sponsorship}: There is no specific enterprise funding or sponsoring this project, meaning there are no additional budgetary or compliance constraints from an external organization.
+\end{itemize}
 
 \section{Naming Conventions and Terminology}
-\subsection{Glossary of All Terms, Including Acronyms, Used by Stakeholders
-involved in the Project}
-\lips
+
+\subsection{Glossary of All Terms, Including Acronyms, Used by Stakeholders involved in the Project}
+The following terms are used consistently throughout this document:
+\begin{itemize}
+    \item \textbf{Commissioner}: Manages the entire league and oversees operations.
+    \item \textbf{Captain}: Responsible for team management, including schedules and rosters.
+    \item \textbf{Player}: A participant in a team who needs access to schedules and standings.
+    \item \textbf{Schedule Slot}: The specific time allocated for a game.
+    \item \textbf{Waiver}: A document that participants must sign before joining the league.
+\end{itemize}
+
+\section{Relevant Facts and Assumptions}
+
+\subsection{Relevant Facts}
+\begin{itemize}
+    \item \textbf{Role Definition}: Specific roles such as commissioner, captain, and player exist within the system, each with unique permissions and responsibilities.
+    \item \textbf{Season Timeline}: The platform will primarily be used during the softball season from April to September.
+\end{itemize}
+
+\subsection{Business Rules}
+\begin{itemize}
+    \item \textbf{Team Registration}: Teams must be registered by captains before the league starts.
+    \item \textbf{Scheduling Requests}: Rescheduling requests must be made at least 48 hours in advance.
+\end{itemize}
+
+\subsection{Assumptions}
+\begin{itemize}
+    \item \textbf{Internet Access}: All users are assumed to have access to a stable internet connection.
+    \item \textbf{Mobile Usage}: It is assumed that many users will access the platform using mobile devices, so a mobile-friendly interface is required.
+    \item \textbf{Payment Compliance}: Players are expected to make payments via e-transfer, which will be managed externally. The platform will include an interface for the designated staff member to track which players have completed their payments, without integrating any direct payment gateway. Manually updated payment status is assumed to be correct.
+\end{itemize}
+
 
 \section{Relevant Facts And Assumptions}
 \subsection{Relevant Facts}
@@ -327,15 +384,23 @@ Users who no longer want to be part of the league should be able to delete their
 The platform must meet typical web standards, such as readable font, colours that are easy to look at, easy to navigate, etc.
 
 \section{Open Issues}
-\lips
+\begin{itemize}
+    \item \textbf{User Interface Design}: Some aspects of the user interface are yet to be fully defined. Specific visual elements and interaction flows will be determined in collaboration with stakeholders during the design phase.
+    \item \textbf{User Interface Testing}: Details on the testing methodology for the user interface are still under discussion. The testing plan will include usability testing with users from the target audience to ensure ease of use.
+    \item \textbf{User Payment Tracking Feature}: The implementation specifics for the payment tracking feature for staff are still being finalized. Considerations are being made regarding how the status of each player's payment will be updated and stored.
+    \item \textbf{Integration of Existing Features}: There are open questions regarding the best approach to integrate and improve existing features from the current website in the new platform.
+\end{itemize}
 
 \section{Off-the-Shelf Solutions}
 \subsection{Ready-Made Products}
-\lips
+There are no ready-made products that will be a part of our solution. The objective is to update and completely redesign the current softball league web-based platform. While features from the original platform will be transferred over to maintain continuity, the entire solution will be developed in-house based on updated requirements and best practices.
+
 \subsection{Reusable Components}
-\lips
+While no third-party reusable components will be integrated, several features from the original platform, such as user authentication, team management, and scheduling, will be carried over to ensure continuity. These components will be updated and enhanced as part of the complete redesign to meet the new requirements.
+
 \subsection{Products That Can Be Copied}
-\lips
+There are no external products that will be directly copied for this project. However, the redesign will reference the design and functional elements of the current website to maintain familiarity for existing users. Additionally, best practices from similar platforms will be researched and adapted to improve the user experience.
+
 
 \section{New Problems}
 \subsection{Effects on the Current Environment}
