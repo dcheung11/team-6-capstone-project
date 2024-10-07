@@ -5,6 +5,7 @@
 %
 % Risks are removed because they are covered by the Hazard Analysis
 \documentclass[12pt]{article}
+\usepackage[parfill]{parskip}
 
 \usepackage{booktabs}
 \usepackage{tabularx}
@@ -132,7 +133,88 @@ involved in the Project}
 
 \section{Functional Requirements}
 \subsection{Functional Requirements}
-\lips
+\textbf{Requirement \#:} 1 \quad \textbf{Requirement Type:} 9 \quad \textbf{Event/Use Case:} 1 \\
+\textbf{Description:} The platform shall provide a login system where users enter credentials (username, password) to access the system.\\
+\textbf{Rationale:} Ensures secure access to the platform and role-specific functionality.\\
+\textbf{Fit Criterion:} No unauthorized users are able to log in and access role-based features after entering credentials.\\
+\textbf{Customer Satisfaction:} 5 \quad\quad \textbf{Customer Dissatisfaction:} 5 \\
+\noindent\rule{\textwidth}{1pt}
+
+\textbf{Requirement \#:} 2 \quad \textbf{Requirement Type:} 9 \quad \textbf{Event/Use Case:} 1 \\
+\textbf{Description:} The platform shall distinguish between different user roles (commissioner, captain, player) and role-specific access after login.\\
+\textbf{Rationale:}  Provides tailored access to players, captains, admin.\\
+\textbf{Fit Criterion:} Different user-roles only have access to the features assigned to their roles after login.\\
+\textbf{Customer Satisfaction:} 5 \quad\quad \textbf{Customer Dissatisfaction:} 5 \\
+\noindent\rule{\textwidth}{1pt}
+
+\textbf{Requirement \#:} 3 \quad \textbf{Requirement Type:} 9 \quad \textbf{Event/Use Case:} 2 \\
+\textbf{Description:} The platform shall allow users to view the game schedule including date, time, location, opponent.\\
+\textbf{Rationale:} Facilitates easy access to schedule information to provide league members with aligned game information.\\
+\textbf{Fit Criterion:} Schedules and game information are viewable by users.\\
+\textbf{Customer Satisfaction:} 5 \quad\quad \textbf{Customer Dissatisfaction:} 5\\
+\noindent\rule{\textwidth}{1pt}
+
+\textbf{Requirement \#:} 4 \quad \textbf{Requirement Type:} 9 \quad \textbf{Event/Use Case:} 3 \\
+\textbf{Description:} The platform shall provide an accurate display of league standings for all registered users.\\
+\textbf{Rationale:} Keeps league members informed of team rankings.\\
+\textbf{Fit Criterion:} League standings are updated accurately, automatically and visible to logged-in users.\\
+\textbf{Customer Satisfaction:} 4 \quad\quad \textbf{Customer Dissatisfaction:} 4\\
+\noindent\rule{\textwidth}{1pt}
+
+\textbf{Requirement \#:} 5 \quad \textbf{Requirement Type:} 9 \quad \textbf{Event/Use Case:} 4 \\
+\textbf{Description:} The platform shall allow captains to create a team by entering team details and submitting for registration.\\
+\textbf{Rationale:} Enables team formation and league participation.\\
+\textbf{Fit Criterion:} Captains can create a team, and details are stored in the system.\\
+\textbf{Customer Satisfaction:} 5 \quad\quad \textbf{Customer Dissatisfaction:} 5\\
+\noindent\rule{\textwidth}{1pt}
+
+\textbf{Requirement \#:} 6 \quad \textbf{Requirement Type:} 9 \quad \textbf{Event/Use Case:} 5 \\
+\textbf{Description:} The platform shall allow players to request to join a team, and notify the captain for approval.\\
+\textbf{Rationale:} Simplifies team membership management and formation.\\
+\textbf{Fit Criterion:} Players can submit join requests, and captains can approve or reject them and the system automatically updates the roster.\\
+\textbf{Customer Satisfaction:} 4 \quad\quad \textbf{Customer Dissatisfaction:} 5\\
+\noindent\rule{\textwidth}{1pt}
+
+\textbf{Requirement \#:} 7 \quad \textbf{Requirement Type:} 9 \quad \textbf{Event/Use Case:} 6 \\
+\textbf{Description:} The platform shall automatically generate the season game schedule based on team availability and preferences.\\
+\textbf{Rationale:} Automates scheduling for league to begin with improved efficiency.\\
+\textbf{Fit Criterion:} The system generates a schedule that gives all teams equal games and factors in team preferences.\\
+\textbf{Customer Satisfaction:} 5 \quad\quad \textbf{Customer Dissatisfaction:} 5\\
+\noindent\rule{\textwidth}{1pt}
+
+\textbf{Requirement \#:} 8 \quad \textbf{Requirement Type:} 9 \quad \textbf{Event/Use Case:} 7 \\
+\textbf{Description:} The platform shall allow captains to request a reschedule by selecting a new time slots for an existing game.\\
+\textbf{Rationale:} Enables flexibility and error-handling in scheduling.\\
+\textbf{Fit Criterion:} Captains can successfully submit reschedule requests, and the system tracks pending requests.\\
+\textbf{Customer Satisfaction:} 4 \quad\quad \textbf{Customer Dissatisfaction:} 5\\
+\noindent\rule{\textwidth}{1pt}
+
+\textbf{Requirement \#:} 9 \quad \textbf{Requirement Type:} 9 \quad \textbf{Event/Use Case:} 8 \\
+\textbf{Description:} The platform shall allow users to view league-wide announcements, lost and found, weather updates on the dashboard.\\
+\textbf{Rationale:} Keeps users informed about important league updates. \\
+\textbf{Fit Criterion:} Announcements are displayed in the users announncement dashboard.\\
+\textbf{Customer Satisfaction:} 4 \quad\quad \textbf{Customer Dissatisfaction:} 3\\
+\noindent\rule{\textwidth}{1pt}
+
+\textbf{Requirement \#:} 10 \quad \textbf{Requirement Type:} 9 \quad \textbf{Event/Use Case:} 9 \\
+\textbf{Description:} The platform shall allow administrators to post announcements that are visible to all users.\\
+\textbf{Rationale:} Enables effective communication with all participants.\\
+\textbf{Fit Criterion:} Administrators can post announcements to be viewable by players.\\
+\textbf{Customer Satisfaction:} 3 \quad\quad \textbf{Customer Dissatisfaction:} 3\\
+\noindent\rule{\textwidth}{1pt}
+
+\textbf{Requirement \#:} 11 \quad \textbf{Requirement Type:} 9 \quad \textbf{Event/Use Case:} 10 \\
+\textbf{Description:} The platform shall allow administrators to manually cancel or reschedule games due to weather conditions or accepted requests.\\
+\textbf{Rationale:} Ensures timely communication for game rescheduling or cancellations.\\
+\textbf{Fit Criterion:} Administrators can cancel or reschedule games, which updates the schedule, and teams are notified automatically. \\
+\textbf{Customer Satisfaction:} 5 \quad\quad \textbf{Customer Dissatisfaction:} 4\\
+\noindent\rule{\textwidth}{1pt}
+
+\textbf{Requirement \#:} 12 \quad \textbf{Requirement Type:} 9 \quad \textbf{Event/Use Case:} 11 \\
+\textbf{Description:} The platform shall allow captains to report game scores and forfeits by selecting a completed game and submitting the final result.\\
+\textbf{Rationale:} Simplifies reporting and keeps standings up to date.\\
+\textbf{Fit Criterion:} Captains can submit game results, and standings are updated automatically. \\
+\textbf{Customer Satisfaction:} 4 \quad\quad \textbf{Customer Dissatisfaction:} 3\\
 
 \section{Look and Feel Requirements}
 \subsection{Appearance Requirements}
