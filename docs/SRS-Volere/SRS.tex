@@ -7,6 +7,12 @@
 \documentclass[12pt]{article}
 \usepackage[parfill]{parskip}
 
+%\usepackage[pdftex]{graphicx}
+%\graphicspath{{../pdf/}{D:\ImagesforProjectLatex}}
+ %\DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\usepackage{graphicx}
+\usepackage{makecell}
+
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
@@ -188,13 +194,75 @@ The following terms are used consistently throughout this document:
 
 \section{The Scope of the Work}
 \subsection{The Current Situation}
-\lips
+The current implementation of the GSA softball league platform is run on outdated software.
+This issue makes the management of the league platform difficult without a certain degree of
+programming knowledge. The purpose of the GSA softball platform is to manage the softball
+league functionalities (communication, scheduling, player logins, etc.) so it meets the needs
+and demands of the league.
 \subsection{The Context of the Work}
-\lips
+See \textit{Figure 1.}
+\begin{figure}
+	\includegraphics[width=\linewidth]{Context_diagram.png}
+	\caption{Context diagram.}
+	\label{fig:context_diagram}
+\end{figure}
+\pagebreak
 \subsection{Work Partitioning}
-\lips
-\subsection{Specifying a Business Use Case (BUC)}
-\lips
+\begin{center}
+    \begin{tabular}{ |c|c|c| }
+        \hline
+        \textbf{Event Name}  & \textbf{Input/Output} & \textbf{Summary} \\
+        \hline
+        Login & \makecell{User ID (IN) \\ Password (IN)}
+		& \makecell{Enter user ID and password.
+		\\User is created and user data
+		\\is stored in the database.} \\
+        \hline
+		Join team & \makecell{User Login (IN) \\ Prompt for waiver (OUT) \\ Submit waiver (IN)}
+		& \makecell{User logs in as a player, then
+		\\completing the waiver allows
+		\\the user to join a team} \\
+		\hline
+        Create team & \makecell{User Login (IN) \\ Team Info (IN)}
+		& \makecell{User logins into the system as
+		\\a captain, then the user inputs
+		\\the team info to create a team.
+		\\The team is created and stored
+		\\in the database.} \\
+		\hline
+        Create Schedule & Season Schedule (OUT)
+		& \makecell{System uses all teams info to
+		\\create season-long schedule
+		\\with all open slots available.} \\
+		\hline
+        Override & Admin credentials (IN)
+		& \makecell{User inputs admin credentials
+		\\and gets access to complete
+		\\override.} \\
+		\hline
+        Create announcement & \makecell{Admin credentials (IN)
+		\\Announcement details (IN) \\Publish announcement (OUT)}
+		& \makecell{User inputs admin credentials
+		\\to gain access then enters
+		\\in the announcements details.
+		\\Then the announcement is
+		\\published on the web page.} \\
+		\hline
+        Request reschedule & User Login (IN) 
+		& \makecell{User logs into the system as
+		\\a captain, then creates a
+		\\request to reschedule a game
+		\\in an open slot.}\\
+		\hline
+        Report (Results) & \makecell{User Login (IN)
+		\\ Game results (IN) \\ Update standings (OUT)}
+		& \makecell{User logs in as a captain then
+		\\inputs the results of the game.
+		\\Update standings in the database
+		\\with reported results.} \\
+        \hline
+    \end{tabular}
+\end{center}
 
 \section{Business Data Model and Data Dictionary}
 \subsection{Business Data Model}
