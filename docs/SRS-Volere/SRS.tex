@@ -186,45 +186,63 @@ The platform must use modern, widely supported web technologies to ensure long-t
 
 \section{Operational and Environmental Requirements}
 \subsection{Expected Physical Environment}
-\lips
+The platform must be accessible on various devices, such as desktops, laptops, smartphones, and tablets.
+The platform will also require a stable internet connection.
+Servers are needed to store information in the database, such as team rosters, photos, etc.
+
 \subsection{Wider Environment Requirements}
-\lips
+Although the platform will be accessible across various devices, we want our platform to be accessed across multiple browsers, such as Chrome, Safari, Firefox, Edge, etc.
+Even if our platform is accessible by smartphones and tablets, it must have a responsive design that allows the user to reach all features when using a mobile device.
+
 \subsection{Requirements for Interfacing with Adjacent Systems}
-\lips
+Our platform may need to integrate with payment gateways to handle payment management, such as PayPal.
+It would be useful if our platform could integrate with popular calendar systems, such as Google Calendar.
+There might be some features that could benefit from CSV / Excel import or export, such as roster data and match results.
+
 \subsection{Productization Requirements}
-\lips
+Our platform must handle scaling well, such as an increased number of divisions, teams, players, etc.
+Depending on the league, the managers should be able to manage anything related to game rules, so that the information is clear to users of the product (in this case, the players of the league).
+
 \subsection{Release Requirements}
-\lips
+Version control is extremely important, previous platforms must be saved in version control so we can track changes and rollback if unnecessary.
+Before any production release, thorough testing must be done to gather feedback. If possible, testing with real users would be the most beneficial.
 
 \section{Maintainability and Support Requirements}
 \subsection{Maintenance Requirements}
-\lips
+The platform should be updated regularly for fixing bugs, adding new features, and security patches.
+
 \subsection{Supportability Requirements}
-\lips
+Any user who requires support should be directed to an email that handles issues with the platform.
+
 \subsection{Adaptability Requirements}
-\lips
+An admin user should be able to change game rules within 2 minutes, such as swapping a team’s game schedule with another if needed.
 
 \section{Security Requirements}
 \subsection{Access Requirements}
-\lips
+There must be role-based access control. Administrator roles must have access to everything. Team managers should have access to team management. Players should be restricted to a degree.
+
 \subsection{Integrity Requirements}
-\lips
+All data entered such as team rosters, game schedules, and scores must be validated for accuracy and completeness.
+
 \subsection{Privacy Requirements}
-\lips
+Personal user data such as emails, phone numbers, etc., should be protected by encryption.
+
 \subsection{Audit Requirements}
-\lips
+Logs of team history, game scores, roster updates, and game scheduling, should all be kept in case we ever need them to solve disputes.
+
 \subsection{Immunity Requirements}
-\lips
+The platform should be protected against malicious web attacks.
 
 \section{Cultural Requirements}
 \subsection{Cultural Requirements}
-\lips
+The platform should support multiple languages so that the diverse league participants can switch to their preferred language. The platform should only display the local time of Hamilton, as it is assumed that all league participants are in the same region where the games are being hosted.
 
 \section{Compliance Requirements}
 \subsection{Legal Requirements}
-\lips
+Users who no longer want to be part of the league should be able to delete their data. The platform must accommodate for this within 2 minutes.
+
 \subsection{Standards Compliance Requirements}
-\lips
+The platform must meet typical web standards, such as readable font, colours that are easy to look at, easy to navigate, etc.
 
 \section{Open Issues}
 \lips
