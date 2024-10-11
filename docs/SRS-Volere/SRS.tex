@@ -255,19 +255,89 @@ See \textit{Figure 1.}
     \end{tabular}
 \end{center}
 
-\section{Business Data Model and Data Dictionary}
-\subsection{Business Data Model}
-\lips
-\subsection{Data Dictionary}
-\lips
-
 \section{The Scope of the Product}
 \subsection{Product Boundary}
-\lips
-\subsection{Product Use Case Table}
-\lips
+See Context Diagram (\textit{Figure 1.})
+\subsection{Product Use Case List}
+See \textit{Figure 2.}
+\begin{figure}
+	\includegraphics[width=\linewidth]{Use_case.png}
+	\caption{Use Case List.}
+	\label{fig:use_case}
+\end{figure}
+\pagebreak
 \subsection{Individual Product Use Cases (PUC's)}
-\lips
+\begin{enumerate}
+	\item Product Use Case Name: Login \\
+	Trigger: User enters their username and password.\\
+	Preconditions: Client is not logged in to the system with an existing account.\\
+	Actors: User, Captain, Player, Database, Server.\\
+	Outcome: If the username and password is a match with an account in
+	the database, the user is logged in. If not, then the user is prompted
+	to try again, reset password (if username exists) or create an account.
+	\item Product Use Case Name: View Schedule \\
+	Trigger: User interacts with the view schedule prompt.\\
+	Preconditions: N/A (All users can view schedule)\\
+	Actors: User, Database, Server
+	Outcome: Page opens up with the schedule for the GSA softball league season.
+	\item Product Use Case Name: View Standings \\
+	Trigger: User interacts with View standings prompt.\\
+	Preconditions: N/A (All users can view standings)\\
+	Actors: User, Database, Server.\\
+	Outcome: The standings for the GSA softball league season is displayed.
+	\item Product Use Case Name: Create team \\
+	Trigger: User request to make a team with team info.\\
+	Preconditions: Client is logged in to the system as a Captain.\\
+	Actors: User, Captain, Database, Server.\\
+	Outcome: If the team name is unique and the user is not already an existing member
+	of another team, the team is created with the user as the Captain of the team.
+	\item Product Use Case Name: Join team \\
+	Trigger: User request to join an already existing team\\
+	Preconditions: User is logged into the system, the user is not part of an
+	already existing team, and team being requested exists.\\
+	Actors: User, Player, Database, Server.\\
+	Outcome: If the user is logged in and is not a member of an already existing team, then
+	the user will receive a request to fill out the waiver if the team exists. Upon completion,
+	the user becomes a member of that team.
+	\item Product Use Case Name: Create Schedule \\
+	Trigger: Registration deadline is past due.\\
+	Preconditions: Teams are registered in the league and meet the team conditions.\\
+	Actors: Server.\\
+	Outcome: The system uses the team preferences and creates a schedule with all open slots.
+	\item Product Use Case Name: Request Reschedule \\
+	Trigger: Captain interacts with the reschedule prompt at least 24 hours before the start time.\\
+	Preconditions: Team exists and has a scheduled game.\\
+	Actors: User, Captain, Database, Server.\\
+	Outcome: If the user is a Captain and makes a request on an existing game at least 24 hours before
+	the start, the Captain is able to view available slots for the game. Upon choosing an empty slot, the
+	game schedule is updated.
+	\item Product Use Case Name: View Announcements \\
+	Trigger: User interacts with view announcement prompt.\\
+	Preconditions: N/A (All users can view announcements).\\
+	Actors: User, Captain, Player, Database, Server.\\
+	Outcome: The announcements for the GSA softball league season is displayed.
+	\item Product Use Case Name: Post announcements \\
+	Trigger: User interacts with the post announcement prompt.\\
+	Preconditions: User must me logged in as an Admin.\\
+	Actors: User, Admin, Database, Server.\\
+	Outcome: If the user is logged in as an admin, and enters all the necessary information to complete
+	the required sections for the announcements, the announcements is created and published on the GSA
+	softball league platform.
+	\item Product Use Case Name: Rain cancellation/Override \\
+	Trigger: User interacts with the Override prompt.\\
+	Preconditions: User must me logged in as an Admin.\\
+	Actors: User, Admin, Database, Server.\\
+	Outcome: If the user is logged in as an admin, the user is able to cancel games or move then to open
+	slots. Upon completion, the schedule is updated.
+	\item Product Use Case Name: Report \\
+	Trigger: User interacts with the report prompt.\\
+	Preconditions: The user must be logged in as a Captain and the duration of a game must be elapsed after
+	the scheduled start time.\\
+	Actors: User, Captain, Database, Server.\\
+	Outcome: If the user is logged in as a captain, and the duration of a game has been elapsed since the 
+	start time, then the Captain is able to update the status of the game with results. Upon completion 
+	the standings and game results are updated on the system.
+\end{enumerate}
 
 \section{Functional Requirements}
 \subsection{Functional Requirements}
