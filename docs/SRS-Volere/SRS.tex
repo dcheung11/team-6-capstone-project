@@ -497,145 +497,77 @@ The project must be compatible with various devices (desktop, tablet, mobile), w
 After the initial launch of the new platform, follow-up issues may include bug fixes, additional feature requests, and ongoing user feedback that necessitates adjustments. Since the system will rely on certain automated processes (e.g., scheduling, score reporting), there may be edge cases or scenarios not accounted for during development, which would require post-launch refinements. Maintenance and updates to the platform will need to be addressed continuously to ensure smooth functionality, especially in response to league changes or growing participation numbers. Moreover, as the system expands, additional support or enhancements might be required to maintain security and efficiency.
 
 \section{Tasks}
-\subsection{Project Planning}
-The project will be completed over an 8-month capstone period. Following the completion of this deliverable, the detailed project plan for the upcoming phases is outlined as follows:
 
+\subsection{Project Planning}
+The platform’s development will follow a structured plan prioritizing the requirements as outlined in the SRS. The functional requirements have been grouped based on priority, with each group indicating the relevant requirement numbers. Non-functional requirements such as look and feel, usability, and accessibility will be applied throughout the project to ensure consistency across all phases.
+
+\textbf{High Priority} – These features are critical for the functioning of the platform:
 \begin{itemize}
-    \item \textbf{Hazard Analysis 0}
-        \begin{itemize}
-            \item \textbf{Deadline}: October 23
-            \item \textbf{Purpose}: Identify potential risks and mitigation strategies for the project.
-        \end{itemize}
-    \item \textbf{V\&V Plan Revision 0}
-        \begin{itemize}
-            \item \textbf{Deadline}: November 1
-            \item \textbf{Purpose}: Outline the Verification and Validation plan for ensuring the platform meets functional requirements.
-        \end{itemize}
-    \item \textbf{Proof of Concept Demonstration}
-        \begin{itemize}
-            \item \textbf{Timeline}: November 11–22
-            \item \textbf{Purpose}: Demonstrate the feasibility of key features of the platform in a proof of concept format.
-        \end{itemize}
-    \item \textbf{Design Document Revision 0}
-        \begin{itemize}
-            \item \textbf{Deadline}: January 15
-            \item \textbf{Purpose}: Develop the architectural design of the platform and refine based on stakeholder feedback.
-        \end{itemize}
-    \item \textbf{Revision 0 Demonstration}
-        \begin{itemize}
-            \item \textbf{Timeline}: February 3–14
-            \item \textbf{Purpose}: Present the initial version of the platform for evaluation and collect feedback.
-        \end{itemize}
-    \item \textbf{V\&V Report Revision 0}
-        \begin{itemize}
-            \item \textbf{Deadline}: March 7
-            \item \textbf{Purpose}: Provide a report of the Verification and Validation process, ensuring the platform meets its objectives.
-        \end{itemize}
-    \item \textbf{Final Demonstration (Revision 1)}
-        \begin{itemize}
-            \item \textbf{Timeline}: March 24–March 30
-            \item \textbf{Purpose}: Present the final version of the platform for grading and stakeholder review.
-        \end{itemize}
-    \item \textbf{EXPO Demonstration}
-        \begin{itemize}
-            \item \textbf{Timeline}: April TBD
-            \item \textbf{Purpose}: Showcase the platform at the Capstone EXPO event.
-        \end{itemize}
-    \item \textbf{Final Documentation (Revision 1)}
-        \begin{itemize}
-            \item \textbf{Deadline}: April 2
-            \item \textbf{Purpose}: Submit all final documentation, including user guides, source code, and project reports.
-        \end{itemize}
+    \item \textbf{User Authentication and Account Management} (Requirements \#1, \#2): Secure login and user roles (commissioner, captain, player).
+    \item \textbf{Team Management} (Requirements \#5, \#6): Captains create teams, select divisions, and manage rosters. Players can request to join teams.
+    \item \textbf{Schedule Generation} (Requirement \#7): Automatically generate schedules, ensuring even distribution and honoring team preferences for dates/times.
+    \item \textbf{Score Reporting} (Requirements \#11, \#12): Captains report game scores and forfeits, updating standings automatically.
+    \item \textbf{Rescheduling System} (Requirements \#8, \#11): Allow captains to reschedule games, with requests approved by commissioners. Handle conflict checks and queues for multiple requests.
+\end{itemize}
+
+\textbf{Medium Priority} – These features enhance the user experience but are not critical to the platform’s core functionality:
+\begin{itemize}
+    \item \textbf{Player Login and Team Requests} (Requirement \#6): Players can log in, view team information, and request to join teams.
+    \item \textbf{Rescheduling Queue Management} (Requirement \#8): Manage multiple rescheduling requests and enforce time restrictions (e.g., within 24 hours of a game).
+    \item \textbf{Announcements} (Requirement \#9, \#10): Commissioners post league-wide announcements for all users.
+\end{itemize}
+
+\textbf{Low Priority} – Features that are “nice to have” but not necessary for platform operation:
+\begin{itemize}
+    \item \textbf{UI/UX Enhancements} (Non-functional requirement): A modern interface, cleaner design, weekly schedule tabs, and alternating colors for easier reading.
+    \item \textbf{Lost and Found Feature} (Non-functional requirement): Allow users to report and check lost items.
+    \item \textbf{Waiver System} (Non-functional requirement): Integrate waivers with payment status tracking.
 \end{itemize}
 
 \subsection{Planning of the Development Phases}
-The development phases of the project are organized around specific deliverables and tasks, as outlined below:
+Development will be divided into phases, with each phase focused on implementing the functional requirements in order of priority. Each phase includes relevant milestones:
 
-\subsubsection*{Phase 1: Requirement Gathering and Initial Planning}
+\subsubsection{Phase 1: Requirement Gathering and Initial Planning}
+\textit{Milestones Included:} Problem Statement, POC Plan, Development Plan, Requirements Document Revision 0
 \begin{itemize}
-    \item \textbf{Milestones Included}:
-    \begin{itemize}
-        \item Problem Statement, POC Plan, Development Plan (Deadline: September 23)
-        \item Requirements Document Revision 0 (Deadline: October 9)
-    \end{itemize}
-    \item \textbf{Activities}:
-    \begin{itemize}
-        \item Meet with stakeholders to determine the requirements for the platform.
-        \item Document functional requirements.
-        \item Create the project plan.
-    \end{itemize}
+    \item Meet with stakeholders to determine the functional and non-functional requirements of the platform.
+    \item Prioritize requirements based on their criticality to the project.
+    \item Document the initial project plan, setting up deadlines for each phase.
 \end{itemize}
 
-\subsubsection*{Phase 2: Proof of Concept and Design}
+\subsubsection{Phase 2: Proof of Concept and Design}
+\textit{Milestones Included:} Hazard Analysis 0, V\&V Plan Revision 0, Proof of Concept Demonstration
 \begin{itemize}
-    \item \textbf{Milestones Included}:
-    \begin{itemize}
-        \item Hazard Analysis 0 (Deadline: October 23)
-        \item V\&V Plan Revision 0 (Deadline: November 1)
-        \item Proof of Concept Demonstration (Timeline: November 11–22)
-    \end{itemize}
-    \item \textbf{Activities}:
-    \begin{itemize}
-        \item Develop and demonstrate a proof of concept for core features, including authentication and team management.
-        \item Finalize the design document.
-        \item Refine based on feedback.
-    \end{itemize}
+    \item Develop and demonstrate a proof of concept for high-priority features, including user authentication, team management, and scheduling (Requirements \#1, \#2, \#5, \#7).
+    \item Finalize the design document and refine based on stakeholder feedback.
 \end{itemize}
 
-\subsubsection*{Phase 3: Core Development}
+\subsubsection{Phase 3: Core Development}
+\textit{Milestones Included:} Design Document Revision 0
 \begin{itemize}
-    \item \textbf{Milestones Included}:
-    \begin{itemize}
-        \item Design Document Revision 0 (Deadline: January 15)
-    \end{itemize}
-    \item \textbf{Activities}:
-    \begin{itemize}
-        \item Implement the platform's core features, including team management, scheduling, and payment tracking functionality.
-        \item Begin integration of features from the existing platform.
-    \end{itemize}
+    \item Implement high-priority features, including team management, scheduling, and score reporting (Requirements \#5, \#7, \#11, \#12).
+    \item Begin the integration of features from the existing platform where applicable.
 \end{itemize}
 
-\subsubsection*{Phase 4: Verification, Validation, and Revision}
+\subsubsection{Phase 4: Verification, Validation, and Revision}
+\textit{Milestones Included:} Revision 0 Demonstration, V\&V Report Revision 0
 \begin{itemize}
-    \item \textbf{Milestones Included}:
-    \begin{itemize}
-        \item Revision 0 Demonstration (Timeline: February 3–14)
-        \item V\&V Report Revision 0 (Deadline: March 7)
-    \end{itemize}
-    \item \textbf{Activities}:
-    \begin{itemize}
-        \item Test and validate the platform against the requirements.
-        \item Present a revision (Revision 0).
-        \item Make improvements based on feedback.
-    \end{itemize}
+    \item Test the platform against the documented requirements.
+    \item Present the initial version (Revision 0) and gather feedback for improvement.
 \end{itemize}
 
-\subsubsection*{Phase 5: Final Development and Demonstration}
+\subsubsection{Phase 5: Final Development and Demonstration}
+\textit{Milestones Included:} Final Demonstration (Revision 1), EXPO Demonstration
 \begin{itemize}
-    \item \textbf{Milestones Included}:
-    \begin{itemize}
-        \item Final Demonstration (Revision 1) (Timeline: March 24–March 30)
-        \item EXPO Demonstration (Timeline: April TBD)
-    \end{itemize}
-    \item \textbf{Activities}:
-    \begin{itemize}
-        \item Make final revisions.
-        \item Prepare for the final demonstration.
-        \item Present the completed platform to stakeholders and at the Capstone EXPO event.
-    \end{itemize}
+    \item Finalize medium- and low-priority features, such as announcements and UI/UX improvements (Requirements \#9, \#10, non-functional requirements).
+    \item Prepare for the final demonstration and present the platform.
 \end{itemize}
 
-\subsubsection*{Phase 6: Documentation and Wrap-Up}
+\subsubsection{Phase 6: Documentation and Wrap-Up}
+\textit{Milestones Included:} Final Documentation (Revision 1)
 \begin{itemize}
-    \item \textbf{Milestones Included}:
-    \begin{itemize}
-        \item Final Documentation (Revision 1) (Deadline: April 2)
-    \end{itemize}
-    \item \textbf{Activities}:
-    \begin{itemize}
-        \item Complete all project documentation, including the final revision of the requirements, user guide, and other deliverables.
-        \item Submit the final documentation for grading.
-    \end{itemize}
+    \item Complete all project documentation.
+    \item Submit the final deliverables, including the user guide and source code.
 \end{itemize}
 
 \section{Migration to the New Product}
