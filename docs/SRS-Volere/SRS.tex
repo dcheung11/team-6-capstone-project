@@ -255,6 +255,75 @@ See \textit{Figure 1.}
     \end{tabular}
 \end{center}
 
+\subsection{Specifying a Business Use Case}
+The primary business use case for this platform is to efficiently manage all aspects of league operations from player registrations to game scheduling in a user-friendly and streamlined manner. The platform will provide commissioners, team captains, and players with a centralized system to interact with the league. The system allows commissioners to oversee the entire league, manage team and player information, and handle payments. Team captains will be able to manage their rosters, submit rescheduling requests, and report game scores, while players can join teams, view schedules, and observe league rankings and scores.
+For example, team captains can log in to the platform and create their teams. Players can join a team by requesting approval from the captain, while commissioners can monitor the overall progress and approve team formations. Throughout the season, captains can report game scores directly into the system, which automatically updates the standings. If a team needs to reschedule a game, the captain can request a change through the system, selecting from available timeslots. The system will queue the request for commissioner approval and update the schedule once the rescheduling is confirmed.
+
+\section{Business Data Model and Data Dictionary}
+\subsection{Business Data Model}
+\begin{itemize}
+    \item \textbf{User}
+    \begin{itemize}
+        \item UserID: Unique identifier for each user.
+        \item Name: Full name of the user.
+        \item Email: Email address used for communication and login.
+        \item Role: The role of the user in the system (commissioner, captain, player).
+        \item TeamID: The ID of the team the user is affiliated with (for captains and players).
+    \end{itemize}
+    
+    \item \textbf{Team}
+    \begin{itemize}
+        \item TeamID: Unique identifier for each team.
+        \item TeamName: Name of the team.
+        \item Division: The division the team is assigned to.
+        \item CaptainID: The UserID of the team captain.
+        \item Roster: List of players (UserIDs) on the team.
+    \end{itemize}
+    
+    \item \textbf{Game}
+    \begin{itemize}
+        \item GameID: Unique identifier for each game.
+        \item TeamAID: The ID of the first participating team.
+        \item TeamBID: The ID of the second participating team.
+        \item Date: The date the game is scheduled.
+        \item Time: The time the game is scheduled.
+        \item Result: The outcome of the game (win/loss/tie) reported by captains.
+        \item ScoreTeamA: The score of Team A in the game.
+        \item ScoreTeamB: The score of Team B in the game.
+    \end{itemize}
+    
+    \item \textbf{Schedule}
+    \begin{itemize}
+        \item ScheduleID: Unique identifier for the schedule.
+        \item GameID: The ID of the game scheduled.
+        \item SlotNumber: The slot number for the game (time and location).
+        \item AvailableSlots: List of available time slots for potential rescheduling.
+    \end{itemize}
+    
+    \item \textbf{Standing}
+    \begin{itemize}
+        \item TeamID: The ID of the team.
+        \item Wins: Number of games won by the team.
+        \item Losses: Number of games lost by the team.
+        \item Ties: Number of tied games.
+        \item Rank: Current rank of the team in the league.
+        \item TotalScore: Cumulative score across all games, used to break ties in standings.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Data Dictionary}
+\begin{itemize}
+    \item \textbf{Users:} There are three types of users: commissioners, team captains, and players. Commissioners oversee league operations, team captains manage their respective teams, and players join and participate in games. Each user has attributes such as name, email, role, and team affiliation.
+    
+    \item \textbf{Teams:} Teams consist of players and a captain. Teams are scheduled to play games, and the results of those games contribute to league standings. Teams have attributes like team name, captain, and roster.
+    
+    \item \textbf{Games:} Games represent the scheduled matches between two teams. Each game has attributes like date, time, and the teams involved, as well as the final score for both teams, which is reported by captains after the game.
+    
+    \item \textbf{Schedules:} The schedule defines the timing and location of games. It also includes available time slots for rescheduling. The system tracks preferences for game days and times, and generates the schedule accordingly.
+    
+    \item \textbf{Standings:} Standings reflect the rankings of teams based on the results of their games. Game scores feed into the standings, updating the number of wins, losses, and ties for each team, which determine the overall ranking.
+\end{itemize}
+
 \section{The Scope of the Product}
 \subsection{Product Boundary}
 See Context Diagram (\textit{Figure 1.})
@@ -338,6 +407,7 @@ See \textit{Figure 2.}
 	start time, then the Captain is able to update the status of the game with results. Upon completion 
 	the standings and game results are updated on the system.
 \end{enumerate}
+
 
 \section{Functional Requirements}
 \subsection{Functional Requirements}
