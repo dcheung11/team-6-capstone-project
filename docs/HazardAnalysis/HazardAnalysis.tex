@@ -68,18 +68,27 @@ Addressing these risks early aims to make the platform safer, more reliable, and
 
 \section{System Boundaries and Components}
 
-\wss{Dividing the system into components will help you brainstorm the hazards.
-You shouldn't do a full design of the components, just get a feel for the major
-ones.  For projects that involve hardware, the components will typically include
-each individual piece of hardware.  If your software will have a database, or an
-important library, these are also potential components.}
+\begin{itemize}
+    \item \textbf{User Authentication and Role-Based Access Control (RBAC)}: This component manages login and role assignment (commissioner, captain, player) to ensure proper access to system functionalities.
+    \item \textbf{Game Scheduling Component}: Responsible for generating, displaying, and updating the schedule for games, including handling rescheduling requests.
+    \item \textbf{Game Result Reporting}: Allows team captains to report game results and scores, which are then used to update standings.
+    \item \textbf{Team and Player Management}: Manages the creation of teams, player assignments, and tracking captain roles and rosters.
+    \item \textbf{Standings and Ranking Calculation}: Computes team standings based on game results, including win/loss records and score tracking.
+    \item \textbf{Database}: Centralized storage for users, teams, games, schedules, and standings.
+    \item \textbf{External Payment Tracking}: Tracks the payment status of players, though actual payment processing is handled externally (e.g., through e-transfers).
+    \item \textbf{Communication and Announcement System}: Allows commissioners to send league-wide announcements and updates to users.
+\end{itemize}
 
 \section{Critical Assumptions}
 
-\wss{These assumptions that are made about the software or system.  You should
-minimize the number of assumptions that remove potential hazards.  For instance,
-you could assume a part will never fail, but it is generally better to include
-this potential failure mode.}
+\begin{itemize}
+    \item \textbf{User Authentication}: It is assumed that the authentication system using JSON Web Tokens (JWT) for role-based access control will function reliably and securely, preventing unauthorized access.
+    \item \textbf{External Payment System}: It is assumed that external payment tracking (via e-transfer) will be accurate, and users will report their payment status honestly, as payment processing is outside the scope of the system.
+    \item \textbf{Internet Connectivity}: The platform assumes that all users (commissioners, captains, players) have stable internet access to interact with the system, especially when accessing schedules and reporting game results.
+    \item \textbf{Manual Input of Game Results}: Captains are responsible for entering accurate game scores and results. The system assumes that no errors will occur during this process, and that any discrepancies will be addressed through manual oversight.
+    \item \textbf{Data Integrity}: It is assumed that the database will maintain data integrity during read/write operations, especially when updating schedules, standings, and user details.
+    \item \textbf{System Availability}: The platform assumes that the hosting server will remain consistently available, with minimal downtime, to ensure uninterrupted access for users.
+\end{itemize}
 
 \section{Failure Mode and Effect Analysis}
 
