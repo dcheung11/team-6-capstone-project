@@ -532,7 +532,8 @@ The platform must calculate and display the standings with 100\% accuracy.\\
 \noindent The platform must accurately match game preferences with available slots to avoid conflicts or scheduling errors and maximize adhesion with team schedule preferences.
 
 \subsection{Robustness or Fault-Tolerance Requirements}
-The platform shall handle common errors (e.g., failed database connections) without crashing, and users shall be able to retry actions if errors occur.
+The platform shall handle failed database connections by logging the error and displaying an error message to the user, and allowing users to retry their actions.
+\noindent The platform shall handle form submission errors by highlighting the fields in error, displaying an error message, and preventing the form submission unless all errors are corrected.
 
 \subsection{Capacity Requirements}
 The platform must be able to store and handle the scheduling for at minimum 50 teams in the league to ensure scheduling handling and league expansion.
