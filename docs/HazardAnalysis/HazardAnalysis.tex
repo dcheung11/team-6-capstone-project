@@ -220,15 +220,30 @@ Which requirements will be implemented in the future?}
 
 \begin{enumerate}
     \item What went well while writing this deliverable? 
+    
+    The process of writing this deliverable allowed the team to take a deeper look at the potential impact of our software on users. We were able to generate new insights by analyzing the components from different perspectives, which helped uncover critical details for our implementation plan. The FMEA table, in particular, was a valuable tool for identifying and documenting potential risks, leading to a clearer understanding of each component's potential failures. This step has proven beneficial, as it not only clarified our next steps but also helped us identify new requirements that need to be added to the SRS.
+
     \item What pain points did you experience during this deliverable, and how
     did you resolve them?
+
+    One of the main challenges was aligning our understanding of hazards with the software components and translating these into a detailed FMEA table. Initially, it was difficult to distinguish between critical issues and minor potential problems, which led to some confusion. We resolved this by holding focused discussions among team members, drawing from our combined experiences, and revisiting key sections of the SRS to ensure proper traceability.
+
     \item Which of your listed risks had your team thought of before this
     deliverable, and which did you think of while doing this deliverable? For
     the latter ones (ones you thought of while doing the Hazard Analysis), how
     did they come about?
+
+    Before working on this deliverable, the team had already considered general risks like data breaches and scheduling conflicts. However, during the hazard analysis, we identified additional risks, such as incomplete game result reporting, missing notifications, and specific user interface issues that could affect user satisfaction. These new insights came about by breaking down each component and examining potential failure modes.
+
     \item Other than the risk of physical harm (some projects may not have any
     appreciable risks of this form), list at least 2 other types of risk in
     software products. Why are they important to consider?
+
+    \begin{itemize}
+        \item \textbf{Data Integrity Risks}: Data integrity issues can arise from incorrect data handling, database failures, or corruption. These risks are critical to consider because they can lead to incorrect information being presented to users or complete loss of essential data, undermining trust and reliability.
+        \item \textbf{Security Risks}: Security risks include unauthorized access, weak password policies, and vulnerabilities to hacking attempts. These are important to consider because they can lead to breaches that compromise user privacy, resulting in legal and ethical consequences, as well as damage to the platform's reputation. The platform is to be used by all members each annual season, so solid security and a good reputation is important to maintain.
+    \end{itemize}
+
 \end{enumerate}
 
 \end{document}
