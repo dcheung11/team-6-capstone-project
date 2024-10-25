@@ -119,34 +119,34 @@ documentation, and/or test cases.}
         
         User Authentication & 
         Fails to authenticate/register user
-        & Access denied to league members & Error in credentials or input, server issues, database connectivity & Allow credential recovery and auth retry & & H1 \\
+        & Access denied to league members & Error in credentials or input, server issues, database connectivity & Allow credential recovery and auth retry & 1, 2, 3 & H1 \\
         \hline
-        Game Scheduling  & Fails to generate valid schedule & Games may be scheduled at conflicting times or locations, affecting the season & Bugs in the scheduling/ team preferences algorithms & Implement schedule conflict resolution checks, allow reschedule requests &  & H2.1 \\
+        Game Scheduling  & Fails to generate valid schedule & Games may be scheduled at conflicting times or locations, affecting the season & Bugs in the scheduling/ team preferences algorithms & Implement schedule conflict resolution checks, allow reschedule requests & 4 & H2.1 \\
         \hline
-        Game Scheduling  & Missing games in the schedule & Some games may not be scheduled, causing dissatisfaction & Incomplete automation in schedule generation & Automate schedule verification to ensure coverage for all teams &  & H2.2 \\
+        Game Scheduling  & Missing games in the schedule & Some games may not be scheduled, causing dissatisfaction & Incomplete automation in schedule generation & Automate schedule verification to ensure coverage for all teams & 4 & H2.2 \\
         \hline
-        Game Scheduling  &  Teams end up with either different games compared to others & Unbalanced league experience, as some teams may not get enough playtime while others may feel fatigued & Scheduling algorithm fails to equally distribute games across teams & Conduct a pre-release schedule check to ensure fair game distribution among all teams, and introduce byes for unavoidable discrepancies &  & H2.3 \\
+        Game Scheduling  &  Teams end up with either different games compared to others & Unbalanced league experience, as some teams may not get enough playtime while others may feel fatigued & Scheduling algorithm fails to equally distribute games across teams & Conduct a pre-release schedule check to ensure fair game distribution among all teams, and introduce byes for unavoidable discrepancies & 4 & H2.3 \\
         \hline
-        Game Scheduling  & Rescheduling requests not processed or applied correctly  & Teams are not aware of reschedule request which prevents schedule conflict avoidance which can lead to game no-shows & Errors in reschedule approval or processing steps,  or race conditions caused by simultaneous reschedule requests & Implement algorithm to handly many concurrent requests, log error messages, allow easy retries  &  & H2.4 \\
+        Game Scheduling  & Rescheduling requests not processed or applied correctly  & Teams are not aware of reschedule request which prevents schedule conflict avoidance which can lead to game no-shows & Errors in reschedule approval or processing steps,  or race conditions caused by simultaneous reschedule requests & Implement algorithm to handly many concurrent requests, log error messages, allow easy retries  & 4 & H2.4 \\
         \hline
-        Game Result Reporting & Failed score reporting & League standings incorrect or not updated on time & Network issues, missing auto-save functionality & Implement auto-save and score-reporting validation checks &  & H3 \\
+        Game Result Reporting & Failed score reporting & League standings incorrect or not updated on time & Network issues, missing auto-save functionality & Implement auto-save and score-reporting validation checks & 4, 6 & H3 \\
         \hline
-        Team/Player Management & Failure to register player to team & Player participation impacted & Form validation errors, server timeouts & Ensure robust signup and error handling mechanisms, logging errors and allowing retries &  & H4.1 \\
+        Team/Player Management & Failure to register player to team & Player participation impacted & Form validation errors, server timeouts & Ensure robust signup and error handling mechanisms, logging errors and allowing retries & 4, 6 & H4.1 \\
         \hline
-        Team/Player Management & Failure to register team to league & Team participation impacted & Form validation errors, server timeouts & Ensure robust signup and error handling mechanisms, logging errors and allowing retries &  & H4.2 \\
+        Team/Player Management & Failure to register team to league & Team participation impacted & Form validation errors, server timeouts & Ensure robust signup and error handling mechanisms, logging errors and allowing retries & 4, 6 & H4.2 \\
         \hline
         % Team/Player Management & Duplicate player or team entries & Multiple instances of the same team or player, causing confusion & Missing uniqueness checks during signup & Validate player and team uniqueness during registration & PR2 & H5.2 \\
         % \hline
-        Database & Data corruption & Loss of team, player, or league data, disrupting league operations & Server malfunction, database corruption & Implement regular backups and database health monitoring &  & H5.1 \\
+        Database & Data corruption & Loss of team, player, or league data, disrupting league operations & Server malfunction, database corruption & Implement regular backups and database health monitoring & 4 & H5.1 \\
         \hline
 
-        Database & Unauthorized access to data & Data breach, exposing sensitive player or league information & Weak access control measures or database vulnerabilities  & Implement strong access controls and potentially database encryption for confidential information (if required) &  & H5.2 \\
+        Database & Unauthorized access to data & Data breach, exposing sensitive player or league information & Weak access control measures or database vulnerabilities  & Implement strong access controls and potentially database encryption for confidential information (if required) & 4 & H5.2 \\
         \hline
 
-        Announcement System & Failed announcement delivery & Players may miss important updates such as game cancellations creating risks & Form validation errors, server timeouts & Implement multiple announcement delivery methods (site announcements, email), display error message on announcement failures, allow easy retries  &  & H6 \\
+        Announcement System & Failed announcement delivery & Players may miss important updates such as game cancellations creating risks & Form validation errors, server timeouts & Implement multiple announcement delivery methods (site announcements, email), display error message on announcement failures, allow easy retries  & 6 & H6 \\
         \hline
       
-        External Payment Tracking & Incorrect payment status recorded & Players marked as unpaid despite paying (or vice versa), leading to disputes & Payment record synchronization issues & Ensure payment status synchronization and require validation to be accepted &  & H7 \\
+        External Payment Tracking & Incorrect payment status recorded & Players marked as unpaid despite paying (or vice versa), leading to disputes & Payment record synchronization issues & Ensure payment status synchronization and require validation to be accepted & 5, 6, 7& H7 \\
 
         \hline
         \bottomrule
@@ -158,8 +158,43 @@ documentation, and/or test cases.}
 
 \section{Safety and Security Requirements}
 
-\wss{Newly discovered requirements.  These should also be added to the SRS.  (A
-rationale design process how and why to fake it.)}
+\begin{enumerate}
+    \item User Authentication
+        \begin{itemize}
+            \item Requirement: Ensure authentication for higher-role users (league administrators).
+            \item Rationale: Prevent unauthorized access to manage the league.
+        \end{itemize}
+    \item Data Encryption
+        \begin{itemize}
+            \item Requirement: Ensure all sensitive data, such as personal emails, phone numbers, etc. is encrypted.
+            \item Rationale: We must protect user data and maintain privacy to avoid legal issues and uphold respectable engineering ethics.
+        \end{itemize}
+    \item Role-Based Access Control (RBAC)
+        \begin{itemize}
+            \item Requirement: Define access levels (players, team managers, administrators) with varying permissions.
+            \item Rationale: These access levels ensure that users only have access to data related to their role. For example, only team managers can manage their team and invite users to their roster.
+        \end{itemize}
+    \item Data Integrity and Backup
+        \begin{itemize}
+            \item Requirement: Schedule regular data backups and integrity checks to prevent data (game results, standings, etc.)  from being lost in worst-case scenarios, like corrupted data.
+            \item Rationale: Guarantee that the platform can recover from any potential data loss or corruption in case of system failures or web attacks.
+        \end{itemize}
+    \item Session Management and Timeouts
+        \begin{itemize}
+            \item Requirement: Implement session timeouts when users are inactive for some time to prevent malicious unauthorized access.
+            \item Rationale: Reduce the risk of someone accessing the account if a user leaves their session open on a shared device.
+        \end{itemize}
+    \item Audit Logging
+        \begin{itemize}
+            \item Requirement: Implement an audit to log and track actions to the system, such as login attempts, changes to the schedule, team roster updates, etc.
+            \item Rationale: Assist in troubleshooting, and detecting suspicious activity, and encourage transparency in system actions.
+        \end{itemize}
+    \item End-to-End Testing for Security
+        \begin{itemize}
+            \item Requirement: Perform testing to identify potential security vulnerabilities.
+            \item Rationale: Ensures that the platform performs securely as expected under various scenarios, especially when exposed to potential threats.
+        \end{itemize}
+\end{enumerate}
 
 \section{Roadmap}
 
