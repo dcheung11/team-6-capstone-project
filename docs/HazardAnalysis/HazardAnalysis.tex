@@ -208,8 +208,62 @@ documentation, and/or test cases.}
 
 \section{Roadmap}
 
-\wss{Which safety requirements will be implemented as part of the capstone timeline?
-Which requirements will be implemented in the future?}
+\begin{enumerate}
+	\item Capstone Timeline Requirements
+		\begin{itemize}
+			\item \textbf{User Authentication:} This will include the username and password authenticationfor the league administrators and team captains.
+			\begin{itemize}
+				\item Authentication system setup (login, logout, etc.).
+				\item Store ssensitive information (password) in  the database.
+				\item Unique authentication methods for various roles (team members, team captains, admin, etc.)
+			\end{itemize}
+			\item \textbf{Role-Based Access Control (RBAC):} Implement basic roles to differentiate roles (team members, team captains, admin, etc.)
+			\begin{itemize}
+				\item Create and assign roles with their corresponding permissions.
+				\item Limit features based on user roles.
+				\item Create test for user access restrictions.
+			\end{itemize}
+			\item \textbf{Session Management and Timeouts:} Implement basic timeout functionalities for inactive user to provide improved security.
+			\begin{itemize}
+				\item Track user activity with session handling system.
+				\item Set time for session expiration when users are inactive.
+				\item Inform users before timeout occurs.
+			\end{itemize}
+			\item \textbf{Data Encryption:} Ensure secure communication by using SSL/TLS to encrypt data during communication.
+			\begin{itemize}
+				\item Enable HTTPS to secure HTTP communications.
+				\item Encrypt sensitive data during transit to provide better security.
+				\item Ensure a SSL/TLS certificate is obtained for the platform.
+			\end{itemize}
+		\end{itemize}
+	\item Future Requirements
+		\begin{itemize}
+			\item \textbf{Multi-Factor Authentication:} This will include a full implementation of a MFA authentication system for critical user accounts.
+			\begin{itemize}
+				\item Develop a system for further authentication via verification codes sent over text, email, etc.
+				\item Implement support for app-based authentication systems (Microsoft authenicator, duo, etc.).
+				\item Include the option for users to enable/disable MFA.
+			\end{itemize}
+			\item \textbf{Audit logging:} Implement a logging system to track user activity and review system performance.
+			\begin{itemize}
+				\item Implement system that creates a detailed log of user actions across the system.
+				\item Create a dashboard to review logs and user activities statistics.
+				\item Set up alert for errors and suspicious activity across the system.
+			\end{itemize}
+			\item \textbf{Data Ecryption (At Rest):} Full encryption of all sensitive data stored in the system's database.
+			\begin{itemize}
+				\item Implement an encryption system to properly secure sensitive information that is stored.
+				\item Ensure security of stored keys.
+				\item Test the encryption system to confirm security of the data that is stored (Ensure data cannot be accessed without valid decryption).
+			\end{itemize}
+			\item \textbf{Data Breach Response Plan:} Develop a formal response for data breaches , including proper notification mechanisms.
+			\begin{itemize}
+				\item Create a standard for the detection, response, and mitigation of data breaches.
+				\item Implement a proper system for informing users in the case of a data breach.
+				\item Ensure data protection laws and policies are followed.
+			\end{itemize}
+		\end{itemize}
+\end{enumerate}
 
 \newpage{}
 
