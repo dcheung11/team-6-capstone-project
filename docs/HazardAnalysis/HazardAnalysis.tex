@@ -174,27 +174,37 @@ documentation, and/or test cases.}
             \item Requirement: Define access levels (players, team managers, administrators) with varying permissions.
             \item Rationale: These access levels ensure that users only have access to data related to their role. For example, only team managers can manage their team and invite users to their roster.
         \end{itemize}
-    \item Data Integrity and Backup
+\end{enumerate}
+\subsection{Newly Discovered Requirements (Add to SRS)}
+\begin{enumerate}
+    \item[4.] Data Integrity and Backup
         \begin{itemize}
             \item Requirement: Schedule regular data backups and integrity checks to prevent data (game results, standings, etc.)  from being lost in worst-case scenarios, like corrupted data.
             \item Rationale: Guarantee that the platform can recover from any potential data loss or corruption in case of system failures or web attacks.
         \end{itemize}
-    \item Session Management and Timeouts
+    \item[5.] Session Management and Timeouts
         \begin{itemize}
             \item Requirement: Implement session timeouts when users are inactive for some time to prevent malicious unauthorized access.
             \item Rationale: Reduce the risk of someone accessing the account if a user leaves their session open on a shared device.
         \end{itemize}
-    \item Audit Logging
+    \item[6.] Audit Logging
         \begin{itemize}
             \item Requirement: Implement an audit to log and track actions to the system, such as login attempts, changes to the schedule, team roster updates, etc.
             \item Rationale: Assist in troubleshooting, and detecting suspicious activity, and encourage transparency in system actions.
         \end{itemize}
-    \item End-to-End Testing for Security
+    \item[7.] End-to-End Testing for Security
         \begin{itemize}
             \item Requirement: Perform testing to identify potential security vulnerabilities.
             \item Rationale: Ensures that the platform performs securely as expected under various scenarios, especially when exposed to potential threats.
         \end{itemize}
 \end{enumerate}
+
+\subsection{Rationale Design Process (Faking It)}
+\begin{itemize}
+    \item Mock Multi-Factor Authentication (MFA): Implement a placeholder where a user would receive a fake code (without actually sending one) to simulate a multi-factor authentication scenario.
+    \item Simulated Encryption: Show that data is being encrypted by visualizing a password to jumbled text. 
+    \item Audit Logs: Keep simple text-based logs of actions that are done by our mock system.
+\end{itemize}
 
 \section{Roadmap}
 
