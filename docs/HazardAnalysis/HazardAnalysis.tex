@@ -3,6 +3,10 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
+\usepackage[margin=1.75in]{geometry}
+\usepackage{array}
+\usepackage{pdflscape}
+\usepackage{multirow}
 
 \hypersetup{
     colorlinks=true,       % false: boxed links; true: colored links
@@ -87,6 +91,57 @@ requirements.}
 \wss{If no safety requirement can be devised, other mitigation strategies can be
 entered in the table, including strategies involving providing additional
 documentation, and/or test cases.}
+
+\newgeometry{left=0.25in,right=0.25in,top=0.25in,bottom=0.25in}
+\begin{landscape}
+\begin{table}[hp]
+    \caption{FMEA} \label{FMEA}
+    \centering
+    \begin{footnotesize}
+    \begin{tabular}{|p{1in}|p{1in}|p{1in}|p{1.5in}|p{2.5in}|p{0.2in}|p{0.2in}|}
+        \toprule
+        \textbf{Component} & \textbf{Failure Modes} & \textbf{Effects of Failure} &\textbf{Causes of Failure}&\textbf{Recommended Action} &\textbf{Req.} &\textbf{Ref.} \\
+        \bottomrule
+        \hline
+        
+        User Authentication & 
+        Fails to authenticate/register user
+        & Access denied to league members & Error in credentials or input, server issues, database connectivity & Allow credential recovery and auth retry & & H1 \\
+        \hline
+        Game Scheduling  & Fails to generate valid schedule & Games may be scheduled at conflicting times or locations, affecting the season & Bugs in the scheduling/ team preferences algorithms & Implement schedule conflict resolution checks, allow reschedule requests &  & H2.1 \\
+        \hline
+        Game Scheduling  & Missing games in the schedule & Some games may not be scheduled, causing dissatisfaction & Incomplete automation in schedule generation & Automate schedule verification to ensure coverage for all teams &  & H2.2 \\
+        \hline
+        Game Scheduling  &  Teams end up with either different games compared to others & Unbalanced league experience, as some teams may not get enough playtime while others may feel fatigued & Scheduling algorithm fails to equally distribute games across teams & Conduct a pre-release schedule check to ensure fair game distribution among all teams, and introduce byes for unavoidable discrepancies &  & H2.3 \\
+        \hline
+        Game Scheduling  & Rescheduling requests not processed or applied correctly  & Teams are not aware of reschedule request which prevents schedule conflict avoidance which can lead to game no-shows & Errors in reschedule approval or processing steps,  or race conditions caused by simultaneous reschedule requests & Implement algorithm to handly many concurrent requests, log error messages, allow easy retries  &  & H2.4 \\
+        \hline
+        Game Result Reporting & Failed score reporting & League standings incorrect or not updated on time & Network issues, missing auto-save functionality & Implement auto-save and score-reporting validation checks &  & H3 \\
+        \hline
+        Team/Player Management & Failure to register player to team & Player participation impacted & Form validation errors, server timeouts & Ensure robust signup and error handling mechanisms, logging errors and allowing retries &  & H4.1 \\
+        \hline
+        Team/Player Management & Failure to register team to league & Team participation impacted & Form validation errors, server timeouts & Ensure robust signup and error handling mechanisms, logging errors and allowing retries &  & H4.2 \\
+        \hline
+        % Team/Player Management & Duplicate player or team entries & Multiple instances of the same team or player, causing confusion & Missing uniqueness checks during signup & Validate player and team uniqueness during registration & PR2 & H5.2 \\
+        % \hline
+        Database & Data corruption & Loss of team, player, or league data, disrupting league operations & Server malfunction, database corruption & Implement regular backups and database health monitoring &  & H5.1 \\
+        \hline
+
+        Database & Unauthorized access to data & Data breach, exposing sensitive player or league information & Weak access control measures or database vulnerabilities  & Implement strong access controls and potentially database encryption for confidential information (if required) &  & H5.2 \\
+        \hline
+
+        Announcement System & Failed announcement delivery & Players may miss important updates such as game cancellations creating risks & Form validation errors, server timeouts & Implement multiple announcement delivery methods (site announcements, email), display error message on announcement failures, allow easy retries  &  & H6 \\
+        \hline
+      
+        External Payment Tracking & Incorrect payment status recorded & Players marked as unpaid despite paying (or vice versa), leading to disputes & Payment record synchronization issues & Ensure payment status synchronization and require validation to be accepted &  & H7 \\
+
+        \hline
+        \bottomrule
+    \end{tabular}
+    \end{footnotesize}
+\end{table}
+\end{landscape}
+\restoregeometry
 
 \section{Safety and Security Requirements}
 
