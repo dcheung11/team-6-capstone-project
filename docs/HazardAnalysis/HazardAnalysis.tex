@@ -50,6 +50,7 @@ Date2 & Name(s) & Description of changes\\
 ~\newpage
 
 \tableofcontents
+\listoftables
 
 ~\newpage
 
@@ -95,15 +96,6 @@ Addressing these risks early aims to make the platform safer, more reliable, and
 \end{itemize}
 
 \section{Failure Mode and Effect Analysis}
-
-\wss{Include your FMEA table here. This is the most important part of this document.}
-\wss{The safety requirements in the table do not have to have the prefix SR.
-The most important thing is to show traceability to your SRS. You might trace to
-requirements you have already written, or you might need to add new
-requirements.}
-\wss{If no safety requirement can be devised, other mitigation strategies can be
-entered in the table, including strategies involving providing additional
-documentation, and/or test cases.}
 
 \newgeometry{left=0.25in,right=0.25in,top=0.25in,bottom=0.25in}
 \begin{landscape}
@@ -175,7 +167,7 @@ documentation, and/or test cases.}
             \item Rationale: These access levels ensure that users only have access to data related to their role. For example, only team managers can manage their team and invite users to their roster.
         \end{itemize}
 \end{enumerate}
-\subsection{Newly Discovered Requirements (Add to SRS)}
+\subsection{Newly Discovered Requirements}
 \begin{enumerate}
     \item[4.] Data Integrity and Backup
         \begin{itemize}
@@ -211,10 +203,10 @@ documentation, and/or test cases.}
 \begin{enumerate}
 	\item Capstone Timeline Requirements
 		\begin{itemize}
-			\item \textbf{User Authentication:} This will include the username and password authenticationfor the league administrators and team captains.
+			\item \textbf{User Authentication:} This will include the username and password authentication for the league administrators and team captains.
 			\begin{itemize}
 				\item Authentication system setup (login, logout, etc.).
-				\item Store ssensitive information (password) in  the database.
+				\item Store sensitive information (password) in  the database.
 				\item Unique authentication methods for various roles (team members, team captains, admin, etc.)
 			\end{itemize}
 			\item \textbf{Role-Based Access Control (RBAC):} Implement basic roles to differentiate roles (team members, team captains, admin, etc.)
@@ -233,12 +225,12 @@ documentation, and/or test cases.}
 			\begin{itemize}
 				\item Enable HTTPS to secure HTTP communications.
 				\item Encrypt sensitive data during transit to provide better security.
-				\item Ensure a SSL/TLS certificate is obtained for the platform.
+				\item Ensure an SSL/TLS certificate is obtained for the platform.
 			\end{itemize}
 		\end{itemize}
 	\item Future Requirements
 		\begin{itemize}
-			\item \textbf{Multi-Factor Authentication:} This will include a full implementation of a MFA authentication system for critical user accounts.
+			\item \textbf{Multi-Factor Authentication:} This will include a full implementation of an MFA system for critical user accounts.
 			\begin{itemize}
 				\item Develop a system for further authentication via verification codes sent over text, email, etc.
 				\item Implement support for app-based authentication systems (Microsoft authenicator, duo, etc.).
