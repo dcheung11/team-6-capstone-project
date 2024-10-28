@@ -23,6 +23,7 @@
 \toprule
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
+October 28, 2024 & Damien Cheung & Revision of 9\\
 September 24, 2024 & Emma Wigglesworth & Completion of 1, 2, 3, 4, 5, 6, 7, and final edits to all sections\\
 September 21, 2024 & Temituoyo Ugborogho & Completion of 8, Appendix\\
 September 21, 2024 & Damien Cheung & Completion of 9, Appendix\\
@@ -256,22 +257,47 @@ The timeline for this project will be as follows:
 \section{Proof of Concept Demonstration Plan}
 
 \subsection{Project Risks}
-\begin{itemize}
-    \item \textbf{Login, Registration, and User Roles}: Establishing a secure login and registration system while ensuring proper role assignments for users, captains, and commissioner levels can present challenges, particularly in preventing unauthorized access and special permissions.
-    \item \textbf{Scheduling}: Managing game schedules across multiple divisions and handling rescheduling due to conflicts can introduce complexities in both logic and user interface design. It may be tricky to implement schedule generation, game rescheduling, team preferences, etc. Some research on schedule generation is required.
-    \item \textbf{Deployment and Scalability}: Deploying the application in a secure and stable manner also entails ensuring the platform is reliable under real-world conditions, especially as traffic increases during the season, and that updates or patches don’t introduce bugs or downtime. Approximately 1000 unique participants across 30-40 teams are using the current web page, and scalability must be acknowledged in design and implementation.
-    \item \textbf{Roster Management}: Difficulty in implementing the ``Request To Join Team'' functionality for players and sending email notifications to the captains, as well as general roster management available to the captain.
-\end{itemize}
 
+The Scheduling component is the core component of the platform, managing game schedules across multiple divisions, which requires handling both standard scheduling and flexibility for rescheduling. The challenges include:
+
+\begin{itemize}
+	\item \textbf{Complex Logic Requirements}: Generating a balanced, fair schedule for each team across divisions involves creating logic that factors in team availability, preferences, and fair game distribution while avoiding conflicts. Rescheduling due to conflicts, particularly on short notice, adds another layer of complexity.
+	\item \textbf{User Interface Challenges}: Creating an intuitive and flexible interface where captains can request game reschedules and select preferred time slots poses additional challenges. The interface needs to accommodate various scenarios, including availability conflicts and division-based schedules, without overwhelming users with complexity.
+\end{itemize}
 \subsection{Proof of Concept Demonstration}
 To address these risks, the PoC demonstration will focus on the following key areas to mitigate these concerns:
 
 \begin{itemize}
-    \item \textbf{Login, Registration, and User Roles}: Goal: A working registration page where users can create accounts, log in, and see different views based on their roles. A demo admin will be able to access restricted settings while regular users can only view their team pages. 
-    \item \textbf{Scheduling}: Goal: A minimal working scheduling system that auto-generates a schedule for all divisions with an interface allowing captains to request a rescheduled game and set the preferred time slots.
-    \item \textbf{Deployment and Scalability}: Goal: A live deployment of the minimal POC on Heroku or similar hosting platforms, demonstrating real-time accessibility and showcasing the ability for simultaneous user interactions with the platform.
-    \item \textbf{Roster Management}: Goal: Demonstrate a simple roster management interface where team captains can invite (and manage) players, with a live update of the team's roster, and players can request to join teams, notifying the captain. 
+    \item Automatic schedule generation for a league with multiple divisions.
+    \item Initial development of rescheduling functionality through a captain’s interface.
 \end{itemize}
+\begin{enumerate}
+    \item \textbf{Create Demo Team Data}
+    \begin{itemize}
+        \item Populate sample dataset for demo teams across multiple divisions
+        \item (Stretch Goal) Include basic metadata for each team, including preferred game days and time slots, to simulate real league scenarios.
+    \end{itemize}
+
+    \item \textbf{Implement Basic Scheduling Algorithm}
+    \begin{itemize}
+        \item Develop an initial algorithm to auto-generate balanced schedules based on team availability, preferred time slots, and division constraints.
+        \item If short on time, for simplicity, start with a basic round-robin schedule within each division to ensure every team plays each other team equally.
+    \end{itemize}
+
+    \item \textbf{Develop the User Interface for Schedule Viewing}
+    \begin{itemize}
+        \item Create a web interface that shows each team’s schedule within their division.
+        \item Include a section for team captains to request a game reschedule by selecting their desired time slots.
+        \item Create a display that shows the current schedule for each team, highlighting upcoming games and any requested reschedules.
+    \end{itemize}
+    
+    \item \textbf{(Stretch Goal) Enable Rescheduling Functionality}
+    \begin{itemize}
+        \item Add an option in the UI for team captains to request rescheduling of a specific game.
+        \item Develop logic that handles reschedule requests, taking into account existing game slots to avoid overlaps.
+    \end{itemize}
+
+\end{enumerate}
 
 \section{Expected Technology}
 Since the McMaster Softball League Platform will be a full-stack web development project, it is best to use technologies that are popular in the industry and ones that we are already familiar with. We choose to use modern frameworks so that this project can be easily picked up by someone else in the future if updates or modifications are needed. Our project needs to be highly maintainable and able to scale in size for long-term use.
