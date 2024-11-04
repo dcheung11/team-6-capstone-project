@@ -142,95 +142,172 @@ how they relate to your VnV efforts.}
 
 \section{Plan}
 
-\wss{Introduce this section.  You can provide a roadmap of the sections to
-  come.}
-
 \subsection{Verification and Validation Team}
 
-\wss{Your teammates.  Maybe your supervisor.
-  You should do more than list names.  You should say what each person's role is
-  for the project's verification.  A table is a good way to summarize this information.}
+V\&V Team Lead: Derek
+\begin{itemize}
+    \item Oversees the entire verification and validation process and ensures all activities are completed according to the plan.
+    \item Coordinates with other members to align V\&V activities with project deadlines.
+    \item deadlines.
+Reviews and approves test plans, reports, and results.
+    \item Researches and ensures that the team has the tools needed for testing.
+\end{itemize}
+
+\noindent Developers: Emma, Damien, Temituoyo, Jad
+\begin{itemize}
+    \item Develop code and conduct unit testing to ensure basic functionality
+    \item Address any defects or issues they identified during testing
+    \item Participate in code reviews and provide feedback to ensure code implementation is of high quality
+    \item Assists in setting up automated testing frameworks
+\end{itemize}
 
 \subsection{SRS Verification Plan}
 
-\wss{List any approaches you intend to use for SRS verification.  This may
-  include ad hoc feedback from reviewers, like your classmates (like your
-  primary reviewer), or you may plan for something more rigorous/systematic.}
+\noindent Our approach for SRS verification involves understanding the following objectives:
 
-\wss{If you have a supervisor for the project, you shouldn't just say they will
-read over the SRS.  You should explain your structured approach to the review.
-Will you have a meeting?  What will you present?  What questions will you ask?
-Will you give them instructions for a task-based inspection?  Will you use your
-issue tracker?}
+\begin{itemize}
+    \item Validate that the SRS covers the project’s functional and non-functional requirements
+    \item Verify that requirements are clearly defined, consistent and testable
+    \item Validate that requirements are feasible and achievable within project constraints
+\end{itemize}
 
-\wss{Maybe create an SRS checklist?}
+After understanding these objectives, we will prioritize the following steps:
+\begin{enumerate}
+    \item Have a team meeting and brainstorm all use case scenarios and requirements before meeting with our supervisor. We can make a SRS checklist to do this.
+    \item Conduct a peer review with another team. For our capstone, another team is also doing the same project, so it will be best to work with them.
+    \item Book a meeting with our supervisor and present the following use cases and requirements our platform covers.
+    \item Discuss possible use cases and requirements with our supervisor. We can add these new ideas to our SRS checklist.
+    
+\end{enumerate}
 
 \subsection{Design Verification Plan}
 
-\wss{Plans for design verification}
+Verification Methods:
 
-\wss{The review will include reviews by your classmates}
+\begin{itemize}
+    \item Code Reviews 
+        \\ \\Team members can conduct code reviews regularly to focus on code readability, efficiency, and to ensure that our code meets design requirements and specifications.
+    \item Automated Testing
+        \\ \\By using an automated testing framework, we can simulate real user interactions, such as signing up for the league. These testing scripts can be run quickly and save us time.
+    \item Manual Testing
+        \\ \\ We can conduct testing with users involved in the league to gather feedback and ensure that the platform meets user expectations.
+    \item Performance Testing
+        \\ \\Check website performance under heavy load and traffic to meet user expectations. An example would be how the website runs when multiple users register teams at the same time.
+    \item Security Testing
+        \\ \\Check for potential security issues, such as SQL injection to prevent data from being stolen.
+    \item Data Verification
+        \\ \\Verify that data is being stored, retrieved, and updated accurately in our database to prevent errors and meet user expectations.
+    \item Documentation Review
+        \\ \\Update documentation frequently, such as user guides, system diagrams, etc. to enforce updated knowledge throughout the team.
+\end{itemize}
 
-\wss{Create a checklists?}
+\subsection{Verification and Validation Plan}
 
-\subsection{Verification and Validation Plan Verification Plan}
+Checklist:
 
-\wss{The verification and validation plan is an artifact that should also be
-verified.  Techniques for this include review and mutation testing.}
+\begin{itemize}
+    \item Code Reviews 
+        \begin{itemize}
+            \item Does our code meet readability and efficiency standards?
+            \item Are there code sections we can optimize?
+            \item Does the implementation match the design specifications?
+        \end{itemize}
+    \item Automated Testing
+        \begin{itemize}
+            \item Does our automated script cover the basic functionalities of our design specifications?
+            \item Are there edge cases missing?
+        \end{itemize}
+    \item Manual Testing
+        \begin{itemize}
+            \item Do the manual tests reflect real scenarios?
+            \item Is user feedback collected effectively and analyzed?
+        \end{itemize}
+    \item Performance Testing
+        \begin{itemize}
+            \item Does our platform handle high traffic without difficulties?
+            \item Do we have performance benchmarks and are they met?
+        \end{itemize}
+    \item Security Testing
+        \begin{itemize}
+            \item Did we test against common vulnerabilities?
+            \item Is sensitive data properly handled and protected?
+        \end{itemize}
+    \item Data Verification
+        \begin{itemize}
+            \item Is data transactions being done correctly?
+            \item Does our system maintain data accurately?
+        \end{itemize}
+    \item Documentation Review
+        \begin{itemize}
+            \item Are our documents up to date?
+            \item Are user guides easy to understand?
+        \end{itemize}
+\end{itemize}
 
-\wss{The review will include reviews by your classmates}
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Milestone}        & \textbf{Description}                                          & \textbf{Completion Date} \\ \hline
+Code Reviews              & Regular reviews focusing on readability and efficiency       & Week 2                  \\ \hline
+Automated Testing         & Implement and run automated test scripts                     & Week 4                  \\ \hline
+Manual Testing            & Conduct user testing and gather feedback                    & Week 6                  \\ \hline
+Performance Testing       & Test website under heavy load                                & Week 8                  \\ \hline
+Security Testing          & Perform security checks and vulnerability assessments        & Week 10                  \\ \hline
+Data Verification         & Ensure data is accurate and properly handled                 & Week 12                  \\ \hline
+Documentation Review      & Update user guides and technical documentation               & Week 14                 \\ \hline
+\end{tabular}
+\caption{Milestone Schedule}
+\end{table}
 
-\wss{Create a checklists?}
+
 
 \subsection{Implementation Verification Plan}
 
-\wss{You should at least point to the tests listed in this document and the unit
-  testing plan.}
+\begin{itemize}
+    \item Code Walkthroughs
+    \\ \\ Developers of a segment of code will share and present it to peers. The main focus here is design principles and coding standards.
 
-\wss{In this section you would also give any details of any plans for static
-  verification of the implementation.  Potential techniques include code
-  walkthroughs, code inspection, static analyzers, etc.}
+    \item Code Inspections
+    \\ \\ Peers will inspect code to find possible ways for optimization.
 
-\wss{The final class presentation in CAS 741 could be used as a code
-walkthrough.  There is also a possibility of using the final presentation (in
-CAS741) for a partial usability survey.}
+    \item Static Analyzers
+    \\ \\ Use linting tools, such as ESLint to detect syntax errors and uphold standard code practices.
+\end{itemize}
 
 \subsection{Automated Testing and Verification Tools}
 
-\wss{What tools are you using for automated testing.  Likely a unit testing
-  framework and maybe a profiling tool, like ValGrind.  Other possible tools
-  include a static analyzer, make, continuous integration tools, test coverage
-  tools, etc.  Explain your plans for summarizing code coverage metrics.
-  Linters are another important class of tools.  For the programming language
-  you select, you should look at the available linters.  There may also be tools
-  that verify that coding standards have been respected, like flake9 for
-  Python.}
+\noindent Primary Testing Tool: Playwright\\
 
-\wss{If you have already done this in the development plan, you can point to
-that document.}
+\noindent Playwright is the most modern end-to-end testing framework. It can support testing across different browsers like Chrome, Firefox, and Safari. The support that this framework has is ideal for ensuring that our platform works smoothly across various devices and browsers.\\
 
-\wss{The details of this section will likely evolve as you get closer to the
-  implementation.}
+\noindent Compared to other testing frameworks, Playwright offers faster execution, and built-in capabilities for handling complex UI interactions like pop-ups, a fast and growing online community, and Microsoft, a tech giant, backs it up. \\
+
+\noindent Linting Tool: ESLint\\
+
+\noindent ESLint will be used to catch potential issues in the code, such as syntax errors, security vulnerabilities, or deviations from coding standards, before execution.\\
+
+\noindent Saves time in code reviews and reduces the risk of runtime errors by enforcing best practices during development.
 
 \subsection{Software Validation Plan}
 
-\wss{If there is any external data that can be used for validation, you should
-  point to it here.  If there are no plans for validation, you should state that
-  here.}
+Methods: \\
 
-\wss{You might want to use review sessions with the stakeholder to check that
-the requirements document captures the right requirements.  Maybe task based
-inspection?}
+\begin{itemize}
+    \item Requirement-Based Testing
+    \\ \\ Create test cases based on requirements to verify that each functionality works as expected.
+    
+    \item Regression Testing
+    \\ \\ Ensure basic functionality remains unaffected when developing new features by running a script that tests all the basic functionalities before updates are pushed.
 
-\wss{For those capstone teams with an external supervisor, the Rev 0 demo should 
-be used as an opportunity to validate the requirements.  You should plan on 
-demonstrating your project to your supervisor shortly after the scheduled Rev 0 demo.  
-The feedback from your supervisor will be very useful for improving your project.}
+    \item Device Testing
+    \\ \\ Validate that the platform works across various devices, such as smartphones, tablets, desktops, etc.
 
-\wss{For teams without an external supervisor, user testing can serve the same purpose 
-as a Rev 0 demo for the supervisor.}
-
-\wss{This section might reference back to the SRS verification section.}
+    \item Cross-browser Testing
+    \\ \\ Validate that the platform works across various browsers,
+    such as Chrome, Firefox, Safari, etc.
+    
+\end{itemize}
 
 \section{System Tests}
 
