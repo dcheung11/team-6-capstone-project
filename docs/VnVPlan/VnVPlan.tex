@@ -234,62 +234,261 @@ as a Rev 0 demo for the supervisor.}
 
 \section{System Tests}
 
-\wss{There should be text between all headings, even if it is just a roadmap of
-the contents of the subsections.}
+This section goes over the tests for both functional and non-functional requirements of the platform. Functional requirements tests cover core features like authentication, team management, and scheduling. These tests are focused on making sure the system does exactly what it’s supposed to, based on the requirements laid out in the SRS.
+
+The non-functional requirements tests are split into categories to check additional qualities of the system: Look and Feel, Usability and Humanity, Performance, Operational and Environmental, Maintainability and Support, and Security. These tests make sure the platform isn’t just functional but also user-friendly, reliable, compatible across devices, and secure. Each section breaks down the tests and criteria we’ll use to evaluate these areas.
 
 \subsection{Tests for Functional Requirements}
 
-\wss{Subsets of the tests may be in related, so this section is divided into
-  different areas.  If there are no identifiable subsets for the tests, this
-  level of document structure can be removed.}
+This section is divided into different areas to cover subsets of the functional requirements comprehensively. The following tests cover core features like authentication, team management, and scheduling. References to the SRS are provided to show the alignment with documented requirements.
 
-\wss{Include a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good here.}
+It should be noted that when \texttt{Roles} are described doing actions in the functional tests (e.g. ``Captain inputs...''), these are assumed a tester acting in place of the role. 
 
-\subsubsection{Area of Testing1}
+\subsubsection{Authentication and Access Control}
 
-\wss{It would be nice to have a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good here.  If a section
-  covers tests for input constraints, you should reference the data constraints
-  table in the SRS.}
-		
-\paragraph{Title for Test}
+This section includes tests related to the authentication of users and the enforcement of role-based access control. These tests cover requirements related to login functionality and role-specific permissions as outlined in the SRS data model. This section coveres SRS Req \#1
+
+\paragraph{Login with Invalid Credentials}
+
+\begin{enumerate}
+\item{FR-1\\}
+Control: Manual
+
+Initial State: System at login screen, ready to accept credentials.
+
+Input: Invalid \texttt{UserID} and a combination of valid \texttt{UserID} + Invalid \texttt{Password} for commissioner, captain, and player accounts.
+
+Output: Unsuccessful login. The system is ready to accept new credentials.
+
+Test Case Derivation: Invalid login credentials should result in an unsuccessful login and the user should be able to try again.
+
+How Test Will Be Performed: Tester will attempt to log in with an invalid \texttt{UserID} and \texttt{Password}. Verify that all invalid logins are unsuccessful.
+
+Requirements Covered: SRS Req \#1 (authentication).
+\end{enumerate}
+
+\paragraph{Login with Valid Credentials}
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{FR-2\\}
+Control: Manual
 
-Control: Manual versus Automatic
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs.  Output is not how you
-are going to return the results of the test.  The output is the expected
-result.}
+Initial State: System at login screen, ready to accept credentials.
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
-					
-How test will be performed: 
-					
-\item{test-id2\\}
+Input: \texttt{UserID} and \texttt{Password} for valid commissioner, captain, and player accounts.
 
-Control: Manual versus Automatic
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
+Output: Successful login for valid credentials.
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+Test Case Derivation: Valid login credentials should result in a successful login to the system. This is also how the system will differentiate users to perform actions requiring Role permissions.
 
-How test will be performed: 
+How Test Will Be Performed: Tester will log in with a valid \texttt{UserID} and Password for each \texttt{Role} (Player, Captain, Commissioner) and verify access to the platform after successful login under the correct account.
+
+Requirements Covered: SRS Req \#1 (authentication).
+\end{enumerate}
+
+\subsubsection{Team Management}
+
+This section includes tests for the functionality of team creation and management. These tests verify that captains can create teams with unique names, manage join requests, and prevent duplication errors. This section also includes tests for the functionality allowing players to browse and request to join teams. These tests confirm that players can request to join a team and that requests are accurately reflected to captains. This section covers SRS Req \#5 and \#6.
+
+\paragraph{Captain Registering a Team}
+
+\begin{enumerate}
+
+\item{FR-3\\}
+Control: Manual
+
+Initial State: User is logged in with Role set to Captain, with no existing team associated with \texttt{CaptainID}. System is on the create team page, with at least one team registered in the database.
+
+Input: Enter a \texttt{TeamName} that already exists in the database and a Division.
+
+Output: Unsuccessful creation of a team with a duplicate \texttt{TeamName}. Error message displayed to Captain addressing that the \texttt{TeamName} already exists.
+
+Test Case Derivation: As a general rule, there are to be no duplicate \texttt{TeamName}. Captains should not be able to create a team with a \texttt{TeamName} that is already taken
+
+How Test Will Be Performed: Tester (with Captain account) submits a request to create a new team using a duplicate \texttt{TeamName}. Verify that the team is not added to the database.
+
+Requirements Covered: SRS Req \#5 (team creation).
+
+\item{FR-4\\}
+Control: Manual
+
+Initial State: User is logged in with Role set to Captain, with no existing team associated with \texttt{CaptainID}. System is on the create team page.
+
+Input: Enter a unique TeamName and Division.
+
+Output: Successful team creation after submission.
+
+Test Case Derivation: With valid input, Captains should be able to register their team into the system.
+
+How Test Will Be Performed: Captain creates a valid new team. Verify that the team is created and added to the database. New entry should include \texttt{TeamID, TeamName, Division, CaptainID, Roster}.
+
+Requirements Covered: SRS Req \#5 (team creation).
+
+\item{FR-5\\}
+Control: Manual
+
+Initial State: User logged in with Role set to Captain, with an existing team associated with \texttt{CaptainID}. System is on the create team page.
+
+Input: Enter a new TeamName and Division.
+
+Output: Unsuccessful creation of a team. Error message displayed for multiple teams under one \texttt{CaptainID}.
+
+Test Case Derivation: As a general rule, Captains only have one team. Captains should not be able to create a new team when they already have one registered under their \texttt{CaptainID}.
+
+How Test Will Be Performed: Captain attempts to create a second team. Verify that the team is not entered in the database.
+
+Requirements Covered: SRS Req \#5 (team creation).
+\end{enumerate}
+
+\paragraph{Joining a Team}
+
+\begin{enumerate}
+
+\item{FR-6\\}
+Control: Manual
+
+Initial State: User logged in with Role set to Player, without an existing team associated with \texttt{PlayerID}. Another user logged in as Captain of \texttt{TeamName}.
+
+Input: Player requests to join \texttt{TeamName}.
+
+Output: Player's request is sent to the team's Captain.
+
+Test Case Derivation: Players should be able to send join requests to Captains for review and approval.
+
+How Test Will Be Performed: Player requests to join a team. Verify that the associated Captain recieves the request (Refer to \textbf{FR-7}).
+
+Requirements Covered: SRS Req \#6 (joining teams).
+
+\item{FR-7\\}
+Control: Manual
+
+Initial State: User logged in with Role set to Captain, with an existing team associated with \texttt{CaptainID}. A player has requested to join the associated team.
+
+Input: Captain receives and approves request.
+
+Output: \texttt{PlayerID} is added to \texttt{Roster} of the team associated with \texttt{TeamName}.
+
+Test Case Derivation: Players should be added to a team after a request is approved.
+
+How Test Will Be Performed: Captain approves a pending player's join request. Verify the team updates accordingly: \texttt{Roster} updated in database and the player should have permissions to view team-specific information.
+
+Requirements Covered: SRS Req \#6 (joining teams).
 
 \end{enumerate}
 
-\subsubsection{Area of Testing2}
+\subsubsection{Game Scheduling and Reporting}
+
+This section tests game scheduling and rescheduling requests, focusing on the interaction between captains and commissioners for adjusting game schedules as defined in SRS Req \#7, \#8, \#11, and \#12.
+
+\paragraph{Automated Season Schedule}
+
+\begin{enumerate}
+
+\item{FR-7\\}
+Control: Manual
+
+Initial State: Teams have been registered in the system, each with \texttt{TeamIDs} and preferences for game days/times. No current season schedule exists.
+
+Input: 
+Set up a sample database file containing:
+\begin{itemize}
+  \item Team Availability: Preferences for game days and times.
+  \item Division Assignments: Each \texttt{TeamID} is assigned a division.
+  \item Game Count Requirement: Ensures each team has an equal number of games.
+  \item Available Slots: The availability of the event space.
+\end{itemize}
+
+Output: The system generates an appropriate season game schedule.
+
+Test Case Derivation: The system needs to be able to generate an initial schedule for the season based on team availability and preferences.
+
+How Test Will Be Performed: Load the database with team availability and divisional information. Run the schedule generation process. Refer to \textbf{TPERF-2} for performance test of the generated schedule.
+
+Requirements Covered: SRS Req \#7 (Schedule Automation).
+
+\end{enumerate}
+
+\paragraph{Captain Game Reporting}
+
+\begin{enumerate}
+
+\item{FR-8\\}
+Control: Manual
+
+Initial State: Season schedule is generated and displayed, with captain logged in. System is on game report page.
+
+Input: Captain submits game results (\texttt{Results, ScoreTeamA, ScoreTeamB}) or forfeits for a selected game.
+
+Output: Game report is updated and Standings are updated (\texttt{TeamID, Wins, Losses, Ties, Rank}).
+
+Test Case Derivation: Captains should be able to report game results which should be reflected in the platform's standings/reporting.
+
+How Test Will Be Performed: Captain reports games. Verify that the report is reflected in database and that standings are automatically updated accordingly.
+
+Requirements Covered: SRS Req \#12 (Reporting).
+
+\end{enumerate}
+
+\paragraph{Rescheduling}
+
+\begin{enumerate}
+
+\item{FR-9\\}
+Control: Manual
+
+Initial State: Season schedule is generated and displayed, with commissioner and captain logged in. System is on scheduling page.
+
+Input: Captain submits a reschedule request in an open slot. The request is valid and associated with the appropriate \texttt{ScheduleID, GameID, and SlotNumber}.
+
+Output: Request is sent to Commissioner.
+
+Test Case Derivation: Rescheduling requests from captains should be sent to the Comissioner for review and approval.
+
+How Test Will Be Performed: Captain initiates reschedule request. Verify that the request is sent to the commissioner for approval.
+
+Requirements Covered: SRS Req \#8 (rescheduling).
+
+\item{FR-10\\}
+Control: Manual
+
+Initial State: Commissioner logged in. System is on schedule page with a scheduled game entry available.
+
+Input: Commissioner applies an override (cancel or reschedule) on an existing \texttt{GameID} or approves a reschedule request.
+
+Output: Override is reflected in the schedule. Notifications are sent to all IDs in \texttt{Roster} of teams associated with the overridden game.
+
+Test Case Derivation: Schedule changes should be reflected in all affected user’s view and they should be notified of the changes.
+
+How Test Will Be Performed: Commissioner applies an override on an existing game. Verify the game change (\texttt{Schedule view, SlotNumber}, and \texttt{Available Slots} are updated). Verify notifications are received by both teams.
+
+Requirements Covered: SRS Req \#11 (game overrides).
+
+\end{enumerate}
+
+\subsubsection{Announcements}
+
+This section includes tests for league-wide announcements and commissioner game overrides, ensuring that all users receive notifications of changes and announcements, per SRS Req \#9 and \#10.
+
+\paragraph{Posting Announcements}
+
+\begin{enumerate}
+
+\item{FR-11\\}
+Control: Manual
+
+Initial State: Commissioner logged in. System is on announcement page.
+
+Input: Commissioner posts a league-wide announcement to be visible across platform views.
+
+Output: Announcement is visible to all users.
+
+Test Case Derivation: Commissioners' posts should be viewable by all users.
+
+How Test Will Be Performed: Commissioner posts announcement; verify visibility for all \texttt{Roles}.
+
+Requirements Covered: SRS Req \#9, \#10 (announcements).
+\end{enumerate}
 
 ...
 
