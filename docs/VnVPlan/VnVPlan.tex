@@ -572,6 +572,8 @@ Test Case Derivation: Ensures a consistent, modern interface as specified.
 					
 How test will be performed: Manually inspect visual consistency across pages on different devices.
 
+Requirements Covered: SRS Req 10.1.
+
 \end{enumerate}
 
 \subsubsection{Usability and Humanity}
@@ -592,6 +594,8 @@ Test Case Derivation: Ease of use is achieved if new users can complete essentia
 					
 How test will be performed: Conduct a observational study of usability with a \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} participants who have no prior experience with the platform. Record the time taken for each view. Following the tasks, participants will complete a survey (in Appendix) to provide feedback on task difficulty and ease of navigation.
 
+Requirements Covered: SRS Req 11.1.
+
 \item{TUH-2\\}
 
 Control: Manual
@@ -606,6 +610,8 @@ Test Case Derivation: Adhering to Canadian localization standards ensures that u
 					
 How test will be performed: Verify date, time, and measurement units across the platform views. Ask usability testers to confirm that information formats are clear and match Canadian standards. Feedback survey included in Appendix.
 
+Requirements Covered: SRS Req 11.2.
+
 \item{TUH-3\\}
 
 Control: Dynamic, Manual
@@ -617,9 +623,10 @@ Input: Tester is asked to perform certain tasks within the platform (login, crea
 Output: Tester completes each task within an average of \hyperref[AVG_TASK_TIME]{\texttt{AVG\_TASK\_TIME}} minutes with no prior experience, while easily understanding and utilizing in-app help (navigation instructions, tooltips, and help documentation) to complete tasks.
 
 Test Case Derivation: Effective learning support is demonstrated if new users can understand and perform basic tasks using the platform's in-app guidance.
-					
+
 How test will be performed: Conduct a observational study of usability with \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} participants who have no prior experience with the platform. Record the time taken for each task completion. Following the tasks, participants will complete a survey (in Appendix) to provide feedback on task difficulty and provided guidance.
 
+Requirements Covered: SRS Req 11.3-11.4
 
 \end{enumerate}
 
@@ -639,6 +646,8 @@ Output/Result: The standings are calculated (as mentioned in FR) with 100\% accu
 
 How test will be performed: Create test cases with predefined standings. Use an automated script to perform calculations and check results against expected outcomes, ensuring all calculations are accurate.
 
+Requirements Covered: SRS Req 12.1, 12.3.
+
 \item{TPERF-2\\}
 
 Type: Automated, Manual
@@ -657,6 +666,8 @@ Output/Result:
 
 How test will be performed:  The platform is prepared with a sample dataset containing multiple teams and generates a schedule, ensuring each team is assigned games within the schedule. An automated script is used to capture the output schedule and iterate through each team's scheduled games to verify the correctness of divisional match-ups, the balance of games, and log any conflicts.
 
+Requirements Covered: SRS Req 12.4.
+
 \item{TPERF-3\\}
 
 Type: Dynamic, Automatic
@@ -669,6 +680,8 @@ Output/Result: Format of credentials in database.
 
 How test will be performed: An automated script is used to add a pair of
 new credentials and check whether the information is stored in the database.
+
+Requirements Covered: SRS Req 12.2.
 
 \item{TPERF-4\\}
 
@@ -685,6 +698,9 @@ The platform highlights the fields with errors (e.g., required fields that are e
 How test will be performed:
 
 Testers will intentionally leave required fields blank, enter invalid data formats  and submit the form. Testers will verify that the fields with errors are highlighted visually and informative error messages appear next to the problematic fields, indicating the nature of the errors. Testers will confirm that the information in the form is not submitted into the database until the errors are corrected and the form is resubmitted, showing a success message upon submission
+
+Requirements Covered: SRS Req 12.4.
+
 \end{enumerate}
 
 
@@ -706,6 +722,8 @@ Test Case Derivation: Ensures multi-device compatibility.
 
 How test will be performed: Manual testing of the platform features, responsiveness, and navigations on desktop, tablet, and smartphone.
 
+Requirements Covered: SRS Req 13.1.
+
 \item{TOPE-2\\}
 
 Control: Manual
@@ -719,6 +737,8 @@ Output: Platform displays correctly across major browsers.
 Test Case Derivation: Confirms browser compatibility.
 
 How test will be performed: Testers review platform views and features in each browser.
+
+Requirements Covered: SRS Req 13.2-13.3.
 
 \end{enumerate}
 
@@ -738,6 +758,8 @@ Output/Result: Support email receives help request from tester without any exter
 
 How test will be performed: \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} Tester are asked to reach
 support through email and record any difficulties encountered.
+
+Requirements Covered: SRS Req 14.1, 14.2.
 
 \end{enumerate}
 
@@ -764,6 +786,8 @@ Output/Result:
 
 How test will be performed: Manually log in with a dummy user role for each level and attempt to access various features. Verify that the access levels match the defined role-based access control requirements.
 
+Requirements Covered: SRS Req 15.1, 15.2.
+
 \item{TSEC-2\\}
 
 Type: Manual
@@ -775,6 +799,8 @@ Input/Condition: Tester attempts to submit invalid information into the database
 Output/Result: The system displays helpful error messages and prevents data entries - no data should be submitted or saved for invalid inputs, preventing any unwanted database behaviour or liability.
 
 How test will be performed: Enter invalid data into the respective forms and submit. Observe the system's responses and ensure appropriate validation messages are displayed.
+
+Requirements Covered: SRS Req 15.1, 15.2.
 
 \end{enumerate}
 
@@ -793,11 +819,14 @@ Input/Condition: Tester views platform content, date, and time information.
 Output/Result: All text is displayed in Canadian English, with time shown in the appropriate Hamilton, Ontario, Canada time zone (EST).
 					
 How test will be performed: Manually inspect the platform to ensure text and date/time formats match Canadian English and the local time zone.
+
+Requirements Covered: SRS Req 16.1.
+
 \end{enumerate}
 
 \subsubsection{Compliance}
 \begin{enumerate}
-\item{TCU-1\\}
+\item{TC-1\\}
 Type: Functional, Manual
 					
 Initial State: Dummy user account exists, with personal data such as email and phone number stored in the platform.
@@ -808,7 +837,9 @@ Output/Result: All personal data associated with the account is removed from dat
 					
 How test will be performed: Manually delete an account and verify that all associated data is removed. Log any unexpected time elapsed to ensure security and compliance in appropriate time.
 
-\item{TCU-2\\}
+Requirements Covered: SRS Req 17.1.
+
+\item{TC-2\\}
 
 Type: Manual
 					
@@ -819,14 +850,15 @@ Input/Condition: Tester visually inspect the platform against W3C web standards 
 Output/Result: Tester verifies platform's adherence to W3C web standards.
 					
 How test will be performed: Manually inspect the interface against \href{https://www.w3.org/standards/}{W3C web standards} to verify font readability, contrast, and navigation.
+
+Requirements Covered: SRS Req 17.2.
 \end{enumerate}
 
 ...
 
 \subsection{Traceability Between Test Cases and Requirements}
 
-\wss{Provide a table that shows which test cases are supporting which
-  requirements.}
+Refer to requirements in SRS Document () 
 
 \section{Unit Test Description}
 
