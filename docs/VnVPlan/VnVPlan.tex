@@ -11,6 +11,7 @@
     urlcolor=blue
 }
 \usepackage[round]{natbib}
+\usepackage{longtable}
 
 \input{../Comments}
 \input{../Common}
@@ -30,8 +31,8 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+Oct 30, 2024 1 & 1.0 & 4.2 and Appendix\\
+
 \bottomrule
 \end{tabularx}
 
@@ -551,6 +552,277 @@ How test will be performed:
 
 ...
 
+\subsection{Tests for Nonfunctional Requirements}
+
+\subsubsection{Look and Feel}
+		
+\begin{enumerate}
+
+\item{TLF-1\\}
+
+Control: Manual
+					
+Initial State: Web application is launched.
+					
+Input: Tester navigates through primary views (including login, team management, and schedule viewing)
+					
+Output: The platform’s interface should be modern, intuitive, and visually consistent across all views.
+
+Test Case Derivation: Ensures a consistent, modern interface as specified.
+					
+How test will be performed: Manually inspect visual consistency across pages on different devices.
+
+\end{enumerate}
+
+\subsubsection{Usability and Humanity}
+
+\begin{enumerate}
+
+\item{TUH-1\\}
+
+Control: Dynamic, Manual
+					
+Initial State:  Web application is launched, user is on login page.
+					
+Input: Tester is asked to navigate through different platform views (login, announcements, standings, schedule)
+					
+Output: Tester successfully navigates to each view within \hyperref[MIN_NAVTIME]{\texttt{MIN\_NAVTIME}} minutes with no prior experience or external help.
+
+Test Case Derivation: Ease of use is achieved if new users can complete essential navigation quickly and independently, as specified.
+					
+How test will be performed: Conduct a observational study of usability with a \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} participants who have no prior experience with the platform. Record the time taken for each view. Following the tasks, participants will complete a survey (in Appendix) to provide feedback on task difficulty and ease of navigation.
+
+\item{TUH-2\\}
+
+Control: Manual
+					
+Initial State:  Web application is launched, user is on login page.
+					
+Input: Tester views date and time fields, metric system measurements, and content language.
+					
+Output: Tester verifies platform displays date and time in Canadian format, uses the metric system, and all text is in Canadian English.
+
+Test Case Derivation: Adhering to Canadian localization standards ensures that users are comfortable with the displayed information format.
+					
+How test will be performed: Verify date, time, and measurement units across the platform views. Ask usability testers to confirm that information formats are clear and match Canadian standards. Feedback survey included in Appendix.
+
+\item{TUH-3\\}
+
+Control: Dynamic, Manual
+					
+Initial State:  Web application is launched, user is on login page.
+					
+Input: Tester is asked to perform certain tasks within the platform (login, create team, request reschedule)
+					
+Output: Tester completes each task within an average of \hyperref[AVG_TASK_TIME]{\texttt{AVG\_TASK\_TIME}} minutes with no prior experience, while easily understanding and utilizing in-app help (navigation instructions, tooltips, and help documentation) to complete tasks.
+
+Test Case Derivation: Effective learning support is demonstrated if new users can understand and perform basic tasks using the platform's in-app guidance.
+					
+How test will be performed: Conduct a observational study of usability with \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} participants who have no prior experience with the platform. Record the time taken for each task completion. Following the tasks, participants will complete a survey (in Appendix) to provide feedback on task difficulty and provided guidance.
+
+
+\end{enumerate}
+
+\subsubsection{Performance}
+
+\begin{enumerate}
+
+\item{TPERF-1\\}
+
+Type: Automated
+
+Initial State: Platform is set up with sample data for standings and scheduling.
+
+Input/Condition: Tester views league standings.
+
+Output/Result: The standings are calculated (as mentioned in FR) with 100\% accuracy.
+
+How test will be performed: Create test cases with predefined standings. Use an automated script to perform calculations and check results against expected outcomes, ensuring all calculations are accurate.
+
+\item{TPERF-2\\}
+
+Type: Automated, Manual
+
+Initial State: Platform is set up with sample data (teams and preferences) for scheduling.
+
+Input/Condition: Tester views league schedule.
+
+Output/Result:
+\begin{itemize}
+\item{The displayed schedule shows that all teams have a balanced number of scheduled games, ensuring that no team has a game count that differs by more than \hyperref[MAX_GAME_DIFF]{\texttt{MAX\_GAME\_DIFF}} games from any other team.}
+\item{The displayed schedule shows that all teams play 100\% of their games within their division.}
+\item{The displayed schedule is conflict-free, considering time and location.}
+\item{The displayed schedule is optimized based on matching team preferences.}
+\end{itemize}
+
+How test will be performed:  The platform is prepared with a sample dataset containing multiple teams and generates a schedule, ensuring each team is assigned games within the schedule. An automated script is used to capture the output schedule and iterate through each team's scheduled games to verify the correctness of divisional match-ups, the balance of games, and log any conflicts.
+
+\item{TPERF-3\\}
+
+Type: Dynamic, Automatic
+
+Initial State: The web application is launched.
+
+Input/Condition: A pair of new login credentials are added.
+
+Output/Result: Format of credentials in database.
+
+How test will be performed: An automated script is used to add a pair of
+new credentials and check whether the information is stored in the database.
+
+\item{TPERF-4\\}
+
+Type: Manual
+
+Initial State: The platform is operational with a form ready for submission (e.g., team registration, game scheduling).
+
+Input/Condition: Tester fills out the form with invalid data (e.g., missing required fields, incorrect data formats).
+
+Output/Result:
+
+The platform highlights the fields with errors (e.g., required fields that are empty, invalid email formats) and displays appropriate error messages  next to each highlighted field. The form submission is prevented until all errors are corrected.
+
+How test will be performed:
+
+Testers will intentionally leave required fields blank, enter invalid data formats  and submit the form. Testers will verify that the fields with errors are highlighted visually and informative error messages appear next to the problematic fields, indicating the nature of the errors. Testers will confirm that the information in the form is not submitted into the database until the errors are corrected and the form is resubmitted, showing a success message upon submission
+\end{enumerate}
+
+
+\subsubsection{Operational and Environmental}
+
+\begin{enumerate}
+
+\item{TOPE-1\\}
+
+Control: Manual
+
+Initial State: Platform launched on desktop, tablet, and smartphone.
+
+Input: Test and access all features and navigate on each device type.
+
+Output: Platform should be fully accessible on all device types.
+
+Test Case Derivation: Ensures multi-device compatibility.
+
+How test will be performed: Manual testing of the platform features, responsiveness, and navigations on desktop, tablet, and smartphone.
+
+\item{TOPE-2\\}
+
+Control: Manual
+
+Initial State: Platform open in Chrome, Firefox, Safari, and Edge.
+
+Input: Access all features in each browser.
+
+Output: Platform displays correctly across major browsers.
+
+Test Case Derivation: Confirms browser compatibility.
+
+How test will be performed: Testers review platform views and features in each browser.
+
+\end{enumerate}
+
+\subsubsection{Maintainability and Support}
+
+\begin{enumerate}
+
+\item{TMS-1\\}
+
+Type: Manual
+
+Initial State: The platform is launched.
+
+Input/Condition: Tester is asked to contact support.
+
+Output/Result: Support email receives help request from tester without any external help.
+
+How test will be performed: \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} Tester are asked to reach
+support through email and record any difficulties encountered.
+
+\end{enumerate}
+
+\subsubsection{Security}
+
+\begin{enumerate}
+
+\item{TSEC-1\\}
+
+Type: Manual
+
+Initial State: Platform is launched, and user roles are assigned.
+
+Input/Condition: Tester logs in as an Administrator, Team Manager, and Player and verifies correct access.
+
+Output/Result:
+
+\begin{itemize}
+\item{The Player role has restricted access with basic features (ex. viewing schedule, joining teams)}
+\item{The Captain role has access to additional team management features.}
+\item{The Commissioner has access to all administrative features.}
+
+\end{itemize} 
+
+How test will be performed: Manually log in with a dummy user role for each level and attempt to access various features. Verify that the access levels match the defined role-based access control requirements.
+
+\item{TSEC-2\\}
+
+Type: Manual
+
+Initial State: Platform is ready for data entry.
+
+Input/Condition: Tester attempts to submit invalid information into the database (ex. team roster with missing player names, invalid team or game information).
+
+Output/Result: The system displays helpful error messages and prevents data entries - no data should be submitted or saved for invalid inputs, preventing any unwanted database behaviour or liability.
+
+How test will be performed: Enter invalid data into the respective forms and submit. Observe the system's responses and ensure appropriate validation messages are displayed.
+
+\end{enumerate}
+
+\subsubsection{Cultural}
+
+\begin{enumerate}
+
+\item{TCU-1\\}
+
+Type: Manual
+					
+Initial State: Platform is launched in default settings.
+					
+Input/Condition: Tester views platform content, date, and time information.
+					
+Output/Result: All text is displayed in Canadian English, with time shown in the appropriate Hamilton, Ontario, Canada time zone (EST).
+					
+How test will be performed: Manually inspect the platform to ensure text and date/time formats match Canadian English and the local time zone.
+\end{enumerate}
+
+\subsubsection{Compliance}
+\begin{enumerate}
+\item{TCU-1\\}
+Type: Functional, Manual
+					
+Initial State: Dummy user account exists, with personal data such as email and phone number stored in the platform.
+					
+Input/Condition: User initiates a request to delete their account and associated data.
+					
+Output/Result: All personal data associated with the account is removed from database and platform, and user receives confirmation of data deletion.
+					
+How test will be performed: Manually delete an account and verify that all associated data is removed. Log any unexpected time elapsed to ensure security and compliance in appropriate time.
+
+\item{TCU-2\\}
+
+Type: Manual
+					
+Initial State: Platform is launched.
+					
+Input/Condition: Tester visually inspect the platform against W3C web standards to verify adherence to industry standards (readable fonts, accessible colors, and clear navigation).
+					
+Output/Result: Tester verifies platform's adherence to W3C web standards.
+					
+How test will be performed: Manually inspect the interface against \href{https://www.w3.org/standards/}{W3C web standards} to verify font readability, contrast, and navigation.
+\end{enumerate}
+
+...
+
 \subsection{Traceability Between Test Cases and Requirements}
 
 \wss{Provide a table that shows which test cases are supporting which
@@ -695,10 +967,44 @@ This is where you can place additional information.
 
 The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
 Their values are defined in this section for easy maintenance.
+\begin{longtable}{|l|l|l|p{5cm}|}
 
-\subsection{Usability Survey Questions?}
+\hline
+parameter & value & unit & description\\
+\hline
+\texttt{MIN\_NAVTIME}\label{MIN_NAVTIME} & 60 & s & the minimum time for testers to navigate to a main view \\
+\hline
+\texttt{MIN\_TESTERS}\label{MIN_TESTERS} & 5 & n/a & the minimum testers required for a certain system test \\
+\hline
+\texttt{AVG\_TASK\_TIME}\label{AVG_TASK_TIME} & 3 & min & the average task time for a task completion \\
+\hline
+\texttt{MAX\_GAME\_DIFF}\label{MAX_GAME_DIFF} & 2 & n/a & the maximum difference of total scheduled games between two teams \\
+\hline
+\end{longtable}
 
-\wss{This is a section that would be appropriate for some projects.}
+\subsection{Usability Survey Questions}
+
+\paragraph{Learning}
+\begin{itemize}
+\item{How easy was it to learn how to use the platform? (1-5)}
+\item{How helpful were the instructions or help resources in learning how to use the platform? (1-5)}
+\item{How confident do you feel using the platform without assistance after your initial experience? (1-5)}
+\end{itemize}
+
+\paragraph{Usability}
+\begin{itemize}
+\item{How intuitive do you find the navigation of the platform? (1-5)}
+\item{Did you encounter any errors or issues while using the platform? If so, please describe them. (Open-ended)}
+\end{itemize}
+
+
+\paragraph{Accessibility}
+\begin{itemize}
+\item{How accessible do you find the platform in terms of visual design (e.g., color contrast, text size, font)? (1-5)}
+\item{Did you encounter any errors or issues while using the platform? If so, please describe them. (Open-ended)}
+\item{Do you have any suggestions for improving the accessibility of the platform?
+(Open-ended)}
+\end{itemize}
 
 \newpage{}
 \section*{Appendix --- Reflection}
