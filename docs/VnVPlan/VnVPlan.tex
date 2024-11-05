@@ -81,8 +81,8 @@
 
 \pagenumbering{arabic}
 
-This document ... \wss{provide an introductory blurb and roadmap of the
-  Verification and Validation plan}
+% This document ... \wss{provide an introductory blurb and roadmap of the
+%   Verification and Validation plan}
 
 This document defines the procedures, testing strategies, and methodologies that will be used to ensure that the platform meets its functional, performance, and user experience requirements. Verification and Validation are essential to establishing that the system is developed in accordance with its specifications and operates reliably within the designated environment.
 Roadmap of the VnV document:
@@ -170,6 +170,8 @@ decisions.
 
 \begin{itemize}
     \item \textbf{Software Requirements Specification (SRS)} \citep{SRS}: The SRS defines the detailed functional and non-functional requirements of the system, providing a clear basis for testing each requirement. By mapping each test case back to the SRS, we can ensure complete coverage of all system specifications. 
+
+    \item \textbf{Hazard Analysis} \citep{Hazard-Analysis}: The Hazard Analysis identifies potential hazards associated with the software system, assessing their impact and likelihood. This document is critical for understanding risk factors that may affect system safety and reliability. By identifying and analyzing hazards early in the development process, we can implement strategies to mitigate risks and ensure that the system operates safely under expected conditions.
 
     \item \textbf{Module Interface Specification (MIS)} (TBD): The MIS defines the interface details for each module, including input and output data formats, parameter types, and function signatures. This document ensures that modules correctly integrate with one another, supporting our VnV plan by allowing us to focus on the correctness of inter-module communication.
 
