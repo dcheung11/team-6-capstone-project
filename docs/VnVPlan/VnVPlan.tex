@@ -97,56 +97,98 @@ Roadmap of the VnV document:
 
 \subsection{Summary}
 
-\wss{Say what software is being tested.  Give its name and a brief overview of
-  its general functions.}
+The software being tested is the McMaster GSA Softball League Management Platform. This platform is designed to support and streamline operations for the McMaster GSA softball league. Key features include team management, game scheduling, reporting functionalities, and communication tools. The platform aims to simplify tasks for league administrators, captains, and players by providing a centralized system for managing league information, tracking standings, scheduling games, and maintaining up-to-date team rosters.
 
 \subsection{Objectives}
 
-\wss{State what is intended to be accomplished.  The objective will be around
-  the qualities that are most important for your project.  You might have
-  something like: ``build confidence in the software correctness,''
-  ``demonstrate adequate usability.'' etc.  You won't list all of the qualities,
-  just those that are most important.}
+The primary objectives of the VnV process are:
+\begin{itemize}
+    \item \textbf{Build confidence in software correctness}: Ensure that core functionalities, including team management, game scheduling, and result reporting, operate as expected.
+    \item \textbf{Demonstrate adequate usability}: Confirm that the system interface is intuitive and accessible for users with varied technical backgrounds, such as league commissioners, captains, and players.
+    \item \textbf{Verify data integrity}: Ensure accurate and consistent data across all features, from player rosters to game results and standings.
+    \item \textbf{Assess security}: Validate that user access levels and authentication are correctly implemented to secure sensitive data.
+\end{itemize}
 
-\wss{You should also list the objectives that are out of scope.  You don't have
-  the resources to do everything, so what will you be leaving out.  For instance,
-  if you are not going to verify the quality of usability, state this.  It is also
-  worthwhile to justify why the objectives are left out.}
+\subsubsection*{Out of Scope}
 
-\wss{The objectives are important because they highlight that you are aware of
-  limitations in your resources for verification and validation.  You can't do everything,
-  so what are you going to prioritize?  As an example, if your system depends on an
-  external library, you can explicitly state that you will assume that external library
-  has already been verified by its implementation team.}
+\begin{itemize}
+    \item \textbf{Accessibility Testing}: Accessibility checks, such as screen reader compatibility, keyboard-only navigation, and compliance with accessibility standards (e.g., WCAG), will not be covered in this scope. This decision is made because the platform’s primary user base does not require stringent accessibility support, and our focus is primarily on basic usability rather than comprehensive accessibility.
+    
+    \item \textbf{Performance and Load Testing}: Extensive load and stress testing to measure system performance under high user traffic will be omitted. Given the platform's limited expected user base and the controlled environment in which it will operate, performance considerations are minimal. Our team will assume that system responsiveness and speed are sufficient for a small to medium load without simulating peak traffic.
+    
+    \item \textbf{In-depth Security and Vulnerability Testing}: While security basics, such as user authentication and access control, will be verified, extensive security testing (e.g., penetration testing and vulnerability scanning) is outside our scope. This is due to resource constraints and the relatively low-risk nature of the application, which handles limited sensitive data and is intended for a small group of users within the league.
+    
+    \item \textbf{External Library and API Validation}: It is assumed that all libraries and APIs have been thoroughly tested by their developers, so they will not undergo additional validation in our testing scope. Our focus will be on integration rather than on validating the correctness of external components themselves.
+\end{itemize}
+
+
+% \wss{State what is intended to be accomplished.  The objective will be around
+%   the qualities that are most important for your project.  You might have
+%   something like: ``build confidence in the software correctness,''
+%   ``demonstrate adequate usability.'' etc.  You won't list all of the qualities,
+%   just those that are most important.}
+
+% \wss{You should also list the objectives that are out of scope.  You don't have
+%   the resources to do everything, so what will you be leaving out.  For instance,
+%   if you are not going to verify the quality of usability, state this.  It is also
+%   worthwhile to justify why the objectives are left out.}
+
+% \wss{The objectives are important because they highlight that you are aware of
+%   limitations in your resources for verification and validation.  You can't do everything,
+%   so what are you going to prioritize?  As an example, if your system depends on an
+%   external library, you can explicitly state that you will assume that external library
+%   has already been verified by its implementation team.}
 
 \subsection{Challenge Level and Extras}
 
-\wss{State the challenge level (advanced, general, basic) for your project.
-  Your challenge level should exactly match what is included in your problem
-  statement.  This should be the challenge level agreed on between you and the
-  course instructor.  You can use a pull request to update your challenge level
-  (in TeamComposition.csv or Repos.csv) if your plan changes as a result of the
-  VnV planning exercise.}
+The challenge level we have established for this project is General.
+The extras we have described for our project include usability testing, user
+documentation, and design thinking. We believe these are strongly relevant
+to our project since it is a heavily user-centric web application that must in-
+corporate many principles of human-computer interfacing. We will track our
+changes consistently with written documentation as well as version control (via
+Git and GitHub). We will incorporate design thinking when developing and
+designing our system and UI, and we will conduct comprehensive usability tests
+with existing/potential stakeholders to compile improvements and verify design
+decisions.
 
-\wss{Summarize the extras (if any) that were tackled by this project.  Extras
-  can include usability testing, code walkthroughs, user documentation, formal
-  proof, GenderMag personas, Design Thinking, etc.  Extras should have already
-  been approved by the course instructor as included in your problem statement.
-  You can use a pull request to update your extras (in TeamComposition.csv or
-  Repos.csv) if your plan changes as a result of the VnV planning exercise.}
+% \wss{State the challenge level (advanced, general, basic) for your project.
+%   Your challenge level should exactly match what is included in your problem
+%   statement.  This should be the challenge level agreed on between you and the
+%   course instructor.  You can use a pull request to update your challenge level
+%   (in TeamComposition.csv or Repos.csv) if your plan changes as a result of the
+%   VnV planning exercise.}
+
+% \wss{Summarize the extras (if any) that were tackled by this project.  Extras
+%   can include usability testing, code walkthroughs, user documentation, formal
+%   proof, GenderMag personas, Design Thinking, etc.  Extras should have already
+%   been approved by the course instructor as included in your problem statement.
+%   You can use a pull request to update your extras (in TeamComposition.csv or
+%   Repos.csv) if your plan changes as a result of the VnV planning exercise.}
 
 \subsection{Relevant Documentation}
 
-\wss{Reference relevant documentation.  This will definitely include your SRS
-  and your other project documents (design documents, like MG, MIS, etc).  You
-  can include these even before they are written, since by the time the project
-  is done, they will be written.  You can create BibTeX entries for your
-  documents and within those entries include a hyperlink to the documents.}
+\begin{itemize}
+    \item \textbf{Software Requirements Specification (SRS)} \citep{SRS}: The SRS defines the detailed functional and non-functional requirements of the system, providing a clear basis for testing each requirement. By mapping each test case back to the SRS, we can ensure complete coverage of all system specifications. 
 
-\citet{SRS}
+    \item \textbf{Module Interface Specification (MIS)} (TBD): The MIS defines the interface details for each module, including input and output data formats, parameter types, and function signatures. This document ensures that modules correctly integrate with one another, supporting our VnV plan by allowing us to focus on the correctness of inter-module communication.
 
-\wss{Don't just list the other documents.  You should explain why they are relevant and
-  how they relate to your VnV efforts.}
+    \item \textbf{Design Document (DD)} (TBD): The DD contains architectural decisions and structural design rationale for the system, which are critical for validating design integrity and system stability. This document guides us in identifying key design aspects that need testing to verify adherence to design principles and effective implementation of required functionalities.
+
+    \item \textbf{User Manual (UM)} (TBD): The UM outlines the user interface and operational aspects of the system. It serves as a reference for usability testing, as it details expected user workflows and assists in validating whether the system operates as anticipated from the end-user perspective.
+\end{itemize}
+
+% \wss{Reference relevant documentation.  This will definitely include your SRS
+%   and your other project documents (design documents, like MG, MIS, etc).  You
+%   can include these even before they are written, since by the time the project
+%   is done, they will be written.  You can create BibTeX entries for your
+%   documents and within those entries include a hyperlink to the documents.}
+
+% \citet{SRS}
+
+% \wss{Don't just list the other documents.  You should explain why they are relevant and
+%   how they relate to your VnV efforts.}
+
 
 \section{Plan}
 
