@@ -1,21 +1,26 @@
 const { Console } = require('console');
+const { WSAEWOULDBLOCK } = require('constants');
 const fs = require('fs');
 // const { start } = require('repl');
 
 // Load teams and slots data from JSON files
 const teams = JSON.parse(fs.readFileSync('./data/teams_mini.json', 'utf8'));
-const slots = JSON.parse(fs.readFileSync('./data/slots_mini.json', 'utf8'));
+const slots = JSON.parse(fs.readFileSync('./data/slots.json', 'utf8'));
 
-teams.forEach(team => { // Initialize team property
-    team.opponentList = [];
-    getDivisionOpponents(team, teams);
-})
+setOpponentLists(teams)
 
 ///////////////////////
 // UTILITY FUNCTIONS //
 ///////////////////////
 
 // Utility function to shuffle an array
+function setOpponentLists(teams){
+    teams.forEach(team => { // Initialize team property
+        team.opponentList = [];
+        getDivisionOpponents(team, teams);
+    });
+}
+
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -23,10 +28,6 @@ function shuffleArray(array) {
     }
     return array;
 }
-
-// Run the scheduling function
-const seasonLength = 1; // Adjust this as necessary
-generateSchedule(teams, slots, seasonLength);
 
 // // Set up counters for tracking games assigned to each team
 // teams.forEach(team => {
@@ -105,7 +106,7 @@ function findAvailableOpponent(team, slot, unassignedTeams){
     //console.log(team.opponentList);
     for (const opponent of team.opponentList){
         //console.log(`current opponent: ${opponent.name}`)
-        if (isValidSlotForTeam(opponent, slot) && unassignedTeams.some(team => team.id === opponent.id)){
+        if (isValidSlotForTeam(opponent, slot) && unassignedTeams.some(team => team.id == opponent.id)){
             return opponent;
         }
     };
@@ -160,6 +161,12 @@ function assignSlotToTeams(schedule, slot, team1, team2) {
     return schedule
 }
 
+// TO ADD: to handle MAX games played
+function teamNeedsMoreGames(team) {
+    // Implement logic to check game count or schedule requirements
+    return true; // Placeholder
+}
+
 //////////////////////////
 // SCHEDULING ALGORITHM //
 //////////////////////////
@@ -169,46 +176,114 @@ function generateSchedule(teams, slots, seasonLength) {
 
     // Shuffle teams to avoid bias
     teams = shuffleArray(teams);
-    console.log(Array.isArray(teams)); // Should print `true` if `teams` is an array.
-
     // Initialize a list of teams not scheduled yet
     unassignedTeams = [...teams];
-    console.log(Array.isArray(unassignedTeams)); // Should print `true` if `teams` is an array.
-    
     // Organize slots into weekly slots
     weeklySlots = restructureSlots(slots);
 
+    loopCount = 0
+
     // Schedule team gamers per week
-    for (week in weeklySlots) {
-        weeklySlots[week].forEach(slot => {
-            if (slot.isAvailable == true) {
-                //console.log(`Working...`);
-                const primaryTeam = findAvailableTeam(unassignedTeams, slot);
-                //console.log(primaryTeam);
-                if (primaryTeam) {
-                    console.log(`looking for opponent for ${primaryTeam.name}...`)
-                    const opponentTeam = findAvailableOpponent(primaryTeam, slot, unassignedTeams);
-                    if (opponentTeam) {
-                        console.log(`assigning ${primaryTeam.name} and ${opponentTeam.name} to ${slot.slot_id}`)
-                        schedule = assignSlotToTeams(schedule, slot, primaryTeam, opponentTeam);
+    for (let week in weeklySlots) {
+        console.log(`Scheduling for week ${week}`)
+        outerLoop:
+        while (unassignedTeams.length > 0 && weeklySlots[week].some(slot => slot.isAvailable)) {
+            for (let slot of weeklySlots[week]) {
+                if (slot.isAvailable){
+                    const primaryTeam = findAvailableTeam(unassignedTeams, slot);
+                    //console.log(primaryTeam);
+                    if (primaryTeam) {
+                        console.log(`looking for opponent for ${primaryTeam.name}...`)
+                        const opponentTeam = findAvailableOpponent(primaryTeam, slot, unassignedTeams);
+                        if (opponentTeam) {
+                            console.log(`assigning ${primaryTeam.name} and ${opponentTeam.name} to ${slot.slot_id} in week ${week}`)
+                            schedule = assignSlotToTeams(schedule, slot, primaryTeam, opponentTeam);
+                        } else {
+                            // Log that no opponent team was available for this slot
+                            loopCount++
+                            console.log(`No opponent available for ${primaryTeam.name} in slot ${slot.slot_id}, a ${slot.day_of_week} in week ${week}`);
+                            for (opp of primaryTeam.opponentList){
+                                //console.log(unassignedTeams)
+                                if (unassignedTeams.some(team => team.id == opp.id)){
+                                    console.log(`no availability with ${opp.name} due to blacklist on ${slot.day_of_week}`)
+                                }else{console.log(`no availability with ${opp.name} because they have been scheduled this round`)}
+                                
+                            }
+                            console.log(` Trying next slot.`)
+                            // if (loopCount > 10){
+                            //     for (opp of primaryTeam.opponentList){
+                            //         console.log(opp.name)
+                            //     }
+                            //     console.dir(schedule, { depth: null });
+                            //     break outerLoop;
+                            // }
+                        }
                     } else {
-                        // Log that no opponent team was available for this slot
-                        console.log(`No opponent available for ${primaryTeam.name} in slot ${slot.slot_id}. Trying next slot.`);
+                        // Log that no primary team could be matched for this slot
+                        console.log(`No primary team available for slot ${slot.slot_id}. Trying next slot.`);
                     }
-                } else {
-                    // Log that no primary team could be matched for this slot
-                    console.log(`No primary team available for slot ${slot.slot_id}. Trying next slot.`);
+                }
+                if (!weeklySlots[week].some(slot => slot.isAvailable) || unassignedTeams == 0){
+                    break outerLoop; // Exit both for and while loops
                 }
             }
-        });
+        }
+        // Check if unassignedList is empty before moving to the next week
+        if (unassignedTeams.length == 0) {
+            console.log(`refill list`);
+            //TO ADD for handling MAX games per team
+            //unassignedList = teams.filter(team => /* condition to check if the team still needs games */);
+           
+            // Refill for the next week only if there are remaining games to schedule
+            unassignedTeams = [...teams];
+            setOpponentLists(teams); // reset opponent lists TO CHANGE: this currently allows repeated matchups
+        }
     };
-    
-    // print schedule fro verification
-    console.log("Final Schedule:")
-    console.dir(schedule, { depth: null });
-
     return schedule;
 }
 
+// Run the scheduling function
+const seasonLength = 2; // Adjust this as necessary
+schedule = generateSchedule(teams, slots, seasonLength);
+// print schedule for verification
+console.log("Final Schedule:")
+console.dir(schedule, { depth: null });
 
+
+//restructureSlots(slots);
+//console.log(weeklySlots[18]);
+// for (let slot of weeklySlots[week]) {
+//     console.log(slot.day_of_week)
+// }
+
+// divisionA = []
+// divisionB = []
+// divisionC = []
+// divisionD = []
+// teams.forEach(opponent => {
+//     if (opponent.division == 'A'){ // check division and that its not the current team
+//         //console.log(opponent)
+//         divisionA.push(opponent);
+//         //console.log(team.opponentList);
+//     }
+//     else if (opponent.division == 'B'){ // check division and that its not the current team
+//         //console.log(opponent)
+//         divisionB.push(opponent);
+//         //console.log(team.opponentList);
+//     }
+//     else if (opponent.division == 'C'){ // check division and that its not the current team
+//         //console.log(opponent)
+//         divisionC.push(opponent);
+//         //console.log(team.opponentList);
+//     }
+//     else if (opponent.division == 'D'){ // check division and that its not the current team
+//         //console.log(opponent)
+//         divisionD.push(opponent);
+//         //console.log(team.opponentList);
+//     }
+// })
+// console.log(`A has ${divisionA.length} teams`)
+// console.log(`B has ${divisionB.length} teams`)
+// console.log(`C has ${divisionC.length} teams`)
+// console.log(`D has ${divisionD.length} teams`)
 
