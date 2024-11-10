@@ -246,8 +246,11 @@ function generateSchedule(teams, slots, seasonLength) {
 const seasonLength = 2; // Adjust this as necessary
 schedule = generateSchedule(teams, slots, seasonLength);
 // print schedule for verification
-console.log("Final Schedule:")
-console.dir(schedule, { depth: null });
+// console.log("Final Schedule:")
+// console.dir(schedule, { depth: null })
+
+fs.writeFileSync('gameSchedule.json', JSON.stringify(schedule, null, 2));
+console.log("Schedule has been saved to 'gameSchedule.json'.");
 
 
 //restructureSlots(slots);
