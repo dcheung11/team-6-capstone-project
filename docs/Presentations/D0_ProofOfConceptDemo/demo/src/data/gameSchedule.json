@@ -1,0 +1,1550 @@
+{
+  "week18": [
+    {
+      "slotId": 1,
+      "field": "Field 1",
+      "date": "2025-04-28",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Red Rockets",
+        "Thunderbolts"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 2,
+      "field": "Field 1",
+      "date": "2025-04-28",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Crimson Coyotes",
+        "Silver Sharks"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 3,
+      "field": "Field 1",
+      "date": "2025-04-28",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Bronze Bears",
+        "Ivory Irons"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 4,
+      "field": "Field 1",
+      "date": "2025-04-28",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Golden Griffins",
+        "Blue Blazers"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 5,
+      "field": "Field 2",
+      "date": "2025-04-28",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Emerald Eagles",
+        "Iron Ibis"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 13,
+      "field": "Field 1",
+      "date": "2025-04-29",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Onyx Owls",
+        "Amber Arrows"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 14,
+      "field": "Field 1",
+      "date": "2025-04-29",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Magenta Monkeys",
+        "Titanium Toucans"
+      ],
+      "division": "A"
+    }
+  ],
+  "week19": [
+    {
+      "slotId": 85,
+      "field": "Field 1",
+      "date": "2025-05-05",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Crimson Coyotes",
+        "Ivory Irons"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 86,
+      "field": "Field 1",
+      "date": "2025-05-05",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Iron Ibis",
+        "Emerald Eagles"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 87,
+      "field": "Field 1",
+      "date": "2025-05-05",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Golden Griffins",
+        "Red Rockets"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 88,
+      "field": "Field 1",
+      "date": "2025-05-05",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Amber Arrows",
+        "Silver Sharks"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 89,
+      "field": "Field 2",
+      "date": "2025-05-05",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Blue Blazers",
+        "Thunderbolts"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 97,
+      "field": "Field 1",
+      "date": "2025-05-06",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Onyx Owls",
+        "Bronze Bears"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 98,
+      "field": "Field 1",
+      "date": "2025-05-06",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Magenta Monkeys",
+        "Titanium Toucans"
+      ],
+      "division": "A"
+    }
+  ],
+  "week20": [
+    {
+      "slotId": 169,
+      "field": "Field 1",
+      "date": "2025-05-12",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Bronze Bears",
+        "Ivory Irons"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 170,
+      "field": "Field 1",
+      "date": "2025-05-12",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Golden Griffins",
+        "Emerald Eagles"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 171,
+      "field": "Field 1",
+      "date": "2025-05-12",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Blue Blazers",
+        "Iron Ibis"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 172,
+      "field": "Field 1",
+      "date": "2025-05-12",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Silver Sharks",
+        "Crimson Coyotes"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 173,
+      "field": "Field 2",
+      "date": "2025-05-12",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Red Rockets",
+        "Thunderbolts"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 181,
+      "field": "Field 1",
+      "date": "2025-05-13",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Magenta Monkeys",
+        "Titanium Toucans"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 182,
+      "field": "Field 1",
+      "date": "2025-05-13",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Amber Arrows",
+        "Onyx Owls"
+      ],
+      "division": "B"
+    }
+  ],
+  "week21": [
+    {
+      "slotId": 253,
+      "field": "Field 1",
+      "date": "2025-05-19",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Emerald Eagles",
+        "Golden Griffins"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 254,
+      "field": "Field 1",
+      "date": "2025-05-19",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Silver Sharks",
+        "Crimson Coyotes"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 255,
+      "field": "Field 1",
+      "date": "2025-05-19",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Iron Ibis",
+        "Thunderbolts"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 256,
+      "field": "Field 1",
+      "date": "2025-05-19",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Bronze Bears",
+        "Ivory Irons"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 257,
+      "field": "Field 2",
+      "date": "2025-05-19",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Blue Blazers",
+        "Red Rockets"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 265,
+      "field": "Field 1",
+      "date": "2025-05-20",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Onyx Owls",
+        "Amber Arrows"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 266,
+      "field": "Field 1",
+      "date": "2025-05-20",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Titanium Toucans",
+        "Magenta Monkeys"
+      ],
+      "division": "A"
+    }
+  ],
+  "week22": [
+    {
+      "slotId": 337,
+      "field": "Field 1",
+      "date": "2025-05-26",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Iron Ibis",
+        "Blue Blazers"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 338,
+      "field": "Field 1",
+      "date": "2025-05-26",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Emerald Eagles",
+        "Red Rockets"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 339,
+      "field": "Field 1",
+      "date": "2025-05-26",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Crimson Coyotes",
+        "Silver Sharks"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 340,
+      "field": "Field 1",
+      "date": "2025-05-26",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Thunderbolts",
+        "Golden Griffins"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 341,
+      "field": "Field 2",
+      "date": "2025-05-26",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Amber Arrows",
+        "Bronze Bears"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 349,
+      "field": "Field 1",
+      "date": "2025-05-27",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Onyx Owls",
+        "Ivory Irons"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 350,
+      "field": "Field 1",
+      "date": "2025-05-27",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Titanium Toucans",
+        "Magenta Monkeys"
+      ],
+      "division": "A"
+    }
+  ],
+  "week23": [
+    {
+      "slotId": 421,
+      "field": "Field 1",
+      "date": "2025-06-02",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Emerald Eagles",
+        "Thunderbolts"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 422,
+      "field": "Field 1",
+      "date": "2025-06-02",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Crimson Coyotes",
+        "Bronze Bears"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 423,
+      "field": "Field 1",
+      "date": "2025-06-02",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Silver Sharks",
+        "Amber Arrows"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 424,
+      "field": "Field 1",
+      "date": "2025-06-02",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Iron Ibis",
+        "Blue Blazers"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 425,
+      "field": "Field 2",
+      "date": "2025-06-02",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Golden Griffins",
+        "Red Rockets"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 433,
+      "field": "Field 1",
+      "date": "2025-06-03",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Onyx Owls",
+        "Ivory Irons"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 434,
+      "field": "Field 1",
+      "date": "2025-06-03",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Titanium Toucans",
+        "Magenta Monkeys"
+      ],
+      "division": "A"
+    }
+  ],
+  "week24": [
+    {
+      "slotId": 505,
+      "field": "Field 1",
+      "date": "2025-06-09",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Blue Blazers",
+        "Thunderbolts"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 506,
+      "field": "Field 1",
+      "date": "2025-06-09",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Crimson Coyotes",
+        "Bronze Bears"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 507,
+      "field": "Field 1",
+      "date": "2025-06-09",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Ivory Irons",
+        "Amber Arrows"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 508,
+      "field": "Field 1",
+      "date": "2025-06-09",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Golden Griffins",
+        "Emerald Eagles"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 509,
+      "field": "Field 2",
+      "date": "2025-06-09",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Red Rockets",
+        "Iron Ibis"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 517,
+      "field": "Field 1",
+      "date": "2025-06-10",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Magenta Monkeys",
+        "Titanium Toucans"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 518,
+      "field": "Field 1",
+      "date": "2025-06-10",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Onyx Owls",
+        "Silver Sharks"
+      ],
+      "division": "B"
+    }
+  ],
+  "week25": [
+    {
+      "slotId": 589,
+      "field": "Field 1",
+      "date": "2025-06-16",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Blue Blazers",
+        "Golden Griffins"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 590,
+      "field": "Field 1",
+      "date": "2025-06-16",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Silver Sharks",
+        "Bronze Bears"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 591,
+      "field": "Field 1",
+      "date": "2025-06-16",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Thunderbolts",
+        "Emerald Eagles"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 592,
+      "field": "Field 1",
+      "date": "2025-06-16",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Iron Ibis",
+        "Red Rockets"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 593,
+      "field": "Field 2",
+      "date": "2025-06-16",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Ivory Irons",
+        "Amber Arrows"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 601,
+      "field": "Field 1",
+      "date": "2025-06-17",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Onyx Owls",
+        "Crimson Coyotes"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 602,
+      "field": "Field 1",
+      "date": "2025-06-17",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Magenta Monkeys",
+        "Titanium Toucans"
+      ],
+      "division": "A"
+    }
+  ],
+  "week26": [
+    {
+      "slotId": 673,
+      "field": "Field 1",
+      "date": "2025-06-23",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Emerald Eagles",
+        "Golden Griffins"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 674,
+      "field": "Field 1",
+      "date": "2025-06-23",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Red Rockets",
+        "Iron Ibis"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 675,
+      "field": "Field 1",
+      "date": "2025-06-23",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Bronze Bears",
+        "Amber Arrows"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 676,
+      "field": "Field 1",
+      "date": "2025-06-23",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Blue Blazers",
+        "Thunderbolts"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 677,
+      "field": "Field 2",
+      "date": "2025-06-23",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Crimson Coyotes",
+        "Ivory Irons"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 685,
+      "field": "Field 1",
+      "date": "2025-06-24",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Titanium Toucans",
+        "Magenta Monkeys"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 686,
+      "field": "Field 1",
+      "date": "2025-06-24",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Onyx Owls",
+        "Silver Sharks"
+      ],
+      "division": "B"
+    }
+  ],
+  "week27": [
+    {
+      "slotId": 757,
+      "field": "Field 1",
+      "date": "2025-06-30",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Emerald Eagles",
+        "Thunderbolts"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 758,
+      "field": "Field 1",
+      "date": "2025-06-30",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Amber Arrows",
+        "Ivory Irons"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 759,
+      "field": "Field 1",
+      "date": "2025-06-30",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Iron Ibis",
+        "Red Rockets"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 760,
+      "field": "Field 1",
+      "date": "2025-06-30",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Bronze Bears",
+        "Crimson Coyotes"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 761,
+      "field": "Field 2",
+      "date": "2025-06-30",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Golden Griffins",
+        "Blue Blazers"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 769,
+      "field": "Field 1",
+      "date": "2025-07-01",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Onyx Owls",
+        "Silver Sharks"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 770,
+      "field": "Field 1",
+      "date": "2025-07-01",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Magenta Monkeys",
+        "Titanium Toucans"
+      ],
+      "division": "A"
+    }
+  ],
+  "week28": [
+    {
+      "slotId": 841,
+      "field": "Field 1",
+      "date": "2025-07-07",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Silver Sharks",
+        "Amber Arrows"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 842,
+      "field": "Field 1",
+      "date": "2025-07-07",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Crimson Coyotes",
+        "Ivory Irons"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 843,
+      "field": "Field 1",
+      "date": "2025-07-07",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Thunderbolts",
+        "Red Rockets"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 844,
+      "field": "Field 1",
+      "date": "2025-07-07",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Emerald Eagles",
+        "Blue Blazers"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 845,
+      "field": "Field 2",
+      "date": "2025-07-07",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Golden Griffins",
+        "Iron Ibis"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 853,
+      "field": "Field 1",
+      "date": "2025-07-08",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Onyx Owls",
+        "Bronze Bears"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 854,
+      "field": "Field 1",
+      "date": "2025-07-08",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Magenta Monkeys",
+        "Titanium Toucans"
+      ],
+      "division": "A"
+    }
+  ],
+  "week29": [
+    {
+      "slotId": 925,
+      "field": "Field 1",
+      "date": "2025-07-14",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Ivory Irons",
+        "Amber Arrows"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 926,
+      "field": "Field 1",
+      "date": "2025-07-14",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Iron Ibis",
+        "Blue Blazers"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 927,
+      "field": "Field 1",
+      "date": "2025-07-14",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Crimson Coyotes",
+        "Silver Sharks"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 937,
+      "field": "Field 1",
+      "date": "2025-07-15",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Titanium Toucans",
+        "Magenta Monkeys"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 938,
+      "field": "Field 1",
+      "date": "2025-07-15",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Onyx Owls",
+        "Bronze Bears"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 939,
+      "field": "Field 1",
+      "date": "2025-07-15",
+      "weekday": "Tuesday",
+      "time": "8:00",
+      "teams": [
+        "Thunderbolts",
+        "Red Rockets"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 940,
+      "field": "Field 1",
+      "date": "2025-07-15",
+      "weekday": "Tuesday",
+      "time": "9:30",
+      "teams": [
+        "Golden Griffins",
+        "Emerald Eagles"
+      ],
+      "division": "A"
+    }
+  ],
+  "week30": [
+    {
+      "slotId": 1009,
+      "field": "Field 1",
+      "date": "2025-07-21",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Crimson Coyotes",
+        "Amber Arrows"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1010,
+      "field": "Field 1",
+      "date": "2025-07-21",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Blue Blazers",
+        "Emerald Eagles"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1011,
+      "field": "Field 1",
+      "date": "2025-07-21",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Red Rockets",
+        "Thunderbolts"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1012,
+      "field": "Field 1",
+      "date": "2025-07-21",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Golden Griffins",
+        "Iron Ibis"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1013,
+      "field": "Field 2",
+      "date": "2025-07-21",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Bronze Bears",
+        "Silver Sharks"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1021,
+      "field": "Field 1",
+      "date": "2025-07-22",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Titanium Toucans",
+        "Magenta Monkeys"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1022,
+      "field": "Field 1",
+      "date": "2025-07-22",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Ivory Irons",
+        "Onyx Owls"
+      ],
+      "division": "B"
+    }
+  ],
+  "week31": [
+    {
+      "slotId": 1093,
+      "field": "Field 1",
+      "date": "2025-07-28",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Silver Sharks",
+        "Ivory Irons"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1094,
+      "field": "Field 1",
+      "date": "2025-07-28",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Thunderbolts",
+        "Red Rockets"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1095,
+      "field": "Field 1",
+      "date": "2025-07-28",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Golden Griffins",
+        "Emerald Eagles"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1096,
+      "field": "Field 1",
+      "date": "2025-07-28",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Bronze Bears",
+        "Crimson Coyotes"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1097,
+      "field": "Field 2",
+      "date": "2025-07-28",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Blue Blazers",
+        "Iron Ibis"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1105,
+      "field": "Field 1",
+      "date": "2025-07-29",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Onyx Owls",
+        "Amber Arrows"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1106,
+      "field": "Field 1",
+      "date": "2025-07-29",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Titanium Toucans",
+        "Magenta Monkeys"
+      ],
+      "division": "A"
+    }
+  ],
+  "week32": [
+    {
+      "slotId": 1177,
+      "field": "Field 1",
+      "date": "2025-08-04",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Blue Blazers",
+        "Golden Griffins"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1178,
+      "field": "Field 1",
+      "date": "2025-08-04",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Silver Sharks",
+        "Crimson Coyotes"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1179,
+      "field": "Field 1",
+      "date": "2025-08-04",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Red Rockets",
+        "Thunderbolts"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1180,
+      "field": "Field 1",
+      "date": "2025-08-04",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Amber Arrows",
+        "Bronze Bears"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1189,
+      "field": "Field 1",
+      "date": "2025-08-05",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Magenta Monkeys",
+        "Titanium Toucans"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1190,
+      "field": "Field 1",
+      "date": "2025-08-05",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Onyx Owls",
+        "Ivory Irons"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1191,
+      "field": "Field 1",
+      "date": "2025-08-05",
+      "weekday": "Tuesday",
+      "time": "8:00",
+      "teams": [
+        "Emerald Eagles",
+        "Iron Ibis"
+      ],
+      "division": "A"
+    }
+  ],
+  "week33": [
+    {
+      "slotId": 1261,
+      "field": "Field 1",
+      "date": "2025-08-11",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Ivory Irons",
+        "Crimson Coyotes"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1262,
+      "field": "Field 1",
+      "date": "2025-08-11",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Golden Griffins",
+        "Emerald Eagles"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1263,
+      "field": "Field 1",
+      "date": "2025-08-11",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Silver Sharks",
+        "Bronze Bears"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1264,
+      "field": "Field 1",
+      "date": "2025-08-11",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Thunderbolts",
+        "Iron Ibis"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1273,
+      "field": "Field 1",
+      "date": "2025-08-12",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Magenta Monkeys",
+        "Red Rockets"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1274,
+      "field": "Field 1",
+      "date": "2025-08-12",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Amber Arrows",
+        "Onyx Owls"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1275,
+      "field": "Field 1",
+      "date": "2025-08-12",
+      "weekday": "Tuesday",
+      "time": "8:00",
+      "teams": [
+        "Blue Blazers",
+        "Titanium Toucans"
+      ],
+      "division": "A"
+    }
+  ],
+  "week34": [
+    {
+      "slotId": 1345,
+      "field": "Field 1",
+      "date": "2025-08-18",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Iron Ibis",
+        "Emerald Eagles"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1346,
+      "field": "Field 1",
+      "date": "2025-08-18",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Bronze Bears",
+        "Ivory Irons"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1347,
+      "field": "Field 1",
+      "date": "2025-08-18",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Crimson Coyotes",
+        "Amber Arrows"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1348,
+      "field": "Field 1",
+      "date": "2025-08-18",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Blue Blazers",
+        "Red Rockets"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1349,
+      "field": "Field 2",
+      "date": "2025-08-18",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Golden Griffins",
+        "Thunderbolts"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1357,
+      "field": "Field 1",
+      "date": "2025-08-19",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Onyx Owls",
+        "Silver Sharks"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1358,
+      "field": "Field 1",
+      "date": "2025-08-19",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Titanium Toucans",
+        "Magenta Monkeys"
+      ],
+      "division": "A"
+    }
+  ],
+  "week35": [
+    {
+      "slotId": 1429,
+      "field": "Field 1",
+      "date": "2025-08-25",
+      "weekday": "Monday",
+      "time": "5:00",
+      "teams": [
+        "Golden Griffins",
+        "Thunderbolts"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1430,
+      "field": "Field 1",
+      "date": "2025-08-25",
+      "weekday": "Monday",
+      "time": "6:30",
+      "teams": [
+        "Ivory Irons",
+        "Crimson Coyotes"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1431,
+      "field": "Field 1",
+      "date": "2025-08-25",
+      "weekday": "Monday",
+      "time": "8:00",
+      "teams": [
+        "Blue Blazers",
+        "Red Rockets"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1432,
+      "field": "Field 1",
+      "date": "2025-08-25",
+      "weekday": "Monday",
+      "time": "9:30",
+      "teams": [
+        "Silver Sharks",
+        "Amber Arrows"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1441,
+      "field": "Field 1",
+      "date": "2025-08-26",
+      "weekday": "Tuesday",
+      "time": "5:00",
+      "teams": [
+        "Titanium Toucans",
+        "Magenta Monkeys"
+      ],
+      "division": "A"
+    },
+    {
+      "slotId": 1442,
+      "field": "Field 1",
+      "date": "2025-08-26",
+      "weekday": "Tuesday",
+      "time": "6:30",
+      "teams": [
+        "Bronze Bears",
+        "Onyx Owls"
+      ],
+      "division": "B"
+    },
+    {
+      "slotId": 1443,
+      "field": "Field 1",
+      "date": "2025-08-26",
+      "weekday": "Tuesday",
+      "time": "8:00",
+      "teams": [
+        "Iron Ibis",
+        "Emerald Eagles"
+      ],
+      "division": "A"
+    }
+  ]
+}

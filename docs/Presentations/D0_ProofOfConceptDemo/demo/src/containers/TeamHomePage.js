@@ -1,14 +1,31 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   Container,
   Typography,
   Card,
   CardContent,
   Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import teamsJson from "../data/teams.json";
+import gameScheduleData from "../data/gameSchedule.json";
 
 const TeamHomePage = (props) => {
+  const gameSchedule = gameScheduleData || {}; // Fallback to an empty object
+  const teamsData = teamsJson || {};
+
+  const teams = teamsData.map((team) => team.name);
+
+  const [selectedTeam, setSelectedTeam] = useState("");
+
+  const handleTeamChange = (event) => {
+    setSelectedTeam(event.target.value);
+  };
+
   const columns = [
     { field: "id", headerName: "Game", width: 70 },
     { field: "date", headerName: "Date", width: 120 },
@@ -19,94 +36,23 @@ const TeamHomePage = (props) => {
     { field: "score", headerName: "Score", width: 100 },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      date: "Apr 15",
-      opponent: "Eagles United",
-      field: 1,
-      time: "5:00 PM",
-      results: "W",
-      score: "15-0",
-    },
-    {
-      id: 2,
-      date: "Jul 18",
-      opponent: "Hawks Force",
-      field: 2,
-      time: "6:30 PM",
-      results: "",
-      score: "",
-    },
-    {
-      id: 3,
-      date: "Aug 22",
-      opponent: "Lions Pride",
-      field: 3,
-      time: "8:00 PM",
-      results: "",
-      score: "",
-    },
-    {
-      id: 4,
-      date: "May 25",
-      opponent: "Tigers Club",
-      field: 1,
-      time: "9:30 PM",
-      results: "",
-      score: "",
-    },
-    {
-      id: 5,
-      date: "Jun 28",
-      opponent: "Wolves Pack",
-      field: 2,
-      time: "5:00 PM",
-      results: "",
-      score: "",
-    },
-    {
-      id: 6,
-      date: "Jul 01",
-      opponent: "Bears Squad",
-      field: 3,
-      time: "6:30 PM",
-      results: "",
-      score: "",
-    },
-    {
-      id: 7,
-      date: "Aug 05",
-      opponent: "Falcons Wings",
-      field: 1,
-      time: "8:00 PM",
-      results: "",
-      score: "",
-    },
-    {
-      id: 8,
-      date: "Aug 10",
-      opponent: "Sharks Team",
-      field: 2,
-      time: "9:30 PM",
-      results: "",
-      score: "",
-    },
-    {
-      id: 9,
-      date: "Aug 12",
-      opponent: "Panthers Crew",
-      field: 3,
-      time: "5:00 PM",
-      results: "",
-      score: "",
-    },
-  ];
+  const transformedRows = Object.values(gameSchedule)
+    .flatMap((weekGames) => weekGames) 
+    .filter((game) => game.teams.includes(selectedTeam))
+    .map((game) => ({
+      id: game.slotId,
+      date: game.date,
+      opponent: game.teams.find((team) => team !== selectedTeam), // Opponent is the other team
+      field: game.field,
+      time: game.time,
+      results: "", // Placeholder, update with actual results if available
+      score: "", // Placeholder, update with actual score if available
+    }));
 
   return (
     <Container maxWidth="md" sx={{ padding: 3 }}>
       <Typography variant="h4" gutterBottom>
-        My Team Schedule
+       {selectedTeam} Schedule
       </Typography>
 
       <Card variant="outlined" sx={{ marginBottom: 3 }}>
@@ -116,6 +62,22 @@ const TeamHomePage = (props) => {
               Team Information
             </Typography>
           </Box>
+          <FormControl fullWidth sx={{ marginTop: 2 }}>
+            <InputLabel id="team-select-label">Select Team</InputLabel>
+            <Select
+              labelId="team-select-label"
+              id="team-select"
+              value={selectedTeam}
+              label="Select Team"
+              onChange={handleTeamChange}
+            >
+              {teams.map((team) => (
+                <MenuItem key={team} value={team}>
+                  {team}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <Typography variant="body2">
             TODO: additional data about the team (roster, last game, stats)
           </Typography>
@@ -131,7 +93,7 @@ const TeamHomePage = (props) => {
           </Box>
           <div style={{ height: 550, width: "100%" }}>
             <DataGrid
-              rows={rows}
+              rows={transformedRows}
               columns={columns}
               // pageSizeOptions={[5, 10]}
               sx={{
