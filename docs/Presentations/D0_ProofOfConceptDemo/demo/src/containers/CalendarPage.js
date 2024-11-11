@@ -1,26 +1,25 @@
 import React, { useState } from "react";
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, format, isSameMonth, isSameDay, addMonths, subMonths } from "date-fns";
 import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import teamsData from "../data/teams.json";
+import gameSchedule from "../data/gameSchedule.json";
 
 const CalendarPage = () => {
-  const [currentMonth, setCurrentMonth] = useState(new Date()); // Track the current month
+  const [currentMonth, setCurrentMonth] = useState(new Date());
 
-  // Using map() to extract all the team names
-  const teamNames = teamsData.map((team) => team.name);
-  let matches = [];
-
-  // Loop through the teamNames array in steps of 2
-  for (let i = 0; i < teamNames.length - 1; i += 2) {
-    // Use `i` and `i+1` to pair up teams
-    matches.push(`${teamNames[i]} vs ${teamNames[i + 1]}`);
+  // Organize gameSchedule data by date for quick lookup
+  const gamesByDate = {};
+  for (const week in gameSchedule) {
+    gameSchedule[week].forEach((game) => {
+      const date = game.date; // e.g., "2025-04-28"
+      if (!gamesByDate[date]) {
+        gamesByDate[date] = [];
+      }
+      gamesByDate[date].push(game);
+    });
   }
 
-  // Get the start and end of the current month
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
-
-  // Get the range of dates to display for the calendar
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
 
@@ -31,64 +30,28 @@ const CalendarPage = () => {
     day = addDays(day, 1);
   }
 
-  // Function to go to the next month
-  const goToNextMonth = () => {
-    setCurrentMonth(addMonths(currentMonth, 1));
-  };
-
-  // Function to go to the previous month
-  const goToPrevMonth = () => {
-    setCurrentMonth(subMonths(currentMonth, 1));
-  };
+  const goToNextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
+  const goToPrevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
 
   return (
     <Box sx={{ padding: 2 }}>
-      {/* Header with Navigation Buttons */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center", // Center the content
-          alignItems: "center",
-          marginBottom: 2,
-        }}
-      >
-        {/* Previous Month Button */}
-        <Button
-          onClick={goToPrevMonth}
-          variant="contained"
-          color="primary"
-          sx={{
-            marginRight: 2,
-            backgroundColor: "#7A003C", // Main color
-            "&:hover": { backgroundColor: "#7A003C" },
-          }}
-        >
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: 2 }}>
+        <Button onClick={goToPrevMonth} variant="contained" color="primary" sx={{ marginRight: 2, backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#7A003C" } }}>
           Prev
         </Button>
-        {/* Month Year Display */}
         <Typography variant="h4" align="center" sx={{ color: "#495965", fontWeight: "bold" }}>
           {format(monthStart, "MMMM yyyy")}
         </Typography>
-        {/* Next Month Button */}
-        <Button
-          onClick={goToNextMonth}
-          variant="contained"
-          color="primary"
-          sx={{
-            marginLeft: 2,
-            backgroundColor: "#7A003C", // Main color
-            "&:hover": { backgroundColor: "#7A003C" },
-          }}
-        >
+        <Button onClick={goToNextMonth} variant="contained" color="primary" sx={{ marginLeft: 2, backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#7A003C" } }}>
           Next
         </Button>
       </Box>
       <TableContainer
         sx={{
-          maxWidth: "1000px", // Set a max width for the table container
-          margin: "auto", // Center the table
-          overflowX: "auto", // Enable horizontal scrolling if needed
-          backgroundColor: "#F5F5F5", // Light background for the table
+          maxWidth: "1000px",
+          margin: "auto",
+          overflowX: "auto",
+          backgroundColor: "#F5F5F5",
         }}
       >
         <Table sx={{ width: "100%", tableLayout: "fixed" }}>
@@ -99,11 +62,11 @@ const CalendarPage = () => {
                   key={day}
                   align="center"
                   sx={{
-                    backgroundColor: "#7A003C", // Main color
+                    backgroundColor: "#7A003C",
                     color: "white",
                     fontWeight: "bold",
-                    border: "3px solid #7A003C", // Use main color for border
-                    padding: "8px", // Reduce padding for better mobile fit
+                    border: "3px solid #7A003C",
+                    padding: "8px",
                   }}
                 >
                   <Typography variant="subtitle1">{day}</Typography>
@@ -115,48 +78,43 @@ const CalendarPage = () => {
             {Array.from({ length: Math.ceil(dates.length / 7) }).map((_, weekIndex) => (
               <TableRow key={weekIndex}>
                 {dates.slice(weekIndex * 7, (weekIndex + 1) * 7).map((date, dayIndex) => {
-                  // Keep track of which match to display
-                  const matchIndex = weekIndex * 7 + dayIndex; // Calculate the current match index
+                  const dateStr = format(date, "yyyy-MM-dd"); // Format date to match JSON format
+                  const gamesForDate = gamesByDate[dateStr] || []; // Get games scheduled for this date
+
                   return (
                     <TableCell
                       key={dayIndex}
                       align="center"
                       sx={{
-                        width: "100px", // Default fixed width
-                        height: "100px", // Default fixed height
-                        border: "3px solid #7A003C", // Use main color for border
-                        backgroundColor: isSameMonth(date, monthStart) ? "white" : "#E0E0E0", // Light gray for non-month dates
-                        color: isSameDay(date, new Date()) ? "#FDBF57" : "#495965", // Highlight today's date with secondary color
+                        width: "100px",
+                        height: "100px",
+                        border: "3px solid #7A003C",
+                        backgroundColor: isSameMonth(date, monthStart) ? "white" : "#E0E0E0",
+                        color: isSameDay(date, new Date()) ? "#FDBF57" : "#495965",
                         fontWeight: isSameDay(date, new Date()) ? "bold" : "normal",
                         transition: "background-color 0.3s ease",
                         "&:hover": {
-                          backgroundColor: "#FDBF57", // Hover effect with secondary color
+                          backgroundColor: "#FDBF57",
                           color: "white",
                         },
-                        padding: "4px", // Reduced padding for mobile
-                        fontSize: "0.75rem", // Reduce font size for better fit
+                        padding: "4px",
+                        fontSize: "0.75rem",
                         "@media (max-width: 600px)": {
-                          width: "15vw", // Adjust width for smaller screens
-                          height: "15vw", // Adjust height for smaller screens
-                          fontSize: "0.7rem", // Reduce font size further
+                          width: "15vw",
+                          height: "15vw",
+                          fontSize: "0.7rem",
                         },
                       }}
                     >
-                      {/* Display the match only if the matchIndex is within the bounds of matches */}
-                      {matchIndex < matches.length ? (
-                        <>
-                          <Typography variant="body2">{format(date, "d")}</Typography>
-                          <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
-                            {matches[matchIndex]}
-                          </Typography>
-                        </>
-                      ) : (
-                        <Typography variant="body2">{format(date, "d")}</Typography>
-                      )}
+                      <Typography variant="body2">{format(date, "d")}</Typography>
+                      {gamesForDate.map((game, gameIndex) => (
+                        <Typography key={gameIndex} variant="body2" sx={{ fontSize: "0.75rem" }}>
+                          {game.teams[0]} vs {game.teams[1]} ({game.time})
+                        </Typography>
+                      ))}
                     </TableCell>
                   );
                 })}
-                {/* Add empty cells if the last row is less than 7 days */}
                 {Array.from({ length: 7 - dates.slice(weekIndex * 7, (weekIndex + 1) * 7).length }).map((_, emptyIndex) => (
                   <TableCell key={emptyIndex} />
                 ))}
