@@ -37,19 +37,47 @@ function shuffleArray(array) {
 //     team.preferredCount = 0; // Tracks how many times a team gets their preferred time slot
 // });
 
+// function restructureSlots(slots) {
+//   // Divide slots into weekly schedules
+//   // weeklySlots needs to be an array of slot objects with slot.isAvailable off definition
+//   weeklySlots = {};
+//   slots.forEach((slot) => {
+//     slot.isAvailable = true; // initialize slot availability
+//     week = getWeekNumber(slot.calendar_day);
+//     if (!weeklySlots[week]) {
+//       weeklySlots[week] = [];
+//     }
+//     weeklySlots[week].push(slot);
+//   });
+//   return weeklySlots;
+// }
+
+// FOR DEMO PURPOSES
 function restructureSlots(slots) {
-  // Divide slots into weekly schedules
-  // weeklySlots needs to be an array of slot objects with slot.isAvailable off definition
-  weeklySlots = {};
-  slots.forEach((slot) => {
-    slot.isAvailable = true; // initialize slot availability
-    week = getWeekNumber(slot.calendar_day);
-    if (!weeklySlots[week]) {
-      weeklySlots[week] = [];
-    }
-    weeklySlots[week].push(slot);
-  });
-  return weeklySlots;
+    // Group slots by the date
+    let weeklySlots = {};
+    let dailySlotCounts = {};
+
+    slots.forEach(slot => {
+        slot.isAvailable = true; // Initialize slot availability
+        const week = getWeekNumber(slot.calendar_day);
+        const dayKey = slot.calendar_day;
+
+        // Ensure no more than 3 slots per day
+        if (!dailySlotCounts[dayKey]) {
+            dailySlotCounts[dayKey] = 0;
+        }
+
+        if (dailySlotCounts[dayKey] < 2) {
+            if (!weeklySlots[week]) {
+                weeklySlots[week] = [];
+            }
+            weeklySlots[week].push(slot);
+            dailySlotCounts[dayKey]++;
+        }
+    });
+
+    return weeklySlots;
 }
 
 function getWeekNumber(dateStr) {
