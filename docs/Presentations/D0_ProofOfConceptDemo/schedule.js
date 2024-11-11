@@ -5,7 +5,8 @@ const fs = require("fs");
 
 // Load teams and slots data from JSON files
 const teams = JSON.parse(fs.readFileSync("./data/teams_mini.json", "utf8"));
-const slots = JSON.parse(fs.readFileSync("./data/slots_mini.json", "utf8"));
+// const slots = JSON.parse(fs.readFileSync("./data/slots_mini.json", "utf8"));
+const slots = JSON.parse(fs.readFileSync("demo/src/data/slots.json", "utf8"));
 
 setOpponentLists(teams);
 
@@ -235,7 +236,7 @@ function generateSchedule(teams, slots, seasonLength) {
       console.log(`refill list`);
       //TO ADD for handling MAX games per team
       //unassignedList = teams.filter(team => /* condition to check if the team still needs games */);
-
+      shuffleArray(teams)
       // Refill for the next week only if there are remaining games to schedule
       unassignedTeams = [...teams];
       setOpponentLists(teams); // reset opponent lists TO CHANGE: this currently allows repeated matchups
@@ -245,7 +246,7 @@ function generateSchedule(teams, slots, seasonLength) {
 }
 
 // Run the scheduling function
-const seasonLength = 2; // Adjust this as necessary
+const seasonLength = 4; // Adjust this as necessary
 schedule = generateSchedule(teams, slots, seasonLength);
 // print schedule for verification
 // console.log("Final Schedule:")
