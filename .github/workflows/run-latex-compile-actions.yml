@@ -23,7 +23,12 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-
+      - name: Compile LaTeX devplan
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: docs/DevelopmentPlan/DevelopmentPlan.tex
+          compiler: pdflatex
+          
       - name: LaTeX compilation DevPlan
         uses: dante-ev/latex-action@2021-A
         with:
