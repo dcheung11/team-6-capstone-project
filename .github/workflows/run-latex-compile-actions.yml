@@ -22,6 +22,8 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Compile LaTeX devplan
         uses: xu-cheng/latex-action@v2
@@ -29,54 +31,32 @@ jobs:
           root_file: DevelopmentPlan.tex
           working_directory: docs/DevelopmentPlan
           compiler: pdflatex
-          
-      - name: LaTeX compilation DevPlan
-        uses: dante-ev/latex-action@2021-A
+
+      - name: Compile LaTeX ProblemStatementAndGoals
+        uses: xu-cheng/latex-action@v2
         with:
-          # The root LaTeX file to be compiled
-          root_file: docs/DevelopmentPlan/DevelopmentPlan.tex
-          # The working directory for the latex compiler to be invoked
-          working_directory: docs/DevelopmentPlan
-          # Install extra packages by apt-get
-          extra_system_packages: texlive-latex-extra
-          
-      - name: LaTeX compilation ProblemStatementAndGoals
-        uses: dante-ev/latex-action@2021-A
-        with:
-          # The root LaTeX file to be compiled
-          root_file: docs/ProblemStatementAndGoals/ProblemStatement.tex
-          # The working directory for the latex compiler to be invoked
+          root_file: ProblemStatement.tex
           working_directory: docs/ProblemStatementAndGoals
-          # Install extra packages by apt-get
-          extra_system_packages: texlive-latex-extra
-
-      - name: LaTeX compilation HazardAnalysis
-        uses: dante-ev/latex-action@2021-A
+          compiler: pdflatex
+          
+      - name: Compile LaTeX HazardAnalysis
+        uses: xu-cheng/latex-action@v2
         with:
-          # The root LaTeX file to be compiled
-          root_file: docs/HazardAnalysis/HazardAnalysis.tex
-          # The working directory for the latex compiler to be invoked
+          root_file: HazardAnalysis.tex
           working_directory: docs/HazardAnalysis
-          # Install extra packages by apt-get
-          extra_system_packages: texlive-latex-extra
-
-      - name: LaTeX compilation SRS
-        uses: dante-ev/latex-action@2021-A
+          compiler: pdflatex
+          
+      - name: Compile LaTeX SRS
+        uses: xu-cheng/latex-action@v2
         with:
-          # The root LaTeX file to be compiled
-          root_file: docs/SRS-Volere/SRS.tex
-          # The working directory for the latex compiler to be invoked
+          root_file: SRS.tex
           working_directory: docs/SRS-Volere
-          # Install extra packages by apt-get
-          extra_system_packages: texlive-latex-extra
-
-      - name: LaTeX compilation VnVPlan
-        uses: dante-ev/latex-action@2021-A
+          compiler: pdflatex
+          
+      - name: Compile LaTeX VnVPlan
+        uses: xu-cheng/latex-action@v2
         with:
-          # The root LaTeX file to be compiled
-          root_file: docs/VnVPlan/VnVPlan.tex
-          # The working directory for the latex compiler to be invoked
+          root_file: VnVPlan.tex
           working_directory: docs/VnVPlan
-          # Install extra packages by apt-get
-          extra_system_packages: texlive-latex-extra
+          compiler: pdflatex          
           
