@@ -26,7 +26,8 @@ jobs:
       - name: Compile LaTeX devplan
         uses: xu-cheng/latex-action@v2
         with:
-          root_file: docs/DevelopmentPlan/DevelopmentPlan.tex
+          root_file: DevelopmentPlan.tex
+          working_directory: docs/DevelopmentPlan
           compiler: pdflatex
           
       - name: LaTeX compilation DevPlan
