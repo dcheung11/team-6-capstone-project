@@ -825,6 +825,30 @@ How test will be performed: Enter invalid data into the respective forms and sub
 
 Requirements Covered: SRS Req 15.1, 15.2.
 
+\item{TSEC-3\\}
+
+Type: Manual
+
+Initial State: Platform login page is loaded, and the database connection is active.
+
+Input/Condition: Tester inputs SQL injection strings into form fields such as the username and password fields.
+
+Output/Result:
+
+\begin{itemize}
+    \item{The platform rejects input containing SQL injection patterns.} 
+    \item{No unintended database behavior occurs (e.g., unauthorized login or data loss).} 
+    \item{Error messages are displayed without revealing system vulnerabilities (e.g., "Invalid credentials" instead of SQL syntax errors).} 
+\end{itemize}
+
+How test will be performed: 
+\begin{enumerate} 
+    \item{Navigate to the login page and enter SQL injection strings in the username and password fields.} 
+    \item{Attempt to log in and observe the platform's behavior.} 
+    \item{Verify that no unauthorized access or system behavior is triggered.} 
+    \item{Review server logs to ensure the application logs the attempt without exposing database details.} 
+\end{enumerate}
+
 \end{enumerate}
 
 \subsubsection{Cultural}
