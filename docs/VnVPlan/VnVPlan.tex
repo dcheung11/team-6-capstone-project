@@ -2,6 +2,7 @@
 
 \usepackage{booktabs}
 \usepackage{tabularx}
+\usepackage{makecell}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks,
@@ -880,8 +881,25 @@ Requirements Covered: SRS Req 17.2.
 ...
 
 \subsection{Traceability Between Test Cases and Requirements}
-
-Refer to requirements in SRS Document () 
+Note : Requirement IDs are from SRS
+\begin{center}
+    \begin{tabular}{ |c|c|c| }
+		\hline
+		\textbf{Requirement ID } & \textbf{Test Case ID(s)} & \textbf{Description of Coverage} \\ \hline
+		FR-1 & \makecell{Login-Invalid, \\ Login-Valid} & \makecell{Tests login functionality \\ with valid and invalid credentials.} \\ \hline
+		FR-2 & \makecell{Captain-TeamCreation, \\ Captain-TeamDuplication} & \makecell{Ensures unique team creation \\ and duplication prevention.} \\ \hline
+		FR-3 & \makecell{Player-JoinTeam, \\ Captain-ApproveJoin} & \makecell{Covers team joining requests and\\ approvals.} \\ \hline
+		FR-7 & Game-ScheduleGeneration & \makecell{Verifies automated schedule\\ generation.} \\ \hline
+		FR-8 & Captain-GameReport & \makecell{Ensures captains can submit\\ game results.} \\ \hline
+		FR-9 & Captain-RescheduleRequest & \makecell{Verifies rescheduling requests.} \\ \hline
+		FR-10 & Admin-OverrideSchedule & \makecell{Validates admin ability to\\ override schedules.} \\ \hline
+		NFR-11.1 & Usability-NavigationTest & \makecell{Tests user ease of navigation\\ through the platform.} \\ \hline
+		NFR-12.4 & Performance-ScheduleValidation & \makecell{Verifies schedule accuracy under\\ performance constraints.} \\ \hline
+		NFR-13.2 & Compliance-W3CStandards & \makecell{Confirms adherence to web\\ standards (W3C).} \\ \hline
+		% \label{table:traceability_matrix}
+	\end{tabular}
+\end{center}
+For more, refer to requirements in SRS Document () 
 
 \section{Unit Test Description}
 
