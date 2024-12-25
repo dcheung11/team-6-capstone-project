@@ -87,8 +87,8 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
     \item \textbf{External Payment System}: It is assumed that external payment tracking (via e-transfer) will be accurate, and users will report their payment status honestly, as payment processing is outside the scope of the system.
     \item \textbf{Internet Connectivity}: The platform assumes that all users (commissioners, captains, players) have stable internet access to interact with the system, especially when accessing schedules and reporting game results.
     \item \textbf{Manual Input of Game Results}: Captains are responsible for entering accurate game scores and results. The system assumes that no errors will occur during this process, and that any discrepancies will be addressed through manual oversight.
-    \item \textbf{Data Integrity}: It is assumed that the database will maintain data integrity during read/write operations, especially when updating schedules, standings, and user details.
-    \item \textbf{System Availability}: The platform assumes that the hosting server will remain consistently available, with minimal downtime, to ensure uninterrupted access for users.
+    % \item \textbf{Data Integrity}: It is assumed that the database will maintain data integrity during read/write operations, especially when updating schedules, standings, and user details.
+    % \item \textbf{System Availability}: The platform assumes that the hosting server will remain consistently available, with minimal downtime, to ensure uninterrupted access for users.
 \end{itemize}
 
 \section{Failure Mode and Effect Analysis}
@@ -135,8 +135,14 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
         \hline
       
         External Payment Tracking & Incorrect payment status recorded & Players marked as unpaid despite paying (or vice versa), leading to disputes & Payment record synchronization issues & Ensure payment status synchronization and require validation to be accepted & 5, 6, 7& H7 \\
-
         \hline
+        
+        System Availability & Server downtime & Users unable to access the platform & Hosting server issues, lack of redundancy & Implement server redundancy, monitor uptime, and create a disaster recovery plan & 4 & H1 \\ 
+        \hline
+
+        Database & Data corruption & Loss of key league data & Server malfunction, database errors & Regular database backups and integrity checks & 4 & H2 \\
+        \hline
+
         \bottomrule
     \end{tabular}
     \end{footnotesize}
