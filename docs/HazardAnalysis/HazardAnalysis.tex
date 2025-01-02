@@ -109,13 +109,13 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
         Fails to authenticate/register user
         & Access denied to league members & Error in credentials or input, server issues, database connectivity & Allow credential recovery and auth retry & 1, 2, 3 & H1 \\
         \hline
-        Game Scheduling  & Fails to generate valid schedule & Games may be scheduled at conflicting times or locations, affecting the season & Bugs in the scheduling/ team preferences algorithms & Implement schedule conflict resolution checks, allow reschedule requests & 4 & H2.1 \\
+        Game Scheduling  & Fails to generate valid schedule & Games may be scheduled at conflicting times or locations, affecting the season & Bugs in the scheduling/ team preferences algorithms & Implement schedule conflict resolution checks, allow reschedule requests & 4, 8 & H2.1 \\
         \hline
-        Game Scheduling  & Missing games in the schedule & Some games may not be scheduled, causing dissatisfaction & Incomplete automation in schedule generation & Automate schedule verification to ensure coverage for all teams & 4 & H2.2 \\
+        Game Scheduling  & Missing games in the schedule & Some games may not be scheduled, causing dissatisfaction & Incomplete automation in schedule generation & Automate schedule verification to ensure coverage for all teams & 4, 8 & H2.2 \\
         \hline
-        Game Scheduling  &  Teams end up with either different games compared to others & Unbalanced league experience, as some teams may not get enough playtime while others may feel fatigued & Scheduling algorithm fails to equally distribute games across teams & Conduct a pre-release schedule check to ensure fair game distribution among all teams, and introduce byes for unavoidable discrepancies & 4 & H2.3 \\
+        Game Scheduling  &  Teams end up with either different games compared to others & Unbalanced league experience, as some teams may not get enough playtime while others may feel fatigued & Scheduling algorithm fails to equally distribute games across teams & Conduct a pre-release schedule check to ensure fair game distribution among all teams, and introduce byes for unavoidable discrepancies & 4, 8 & H2.3 \\
         \hline
-        Game Scheduling  & Rescheduling requests not processed or applied correctly  & Teams are not aware of reschedule request which prevents schedule conflict avoidance which can lead to game no-shows & Errors in reschedule approval or processing steps,  or race conditions caused by simultaneous reschedule requests & Implement algorithm to handly many concurrent requests, log error messages, allow easy retries  & 4 & H2.4 \\
+        Game Scheduling  & Rescheduling requests not processed or applied correctly  & Teams are not aware of reschedule request which prevents schedule conflict avoidance which can lead to game no-shows & Errors in reschedule approval or processing steps,  or race conditions caused by simultaneous reschedule requests & Implement algorithm to handly many concurrent requests, log error messages, allow easy retries  & 4, 9 & H2.4 \\
         \hline
         Game Result Reporting & Failed score reporting & League standings incorrect or not updated on time & Network issues, missing auto-save functionality & Implement auto-save and score-reporting validation checks & 4, 6 & H3 \\
         \hline
@@ -185,6 +185,16 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
             \item Requirement: Perform testing to identify potential security vulnerabilities.
             \item Rationale: Ensures that the platform performs securely as expected under various scenarios, especially when exposed to potential threats.
         \end{itemize}
+    \item[8.] Automated Verifcation checks
+        \begin{itemize}
+            \item Requirement: Perform automated verficaion of schedule coompleteness after generation to ensure all games are correctly scheduled.
+            \item Rationale: Improve data accuracy and prevent user dissatisfaction caused by missing games due to incomplete scheduling logic.
+        \end{itemize}
+    \item[9.] Retry Mechanisms
+        \begin{itemize}
+            \item Requirement: Implement easy retry mechanisms to prevent conflicts from race conditions or simultaneous requests.
+            \item Rationale: Reduce errors caused by failed or incomplete request processing, ensuring seamless updates.
+        \end{itemize}
 \end{enumerate}
 
 \subsection{Rationale Design Process (Faking It)}
@@ -250,6 +260,19 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
 				\item Implement a proper system for informing users in the case of a data breach.
 				\item Ensure data protection laws and policies are followed.
 			\end{itemize}
+            \item \textbf{Retry Mechanism for Scheduling Conlficts:} Implement a retry mechanism to ensure scheduling requests are processed smoothly, even in cases of failure.
+			\begin{itemize}
+				\item Design logic for detecting and handling conflicts in scheduling requests.
+				\item Enable automatic retries for failed requests, such as due to unavailable time slots.
+				\item Provide clear error messages and an option for users to retry manually if the automatic retry fails.
+			\end{itemize}
+            \item \textbf{Automated Verification of Scheduling} Ensure the accuracy and fairness of generated schedules automatically.
+			\begin{itemize}
+				\item Develop a verification system that checks generated schedules for missing games or conflicts.
+				\item Automate adjustments to resolve detected issues, such as scheduling overlaps or unassigned games.
+				\item Test the verification system thoroughly with real-world data.
+			\end{itemize}
+
 		\end{itemize}
 \end{enumerate}
 
