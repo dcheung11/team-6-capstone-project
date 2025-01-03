@@ -46,8 +46,8 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+Dec 23 & 1.0 & Module Decomp\\
+Jan 3 & 1.1 & Added Type Modules\\
 \bottomrule
 \end{tabularx}
 
@@ -199,6 +199,9 @@ actually be implemented.
 \item [\refstepcounter{mnum} \mthemnum \label{mStandings}:] Standings Module
 \item [\refstepcounter{mnum} \mthemnum \label{mScheduling}:] Scheduling Module
 \item [\refstepcounter{mnum} \mthemnum \label{mWaiver}:] Waiver Module
+\item [\refstepcounter{mnum} \mthemnum \label{mPlayerT}:] PlayerT Module
+\item [\refstepcounter{mnum} \mthemnum \label{mTeamT}:] TeamT Module
+\item [\refstepcounter{mnum} \mthemnum \label{mGameT}:] GameT Module
 \item [\refstepcounter{mnum} \mthemnum \label{mNotification}:] Notification Module
 \item [\refstepcounter{mnum} \mthemnum \label{mBackend}:] Backend Module
 \item [\refstepcounter{mnum} \mthemnum \label{mAlgo}:] Scheduling Algorithm Module
@@ -225,6 +228,9 @@ actually be implemented.
 & Scheduling Module\\
 & Standings Module\\
 & Waiver Module\\
+& PlayerT Module\\
+& TeamT Module\\
+& GameT Module\\
 \midrule
 
 \multirow{3}{0.3\textwidth}{Software Decision Module} & {Database Module}\\
@@ -408,7 +414,34 @@ to be implemented.
     \item[Implemented By:] Team 6
     \item[Type of Module:] Abstract Object
     \end{description}
+
+  \subsubsection{PlayerT Module (\mref{mPlayerT})}
+
+  \begin{description}
+    \item[Secrets:] The data structure used to represent a player.
+    \item[Services:] Holds the data of a player.
+    \item[Implemented By:] Team 6
+    \item[Type of Module:] Abstract Data Type
+  \end{description}
+
+  \subsubsection{TeamT Module (\mref{mTeamT})}
+
+  \begin{description}
+    \item[Secrets:] The data structure used to represent a team.
+    \item[Services:] Holds the data of a team.
+    \item[Implemented By:] Team 6
+    \item[Type of Module:] Abstract Data Type
+  \end{description}
     
+  \subsubsection{GameT Module (\mref{mGameT})}
+
+  \begin{description}
+    \item[Secrets:] The data structure used to represent a game.
+    \item[Services:] Holds the data of a game.
+    \item[Implemented By:] Team 6
+    \item[Type of Module:] Abstract Data Type
+  \end{description}
+
 \subsection{Software Decision Module}
 
 % \begin{description}
