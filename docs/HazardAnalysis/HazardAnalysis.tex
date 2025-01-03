@@ -83,8 +83,8 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
 \section{Critical Assumptions}
 
 \begin{itemize}
-    \item \textbf{User Authentication}: It is assumed that the authentication system using JSON Web Tokens (JWT) for role-based access control will function reliably and securely, preventing unauthorized access.
-    \item \textbf{External Payment System}: It is assumed that external payment tracking (via e-transfer) will be accurate, and users will report their payment status honestly, as payment processing is outside the scope of the system.
+    \item \textbf{User Authentication}: It is assumed that any authentication systems for role-based access control will function reliably and securely, preventing unauthorized access.
+    \item \textbf{External Payment System}: It is assumed that external payment tracking will be accurate, and users will report their payment status honestly, as payment processing is outside the scope of the system.
     \item \textbf{Internet Connectivity}: The platform assumes that all users (commissioners, captains, players) have stable internet access to interact with the system, especially when accessing schedules and reporting game results.
     \item \textbf{Manual Input of Game Results}: Captains are responsible for entering accurate game scores and results. The system assumes that no errors will occur during this process, and that any discrepancies will be addressed through manual oversight.
     \item \textbf{Data Integrity}: It is assumed that the database will maintain data integrity during read/write operations, especially when updating schedules, standings, and user details.
