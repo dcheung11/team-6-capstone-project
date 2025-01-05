@@ -109,11 +109,11 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
         Fails to authenticate/register user
         & Access denied to league members & Error in credentials or input, server issues, database connectivity & Allow credential recovery and auth retry & 1, 2, 3 & H1 \\
         \hline
-        Game Scheduling  & Fails to generate valid schedule & Games may be scheduled at conflicting times or locations, affecting the season & Bugs in the scheduling/ team preferences algorithms & Implement schedule conflict resolution checks, allow reschedule requests & 4, 8 & H2.1 \\
+        Game Scheduling  & Fails to generate valid schedule & Games may be scheduled at conflicting times or locations, affecting the season & Bugs or logical errors in the scheduling algorithm, conflicting team preferences or time/location constraints & Implement schedule conflict resolution checks, allow reschedule requests & 4 & H2.1 \\
         \hline
-        Game Scheduling  & Missing games in the schedule & Some games may not be scheduled, causing dissatisfaction & Incomplete automation in schedule generation & Automate schedule verification to ensure coverage for all teams & 4, 8 & H2.2 \\
+        Game Scheduling  & Missing games in the schedule & Some games may not be scheduled, causing dissatisfaction & Incomplete automation in schedule generation; not handling edge cases, inclusion of blacklisted time slots & Automate schedule verification to ensure coverage for all teams & 4 & H2.2 \\
         \hline
-        Game Scheduling  &  Teams end up with either different games compared to others & Unbalanced league experience, as some teams may not get enough playtime while others may feel fatigued & Scheduling algorithm fails to equally distribute games across teams & Conduct a pre-release schedule check to ensure fair game distribution among all teams, and introduce byes for unavoidable discrepancies & 4, 8 & H2.3 \\
+        Game Scheduling  &  Teams end up with either different games compared to others & Unbalanced league experience, as some teams may not get enough playtime while others may feel fatigued & Scheduling algorithm fails to equally distribute games across teams, lack of enforcement of fairness constraints (e.g. max games per week) & Conduct a pre-release schedule check to ensure fair game distribution among all teams, and introduce byes for unavoidable discrepancies & 4 & H2.3 \\
         \hline
         Game Scheduling  & Rescheduling requests not processed or applied correctly  & Teams are not aware of reschedule request which prevents schedule conflict avoidance which can lead to game no-shows & Errors in reschedule approval or processing steps,  or race conditions caused by simultaneous reschedule requests & Implement algorithm to handly many concurrent requests, log error messages, allow easy retries  & 4, 9 & H2.4 \\
         \hline
@@ -134,7 +134,7 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
         Announcement System & Failed announcement delivery & Players may miss important updates such as game cancellations creating risks & Form validation errors, server timeouts & Implement multiple announcement delivery methods (site announcements, email), display error message on announcement failures, allow easy retries  & 6 & H6 \\
         \hline
       
-        External Payment Tracking & Incorrect payment status recorded & Players marked as unpaid despite paying (or vice versa), leading to disputes & Payment record synchronization issues & Ensure payment status synchronization and require validation to be accepted & 5, 6, 7& H7 \\
+        External Payment Tracking & Incorrect payment status recorded & Players marked as unpaid despite paying (or vice versa), leading to disputes & Payment record synchronization issues; delayed or failed updates & Ensure payment status synchronization and require validation to be accepted & 5, 6, 7& H7 \\
 
         \hline
         \bottomrule
