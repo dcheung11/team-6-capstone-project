@@ -2,6 +2,7 @@
 
 \usepackage{booktabs}
 \usepackage{tabularx}
+\usepackage{makecell}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks,
@@ -74,6 +75,11 @@ in.}
   UI & User Interface\\
   JWT & JSON Web Token. A compact way to transmit info securely\\
   GSA & Graduate Students' Association. The association overseeing the league\\
+  SRS & Software Requirements Specification \\
+  MIS & Module Interface Specification \\
+  DD & Design Document \\
+  VnV & Verification and Validation \\
+  CI & Continuous Integration \\
   \bottomrule
 \end{tabular}\\
 
@@ -136,10 +142,11 @@ decisions.
   \item \textbf{Software Requirements Specification (SRS)} \citep{SRS}: The SRS defines the detailed functional and non-functional requirements of the system, providing a clear basis for testing each requirement. By mapping each test case back to the SRS, we can ensure complete coverage of all system specifications. 
 
   \item \textbf{Hazard Analysis} \citep{Hazard-Analysis}: The Hazard Analysis identifies potential hazards associated with the software system, assessing their impact and likelihood. This document is critical for understanding risk factors that may affect system safety and reliability. By identifying and analyzing hazards early in the development process, we can implement strategies to mitigate risks and ensure that the system operates safely under expected conditions.
-
+ 
+  \item \textbf{Development Plan Document} \citep{Development-Plan}: The development plan contains architectural decisions and structural design rationale for the system, which are critical for validating design integrity and system stability. This document guides us in identifying key design aspects that need testing to verify adherence to design principles and effective implementation of required functionalities.
+ 
   \item \textbf{Module Interface Specification (MIS)} (TBD): The MIS defines the interface details for each module, including input and output data formats, parameter types, and function signatures. This document ensures that modules correctly integrate with one another, supporting our VnV plan by allowing us to focus on the correctness of inter-module communication.
 
-  \item \textbf{Design Document (DD)} (TBD): The DD contains architectural decisions and structural design rationale for the system, which are critical for validating design integrity and system stability. This document guides us in identifying key design aspects that need testing to verify adherence to design principles and effective implementation of required functionalities.
   \item \textbf{User Manual (UM)} (TBD): The UM outlines the user interface and operational aspects of the system. It serves as a reference for usability testing, as it details expected user workflows and assists in validating whether the system operates as anticipated from the end-user perspective.
 \end{itemize}
 
@@ -162,6 +169,63 @@ V\&V Team Lead: Derek
     \item Participate in code reviews and provide feedback to ensure code implementation is of high quality
     \item Assists in setting up automated testing frameworks
 \end{itemize}
+
+\subsection*{Individual Breakdown}
+
+\begin{enumerate}
+    \item \textbf{Verification Lead - Damien}
+    \begin{itemize}
+        \item Responsible for overseeing all verification tasks, including:
+        \begin{itemize}
+            \item Ensuring all test cases are executed as planned.
+            \item Validating that the test cases align with system requirements.
+            \item Maintaining the traceability matrix between requirements and test cases.
+            \item Reporting progress to the project manager.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Validation Lead - Emma}
+    \begin{itemize}
+        \item Responsible for ensuring the product meets user needs and client expectations:
+        \begin{itemize}
+            \item Conducting usability testing with representative users.
+            \item Collaborating with stakeholders to confirm test results meet acceptance criteria.
+            \item Managing and documenting feedback from validation testing.
+            \item Ensuring functional and non-functional requirements are tested appropriately.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Test Engineers - Derek}
+    \begin{itemize}
+        \item Execute both verification and validation tasks under the guidance of the Verification and Validation Leads:
+        \begin{itemize}
+            \item Write and execute test cases based on requirements and design specifications.
+            \item Report and document any defects found during testing.
+            \item Re-run test cases after defect fixes to confirm resolution (regression testing).
+            \item Support validation testing by preparing test environments.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Traceability Coordinator - Tuoyo}
+    \begin{itemize}
+        \item Focused on maintaining the alignment between requirements and test cases:
+        \begin{itemize}
+            \item Update the traceability matrix as new requirements or test cases are added.
+            \item Collaborate with the Test Engineers to ensure all requirements are covered by test cases.
+            \item Provide weekly updates on traceability coverage metrics.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Defect Manager - Jad}
+    \begin{itemize}
+        \item Manages the lifecycle of identified defects:
+        \begin{itemize}
+            \item Triage defects based on priority and severity.
+            \item Track defect resolution and communicate updates to the team.
+            \item Ensure resolved defects are verified through regression testing.
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}
 
 \subsection{SRS Verification Plan}
 
@@ -290,6 +354,12 @@ Documentation Review      & Update user guides and technical documentation      
 \noindent ESLint will be used to catch potential issues in the code, such as syntax errors, security vulnerabilities, or deviations from coding standards, before execution.\\
 
 \noindent Saves time in code reviews and reduces the risk of runtime errors by enforcing best practices during development.
+
+\noindent Continuous Integration Tool: GitHub Actions\\
+
+\noindent GitHub Actions will be used for continuous integration. At the early phases of this project, workflows will be used to automatically generate/compile documentation upon pull request merging. In the future, we may invoke workflows to deploy the web application upon merge to development branch. \\
+
+\noindent Saves time in PDF generation and code reviews and prevents Latex errors from being pushed to main branch. \\
 
 \subsection{Software Validation Plan}
 
@@ -593,7 +663,7 @@ Output: The platform’s interface should be modern, intuitive, and visually con
 
 Test Case Derivation: Ensures a consistent, modern interface as specified.
 					
-How test will be performed: Manually inspect visual consistency across pages on different devices.
+How test will be performed: Manually inspect visual consistency across pages on different devices. This can be included in the results of the usability survey as well as remaining consistent with the stylings and design library used.
 
 Requirements Covered: SRS Req 10.1.
 
@@ -825,6 +895,30 @@ How test will be performed: Enter invalid data into the respective forms and sub
 
 Requirements Covered: SRS Req 15.1, 15.2.
 
+\item{TSEC-3\\}
+
+Type: Manual
+
+Initial State: Platform login page is loaded, and the database connection is active.
+
+Input/Condition: Tester inputs SQL injection strings into form fields such as the username and password fields.
+
+Output/Result:
+
+\begin{itemize}
+    \item{The platform rejects input containing SQL injection patterns.} 
+    \item{No unintended database behavior occurs (e.g., unauthorized login or data loss).} 
+    \item{Error messages are displayed without revealing system vulnerabilities (e.g., "Invalid credentials" instead of SQL syntax errors).} 
+\end{itemize}
+
+How test will be performed: 
+\begin{enumerate} 
+    \item{Navigate to the login page and enter SQL injection strings in the username and password fields.} 
+    \item{Attempt to log in and observe the platform's behavior.} 
+    \item{Verify that no unauthorized access or system behavior is triggered.} 
+    \item{Review server logs to ensure the application logs the attempt without exposing database details.} 
+\end{enumerate}
+
 \end{enumerate}
 
 \subsubsection{Cultural}
@@ -880,8 +974,25 @@ Requirements Covered: SRS Req 17.2.
 ...
 
 \subsection{Traceability Between Test Cases and Requirements}
-
-Refer to requirements in SRS Document () 
+Note : Requirement IDs are from SRS
+\begin{center}
+    \begin{tabular}{ |c|c|c| }
+		\hline
+		\textbf{Requirement ID } & \textbf{Test Case ID(s)} & \textbf{Description of Coverage} \\ \hline
+		FR-1 & \makecell{Login-Invalid, \\ Login-Valid} & \makecell{Tests login functionality \\ with valid and invalid credentials.} \\ \hline
+		FR-2 & \makecell{Captain-TeamCreation, \\ Captain-TeamDuplication} & \makecell{Ensures unique team creation \\ and duplication prevention.} \\ \hline
+		FR-3 & \makecell{Player-JoinTeam, \\ Captain-ApproveJoin} & \makecell{Covers team joining requests and\\ approvals.} \\ \hline
+		FR-7 & Game-ScheduleGeneration & \makecell{Verifies automated schedule\\ generation.} \\ \hline
+		FR-8 & Captain-GameReport & \makecell{Ensures captains can submit\\ game results.} \\ \hline
+		FR-9 & Captain-RescheduleRequest & \makecell{Verifies rescheduling requests.} \\ \hline
+		FR-10 & Admin-OverrideSchedule & \makecell{Validates admin ability to\\ override schedules.} \\ \hline
+		NFR-11.1 & Usability-NavigationTest & \makecell{Tests user ease of navigation\\ through the platform.} \\ \hline
+		NFR-12.4 & Performance-ScheduleValidation & \makecell{Verifies schedule accuracy under\\ performance constraints.} \\ \hline
+		NFR-13.2 & Compliance-W3CStandards & \makecell{Confirms adherence to web\\ standards (W3C).} \\ \hline
+		% \label{table:traceability_matrix}
+	\end{tabular}
+\end{center}
+For more, refer to requirements in SRS Document () 
 
 \section{Unit Test Description}
 
