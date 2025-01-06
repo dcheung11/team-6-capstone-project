@@ -86,7 +86,8 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
     \item \textbf{User Authentication}: It is assumed that any authentication systems for role-based access control will function reliably and securely, preventing unauthorized access.
     \item \textbf{External Payment System}: It is assumed that external payment tracking will be accurate, and users will report their payment status honestly, as payment processing is outside the scope of the system.
     \item \textbf{Internet Connectivity}: The platform assumes that all users (commissioners, captains, players) have stable internet access to interact with the system, especially when accessing schedules and reporting game results.
-    \item \textbf{Manual Input of Game Results}: Captains are responsible for entering accurate game scores and results. The system assumes that no errors will occur during this process, and that any discrepancies will be addressed through manual oversight.
+    \item \textbf{Manual Input of Game Results}: Captains are responsible for entering accurate game scores and results.
+    While the system assumes that captains will input scores correctly, it is possible that the score could be inputted incorrectly due to human error. To address this, the system must include a mechanism that will allow captains to review and correct submitted scores within a defined timeframe. This approach ensures data integrity and provides an extra layer of security against the impact of manual errors. Any further discrepancies will be addressed through manual oversight.
     \item \textbf{Data Integrity}: It is assumed that the database will maintain data integrity during read/write operations, especially when updating schedules, standings, and user details.
     \item \textbf{System Availability}: The platform assumes that the hosting server will remain consistently available, with minimal downtime, to ensure uninterrupted access for users.
 \end{itemize}
