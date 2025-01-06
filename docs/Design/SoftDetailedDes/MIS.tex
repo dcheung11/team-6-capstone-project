@@ -689,6 +689,83 @@ PlayerT, GameT, TeamT
 
 \subsubsection{Local Functions}
 
+\section{MIS of Announcements Module} \label{AnnouncementsModule}
+
+\subsection{Module}
+Announcements
+
+\subsection{Uses}
+\begin{itemize}
+    \item Notification Module
+    \item Backend Module
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+\begin{itemize}
+    \item \texttt{ANNOUNCEMENT\_TYPE\_INFO}: Constant for an informational announcement type.
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{|p{3.2cm}|p{4cm}|p{3.5cm}|p{4cm}|}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{sendAnnouncement} & Announcement details (text, type) & Announcement ID & InvalidInput \\
+\texttt{updateAnnouncement} & Announcement ID & Boolean & AnnouncementNotFound, InvalidUpdate \\
+\texttt{deleteAnnouncement} & Announcement ID & Boolean & AnnouncementNotFound \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Environment Variables}
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Assumptions}
+\begin{itemize}
+    \item All announcement operations (create, update, delete) are performed by authorized users only.
+    \item Users will be notified of new or updated announcements based on their notification preferences.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent \texttt{sendAnnouncement}(announcementID):  
+\begin{itemize}
+    \item transition: Sends a notification about the specified announcement to subscribed users using send()
+    \item output: Returns \texttt{true} if the notification was sent successfully.
+    \item exception: Raises \texttt{AnnouncementNotFoundException} if the announcement does not exist.
+\end{itemize}
+
+\noindent \texttt{updateAnnouncement}(announcementID):  
+\begin{itemize}
+    \item transition: Updates the details of the specified announcement
+    \item output: Returns \texttt{true} if the update is successful.
+    \item exception: Raises \texttt{AnnouncementNotFound} if the announcement does not exist
+\end{itemize}
+
+\noindent \texttt{deleteAnnouncement}(announcementID):  
+\begin{itemize}
+    \item transition: Removes the specified announcement
+    \item output: Returns \texttt{true} if the deletion is successful.
+    \item exception: Raises \texttt{AnnouncementNotFound} if the announcementID does not exist.
+\end{itemize}
+
+\subsubsection{Local Functions}
+\begin{itemize}
+    \item None
+\end{itemize}
+
 \newpage
 
 \section{Appendix} \label{Appendix}
