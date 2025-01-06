@@ -46,8 +46,8 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+Dec 23 & 1.0 & Module Decomp\\
+Jan 3 & 1.1 & Added Type Modules\\
 \bottomrule
 \end{tabularx}
 
@@ -191,8 +191,22 @@ below, which are leaves in the hierarchy tree, are the modules that will
 actually be implemented.
 
 \begin{description}
-\item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
-\item ...
+\item [\refstepcounter{mnum} \mthemnum \label{mUI}:] User Interface Module
+\item [\refstepcounter{mnum} \mthemnum \label{mAuth}:] Authentication Module
+\item [\refstepcounter{mnum} \mthemnum \label{mTeamManagement}:] Team Management Module
+\item [\refstepcounter{mnum} \mthemnum \label{mGameManagement}:] Game Management Module
+\item [\refstepcounter{mnum} \mthemnum \label{mAnnouncements}:] Announcements Module
+\item [\refstepcounter{mnum} \mthemnum \label{mStandings}:] Standings Module
+\item [\refstepcounter{mnum} \mthemnum \label{mScheduling}:] Scheduling Module
+\item [\refstepcounter{mnum} \mthemnum \label{mWaiver}:] Waiver Module
+\item [\refstepcounter{mnum} \mthemnum \label{mPlayerT}:] PlayerT Module
+\item [\refstepcounter{mnum} \mthemnum \label{mTeamT}:] TeamT Module
+\item [\refstepcounter{mnum} \mthemnum \label{mGameT}:] GameT Module
+\item [\refstepcounter{mnum} \mthemnum \label{mNotification}:] Notification Module
+\item [\refstepcounter{mnum} \mthemnum \label{mBackend}:] Backend Module
+\item [\refstepcounter{mnum} \mthemnum \label{mAlgo}:] Scheduling Algorithm Module
+
+
 \end{description}
 
 
@@ -206,19 +220,22 @@ actually be implemented.
 {Hardware-Hiding Module} & ~ \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\ 
-& ?\\
+\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & User Interface Module\\
+& Authentication Module\\
+& Team Management Module\\
+& Game Management Module\\
+& Announcements Module\\
+& Scheduling Module\\
+& Standings Module\\
+& Waiver Module\\
+& PlayerT Module\\
+& TeamT Module\\
+& GameT Module\\
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
-& ?\\
-& ?\\
+\multirow{3}{0.3\textwidth}{Software Decision Module} & {Database Module}\\
+& {Notification Module}\\
+& {Scheduling Algorithm Module}\\
 \bottomrule
 
 \end{tabular}
@@ -255,58 +272,222 @@ Only the leaf modules in the hierarchy have to be implemented. If a dash
 (\emph{--}) is shown, this means that the module is not a leaf and will not have
 to be implemented.
 
-\subsection{Hardware Hiding Modules (\mref{mHH})}
-
-\begin{description}
-\item[Secrets:]The data structure and algorithm used to implement the virtual
-  hardware.
-\item[Services:]Serves as a virtual hardware used by the rest of the
-  system. This module provides the interface between the hardware and the
-  software. So, the system can use it to display outputs or to accept inputs.
-\item[Implemented By:] OS
-\end{description}
-
 \subsection{Behaviour-Hiding Module}
 
-\begin{description}
-\item[Secrets:]The contents of the required behaviours.
-\item[Services:]Includes programs that provide externally visible behaviour of
-  the system as specified in the software requirements specification (SRS)
-  documents. This module serves as a communication layer between the
-  hardware-hiding module and the software decision module. The programs in this
-  module will need to change if there are changes in the SRS.
-\item[Implemented By:] --
-\end{description}
-
-\subsubsection{Input Format Module (\mref{mInput})}
+\subsubsection{User Interface Module (\mref{mUI})}
 
 \begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Secrets]: 
+    \begin{itemize}
+        \item The structure of inputs (e.g., username, password, team names, game scores, and scheduling information). 
+        \item User interface components, logic, and states.
+    \end{itemize}
+    
+\item[Services]: 
+    \begin{itemize}
+        \item Rendering views, collecting user input, and displaying data retrieved from the backend.
+        \item Backend interactions to fetch data and send requests.
+        \item Manages user role-based views.
+    \end{itemize}
+
+\item[Implemented By:] Team 6
+    
+\item[Type of Module:] Interface.
+
 \end{description}
 
-\subsubsection{Etc.}
+\subsubsection{Authentication Module (\mref{mAuth})}
 
+\begin{description}
+\item[Secrets:] The implementation details of password encryption, token generation, and user session management.
+
+\item[Services:] Handles the following:
+  \begin{itemize}
+    \item User authentication, including login, registration, and logout.
+    \item Verification of user credentials and assignment of roles (player, captain, administrator).
+    \item Management of access tokens for secure API interactions.
+  \end{itemize}
+
+\item[Implemented By:] Team 6
+
+\item[Type of Module:] Abstract Object
+\end{description}
+
+\subsubsection{Team Management Module (\mref{mTeamManagement})}
+
+\begin{description}
+\item[Secrets]: 
+    \begin{itemize}
+        \item Team creation for Captains and team joining joining processes and data for players.
+        \item Waiver acceptance states and data.
+    \end{itemize}
+    
+\item[Services]: 
+    \begin{itemize}
+        \item Handles captain input for team creation.
+        \item Manages user-team associations (joining teams), and processing waiver sign-offs.
+        \item Provides interface for captains to manage their teams (e.g., adding/removing players) and roster validation.
+    \end{itemize}
+
+\item[Implemented By:] Team 6
+    
+\item[Type of Module:] Abstract Object
+\end{description}
+
+\subsubsection{Game Management Module (\mref{mGameManagement})}
+
+\begin{description}
+  \item[Secrets] : 
+  \begin{itemize}
+      \item The structure of the input data includes game details (game ID, teams, scores, and status).
+      \item Game record verification.
+      \item Game statuses processes (e.g., scheduled, completed, canceled).
+  \end{itemize}
+  
+\item[Services]: 
+  \begin{itemize}
+      \item Enables game score reporting and updating game statuses for appropriate roles.
+      \item Updates store and retrieve game results to trigger standing updates.
+  \end{itemize}
+  \item[Implemented By:] Team 6
+    
+  \item[Type of Module:] Abstract Object
+  \end{description}
+\subsubsection{Announcements Module (\mref{mAnnouncements})}
+
+\begin{description}
+  \item[Secrets:] The structure of announcements, including title, message content, timestamps, as well as how announcements are stored, retrieved, and delivered to users, notifying them.
+
+\item[Services]: 
+  \begin{itemize}
+      \item Allows admin to create, edit, and delete announcements for the league.
+      \item Enables users to view announcements and ensures announcnement delivery via notifications.
+  \end{itemize}
+
+\item[Implemented By:] Team 6
+    
+\item[Type of Module:] Abstract Object
+\end{description}
+  
+\subsubsection{Standings Module (\mref{mStandings})}
+
+\begin{description}
+  \item[Secrets:] The formulas for calculating rankings, win-loss records, and tie-breaking rules.
+  
+  \item[Services:] Handles the following:
+    \begin{itemize}
+      \item Tracks and updates league standings based on game results.
+      \item Displays rankings, win-loss records, and statistical summaries for all teams.
+      \item Supports tie-breaking scenarios and rankings by division.
+    \end{itemize}
+  
+  \item[Implemented By:] Team 6
+  
+  \item[Type of Module:] Abstract Object
+  \end{description}
+
+  \subsubsection{Scheduling Module (\mref{mScheduling})}
+
+  \begin{description}
+    \item[Secrets:] Schedule management, including data structures and communication with the scheduling algorithm.
+    
+    \item[Services]: 
+      \begin{itemize}
+        \item Handles game schedule creation and updates.
+        \item Manages scheduling constraints like team preferences.
+        \item Integrates with the Scheduling Algorithm Module for optimization.
+      \end{itemize}
+    \item[Implemented By:] Team 6
+    \item[Type of Module:] Abstract Object
+    \end{description}
+
+  \subsubsection{Waiver Module (\mref{mWaiver})}
+
+  \begin{description}
+    \item[Secrets:] Waiver completion data.
+    \item[Services] :
+      \begin{itemize}
+        \item Manages waiver access and completion.
+        \item Tracks waiver status for players.
+        \item Integrates with user accounts to validate players.
+      \end{itemize}
+    \item[Implemented By:] Team 6
+    \item[Type of Module:] Abstract Object
+    \end{description}
+
+  \subsubsection{PlayerT Module (\mref{mPlayerT})}
+
+  \begin{description}
+    \item[Secrets:] The data structure used to represent a player.
+    \item[Services:] Holds the data of a player.
+    \item[Implemented By:] Team 6
+    \item[Type of Module:] Abstract Data Type
+  \end{description}
+
+  \subsubsection{TeamT Module (\mref{mTeamT})}
+
+  \begin{description}
+    \item[Secrets:] The data structure used to represent a team.
+    \item[Services:] Holds the data of a team.
+    \item[Implemented By:] Team 6
+    \item[Type of Module:] Abstract Data Type
+  \end{description}
+    
+  \subsubsection{GameT Module (\mref{mGameT})}
+
+  \begin{description}
+    \item[Secrets:] The data structure used to represent a game.
+    \item[Services:] Holds the data of a game.
+    \item[Implemented By:] Team 6
+    \item[Type of Module:] Abstract Data Type
+  \end{description}
 
 \subsection{Software Decision Module}
 
+% \begin{description}
+% \item[Secrets:] The design decision based on mathematical theorems, physical
+%   facts, or programming considerations. The secrets of this module are
+%   \emph{not} described in the SRS.
+% \item[Services:] Includes data structure and algorithms used in the system that
+%   do not provide direct interaction with the user. 
+%   % Changes in these modules are more likely to be motivated by a desire to
+%   % improve performance than by externally imposed changes.
+% \item[Implemented By:] --
+% \end{description}
+
+\subsubsection{Notification Module (\mref{mNotification})}
 \begin{description}
-\item[Secrets:] The design decision based on mathematical theorems, physical
-  facts, or programming considerations. The secrets of this module are
-  \emph{not} described in the SRS.
-\item[Services:] Includes data structure and algorithms used in the system that
-  do not provide direct interaction with the user. 
-  % Changes in these modules are more likely to be motivated by a desire to
-  % improve performance than by externally imposed changes.
-\item[Implemented By:] --
+  \item[Secrets:] The protocols for sending important league updates via email notifications.
+  \item[Services:] Sends notifications to users for important updates, such as schedule changes, game results, or captain messages.
+  \item[Implemented By:] External Library
 \end{description}
 
-\subsubsection{Etc.}
 
+
+  \subsubsection{Backend Module (\mref{mBackend})}
+  \begin{description}
+    \item[Secrets:] The architecture, database schema, and integration logic for backend services.
+    \item[Services]: 
+      \begin{itemize}
+        \item Manages server-side logic and handles API requests and responses.
+        \item Database to storage and data retrieval (e.g., user data, schedules, game results, etc).
+        \item Secure communication between the frontend and backend.
+      \end{itemize}
+    \item[Implemented By:] Team 6
+  \end{description}
+
+  \subsubsection{Scheduling Algorithm Module (\mref{mAlgo})}
+  \begin{description}
+    \item[Secrets:] The algorithm used to generate and optimize schedules, including constraints like team preferences, field availability, etc.
+    \item[Services]:
+      \begin{itemize}
+        \item Generates game schedules based on team inputs and league constraints for admin use.
+        \item Supports conflict resolution for rescheduling (e.g., double bookings, unavailable fields).
+        \item Optimizes schedules to balance fairness and preferences across teams.
+      \end{itemize}
+    \item[Implemented By:] Team 6
+  \end{description}
+  
 \section{Traceability Matrix} \label{SecTM}
 
 This section shows two traceability matrices: between the modules and the
@@ -320,17 +501,19 @@ requirements and between the modules and the anticipated changes.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-R1 & \mref{mHH}, \mref{mInput}, \mref{mParams}, \mref{mControl}\\
-R2 & \mref{mInput}, \mref{mParams}\\
-R3 & \mref{mVerify}\\
-R4 & \mref{mOutput}, \mref{mControl}\\
-R5 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R6 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R7 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R8 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R9 & \mref{mVerifyOut}\\
-R10 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}\\
-R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
+R1 & \mref{mUI}, \mref{mAuth}, \mref{mBackend}\\
+R2 & \mref{mUI}, \mref{mAuth}, \mref{mBackend}\\
+R3 & \mref{mUI}, \mref{mScheduling}, \mref{mAlgo}\\
+R4 & \mref{mUI}, \mref{mStandings}, \mref{mBackend}\\
+R5 & \mref{mUI}, \mref{mTeamManagement}, \mref{mBackend}\\
+R6 & \mref{mUI}, \mref{mTeamManagement}, \mref{mWaiver}, \mref{mBackend}\\
+R7 & \mref{mUI}, \mref{mTeamManagement}, \mref{mScheduling}, \mref{mAlgo}, \mref{mBackend}\\
+R8 & \mref{mUI}, \mref{mScheduling}, \mref{mAlgo}\\
+R9 & \mref{mUI}, \mref{mAnnouncements}, \mref{mNotification}\\
+R10 & \mref{mUI}, \mref{mScheduling}, \mref{mAlgo}\\
+R10 & \mref{mUI}, \mref{mScheduling}, \mref{mAlgo}\\
+R12 & \mref{mUI}, \mref{mGameManagement}, \mref{mBackend}\\
+
 \bottomrule
 \end{tabular}
 \caption{Trace Between Requirements and Modules}
@@ -385,7 +568,7 @@ arrows in the diagram typically correspond to the presence of import statement.}
 
 \begin{figure}[H]
 \centering
-%\includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
+\includegraphics[width=1.1\textwidth]{module-decomp.png}
 \caption{Use hierarchy among modules}
 \label{FigUH}
 \end{figure}

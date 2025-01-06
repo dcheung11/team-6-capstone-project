@@ -83,10 +83,11 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
 \section{Critical Assumptions}
 
 \begin{itemize}
-    \item \textbf{User Authentication}: It is assumed that the authentication system using JSON Web Tokens (JWT) for role-based access control will function reliably and securely, preventing unauthorized access.
-    \item \textbf{External Payment System}: It is assumed that external payment tracking (via e-transfer) will be accurate, and users will report their payment status honestly, as payment processing is outside the scope of the system.
+    \item \textbf{User Authentication}: It is assumed that any authentication systems for role-based access control will function reliably and securely, preventing unauthorized access.
+    \item \textbf{External Payment System}: It is assumed that external payment tracking will be accurate, and users will report their payment status honestly, as payment processing is outside the scope of the system.
     \item \textbf{Internet Connectivity}: The platform assumes that all users (commissioners, captains, players) have stable internet access to interact with the system, especially when accessing schedules and reporting game results.
-    \item \textbf{Manual Input of Game Results}: Captains are responsible for entering accurate game scores and results. The system assumes that no errors will occur during this process, and that any discrepancies will be addressed through manual oversight.
+    \item \textbf{Manual Input of Game Results}: Captains are responsible for entering accurate game scores and results.
+    While the system assumes that captains will input scores correctly, it is possible that the score could be inputted incorrectly due to human error. To address this, the system must include a mechanism that will allow captains to review and correct submitted scores within a defined timeframe. This approach ensures data integrity and provides an extra layer of security against the impact of manual errors. Any further discrepancies will be addressed through manual oversight.
     % \item \textbf{Data Integrity}: It is assumed that the database will maintain data integrity during read/write operations, especially when updating schedules, standings, and user details.
     % \item \textbf{System Availability}: The platform assumes that the hosting server will remain consistently available, with minimal downtime, to ensure uninterrupted access for users.
 \end{itemize}
@@ -109,13 +110,13 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
         Fails to authenticate/register user
         & Access denied to league members & Error in credentials or input, server issues, database connectivity & Allow credential recovery and auth retry & 1, 2, 3 & H1 \\
         \hline
-        Game Scheduling  & Fails to generate valid schedule & Games may be scheduled at conflicting times or locations, affecting the season & Bugs in the scheduling/ team preferences algorithms & Implement schedule conflict resolution checks, allow reschedule requests & 4 & H2.1 \\
+        Game Scheduling  & Fails to generate valid schedule & Games may be scheduled at conflicting times or locations, affecting the season & Bugs or logical errors in the scheduling algorithm, conflicting team preferences or time/location constraints & Implement schedule conflict resolution checks, allow reschedule requests & 4 & H2.1 \\
         \hline
-        Game Scheduling  & Missing games in the schedule & Some games may not be scheduled, causing dissatisfaction & Incomplete automation in schedule generation & Automate schedule verification to ensure coverage for all teams & 4 & H2.2 \\
+        Game Scheduling  & Missing games in the schedule & Some games may not be scheduled, causing dissatisfaction & Incomplete automation in schedule generation; not handling edge cases, inclusion of blacklisted time slots & Automate schedule verification to ensure coverage for all teams & 4 & H2.2 \\
         \hline
-        Game Scheduling  &  Teams end up with either different games compared to others & Unbalanced league experience, as some teams may not get enough playtime while others may feel fatigued & Scheduling algorithm fails to equally distribute games across teams & Conduct a pre-release schedule check to ensure fair game distribution among all teams, and introduce byes for unavoidable discrepancies & 4 & H2.3 \\
+        Game Scheduling  &  Teams end up with either different games compared to others & Unbalanced league experience, as some teams may not get enough playtime while others may feel fatigued & Scheduling algorithm fails to equally distribute games across teams, lack of enforcement of fairness constraints (e.g. max games per week) & Conduct a pre-release schedule check to ensure fair game distribution among all teams, and introduce byes for unavoidable discrepancies & 4 & H2.3 \\
         \hline
-        Game Scheduling  & Rescheduling requests not processed or applied correctly  & Teams are not aware of reschedule request which prevents schedule conflict avoidance which can lead to game no-shows & Errors in reschedule approval or processing steps,  or race conditions caused by simultaneous reschedule requests & Implement algorithm to handly many concurrent requests, log error messages, allow easy retries  & 4 & H2.4 \\
+        Game Scheduling  & Rescheduling requests not processed or applied correctly  & Teams are not aware of reschedule request which prevents schedule conflict avoidance which can lead to game no-shows & Errors in reschedule approval or processing steps,  or race conditions caused by simultaneous reschedule requests & Implement algorithm to handly many concurrent requests, log error messages, allow easy retries  & 4, 9 & H2.4 \\
         \hline
         Game Result Reporting & Failed score reporting & League standings incorrect or not updated on time & Network issues, missing auto-save functionality & Implement auto-save and score-reporting validation checks & 4, 6 & H3 \\
         \hline
@@ -134,7 +135,7 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
         Announcement System & Failed announcement delivery & Players may miss important updates such as game cancellations creating risks & Form validation errors, server timeouts & Implement multiple announcement delivery methods (site announcements, email), display error message on announcement failures, allow easy retries  & 6 & H6 \\
         \hline
       
-        External Payment Tracking & Incorrect payment status recorded & Players marked as unpaid despite paying (or vice versa), leading to disputes & Payment record synchronization issues & Ensure payment status synchronization and require validation to be accepted & 5, 6, 7& H7 \\
+        External Payment Tracking & Incorrect payment status recorded & Players marked as unpaid despite paying (or vice versa), leading to disputes & Payment record synchronization issues; delayed or failed updates & Ensure payment status synchronization and require validation to be accepted & 5, 6, 7& H7 \\
         \hline
         
         System Availability & Server downtime & Users unable to access the platform & Hosting server issues, lack of redundancy & Implement server redundancy, monitor uptime, and create a disaster recovery plan & 4 & H1 \\ 
@@ -190,6 +191,16 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
         \begin{itemize}
             \item Requirement: Perform testing to identify potential security vulnerabilities.
             \item Rationale: Ensures that the platform performs securely as expected under various scenarios, especially when exposed to potential threats.
+        \end{itemize}
+    \item[8.] Automated Verifcation checks
+        \begin{itemize}
+            \item Requirement: Perform automated verficaion of schedule coompleteness after generation to ensure all games are correctly scheduled.
+            \item Rationale: Improve data accuracy and prevent user dissatisfaction caused by missing games due to incomplete scheduling logic.
+        \end{itemize}
+    \item[9.] Retry Mechanisms
+        \begin{itemize}
+            \item Requirement: Implement easy retry mechanisms to prevent conflicts from race conditions or simultaneous requests.
+            \item Rationale: Reduce errors caused by failed or incomplete request processing, ensuring seamless updates.
         \end{itemize}
 \end{enumerate}
 
@@ -256,6 +267,19 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
 				\item Implement a proper system for informing users in the case of a data breach.
 				\item Ensure data protection laws and policies are followed.
 			\end{itemize}
+            \item \textbf{Retry Mechanism for Scheduling Conlficts:} Implement a retry mechanism to ensure scheduling requests are processed smoothly, even in cases of failure.
+			\begin{itemize}
+				\item Design logic for detecting and handling conflicts in scheduling requests.
+				\item Enable automatic retries for failed requests, such as due to unavailable time slots.
+				\item Provide clear error messages and an option for users to retry manually if the automatic retry fails.
+			\end{itemize}
+            \item \textbf{Automated Verification of Scheduling} Ensure the accuracy and fairness of generated schedules automatically.
+			\begin{itemize}
+				\item Develop a verification system that checks generated schedules for missing games or conflicts.
+				\item Automate adjustments to resolve detected issues, such as scheduling overlaps or unassigned games.
+				\item Test the verification system thoroughly with real-world data.
+			\end{itemize}
+
 		\end{itemize}
 \end{enumerate}
 
