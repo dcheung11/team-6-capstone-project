@@ -689,6 +689,97 @@ PlayerT, GameT, TeamT
 
 \subsubsection{Local Functions}
 
+\section{MIS of Notification Module} \label{Module:Notification}
+
+\subsection{Module}
+
+Notification
+
+\subsection{Uses}
+
+\begin{itemize}
+    \item playerID
+    \item email
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{itemize}
+    \item MAX\_NOTIFICATION\_LENGTH: Maximum allowed characters in a notification message.
+    \item NOTIFICATION\_RETRY\_LIMIT: Maximum retry attempts for failed notifications.
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{send} & NotificationID, playerID & Boolean & InvalidPlayerID, SendFailure \\
+\hline
+\texttt{schedule} & NotificationID, DateTime & Boolean & InvalidDateTime \\
+\hline
+\texttt{status} & NotificationID & Status & InvalidNotificationID \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+    \item \texttt{pendingNotifications}: List of notifications yet to be delivered.
+    \item \texttt{deliveredNotifications}: List of successfully delivered notifications.
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+\begin{itemize}
+    \item Email Gateway: For sending email notifications.
+    \item SMS Gateway: For sending SMS notifications.
+\end{itemize}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item Users have valid email addresses or phone numbers stored in the database.
+    \item Gateway APIs are operational and accessible.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent \texttt{send}(NotificationID, playerID):
+\begin{itemize}
+    \item transition: Moves the notification from \texttt{pendingNotifications} to \texttt{deliveredNotifications} if successfully sent.
+    \item output: \texttt{true} if the notification is successfully sent; \texttt{false} otherwise.
+    \item exception: \texttt{InvalidPlayerID} if the playerID is not found; \texttt{SendFailure} if the notification fails to send after retries.
+\end{itemize}
+
+\noindent \texttt{schedule}(NotificationID, DateTime):
+\begin{itemize}
+    \item transition: Adds the notification to the \texttt{pendingNotifications} queue with the scheduled delivery time.
+    \item output: \texttt{true} if the scheduling is successful; \texttt{false} otherwise.
+    \item exception: \texttt{InvalidDateTime} if the DateTime is in the past or improperly formatted.
+\end{itemize}
+
+\noindent \texttt{status}(NotificationID):
+\begin{itemize}
+    \item transition: None.
+    \item output: The status of the notification (e.g., Pending, Delivered, Failed).
+    \item exception: \texttt{InvalidNotificationID} if the NotificationID is not found.
+\end{itemize}
+
+\subsubsection{Local Functions}
+
+\begin{itemize}
+    \item \texttt{validateNotification(NotificationID)}: Ensures the notification exists and is properly formatted.
+    \item \texttt{retryFailedNotifications()}: Attempts to resend notifications marked as failed.
+\end{itemize}
+
 \newpage
 
 \section{Appendix} \label{Appendix}
