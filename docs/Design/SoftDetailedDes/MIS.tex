@@ -689,6 +689,112 @@ PlayerT, GameT, TeamT
 
 \subsubsection{Local Functions}
 
+\section{MIS of Team Management Module} \label{TeamManagementModule}
+
+\subsection{Module}
+Team Management
+
+\subsection{Uses}
+\begin{itemize}
+    \item UI Module
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+\begin{itemize}
+\item None
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{|p{3cm}|p{4cm}|p{4cm}|p{4cm}|}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{createTeam} & Team details & Boolean & InvalidInput \\
+\texttt{getTeamDetails} & Team ID & String & TeamNotFound \\
+\texttt{updateTeam} & Team ID, Updates & Boolean & TeamNotFound \\
+\texttt{deleteTeam} & Team ID & Boolean & TeamNotFound \\
+\texttt{listTeams} & League ID & List & - \\
+\texttt{createPlayer} & Team ID, Player ID & Boolean & TeamNotFound \\
+\texttt{deletePlayer} & Team ID, Player ID & Boolean & TeamNotFound, PlayerNotFound \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+\begin{itemize}
+    \item \texttt{teamList}: A collection of all teams, their details, and associated players.
+    \item \texttt{leagueTeams}: A mapping between leagues and their associated teams.
+\end{itemize}
+
+\subsubsection{Environment Variables}
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Assumptions}
+\begin{itemize}
+    \item All team operations are initiated by authorized users.
+    \item Team details such as names and IDs are unique within a league.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent \texttt{createTeam}(details):  
+\begin{itemize}
+    \item transition: Adds a new team to \texttt{teamList}.
+    \item output: Returns a unique identifier for the created team.
+    \item exception: Raises \texttt{InvalidInput} if the team details are incomplete or violate constraints (e.g., duplicate team name).
+\end{itemize}
+
+\noindent \texttt{getTeamDetails}(teamID):  
+\begin{itemize}
+    \item output: Retrieves the details of the specified team.
+    \item exception: Raises \texttt{TeamNotFound} if the team does not exist.
+\end{itemize}
+
+\noindent \texttt{updateTeam}(teamID, updates):  
+\begin{itemize}
+    \item transition: Updates the details of the specified team in \texttt{teamList}.
+    \item output: Returns \texttt{true} if the update is successful.
+    \item exception: Raises \texttt{TeamNotFound} if the team does not exist.
+\end{itemize}
+
+\noindent \texttt{deleteTeam}(teamID):  
+\begin{itemize}
+    \item transition: Removes the specified team from \texttt{teamList}.
+    \item output: Returns \texttt{true} if the deletion is successful.
+    \item exception: Raises \texttt{TeamNotFound} if the team does not exist.
+\end{itemize}
+
+\noindent \texttt{listTeams}(leagueID):  
+\begin{itemize}
+    \item output: Returns a list of all teams associated with the specified league.
+\end{itemize}
+
+\noindent \texttt{createPlayer}(teamID, playerID):  
+\begin{itemize}
+    \item transition: Adds a player to the specified team in \texttt{teamList}.
+    \item output: Returns \texttt{true} if the player is successfully added.
+    \item exception: Raises \texttt{TeamNotFound} if the team does not exist
+\end{itemize}
+
+\noindent \texttt{deletePlayer}(teamID, playerID):  
+\begin{itemize}
+    \item transition: Removes a player from the specified team in \texttt{teamList}.
+    \item output: Returns \texttt{true} if the player is successfully removed.
+    \item exception: Raises \texttt{TeamNotFound} if the team does not exist or \texttt{PlayerNotFound} if the player is not part of the team.
+\end{itemize}
+
+\subsubsection{Local Functions}
+\begin{itemize}
+    \item None
+\end{itemize}
+
 \newpage
 
 \section{Appendix} \label{Appendix}
