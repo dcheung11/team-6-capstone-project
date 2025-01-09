@@ -234,6 +234,111 @@ The following table is taken directly from the Module Guide document for this pr
 
 \newpage
 
+\section{MIS of User Interface Module (M1)} \label{Module:UI}
+
+\subsection{Module}
+
+User Interface Module
+
+\subsection{Uses}
+
+\begin{itemize}
+    \item Backend Module: To retrieve and send data for rendering views and processing user inputs.
+    \item Authentication Module: For user login and role verification.
+    \item Game Management Module: To display and update game information.
+    \item Team Management Module: To display team information
+    \item Scheduling Module: To display schedules
+    \item Standings Module: To display league standings and updates.
+    \item Announcements Module: To display Announcements
+    \item Notification Module: To display interface for creating notifications
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{|l|X|X|X|}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+renderView & viewType (e.g., login, dashboard, schedule) & success/failure status & InvalidViewException \\
+\hline
+collectInput & inputType (e.g., text, selection, button) & inputData & InvalidInputException \\
+\hline
+updateUI & UIComponentID, newData & success/failure status & InvalidComponentIDException \\
+\hline
+fetchData & requestType, requestParams & dataObject & BackendFetchException \\
+\hline
+\end{tabularx}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+    \item \textbf{currentView}: Stores the identifier for the currently displayed view.
+    \item \textbf{userRole}: Stores the role of the currently logged-in user (e.g., player, captain, commissioner).
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+\begin{itemize}
+    \item Browser environment: The module interacts with the user's browser, including DOM manipulation and event handling.
+    \item Network connection: Required for fetching and sending data to the backend.
+\end{itemize}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item Users will have a modern web browser that supports the required JavaScript features.
+    \item A stable network connection is available during interactions requiring backend communication.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent \textbf{renderView(viewType)}:
+\begin{itemize}
+    \item transition: Sets \textbf{currentView} to \texttt{viewType}.
+    \item output: Returns success/failure status based on whether the view is rendered correctly.
+    \item exception: Throws \texttt{InvalidViewException} if \texttt{viewType} is unsupported.
+\end{itemize}
+
+\noindent \textbf{collectInput(inputType)}:
+\begin{itemize}
+    \item output: Returns the collected input data in the format expected for \texttt{inputType}.
+    \item exception: Throws \texttt{InvalidInputException} if the input type is unsupported or improperly formatted.
+\end{itemize}
+
+\noindent \textbf{updateUI(UIComponentID, newData)}:
+\begin{itemize}
+    \item transition: Updates the specified UI component with \texttt{newData}.
+    \item output: Returns success/failure status based on whether the update was successful.
+    \item exception: Throws \texttt{InvalidComponentIDException} if the component ID is invalid.
+\end{itemize}
+
+\noindent \textbf{fetchData(requestType, requestParams)}:
+\begin{itemize}
+    \item output: Returns the requested data object fetched from the backend.
+    \item exception: Throws \texttt{BackendFetchException} if the backend communication fails.
+\end{itemize}
+
+\subsubsection{Local Functions}
+
+\begin{itemize}
+    \item \textbf{validateInput(inputData)}: Ensures that the user input is in the correct format before processing.
+    \item \textbf{applyTheme(theme)}: Changes the UI theme based on the user's selection.
+\end{itemize}
+
+\newpage
+
 \section{MIS of PlayerT Module} \label{PlayerTModule}
 
 \subsection{Module}
