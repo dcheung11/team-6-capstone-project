@@ -691,6 +691,115 @@ PlayerT, GameT, TeamT
 
 \newpage
 
+\section{MIS of Authentication Module} \label{Auth}
+
+\subsection{Module}
+
+\textbf{Auth} (M2) - Abstract object for handling user authentication and session management.
+
+\subsection{Uses}
+
+\begin{itemize}
+	\item \textbf{User Interface Module} (M1) - For collecting user credentials (username, password)
+	and displaying authentication feedback.
+	\item \textbf{Backend Module} (M13) - For verifying credentials, managing tokens, and storing
+	authentication data.
+\end{itemize}
+
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+\begin{itemize}
+	\item \texttt{SESSION\_TIMEOUT} - Integer representing session timeout in minutes (default: 30).
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{|p{3cm} | p{4cm} | p{4cm} | p{4cm}|}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{login} & String, String & Boolean & \texttt{InvalidCredentials} \\
+\texttt{logout} & String & Void & \texttt{SessionNotFound} \\
+\texttt{registerUser} & String, String, String & Boolean & \texttt{DuplicateUserError} \\
+\texttt{verifyToken} & String & Boolean & \texttt{TokenExpiredError} \\
+\texttt{generateToken} & String & String (Token) & \texttt{UserNotFound} \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+    \item \textbf{userSessions}: Map of active session tokens to user IDs.
+    \item \textbf{userData}: Map of user IDs to credentials and roles.
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+\begin{itemize}
+    \item \textbf{Database Connection}: Used for storing and retrieving user authentication data.
+    \item \textbf{SSL/TLS Connection}: Required for secure communication between client and server.
+\end{itemize}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item All passwords are stored as securely hashed values.
+    \item Token expiration is managed based on \texttt{SESSION\_TIMEOUT}.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\begin{itemize}
+    \item \texttt{login(username, password)}
+    \begin{itemize}
+        \item \textbf{Transition}: If the username and password match, generate a session token and add it to \texttt{userSessions}.
+        \item \textbf{Output}: Returns \texttt{true} if successful, otherwise throws \texttt{InvalidCredentials}.
+        \item \textbf{Exception}: Throws \texttt{InvalidCredentials} if the username or password is incorrect.
+    \end{itemize}
+
+    \item \texttt{logout(token)}
+    \begin{itemize}
+        \item \textbf{Transition}: Removes the token from \texttt{userSessions}.
+        \item \textbf{Output}: None.
+        \item \textbf{Exception}: Throws \texttt{SessionNotFound} if the token is invalid or expired.
+    \end{itemize}
+
+    \item \texttt{registerUser(username, password, role)}
+    \begin{itemize}
+        \item \textbf{Transition}: Adds a new entry to \texttt{userData} with hashed password and role.
+        \item \textbf{Output}: Returns \texttt{true} if registration is successful.
+        \item \textbf{Exception}: Throws \texttt{DuplicateUserError} if the username already exists.
+    \end{itemize}
+
+    \item \texttt{verifyToken(token)}
+    \begin{itemize}
+        \item \textbf{Output}: Returns \texttt{true} if the token is valid, otherwise throws \texttt{TokenExpiredError}.
+        \item \textbf{Exception}: Throws \texttt{TokenExpiredError} if the token is expired.
+    \end{itemize}
+
+    \item \texttt{generateToken(userID)}
+    \begin{itemize}
+        \item \textbf{Output}: Generates a unique token linked to the \texttt{userID}.
+        \item \textbf{Exception}: Throws \texttt{UserNotFound} if the user ID does not exist.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Local Functions}
+
+\begin{itemize}
+    \item \texttt{hashPassword(password)}: Converts a plaintext password into a securely hashed value.
+    \item \texttt{validatePassword(inputPassword, storedHash)}: Compares an input password to the stored hashed password.
+    \item \texttt{generateUniqueToken(userID)}: Generates a cryptographically secure token linked to a user ID.
+\end{itemize}
+
+\newpage
+
 \section{Appendix} \label{Appendix}
 
 \wss{Extra information if required}
