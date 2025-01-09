@@ -710,58 +710,59 @@ None
 \begin{center}
   \begin{tabularx}{\textwidth}{|l|X|X|X|}
     \hline
-    \textbf{Name}    & \textbf{In}                                   & \textbf{Out} & \textbf{Exceptions}                            \\
+    \textbf{Name}    & \textbf{In}   & \textbf{Out} & \textbf{Exceptions}          \\
     \hline
-    reportScore      & int: gameID, int: team1Score, int: team2Score & bool: status & InvalidGameIDException, InvalidScoreException  \\
+    reportScore      & int, int, int & -     & InvalidGameID, InvalidScore  \\
     \hline
-    updateGameStatus & int: gameID, string: newStatus                & bool: status & InvalidGameIDException, InvalidStatusException \\
+    updateGameStatus & int, string   & -      & InvalidGameID, InvalidStatus \\
     \hline
-    getGameDetails   & int: gameID                                   & GameT: game  & InvalidGameIDException                         \\
+    getGameDetails   & int           & GameT        & InvalidGameID                \\
     \hline
   \end{tabularx}
 \end{center}
+
+
 
 \subsection{Semantics}
 
 \subsubsection{State Variables}
 
 \begin{itemize}
-  \item \texttt{games}: A mapping of game IDs to game details, including participating teams, scores, and statuses.
+  \item \texttt{games}: A collection of all GameT objects which contain game details including game ID, participating teams, scores, and stasuses
 \end{itemize}
 
 \subsubsection{Environment Variables}
 
 \begin{itemize}
   \item Database: For storing and retrieving game records.
-  \item UI Module: For allowing users to report scores and update statuses.
+  \item User Interface Module: For allowing users to report scores and update statuses.
 \end{itemize}
 
 \subsubsection{Assumptions}
 
 \begin{itemize}
   \item Game IDs are unique and valid.
-  \item Input data (scores and statuses) are provided in the correct format.
+  \item Scores are reported accurately and honestly
+  \item Game statuses are reported or updated accurately by only captains or administrators
 \end{itemize}
 
 \subsubsection{Access Routine Semantics}
 
 \noindent \texttt{reportScore}(gameID, team1Score, team2Score):
 \begin{itemize}
-  \item transition: Updates the scores for the game identified by \texttt{gameID}.
-  \item output: Returns success or failure status.
+  \item transition: game.score1, game.score2 := team1Score, team2Score
   \item exception: Throws \texttt{InvalidGameIDException} if the game does not exist. Throws \texttt{InvalidScoreException} if the scores are invalid.
 \end{itemize}
 
 \noindent \texttt{updateGameStatus}(gameID, newStatus):
 \begin{itemize}
-  \item transition: Changes the status of the game identified by \texttt{gameID}.
-  \item output: Returns success or failure status.
+  \item transition: game.status := newStatus
   \item exception: Throws \texttt{InvalidGameIDException} if the game does not exist. Throws \texttt{InvalidStatusException} if the status is invalid.
 \end{itemize}
 
-\noindent \texttt{retrieveGameResults}(gameID):
+\noindent \texttt{getGameResults}(gameID):
 \begin{itemize}
-  \item output: Returns the game details, including scores and status.
+  \item output: out := game (retrieves GameT object based on gameId)
   \item exception: Throws \texttt{InvalidGameIDException} if the game does not exist.
 \end{itemize}
 
