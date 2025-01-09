@@ -251,6 +251,7 @@ User Interface Module
     \item Standings Module: To display league standings and updates.
     \item Announcements Module: To display Announcements
     \item Notification Module: To display interface for creating notifications
+    \item User Profile Module: To display user profile info
 \end{itemize}
 
 \subsection{Syntax}
@@ -264,20 +265,15 @@ User Interface Module
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabularx}{\textwidth}{|l|X|X|X|}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-renderView & viewType (e.g., login, dashboard, schedule) & success/failure status & InvalidViewException \\
-\hline
-collectInput & inputType (e.g., text, selection, button) & inputData & InvalidInputException \\
-\hline
-updateUI & UIComponentID, newData & success/failure status & InvalidComponentIDException \\
-\hline
-fetchData & requestType, requestParams & dataObject & BackendFetchException \\
-\hline
-\end{tabularx}
+  \begin{tabularx}{\textwidth}{|l|X|X|X|}
+  \hline
+  \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+  \hline
+  renderView & View & - & InvalidViewException \\
+  \hline
+  \end{tabularx}
 \end{center}
+
 
 \subsection{Semantics}
 
@@ -304,37 +300,16 @@ fetchData & requestType, requestParams & dataObject & BackendFetchException \\
 
 \subsubsection{Access Routine Semantics}
 
-\noindent \textbf{renderView(viewType)}:
+\noindent \textbf{renderView(view)}:
 \begin{itemize}
-    \item transition: Sets \textbf{currentView} to \texttt{viewType}.
-    \item output: Returns success/failure status based on whether the view is rendered correctly.
-    \item exception: Throws \texttt{InvalidViewException} if \texttt{viewType} is unsupported.
-\end{itemize}
-
-\noindent \textbf{collectInput(inputType)}:
-\begin{itemize}
-    \item output: Returns the collected input data in the format expected for \texttt{inputType}.
-    \item exception: Throws \texttt{InvalidInputException} if the input type is unsupported or improperly formatted.
-\end{itemize}
-
-\noindent \textbf{updateUI(UIComponentID, newData)}:
-\begin{itemize}
-    \item transition: Updates the specified UI component with \texttt{newData}.
-    \item output: Returns success/failure status based on whether the update was successful.
-    \item exception: Throws \texttt{InvalidComponentIDException} if the component ID is invalid.
-\end{itemize}
-
-\noindent \textbf{fetchData(requestType, requestParams)}:
-\begin{itemize}
-    \item output: Returns the requested data object fetched from the backend.
-    \item exception: Throws \texttt{BackendFetchException} if the backend communication fails.
+    \item transition: \texttt{currentView} := \texttt{view}.
+    \item exception: Throws \texttt{InvalidViewException} if \texttt{view} is unsupported.
 \end{itemize}
 
 \subsubsection{Local Functions}
 
 \begin{itemize}
-    \item \textbf{validateInput(inputData)}: Ensures that the user input is in the correct format before processing.
-    \item \textbf{applyTheme(theme)}: Changes the UI theme based on the user's selection.
+    \item None
 \end{itemize}
 
 \newpage
