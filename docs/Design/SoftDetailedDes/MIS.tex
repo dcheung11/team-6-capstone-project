@@ -51,11 +51,11 @@ urlcolor=cyan          % color of external links
 \section{Revision History}
 
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
-\midrule
-Jan 3 & 1.0 & Added MIS for TeamT, GameT, PlayerT, Backend\\
-Date 2 & 1.1 & Notes\\
-\bottomrule
+  \toprule {\bf Date} & {\bf Version} & {\bf Notes}                                  \\
+  \midrule
+  Jan 3               & 1.0           & Added MIS for TeamT, GameT, PlayerT, Backend \\
+  Date 2              & 1.1           & Notes                                        \\
+  \bottomrule
 \end{tabularx}
 
 ~\newpage
@@ -93,23 +93,23 @@ with the addition that template modules have been adapted from
 \cite{GhezziEtAl2003}.  The mathematical notation comes from Chapter 3 of
 \citet{HoffmanAndStrooper1995}.  For instance, the symbol := is used for a
 multiple assignment statement and conditional rules follow the form $(c_1
-\Rightarrow r_1 | c_2 \Rightarrow r_2 | ... | c_n \Rightarrow r_n )$.
+  \Rightarrow r_1 | c_2 \Rightarrow r_2 | ... | c_n \Rightarrow r_n )$.
 
-The following table summarizes the primitive data types used by \progname. 
+The following table summarizes the primitive data types used by \progname.
 
 \begin{center}
-\renewcommand{\arraystretch}{1.2}
-\noindent 
-\begin{tabular}{l l p{7.5cm}} 
-\toprule 
-\textbf{Data Type} & \textbf{Notation} & \textbf{Description}\\ 
-\midrule
-character & char & a single symbol or digit\\
-integer & $\mathbb{Z}$ & a number without a fractional component in (-$\infty$, $\infty$) \\
-natural number & $\mathbb{N}$ & a number without a fractional component in [1, $\infty$) \\
-real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
-\bottomrule
-\end{tabular} 
+  \renewcommand{\arraystretch}{1.2}
+  \noindent
+  \begin{tabular}{l l p{7.5cm}}
+    \toprule
+    \textbf{Data Type} & \textbf{Notation} & \textbf{Description}                                             \\
+    \midrule
+    character          & char              & a single symbol or digit                                         \\
+    integer            & $\mathbb{Z}$      & a number without a fractional component in (-$\infty$, $\infty$) \\
+    natural number     & $\mathbb{N}$      & a number without a fractional component in [1, $\infty$)         \\
+    real               & $\mathbb{R}$      & any number in (-$\infty$, $\infty$)                              \\
+    \bottomrule
+  \end{tabular}
 \end{center}
 
 \noindent
@@ -125,32 +125,31 @@ described by giving their type signature followed by their specification.
 The following table is taken directly from the Module Guide document for this project.
 
 \begin{table}[h!]
-\centering
-\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{Level 1} & \textbf{Level 2}\\
-\midrule
+  \centering
+  \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+    \toprule
+    \textbf{Level 1}                               & \textbf{Level 2}                \\
+    \midrule
 
-{Hardware-Hiding} & ~ \\
-\midrule
+    {Hardware-Hiding}                              & ~                               \\
+    \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding} & Input Parameters\\
-& Output Format\\
-& Output Verification\\
-& Temperature ODEs\\
-& Energy Equations\\ 
-& Control Module\\
-& Specification Parameters Module\\
-\midrule
+    \multirow{7}{0.3\textwidth}{Behaviour-Hiding}  & Input Parameters                \\
+                                                   & Output Format                   \\
+                                                   & Output Verification             \\
+                                                   & Temperature ODEs                \\
+                                                   & Energy Equations                \\
+                                                   & Control Module                  \\
+                                                   & Specification Parameters Module \\
+    \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision} & {Sequence Data Structure}\\
-& ODE Solver\\
-& Plotting\\
-\bottomrule
-
-\end{tabular}
-\caption{Module Hierarchy}
-\label{TblMH}
+    \multirow{3}{0.3\textwidth}{Software Decision} & {Sequence Data Structure}       \\
+                                                   & ODE Solver                      \\
+                                                   & Plotting                        \\
+    \bottomrule
+  \end{tabular}
+  \caption{Module Hierarchy}
+  \label{TblMH}
 \end{table}
 
 \newpage
@@ -177,13 +176,13 @@ The following table is taken directly from the Module Guide document for this pr
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-\wss{accessProg} & - & - & - \\
-\hline
-\end{tabular}
+  \begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+    \hline
+    \textbf{Name}    & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+    \hline
+    \wss{accessProg} & -           & -            & -                   \\
+    \hline
+  \end{tabular}
 \end{center}
 
 \subsection{Semantics}
@@ -208,9 +207,9 @@ The following table is taken directly from the Module Guide document for this pr
 
 \noindent \wss{accessProg}():
 \begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: \wss{if appropriate} 
+  \item transition: \wss{if appropriate}
+  \item output: \wss{if appropriate}
+  \item exception: \wss{if appropriate}
 \end{itemize}
 
 \wss{A module without environment variables or state variables is unlikely to
@@ -237,7 +236,7 @@ The following table is taken directly from the Module Guide document for this pr
 \section{MIS of PlayerT Module} \label{PlayerTModule}
 
 \subsection{Module}
-\textbf{PlayerT}: Abstract Player Module. 
+\textbf{PlayerT}: Abstract Player Module.
 \subsection{Uses}
 TeamT
 \begin{itemize}
@@ -253,18 +252,18 @@ TeamT
 
 \begin{center}
   \begin{tabular}{|p{4cm}| p{4cm}| p{4cm} | p{3cm}|}
-  \hline
-  \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-  \hline
-  PlayerT & String, String, String, String, Bool, String & - & - \\
-  getPlayerId &  & String & -\\
-  getName &  & String & -\\
-  getEmail &  & String & -\\
-  getWaiverStatus &  & Bool & -\\
-  getTeam &  & Bool & -\\
-  setWaiverStatus & Bool & - & -\\
-  setTeam & String & - & -\\
-  \hline
+    \hline
+    \textbf{Name}   & \textbf{In}                                  & \textbf{Out} & \textbf{Exceptions} \\
+    \hline
+    PlayerT         & String, String, String, String, Bool, String & -            & -                   \\
+    getPlayerId     &                                              & String       & -                   \\
+    getName         &                                              & String       & -                   \\
+    getEmail        &                                              & String       & -                   \\
+    getWaiverStatus &                                              & Bool         & -                   \\
+    getTeam         &                                              & Bool         & -                   \\
+    setWaiverStatus & Bool                                         & -            & -                   \\
+    setTeam         & String                                       & -            & -                   \\
+    \hline
   \end{tabular}
 \end{center}
 
@@ -282,51 +281,51 @@ TeamT
 
 \noindent PlayerT(id, n, e, p, w, t):
 \begin{itemize}
-\item transition: $playerId, name, email, password, waiverStatus, team := id, n, e, p, w, t$
-\item output: $out := self$
-\item exception: None
+  \item transition: $playerId, name, email, password, waiverStatus, team := id, n, e, p, w, t$
+  \item output: $out := self$
+  \item exception: None
 \end{itemize}
 
 \noindent getPlayerId():
 \begin{itemize}
-\item output: $out := playerId$
-\item exception: None
+  \item output: $out := playerId$
+  \item exception: None
 \end{itemize}
 
 \noindent getName():
 \begin{itemize}
-\item output: $out := name$
-\item exception: None
+  \item output: $out := name$
+  \item exception: None
 \end{itemize}
 
 \noindent getEmail():
 \begin{itemize}
-\item output: $out := email$
-\item exception: None
+  \item output: $out := email$
+  \item exception: None
 \end{itemize}
 
 \noindent getWaiverStatus():
 \begin{itemize}
-\item output: $out := waiverStatus$
-\item exception: None
+  \item output: $out := waiverStatus$
+  \item exception: None
 \end{itemize}
 
 \noindent getTeam():
 \begin{itemize}
-\item output: $out := team$
-\item exception: None
+  \item output: $out := team$
+  \item exception: None
 \end{itemize}
 
 \noindent setTeam(t):
 \begin{itemize}
-\item transition: $team := t$
-\item exception: None
+  \item transition: $team := t$
+  \item exception: None
 \end{itemize}
 
 \noindent setWaiverStatus(w):
 \begin{itemize}
-\item transition: $waiverStatus := w$
-\item exception: None
+  \item transition: $waiverStatus := w$
+  \item exception: None
 \end{itemize}
 
 
@@ -349,19 +348,19 @@ TeamT
 \subsubsection{Exported Access Programs}
 \begin{center}
   \begin{tabular}{|p{4cm}| p{4cm}| p{4cm} | p{3cm}|}
-  \hline
-  \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-  \hline
-  GameT & String, String, Date, String, String, Integer, Integer, String & - & - \\
-  getGameId &  & String & - \\
-  getTeamsInGame &  & TeamT[] & GameNotFound \\
-  getGameDetails &  & Object & GameNotFound \\
-  getStatus &  & String & GameNotFound \\
-  getField &  & String & GameNotFound \\
-  setStatus & String & - & InvalidStatus \\
-  setField & String & - & InvalidField \\
-  setScore & Integer, Integer & - & InvalidScore \\
-  \hline
+    \hline
+    \textbf{Name}  & \textbf{In}                                                    & \textbf{Out} & \textbf{Exceptions} \\
+    \hline
+    GameT          & String, String, Date, String, String, Integer, Integer, String & -            & -                   \\
+    getGameId      &                                                                & String       & -                   \\
+    getTeamsInGame &                                                                & TeamT[]      & GameNotFound        \\
+    getGameDetails &                                                                & Object       & GameNotFound        \\
+    getStatus      &                                                                & String       & GameNotFound        \\
+    getField       &                                                                & String       & GameNotFound        \\
+    setStatus      & String                                                         & -            & InvalidStatus       \\
+    setField       & String                                                         & -            & InvalidField        \\
+    setScore       & Integer, Integer                                               & -            & InvalidScore        \\
+    \hline
   \end{tabular}
 \end{center}
 
@@ -384,57 +383,57 @@ None
 
 \noindent GameT(id, t1, t2, d, t, s1, s2, f):
 \begin{itemize}
-\item transition: $gameId, team1Id, team2Id, gameDate, gameTime, scoreTeam1, scoreTeam2, field := id, t1, t2, d, t, s1, s2, f$
-\item output: $out := self$
-\item exception: None
+  \item transition: $gameId, team1Id, team2Id, gameDate, gameTime, scoreTeam1, scoreTeam2, field := id, t1, t2, d, t, s1, s2, f$
+  \item output: $out := self$
+  \item exception: None
 \end{itemize}
 
 \noindent getGameId():
 \begin{itemize}
-\item output: $out := gameId$
-\item exception: None
+  \item output: $out := gameId$
+  \item exception: None
 \end{itemize}
 
 \noindent getGameDetails():
 \begin{itemize}
-\item output: $out := \text{Object containing game details: } gameId, team1Id, team2Id, gameDate, gameTime, scoreTeam1, scoreTeam2, status, field$
-\item exception: Game not found if the game ID does not exist.
+  \item output: $out := \text{Object containing game details: } gameId, team1Id, team2Id, gameDate, gameTime, scoreTeam1, scoreTeam2, status, field$
+  \item exception: Game not found if the game ID does not exist.
 \end{itemize}
 
 \noindent getTeamsInGame():
 \begin{itemize}
-\item output: $out := \text{Array of Teams participating in the game}$
-\item exception: Game not found if the game ID does not exist.
+  \item output: $out := \text{Array of Teams participating in the game}$
+  \item exception: Game not found if the game ID does not exist.
 \end{itemize}
 
 \noindent getStatus():
 \begin{itemize}
-\item output: $out := status$
-\item exception: Game not found if the game ID does not exist.
+  \item output: $out := status$
+  \item exception: Game not found if the game ID does not exist.
 \end{itemize}
 
 \noindent getField():
 \begin{itemize}
-\item output: $out := field$
-\item exception: Game not found if the game ID does not exist.
+  \item output: $out := field$
+  \item exception: Game not found if the game ID does not exist.
 \end{itemize}
 
 \noindent setStatus(status):
 \begin{itemize}
-\item transition: $status := status$
-\item exception: Invalid status if the provided status is not valid.
+  \item transition: $status := status$
+  \item exception: Invalid status if the provided status is not valid.
 \end{itemize}
 
 \noindent setField(field):
 \begin{itemize}
-\item transition: $field := field$
-\item exception: Invalid field if the provided field is not valid.
+  \item transition: $field := field$
+  \item exception: Invalid field if the provided field is not valid.
 \end{itemize}
 
 \noindent setScore(score1, score2):
 \begin{itemize}
-\item transition: $scoreTeam1 := score1, scoreTeam2 := score2$
-\item exception: Invalid score if the provided scores are not valid integers.
+  \item transition: $scoreTeam1 := score1, scoreTeam2 := score2$
+  \item exception: Invalid score if the provided scores are not valid integers.
 \end{itemize}
 
 \subsubsection{Local Functions}
@@ -458,18 +457,18 @@ PlayerT, GameT
 
 \begin{center}
   \begin{tabular}{|p{4cm}| p{4cm}| p{4cm} | p{3cm}|}
-  \hline
-  \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-  \hline
-  TeamT & String, String, String, PlayerT[], PlayerT & - & - \\
-  getTeamId &  & String & - \\
-  getTeamName &  & String & - \\
-  getDivision &  & String & - \\
-  getRoster &  & PlayerT[] & - \\
-  getCaptain &  & PlayerT & - \\
-  addPlayer & PlayerT & - & InvalidPlayer \\
-  removePlayer & PlayerT & - & PlayerNotFound \\
-  \hline
+    \hline
+    \textbf{Name} & \textbf{In}                                & \textbf{Out} & \textbf{Exceptions} \\
+    \hline
+    TeamT         & String, String, String, PlayerT[], PlayerT & -            & -                   \\
+    getTeamId     &                                            & String       & -                   \\
+    getTeamName   &                                            & String       & -                   \\
+    getDivision   &                                            & String       & -                   \\
+    getRoster     &                                            & PlayerT[]    & -                   \\
+    getCaptain    &                                            & PlayerT      & -                   \\
+    addPlayer     & PlayerT                                    & -            & InvalidPlayer       \\
+    removePlayer  & PlayerT                                    & -            & PlayerNotFound      \\
+    \hline
   \end{tabular}
 \end{center}
 
@@ -491,57 +490,57 @@ None
 
 \noindent TeamT(id, n, d, r, c):
 \begin{itemize}
-\item transition: $teamId, teamName, division, roster, captain := id, n, d, r, c$
-\item output: $out := self$
-\item exception: None
+  \item transition: $teamId, teamName, division, roster, captain := id, n, d, r, c$
+  \item output: $out := self$
+  \item exception: None
 \end{itemize}
 
 \noindent getTeamId():
 \begin{itemize}
-\item output: $out := teamId$
-\item exception: None
+  \item output: $out := teamId$
+  \item exception: None
 \end{itemize}
 
 \noindent getTeamName():
 \begin{itemize}
-\item output: $out := teamName$
-\item exception: None
+  \item output: $out := teamName$
+  \item exception: None
 \end{itemize}
 
 \noindent getDivision():
 \begin{itemize}
-\item output: $out := division$
-\item exception: None
+  \item output: $out := division$
+  \item exception: None
 \end{itemize}
 
 \noindent getRoster():
 \begin{itemize}
-\item output: $out := roster$
-\item exception: None
+  \item output: $out := roster$
+  \item exception: None
 \end{itemize}
 
 \noindent getCaptain():
 \begin{itemize}
-\item output: $out := captain$
-\item exception: None
+  \item output: $out := captain$
+  \item exception: None
 \end{itemize}
 
 \noindent addPlayer(player):
 \begin{itemize}
-\item transition: $roster := roster + player$
-\item exception: Invalid player if the player is invalid or already in the roster.
+  \item transition: $roster := roster + player$
+  \item exception: Invalid player if the player is invalid or already in the roster.
 \end{itemize}
 
 \noindent removePlayer(player):
 \begin{itemize}
-\item transition: $roster := roster - player$
-\item exception: Player not found if the player is not in the roster.
+  \item transition: $roster := roster - player$
+  \item exception: Player not found if the player is not in the roster.
 \end{itemize}
 
 \subsubsection{Local Functions}
 None
 
-\section{MIS of Backend Module} \label{Backend} 
+\section{MIS of Backend Module} \label{Backend}
 
 \subsection{Module}
 
@@ -558,24 +557,24 @@ PlayerT, GameT, TeamT
 
 \begin{center}
   \begin{tabular}{|p{4cm}| p{4cm}| p{4cm} | p{3cm}|}
-  \hline
-  \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-  \hline
-  createPlayer & String, String, String, String, Bool, String & - & PlayerCreationError \\
-  getPlayer & String & PlayerT & PlayerNotFound \\
-  updatePlayer & String, String, String, String, Bool, String & - & PlayerNotFound \\
-  deletePlayer & String & - & PlayerNotFound \\
-  createTeam & String, String, String, PlayerT[], PlayerT & - & TeamCreationError \\
-  getTeam & String & TeamT & TeamNotFound \\
-  updateTeam & String, String, String, PlayerT[], PlayerT & - & TeamCreationError \\
-  deleteTeam & String & - & TeamNotFound \\
-  createGame & String, String, Date, String, String, Integer, Integer, String & - & GameCreationError \\
-  getGame & String & GameT & GameNotFound \\
-  updateGame & String, String, Date, String, String, Integer, Integer, String & - & GameCreationError \\
-  deleteGame & String & - & GameNotFound \\
-  getAllPlayersForTeam & String & PlayerT[] & TeamNotFound \\
-  getAllGamesForTeam & String & GameT[] & TeamNotFound \\
-  \hline
+    \hline
+    \textbf{Name}        & \textbf{In}                                                    & \textbf{Out} & \textbf{Exceptions} \\
+    \hline
+    createPlayer         & String, String, String, String, Bool, String                   & -            & PlayerCreationError \\
+    getPlayer            & String                                                         & PlayerT      & PlayerNotFound      \\
+    updatePlayer         & String, String, String, String, Bool, String                   & -            & PlayerNotFound      \\
+    deletePlayer         & String                                                         & -            & PlayerNotFound      \\
+    createTeam           & String, String, String, PlayerT[], PlayerT                     & -            & TeamCreationError   \\
+    getTeam              & String                                                         & TeamT        & TeamNotFound        \\
+    updateTeam           & String, String, String, PlayerT[], PlayerT                     & -            & TeamCreationError   \\
+    deleteTeam           & String                                                         & -            & TeamNotFound        \\
+    createGame           & String, String, Date, String, String, Integer, Integer, String & -            & GameCreationError   \\
+    getGame              & String                                                         & GameT        & GameNotFound        \\
+    updateGame           & String, String, Date, String, String, Integer, Integer, String & -            & GameCreationError   \\
+    deleteGame           & String                                                         & -            & GameNotFound        \\
+    getAllPlayersForTeam & String                                                         & PlayerT[]    & TeamNotFound        \\
+    getAllGamesForTeam   & String                                                         & GameT[]      & TeamNotFound        \\
+    \hline
   \end{tabular}
 \end{center}
 
@@ -598,96 +597,178 @@ PlayerT, GameT, TeamT
   \item The backend is connected to a database
   \item Each database operation (CRUD) will be encapsulated in a backend method to ensure separation of concerns
   \item Data consistency and integrity are maintained by the backend during each operation.
-  
+
 \end{itemize}
 
 \subsubsection{Access Routine Semantics}
 
 \noindent createPlayer(name, email, password, waiverStatus, team):
 \begin{itemize}
-\item transition: $playerId, name, email, password, waiverStatus, team := name, email, password, waiverStatus, team$
-\item exception: "Player Creation Error" if player cannot be created
+  \item transition: $playerId, name, email, password, waiverStatus, team := name, email, password, waiverStatus, team$
+  \item exception: "Player Creation Error" if player cannot be created
 \end{itemize}
 
 \noindent getPlayer(playerId):
 \begin{itemize}
-\item output: $out := player$ (retrieves player object based on playerId)
-\item exception: "Player Not Found" if player does not exist
+  \item output: $out := player$ (retrieves player object based on playerId)
+  \item exception: "Player Not Found" if player does not exist
 \end{itemize}
 
 \noindent updatePlayer(playerId, name, email, password, waiverStatus, team):
 \begin{itemize}
-\item transition: $name, email, password, waiverStatus, team := name, email, password, waiverStatus, team$ (updates player's details)
-\item exception: "Player Not Found" if player does not exist
+  \item transition: $name, email, password, waiverStatus, team := name, email, password, waiverStatus, team$ (updates player's details)
+  \item exception: "Player Not Found" if player does not exist
 \end{itemize}
 
 \noindent deletePlayer(playerId):
 \begin{itemize}
-\item transition: $player := null$ (deletes the player from the database)
-\item exception: "Player Not Found" if player does not exist
+  \item transition: $player := null$ (deletes the player from the database)
+  \item exception: "Player Not Found" if player does not exist
 \end{itemize}
 
 \noindent createTeam(teamName, division, captain, roster):
 \begin{itemize}
-\item transition: $teamId, teamName, division, captain, roster := teamName, division, captain, roster$
-\item exception: "Team Creation Error" if team cannot be created
+  \item transition: $teamId, teamName, division, captain, roster := teamName, division, captain, roster$
+  \item exception: "Team Creation Error" if team cannot be created
 \end{itemize}
 
 \noindent getTeam(teamId):
 \begin{itemize}
-\item output: $out := team$ (retrieves team object based on teamId)
-\item exception: "Team Not Found" if team does not exist
+  \item output: $out := team$ (retrieves team object based on teamId)
+  \item exception: "Team Not Found" if team does not exist
 \end{itemize}
 
 \noindent updateTeam(teamId, teamName, division, roster):
 \begin{itemize}
-\item transition: $teamName, division, roster := teamName, division, roster$ (updates team's details)
-\item exception: "Team Not Found" if team does not exist
+  \item transition: $teamName, division, roster := teamName, division, roster$ (updates team's details)
+  \item exception: "Team Not Found" if team does not exist
 \end{itemize}
 
 \noindent deleteTeam(teamId):
 \begin{itemize}
-\item transition: $team := null$ (deletes the team from the database)
-\item exception: "Team Not Found" if team does not exist
+  \item transition: $team := null$ (deletes the team from the database)
+  \item exception: "Team Not Found" if team does not exist
 \end{itemize}
 
 \noindent createGame(teams, date, time, field, score):
 \begin{itemize}
-\item transition: $gameId, teams, date, time, field, score := teams, date, time, field, score$ (creates a new game)
-\item exception: "Game Creation Error" if game cannot be created (e.g., scheduling conflict)
+  \item transition: $gameId, teams, date, time, field, score := teams, date, time, field, score$ (creates a new game)
+  \item exception: "Game Creation Error" if game cannot be created (e.g., scheduling conflict)
 \end{itemize}
 
 \noindent getGame(gameId):
 \begin{itemize}
-\item output: $out := game$ (retrieves game object based on gameId)
-\item exception: "Game Not Found" if game does not exist
+  \item output: $out := game$ (retrieves game object based on gameId)
+  \item exception: "Game Not Found" if game does not exist
 \end{itemize}
 
 \noindent updateGame(gameId, updates):
 \begin{itemize}
-\item transition: $gameId, updates := gameId, updates$ (updates the game's details)
-\item exception: "Game Not Found" if game does not exist
+  \item transition: $gameId, updates := gameId, updates$ (updates the game's details)
+  \item exception: "Game Not Found" if game does not exist
 \end{itemize}
 
 \noindent deleteGame(gameId):
 \begin{itemize}
-\item transition: $game := null$ (deletes the game from the database)
-\item exception: "Game Not Found" if game does not exist
+  \item transition: $game := null$ (deletes the game from the database)
+  \item exception: "Game Not Found" if game does not exist
 \end{itemize}
 
 \noindent getAllPlayersForTeam(teamId):
 \begin{itemize}
-\item output: $out := players$ (retrieves all players associated with the team)
-\item exception: "Team Not Found" if team does not exist
+  \item output: $out := players$ (retrieves all players associated with the team)
+  \item exception: "Team Not Found" if team does not exist
 \end{itemize}
 
 \noindent getAllGamesForTeam(teamId):
 \begin{itemize}
-\item output: $out := games$ (retrieves all games associated with the team)
-\item exception: "Team Not Found" if team does not exist
+  \item output: $out := games$ (retrieves all games associated with the team)
+  \item exception: "Team Not Found" if team does not exist
 \end{itemize}
 
 \subsubsection{Local Functions}
+
+\newpage
+
+\section{MIS of Game Management Module (M4)} \label{GameManagementModule}
+
+\subsection{Module}
+
+Game Management Module
+
+\subsection{Uses}
+
+GameT Module, TeamT Module, Scheduling Module, and Database Module
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+None
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+  \begin{tabularx}{\textwidth}{|l|X|X|X|}
+    \hline
+    \textbf{Name}    & \textbf{In}                                   & \textbf{Out} & \textbf{Exceptions}                            \\
+    \hline
+    reportScore      & int: gameID, int: team1Score, int: team2Score & bool: status & InvalidGameIDException, InvalidScoreException  \\
+    \hline
+    updateGameStatus & int: gameID, string: newStatus                & bool: status & InvalidGameIDException, InvalidStatusException \\
+    \hline
+    getGameDetails   & int: gameID                                   & GameT: game  & InvalidGameIDException                         \\
+    \hline
+  \end{tabularx}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+  \item \texttt{games}: A mapping of game IDs to game details, including participating teams, scores, and statuses.
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+\begin{itemize}
+  \item Database: For storing and retrieving game records.
+  \item UI Module: For allowing users to report scores and update statuses.
+\end{itemize}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+  \item Game IDs are unique and valid.
+  \item Input data (scores and statuses) are provided in the correct format.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent \texttt{reportScore}(gameID, team1Score, team2Score):
+\begin{itemize}
+  \item transition: Updates the scores for the game identified by \texttt{gameID}.
+  \item output: Returns success or failure status.
+  \item exception: Throws \texttt{InvalidGameIDException} if the game does not exist. Throws \texttt{InvalidScoreException} if the scores are invalid.
+\end{itemize}
+
+\noindent \texttt{updateGameStatus}(gameID, newStatus):
+\begin{itemize}
+  \item transition: Changes the status of the game identified by \texttt{gameID}.
+  \item output: Returns success or failure status.
+  \item exception: Throws \texttt{InvalidGameIDException} if the game does not exist. Throws \texttt{InvalidStatusException} if the status is invalid.
+\end{itemize}
+
+\noindent \texttt{retrieveGameResults}(gameID):
+\begin{itemize}
+  \item output: Returns the game details, including scores and status.
+  \item exception: Throws \texttt{InvalidGameIDException} if the game does not exist.
+\end{itemize}
+
+\subsubsection{Local Functions}
+
+None
+
 
 \newpage
 
@@ -707,20 +788,20 @@ graduate attribute of Problem Analysis and Design.
 \input{../../Reflection.tex}
 
 \begin{enumerate}
-  \item What went well while writing this deliverable? 
+  \item What went well while writing this deliverable?
   \item What pain points did you experience during this deliverable, and how
-    did you resolve them?
+        did you resolve them?
   \item Which of your design decisions stemmed from speaking to your client(s)
-  or a proxy (e.g. your peers, stakeholders, potential users)? For those that
-  were not, why, and where did they come from?
+        or a proxy (e.g. your peers, stakeholders, potential users)? For those that
+        were not, why, and where did they come from?
   \item While creating the design doc, what parts of your other documents (e.g.
-  requirements, hazard analysis, etc), it any, needed to be changed, and why?
+        requirements, hazard analysis, etc), it any, needed to be changed, and why?
   \item What are the limitations of your solution?  Put another way, given
-  unlimited resources, what could you do to make the project better? (LO\_ProbSolutions)
+        unlimited resources, what could you do to make the project better? (LO\_ProbSolutions)
   \item Give a brief overview of other design solutions you considered.  What
-  are the benefits and tradeoffs of those other designs compared with the chosen
-  design?  From all the potential options, why did you select the documented design?
-  (LO\_Explores)
+        are the benefits and tradeoffs of those other designs compared with the chosen
+        design?  From all the potential options, why did you select the documented design?
+        (LO\_Explores)
 \end{enumerate}
 
 
