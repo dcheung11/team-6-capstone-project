@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -24,10 +25,14 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || 'An unknown error occurred!' });
 });
 
+const PORT = process.env.PORT || 3000;
+
 mongoose
   .connect('mongodb+srv://root:H2pAgdPcmUUw97se@capstone-cluster.ghx0o.mongodb.net/')
   .then(() => {
-    app.listen(3000);
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
   })
   .catch(err => {
     console.log(err);
