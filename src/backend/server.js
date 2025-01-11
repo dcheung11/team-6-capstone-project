@@ -26,9 +26,10 @@ app.use((error, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3000;
+const MONGO_URI = process.env.MONGO_URI;
 
 mongoose
-  .connect('mongodb+srv://root:H2pAgdPcmUUw97se@capstone-cluster.ghx0o.mongodb.net/')
+  .connect(MONGO_URI)
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
