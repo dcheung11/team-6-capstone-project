@@ -782,6 +782,86 @@ PlayerT, GameT, TeamT
 \end{itemize}
 
 \subsubsection{Local Functions}
+None
+
+\section{MIS of Waiver Module} \label{WaiverModule}
+
+\subsection{Module}
+Waiver
+
+\subsection{Uses}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{|p{3cm}|p{4cm}|p{4cm}|p{4cm}|}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+\texttt{createWaiver} & Waiver details & Waiver ID & InvalidInputException \\
+\texttt{getWaiver} & Waiver ID & Waiver details & WaiverNotFoundException \\
+\texttt{signWaiver} & User ID, Waiver ID & Boolean & WaiverNotFoundException, AlreadySignedException \\
+\texttt{listWaivers} & User ID & List of waivers & - \\
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+    \item \texttt{waiverList}: A collection of all waivers, including details and user signatures.
+\end{itemize}
+
+\subsubsection{Environment Variables}
+\begin{itemize}
+    \item Database: For storage of waiver details and signatures.
+\end{itemize}
+
+\subsubsection{Assumptions}
+\begin{itemize}
+    \item All users accessing the waiver module are authenticated.
+    \item Waiver text complies with the legal requirements of the university softball league.
+    
+\subsubsection{Access Routine Semantics}
+
+\noindent \texttt{createWaiver}(details):  
+\begin{itemize}
+    \item transition: Adds a new waiver to \texttt{waiverList}.
+    \item output: Returns a unique identifier for the created waiver.
+    \item exception: Raises \texttt{InvalidInputException} if the waiver details are incomplete.
+\end{itemize}
+
+\noindent \texttt{getWaiver}(waiverID):  
+\begin{itemize}
+    \item output: Retrieves details of the specified waiver.
+    \item exception: Raises \texttt{WaiverNotFoundException} if the waiver does not exist.
+\end{itemize}
+
+\noindent \texttt{signWaiver}(playerID, waiverID):  
+\begin{itemize}
+    \item transition: Updates \texttt{waiverList} to record the user's signature for the specified waiver.
+    \item output: Returns \texttt{true} if the signature is successful.
+    \item exception: Raises \texttt{WaiverNotFoundException} if the waiver does not exist or \texttt{AlreadySignedException} if the user has already signed the waiver.
+\end{itemize}
+
+\noindent \texttt{listWaivers}(userID):  
+\begin{itemize}
+    \item output: Returns all waivers associated with the user.
+\end{itemize}
+
+\subsubsection{Local Functions}
+\begin{itemize}
+    \item None
+\end{itemize}
 
 \section{MIS of Notification Module} \label{Module:Notification}
 
@@ -1266,17 +1346,17 @@ None
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-  \begin{tabularx}{\textwidth}{|l|X|X|X|}
-    \hline
-    \textbf{Name}    & \textbf{In}   & \textbf{Out} & \textbf{Exceptions}          \\
-    \hline
-    reportScore      & int, int, int & -     & InvalidGameID, InvalidScore  \\
-    \hline
-    updateGameStatus & int, string   & -      & InvalidGameID, InvalidStatus \\
-    \hline
-    getGameDetails   & int           & GameT        & InvalidGameID                \\
-    \hline
-  \end{tabularx}
+\begin{tabularx}{\textwidth}{|l|X|X|X|}
+\hline
+\textbf{Name}    & \textbf{In}   & \textbf{Out} & \textbf{Exceptions}          \\
+\hline
+reportScore      & int, int, int & -     & InvalidGameID, InvalidScore  \\
+\hline
+updateGameStatus & int, string   & -      & InvalidGameID, InvalidStatus \\
+\hline
+getGameDetails   & int           & GameT        & InvalidGameID                \\
+\hline
+\end{tabularx}
 \end{center}
 
 \subsection{Semantics}
