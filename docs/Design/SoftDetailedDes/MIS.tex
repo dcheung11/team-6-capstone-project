@@ -985,6 +985,89 @@ Notification
 
 \newpage
 
+\section{MIS of Scheduling Algorithm Module} \label{SchedulingAlgorithmModule}
+
+\subsection{Module}
+SchedulingAlgorithm: Software Decision Module.
+
+\subsection{Uses}
+\begin{itemize}
+  \item Scheduling Module
+  \item TeamT
+  \item SlotT
+  \item GameT
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+\begin{itemize}
+  \item DEFAULT\_WEEK\_COUNT: Integer \\ Default number of weeks for scheduling.
+  \item MAX\_GAMES\_PER\_TEAM: Integer \\ Maximum number of games per team.
+  \item MIN\_GAMES\_PER\_TEAM: Integer \\ Minimum number of games per team.
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+  \begin{tabular}{|p{3cm}|p{3.5cm}|p{3.5cm}|p{5cm}|}
+  \hline
+  Name & In & Out & Exceptions \\
+  \hline
+  generateSchedule & TeamT[], Slot Object[] & Schedule object & InvalidInput \\
+  resolveConflicts & Schedule Object & Schedule Object & ConflictResolutionFailure \\
+  optimizeSchedule & Schedule Object & Schedule Object & OptimizationFailure \\
+  \hline
+  \end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+None
+
+\subsubsection{Environment Variables}
+None
+
+\subsubsection{Assumptions}
+\begin{itemize}
+  \item Inputs, such as the list of teams, slots, and week count, are valid and non-empty.
+  \item Teams have all required properties, such as constraints and preferences.
+  \item Slots are pre-validated and adhere to game capacity limits.
+  \item Conflicts are identifiable based on provided rules (e.g., double bookings, unavailable fields).
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent generateSchedule(teams, slots, weekCount):
+\begin{itemize}
+  \item output: out := schedule \\ A schedule object generated based on team constraints, slot availability, and the given week count.
+  \item exception: Raises InvalidInput if the input is incomplete or invalid.
+\end{itemize}
+
+\noindent resolveConflicts(schedule):
+\begin{itemize}
+  \item transition: Resolves scheduling conflicts.
+  \item output: out := updated\_schedule.
+  \item exception: Raises ConflictResolutionFailure if the conflicts cannot be resolved.
+\end{itemize}
+
+\noindent optimizeSchedule(schedule):
+\begin{itemize}
+  \item transition: Refines the input schedule to improve adherence to the specified metrics.
+  \item output: out := optimized\_schedule.
+  \item exception: Raises OptimizationFailure if optimization fails due to constraints or conflicts.
+\end{itemize}
+
+\subsubsection{Local Functions}
+\begin{itemize}
+  \item calculateFairness(schedule): Computes a fairness metric for the schedule, ensuring balance across teams.
+  \item detectConflicts(schedule): Identifies conflicts, such as double bookings or unavailable slots, in the schedule.
+  \item applyOptimization(schedule, metrics): Applies optimization techniques to enhance the schedule.
+\end{itemize}
+
+\newpage
+
 \section{Appendix} \label{Appendix}
 
 \wss{Extra information if required}
