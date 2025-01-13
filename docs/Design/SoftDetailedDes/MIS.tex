@@ -233,6 +233,81 @@ The following table is taken directly from the Module Guide document for this pr
 
 \newpage
 
+\section{MIS of User Interface Module (M1)} \label{Module:UI}
+
+\subsection{Module}
+
+User Interface Module
+
+\subsection{Uses}
+
+\begin{itemize}
+    \item Backend Module: To retrieve and send data for rendering views and processing user inputs.
+    \item Authentication Module: For user login and role verification.
+    \item Game Management Module: To display and update game information.
+    \item Team Management Module: To display team information
+    \item Scheduling Module: To display schedules
+    \item Standings Module: To display league standings and updates.
+    \item Announcements Module: To display Announcements
+    \item Notification Module: To display interface for creating notifications
+    \item User Profile Module: To display user profile info
+    
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+  \begin{tabularx}{\textwidth}{|l|X|X|X|}
+  \hline
+  \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+  \hline
+  renderView & View & - & InvalidViewException \\
+  \hline
+  \end{tabularx}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\begin{itemize}
+    \item \textbf{currentView}: Stores the identifier for the currently displayed view.
+    \item \textbf{userRole}: Stores the role of the currently logged-in user (e.g., player, captain, commissioner).
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+\begin{itemize}
+    \item Browser environment: The module interacts with the user's browser, including DOM manipulation and event handling.
+    \item Network connection: Required for fetching and sending data to the backend.
+\end{itemize}
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+    \item Users will have a modern web browser that supports the required JavaScript features.
+    \item A stable network connection is available during interactions requiring backend communication.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent \textbf{renderView(view)}:
+\begin{itemize}
+    \item transition: \texttt{currentView} := \texttt{view}.
+    \item exception: Throws \texttt{InvalidViewException} if \texttt{view} is unsupported.
+\end{itemize}
+
+\subsubsection{Local Functions}
+\begin{itemize}
+  \item None
+\end{itemize}
+
 \section{MIS of Scheduling Module} \label{SchedulingModule}
 
 \subsection{Module}
@@ -248,6 +323,7 @@ The following table is taken directly from the Module Guide document for this pr
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
+
 \begin{itemize}
     \item \textbf{DEFAULT\_WEEK\_COUNT: Integer} \\ Default number of weeks in the season.
 \end{itemize}
@@ -322,6 +398,7 @@ The following table is taken directly from the Module Guide document for this pr
 \end{itemize}
 
 \subsubsection{Local Functions}
+
 \begin{itemize}
     \item None
 \end{itemize}
