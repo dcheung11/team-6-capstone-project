@@ -234,6 +234,101 @@ The following table is taken directly from the Module Guide document for this pr
 
 \newpage
 
+\section{MIS of Scheduling Module} \label{SchedulingModule}
+
+\subsection{Module}
+\textbf{Scheduling Module}: Behaviour-Hiding Module
+
+\subsection{Uses}
+\begin{itemize}
+    \item Scheduling Algorithm Module
+    \item TeamT Module
+    \item GameT Module
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+\begin{itemize}
+    \item \textbf{DEFAULT\_WEEK\_COUNT: Integer} \\ Default number of weeks in the season.
+\end{itemize}
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+  \begin{tabular}{|p{4cm}| p{4cm}| p{4cm} | p{3cm}|}
+  \hline
+  \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+  \hline
+  create schedule & TeamT[], Slot Object[], Integer & Schedule Object & - \\
+  addGame & GameT & Boolean & InvalidInput \\
+  removeGame & String & Boolean & GameNotFound \\
+  updateGameSlot & String, Slot Object & Boolean & GameNotFound \\
+  rescheduleGame & String, GameT, GameT & Boolean & GameNotFound, SlotNotFound \\
+  \hline
+  \end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+\begin{itemize}
+    \item \textbf{schedule: Object} \\ The current schedule object containing all games, slots, and team assignments.
+\end{itemize}
+
+\subsubsection{Environment Variables}
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\subsubsection{Assumptions}
+\begin{itemize}
+    \item Valid team and slot data are provided for schedule creation.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent createSchedule(teams, slots, seasonLength):
+\begin{itemize}
+    \item transition: $schedule := generateSchedule(teams, slots, seasonLength)$
+    \item output: $out := schedule$
+    \item exception: None
+\end{itemize}
+
+\noindent addGame(details):
+\begin{itemize}
+    \item transition: Adds a new game to the schedule using the provided details.
+    \item output: $out := true$ if the game is successfully added.
+    \item exception: Raises InvalidInput if details are incomplete or invalid.
+\end{itemize}
+
+\noindent removeGame(gameId):
+\begin{itemize}
+    \item transition: Removes the game with the given gameId from the schedule.
+    \item output: $out := true$ if the game is successfully removed.
+    \item exception: Raises GameNotFound if the game does not exist.
+\end{itemize}
+
+\noindent updateGameSlot(gameId, newSlot):
+\begin{itemize}
+    \item transition: Updates the slot for the game with gameId in the schedule to newSlot. Removes the game from the old slot.
+    \item output: $out := true$ if the update is successful.
+    \item exception: Raises GameNotFound if the game does not exist.
+\end{itemize}
+
+\noindent rescheduleGame(gameId, newSlot, oldSlot):
+\begin{itemize}
+    \item transition: Removes the game with gameId from oldSlot and assigns it to newSlot in the schedule.
+    \item output: $out := true$ if the reschedule is successful.
+    \item exception: Raises GameNotFound if the game does not exist or SlotNotFound if either slot does not exist.
+\end{itemize}
+
+\subsubsection{Local Functions}
+\begin{itemize}
+    \item None
+\end{itemize}
+
+\newpage
+
 \section{MIS of PlayerT Module} \label{PlayerTModule}
 
 \subsection{Module}
