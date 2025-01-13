@@ -19,10 +19,10 @@
 
 \begin{document}
 
-\title{System Verification and Validation Plan for \progname{}} 
+\title{System Verification and Validation Plan for \progname{}}
 \author{\authname}
 \date{\today}
-	
+
 \maketitle
 
 \pagenumbering{roman}
@@ -30,27 +30,27 @@
 \section*{Revision History}
 
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
-\midrule
-Oct 30, 2024 1 & 1.0 & 4.2 and Appendix\\
+    \toprule {\bf Date} & {\bf Version} & {\bf Notes}      \\
+    \midrule
+    Oct 30, 2024 1      & 1.0           & 4.2 and Appendix \\
 
-\bottomrule
+    \bottomrule
 \end{tabularx}
 
 ~\\
 \wss{The intention of the VnV plan is to increase confidence in the software.
-However, this does not mean listing every verification and validation technique
-that has ever been devised.  The VnV plan should also be a \textbf{feasible}
-plan. Execution of the plan should be possible with the time and team available.
-If the full plan cannot be completed during the time available, it can either be
-modified to ``fake it'', or a better solution is to add a section describing
-what work has been completed and what work is still planned for the future.}
+    However, this does not mean listing every verification and validation technique
+    that has ever been devised.  The VnV plan should also be a \textbf{feasible}
+    plan. Execution of the plan should be possible with the time and team available.
+    If the full plan cannot be completed during the time available, it can either be
+    modified to ``fake it'', or a better solution is to add a section describing
+    what work has been completed and what work is still planned for the future.}
 
 \wss{The VnV plan is typically started after the requirements stage, but before
-the design stage.  This means that the sections related to unit testing cannot
-initially be completed.  The sections will be filled in after the design stage
-is complete.  the final version of the VnV plan should have all sections filled
-in.}
+    the design stage.  This means that the sections related to unit testing cannot
+    initially be completed.  The sections will be filled in after the design stage
+    is complete.  the final version of the VnV plan should have all sections filled
+    in.}
 
 \newpage
 
@@ -67,20 +67,20 @@ in.}
 \section{Symbols, Abbreviations, and Acronyms}
 
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{l l} 
-  \toprule		
-  \textbf{symbol} & \textbf{description}\\
-  \midrule 
-  RBAC & Role-Based Access Control. Used for defining user permissions\\
-  UI & User Interface\\
-  JWT & JSON Web Token. A compact way to transmit info securely\\
-  GSA & Graduate Students' Association. The association overseeing the league\\
-  SRS & Software Requirements Specification \\
-  MIS & Module Interface Specification \\
-  DD & Design Document \\
-  VnV & Verification and Validation \\
-  CI & Continuous Integration \\
-  \bottomrule
+\begin{tabular}{l l}
+    \toprule
+    \textbf{symbol} & \textbf{description}                                                  \\
+    \midrule
+    RBAC            & Role-Based Access Control. Used for defining user permissions         \\
+    UI              & User Interface                                                        \\
+    JWT             & JSON Web Token. A compact way to transmit info securely               \\
+    GSA             & Graduate Students' Association. The association overseeing the league \\
+    SRS             & Software Requirements Specification                                   \\
+    MIS             & Module Interface Specification                                        \\
+    DD              & Design Document                                                       \\
+    VnV             & Verification and Validation                                           \\
+    CI              & Continuous Integration                                                \\
+    \bottomrule
 \end{tabular}\\
 
 \newpage
@@ -90,10 +90,10 @@ in.}
 This document defines the procedures, testing strategies, and methodologies that will be used to ensure that the platform meets its functional, performance, and user experience requirements. Verification and Validation are essential to establishing that the system is developed in accordance with its specifications and operates reliably within the designated environment.
 Roadmap of the VnV document:
 \begin{itemize}
-  \item \textbf{General Information:} Provides a summary, objectives, challenges, and relevant documentation for the Verification and Validation plan.
-  \item \textbf{Plan:} Outlines the team structure, testing plans for the requirements and design, automated testing tools, and the software validation plan.
-  \item \textbf{System Tests:} Describes the system-level test cases for functional and nonfunctional requirements, including detailed tests for authentication, team management, scheduling, and additional aspects such as usability, performance, and security. It also includes a traceability matrix that maps test cases to requirements.
-  \item \textbf{Unit Test Description:} Specifies the scope of unit testing, with detailed cases for both functional and nonfunctional requirements. Traceability between test cases and modules is also included here.
+    \item \textbf{General Information:} Provides a summary, objectives, challenges, and relevant documentation for the Verification and Validation plan.
+    \item \textbf{Plan:} Outlines the team structure, testing plans for the requirements and design, automated testing tools, and the software validation plan.
+    \item \textbf{System Tests:} Describes the system-level test cases for functional and nonfunctional requirements, including detailed tests for authentication, team management, scheduling, and additional aspects such as usability, performance, and security. It also includes a traceability matrix that maps test cases to requirements.
+    \item \textbf{Unit Test Description:} Specifies the scope of unit testing, with detailed cases for both functional and nonfunctional requirements. Traceability between test cases and modules is also included here.
 \end{itemize}
 
 \section{General Information}
@@ -114,11 +114,11 @@ The software being tested is the McMaster GSA Softball League Management Platfor
 \subsubsection*{Out of Scope}
 \begin{itemize}
     \item \textbf{Accessibility Testing}: Accessibility checks, such as screen reader compatibility, keyboard-only navigation, and compliance with accessibility standards (e.g., WCAG), will not be covered in this scope. This decision is made because the platform’s primary user base does not require stringent accessibility support, and our focus is primarily on basic usability rather than comprehensive accessibility.
-    
+
     \item \textbf{Performance and Load Testing}: Extensive load and stress testing to measure system performance under high user traffic will be omitted. Given the platform's limited expected user base and the controlled environment in which it will operate, performance considerations are minimal. Our team will assume that system responsiveness and speed are sufficient for a small to medium load without simulating peak traffic.
-    
+
     \item \textbf{In-depth Security and Vulnerability Testing}: While security basics, such as user authentication and access control, will be verified, extensive security testing (e.g., penetration testing and vulnerability scanning) is outside our scope. This is due to resource constraints and the relatively low-risk nature of the application, which handles limited sensitive data and is intended for a small group of users within the league.
-    
+
     \item \textbf{External Library and API Validation}: It is assumed that all libraries and APIs have been thoroughly tested by their developers, so they will not undergo additional validation in our testing scope. Our focus will be on integration rather than on validating the correctness of external components themselves.
 \end{itemize}
 
@@ -139,15 +139,15 @@ decisions.
 \subsection{Relevant Documentation}
 
 \begin{itemize}
-  \item \textbf{Software Requirements Specification (SRS)} \citep{SRS}: The SRS defines the detailed functional and non-functional requirements of the system, providing a clear basis for testing each requirement. By mapping each test case back to the SRS, we can ensure complete coverage of all system specifications. 
+    \item \textbf{Software Requirements Specification (SRS)} \citep{SRS}: The SRS defines the detailed functional and non-functional requirements of the system, providing a clear basis for testing each requirement. By mapping each test case back to the SRS, we can ensure complete coverage of all system specifications.
 
-  \item \textbf{Hazard Analysis} \citep{Hazard-Analysis}: The Hazard Analysis identifies potential hazards associated with the software system, assessing their impact and likelihood. This document is critical for understanding risk factors that may affect system safety and reliability. By identifying and analyzing hazards early in the development process, we can implement strategies to mitigate risks and ensure that the system operates safely under expected conditions.
- 
-  \item \textbf{Development Plan Document} \citep{Development-Plan}: The development plan contains architectural decisions and structural design rationale for the system, which are critical for validating design integrity and system stability. This document guides us in identifying key design aspects that need testing to verify adherence to design principles and effective implementation of required functionalities.
- 
-  \item \textbf{Module Interface Specification (MIS)} (TBD): The MIS defines the interface details for each module, including input and output data formats, parameter types, and function signatures. This document ensures that modules correctly integrate with one another, supporting our VnV plan by allowing us to focus on the correctness of inter-module communication.
+    \item \textbf{Hazard Analysis} \citep{Hazard-Analysis}: The Hazard Analysis identifies potential hazards associated with the software system, assessing their impact and likelihood. This document is critical for understanding risk factors that may affect system safety and reliability. By identifying and analyzing hazards early in the development process, we can implement strategies to mitigate risks and ensure that the system operates safely under expected conditions.
 
-  \item \textbf{User Manual (UM)} (TBD): The UM outlines the user interface and operational aspects of the system. It serves as a reference for usability testing, as it details expected user workflows and assists in validating whether the system operates as anticipated from the end-user perspective.
+    \item \textbf{Development Plan Document} \citep{Development-Plan}: The development plan contains architectural decisions and structural design rationale for the system, which are critical for validating design integrity and system stability. This document guides us in identifying key design aspects that need testing to verify adherence to design principles and effective implementation of required functionalities.
+
+    \item \textbf{Module Interface Specification (MIS)} (TBD): The MIS defines the interface details for each module, including input and output data formats, parameter types, and function signatures. This document ensures that modules correctly integrate with one another, supporting our VnV plan by allowing us to focus on the correctness of inter-module communication.
+
+    \item \textbf{User Manual (UM)} (TBD): The UM outlines the user interface and operational aspects of the system. It serves as a reference for usability testing, as it details expected user workflows and assists in validating whether the system operates as anticipated from the end-user perspective.
 \end{itemize}
 
 \section{Plan}
@@ -179,57 +179,57 @@ V\&V Team Lead: Derek
 
 \begin{enumerate}
     \item \textbf{Verification Lead - Damien}
-    \begin{itemize}
-        \item Responsible for overseeing all verification tasks, including:
-        \begin{itemize}
-            \item Ensuring all test cases are executed as planned.
-            \item Validating that the test cases align with system requirements.
-            \item Maintaining the traceability matrix between requirements and test cases.
-            \item Reporting progress to the project manager.
-        \end{itemize}
-    \end{itemize}
+          \begin{itemize}
+              \item Responsible for overseeing all verification tasks, including:
+                    \begin{itemize}
+                        \item Ensuring all test cases are executed as planned.
+                        \item Validating that the test cases align with system requirements.
+                        \item Maintaining the traceability matrix between requirements and test cases.
+                        \item Reporting progress to the project manager.
+                    \end{itemize}
+          \end{itemize}
 
     \item \textbf{Validation Lead - Emma}
-    \begin{itemize}
-        \item Responsible for ensuring the product meets user needs and client expectations:
-        \begin{itemize}
-            \item Conducting usability testing with representative users.
-            \item Collaborating with stakeholders to confirm test results meet acceptance criteria.
-            \item Managing and documenting feedback from validation testing.
-            \item Ensuring functional and non-functional requirements are tested appropriately.
-        \end{itemize}
-    \end{itemize}
+          \begin{itemize}
+              \item Responsible for ensuring the product meets user needs and client expectations:
+                    \begin{itemize}
+                        \item Conducting usability testing with representative users.
+                        \item Collaborating with stakeholders to confirm test results meet acceptance criteria.
+                        \item Managing and documenting feedback from validation testing.
+                        \item Ensuring functional and non-functional requirements are tested appropriately.
+                    \end{itemize}
+          \end{itemize}
 
     \item \textbf{Test Engineers - Derek}
-    \begin{itemize}
-        \item Execute both verification and validation tasks under the guidance of the Verification and Validation Leads:
-        \begin{itemize}
-            \item Write and execute test cases based on requirements and design specifications.
-            \item Report and document any defects found during testing.
-            \item Re-run test cases after defect fixes to confirm resolution (regression testing).
-            \item Support validation testing by preparing test environments.
-        \end{itemize}
-    \end{itemize}
+          \begin{itemize}
+              \item Execute both verification and validation tasks under the guidance of the Verification and Validation Leads:
+                    \begin{itemize}
+                        \item Write and execute test cases based on requirements and design specifications.
+                        \item Report and document any defects found during testing.
+                        \item Re-run test cases after defect fixes to confirm resolution (regression testing).
+                        \item Support validation testing by preparing test environments.
+                    \end{itemize}
+          \end{itemize}
 
     \item \textbf{Traceability Coordinator - Tuoyo}
-    \begin{itemize}
-        \item Focused on maintaining the alignment between requirements and test cases:
-        \begin{itemize}
-            \item Update the traceability matrix as new requirements or test cases are added.
-            \item Collaborate with the Test Engineers to ensure all requirements are covered by test cases.
-            \item Provide weekly updates on traceability coverage metrics.
-        \end{itemize}
-    \end{itemize}
+          \begin{itemize}
+              \item Focused on maintaining the alignment between requirements and test cases:
+                    \begin{itemize}
+                        \item Update the traceability matrix as new requirements or test cases are added.
+                        \item Collaborate with the Test Engineers to ensure all requirements are covered by test cases.
+                        \item Provide weekly updates on traceability coverage metrics.
+                    \end{itemize}
+          \end{itemize}
 
     \item \textbf{Defect Manager - Jad}
-    \begin{itemize}
-        \item Manages the lifecycle of identified defects:
-        \begin{itemize}
-            \item Triage defects based on priority and severity.
-            \item Track defect resolution and communicate updates to the team.
-            \item Ensure resolved defects are verified through regression testing.
-        \end{itemize}
-    \end{itemize}
+          \begin{itemize}
+              \item Manages the lifecycle of identified defects:
+                    \begin{itemize}
+                        \item Triage defects based on priority and severity.
+                        \item Track defect resolution and communicate updates to the team.
+                        \item Ensure resolved defects are verified through regression testing.
+                    \end{itemize}
+          \end{itemize}
 \end{enumerate}
 
 \subsection{SRS Verification Plan}
@@ -248,7 +248,7 @@ After understanding these objectives, we will prioritize the following steps:
     \item Conduct a peer review with another team. For our capstone, another team is also doing the same project, so it will be best to work with them.
     \item Book a meeting with our supervisor and present the following use cases and requirements our platform covers.
     \item Discuss possible use cases and requirements with our supervisor. We can add these new ideas to our SRS checklist.
-    
+
 \end{enumerate}
 
 \subsection{Design Verification Plan}
@@ -256,20 +256,20 @@ After understanding these objectives, we will prioritize the following steps:
 Verification Methods:
 
 \begin{itemize}
-    \item Code Reviews 
-        \\ \\Team members can conduct code reviews regularly to focus on code readability, efficiency, and to ensure that our code meets design requirements and specifications.
+    \item Code Reviews
+          \\ \\Team members can conduct code reviews regularly to focus on code readability, efficiency, and to ensure that our code meets design requirements and specifications.
     \item Automated Testing
-        \\ \\By using an automated testing framework, we can simulate real user interactions, such as signing up for the league. These testing scripts can be run quickly and save us time.
+          \\ \\By using an automated testing framework, we can simulate real user interactions, such as signing up for the league. These testing scripts can be run quickly and save us time.
     \item Manual Testing
-        \\ \\ We can conduct testing with users involved in the league to gather feedback and ensure that the platform meets user expectations.
+          \\ \\ We can conduct testing with users involved in the league to gather feedback and ensure that the platform meets user expectations.
     \item Performance Testing
-        \\ \\Check website performance under heavy load and traffic to meet user expectations. An example would be how the website runs when multiple users register teams at the same time.
+          \\ \\Check website performance under heavy load and traffic to meet user expectations. An example would be how the website runs when multiple users register teams at the same time.
     \item Security Testing
-        \\ \\Check for potential security issues, such as SQL injection to prevent data from being stolen.
+          \\ \\Check for potential security issues, such as SQL injection to prevent data from being stolen.
     \item Data Verification
-        \\ \\Verify that data is being stored, retrieved, and updated accurately in our database to prevent errors and meet user expectations.
+          \\ \\Verify that data is being stored, retrieved, and updated accurately in our database to prevent errors and meet user expectations.
     \item Documentation Review
-        \\ \\Update documentation frequently, such as user guides, system diagrams, etc. to enforce updated knowledge throughout the team.
+          \\ \\Update documentation frequently, such as user guides, system diagrams, etc. to enforce updated knowledge throughout the team.
 \end{itemize}
 
 \subsection{Verification and Validation Plan}
@@ -277,58 +277,58 @@ Verification Methods:
 Checklist:
 
 \begin{itemize}
-    \item Code Reviews 
-        \begin{itemize}
-            \item Does our code meet readability and efficiency standards?
-            \item Are there code sections we can optimize?
-            \item Does the implementation match the design specifications?
-        \end{itemize}
+    \item Code Reviews
+          \begin{itemize}
+              \item Does our code meet readability and efficiency standards?
+              \item Are there code sections we can optimize?
+              \item Does the implementation match the design specifications?
+          \end{itemize}
     \item Automated Testing
-        \begin{itemize}
-            \item Does our automated script cover the basic functionalities of our design specifications?
-            \item Are there edge cases missing?
-        \end{itemize}
+          \begin{itemize}
+              \item Does our automated script cover the basic functionalities of our design specifications?
+              \item Are there edge cases missing?
+          \end{itemize}
     \item Manual Testing
-        \begin{itemize}
-            \item Do the manual tests reflect real scenarios?
-            \item Is user feedback collected effectively and analyzed?
-        \end{itemize}
+          \begin{itemize}
+              \item Do the manual tests reflect real scenarios?
+              \item Is user feedback collected effectively and analyzed?
+          \end{itemize}
     \item Performance Testing
-        \begin{itemize}
-            \item Does our platform handle high traffic without difficulties?
-            \item Do we have performance benchmarks and are they met?
-        \end{itemize}
+          \begin{itemize}
+              \item Does our platform handle high traffic without difficulties?
+              \item Do we have performance benchmarks and are they met?
+          \end{itemize}
     \item Security Testing
-        \begin{itemize}
-            \item Did we test against common vulnerabilities?
-            \item Is sensitive data properly handled and protected?
-        \end{itemize}
+          \begin{itemize}
+              \item Did we test against common vulnerabilities?
+              \item Is sensitive data properly handled and protected?
+          \end{itemize}
     \item Data Verification
-        \begin{itemize}
-            \item Is data transactions being done correctly?
-            \item Does our system maintain data accurately?
-        \end{itemize}
+          \begin{itemize}
+              \item Is data transactions being done correctly?
+              \item Does our system maintain data accurately?
+          \end{itemize}
     \item Documentation Review
-        \begin{itemize}
-            \item Are our documents up to date?
-            \item Are user guides easy to understand?
-        \end{itemize}
+          \begin{itemize}
+              \item Are our documents up to date?
+              \item Are user guides easy to understand?
+          \end{itemize}
 \end{itemize}
 
 \begin{table}[h]
-\centering
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Milestone}        & \textbf{Description}                                          & \textbf{Completion Date} \\ \hline
-Code Reviews              & Regular reviews focusing on readability and efficiency       & Week 2                  \\ \hline
-Automated Testing         & Implement and run automated test scripts                     & Week 4                  \\ \hline
-Manual Testing            & Conduct user testing and gather feedback                    & Week 6                  \\ \hline
-Performance Testing       & Test website under heavy load                                & Week 8                  \\ \hline
-Security Testing          & Perform security checks and vulnerability assessments        & Week 10                  \\ \hline
-Data Verification         & Ensure data is accurate and properly handled                 & Week 12                  \\ \hline
-Documentation Review      & Update user guides and technical documentation               & Week 14                 \\ \hline
-\end{tabular}
-\caption{Milestone Schedule}
+    \centering
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Milestone}   & \textbf{Description}                                   & \textbf{Completion Date} \\ \hline
+        Code Reviews         & Regular reviews focusing on readability and efficiency & Week 2                   \\ \hline
+        Automated Testing    & Implement and run automated test scripts               & Week 4                   \\ \hline
+        Manual Testing       & Conduct user testing and gather feedback               & Week 6                   \\ \hline
+        Performance Testing  & Test website under heavy load                          & Week 8                   \\ \hline
+        Security Testing     & Perform security checks and vulnerability assessments  & Week 10                  \\ \hline
+        Data Verification    & Ensure data is accurate and properly handled           & Week 12                  \\ \hline
+        Documentation Review & Update user guides and technical documentation         & Week 14                  \\ \hline
+    \end{tabular}
+    \caption{Milestone Schedule}
 \end{table}
 
 
@@ -337,13 +337,13 @@ Documentation Review      & Update user guides and technical documentation      
 
 \begin{itemize}
     \item Code Walkthroughs
-    \\ \\ Developers of a segment of code will share and present it to peers. The main focus here is design principles and coding standards.
+          \\ \\ Developers of a segment of code will share and present it to peers. The main focus here is design principles and coding standards.
 
     \item Code Inspections
-    \\ \\ Peers will inspect code to find possible ways for optimization.
+          \\ \\ Peers will inspect code to find possible ways for optimization.
 
     \item Static Analyzers
-    \\ \\ Use linting tools, such as ESLint to detect syntax errors and uphold standard code practices.
+          \\ \\ Use linting tools, such as ESLint to detect syntax errors and uphold standard code practices.
 \end{itemize}
 
 \subsection{Automated Testing and Verification Tools}
@@ -372,18 +372,18 @@ Methods: \\
 
 \begin{itemize}
     \item Requirement-Based Testing
-    \\ \\ Create test cases based on requirements to verify that each functionality works as expected.
-    
+          \\ \\ Create test cases based on requirements to verify that each functionality works as expected.
+
     \item Regression Testing
-    \\ \\ Ensure basic functionality remains unaffected when developing new features by running a script that tests all the basic functionalities before updates are pushed.
+          \\ \\ Ensure basic functionality remains unaffected when developing new features by running a script that tests all the basic functionalities before updates are pushed.
 
     \item Device Testing
-    \\ \\ Validate that the platform works across various devices, such as smartphones, tablets, desktops, etc.
+          \\ \\ Validate that the platform works across various devices, such as smartphones, tablets, desktops, etc.
 
     \item Cross-browser Testing
-    \\ \\ Validate that the platform works across various browsers,
-    such as Chrome, Firefox, Safari, etc.
-    
+          \\ \\ Validate that the platform works across various browsers,
+          such as Chrome, Firefox, Safari, etc.
+
 \end{itemize}
 
 \section{System Tests}
@@ -396,7 +396,7 @@ The non-functional requirements tests are split into categories to check additio
 
 This section is divided into different areas to cover subsets of the functional requirements comprehensively. The following tests cover core features like authentication, team management, and scheduling. References to the SRS are provided to show the alignment with documented requirements.
 
-It should be noted that when \texttt{Roles} are described doing actions in the functional tests (e.g. ``Captain inputs...''), these are assumed a tester acting in place of the role. 
+It should be noted that when \texttt{Roles} are described doing actions in the functional tests (e.g. ``Captain inputs...''), these are assumed a tester acting in place of the role.
 
 \subsubsection{Authentication and Access Control}
 
@@ -405,40 +405,40 @@ This section includes tests related to the authentication of users and the enfor
 \paragraph{Login with Invalid Credentials}
 
 \begin{enumerate}
-\item{FR-1\\}
-Control: Manual
+    \item{FR-1\\}
+          Control: Manual
 
-Initial State: System at login screen, ready to accept credentials.
+          Initial State: System at login screen, ready to accept credentials.
 
-Input: Invalid \texttt{UserID} and a combination of valid \texttt{UserID} + Invalid \texttt{Password} for commissioner, captain, and player accounts.
+          Input: Invalid \texttt{UserID} and a combination of valid \texttt{UserID} + Invalid \texttt{Password} for commissioner, captain, and player accounts.
 
-Output: Unsuccessful login. The system is ready to accept new credentials.
+          Output: Unsuccessful login. The system is ready to accept new credentials.
 
-Test Case Derivation: Invalid login credentials should result in an unsuccessful login and the user should be able to try again.
+          Test Case Derivation: Invalid login credentials should result in an unsuccessful login and the user should be able to try again.
 
-How Test Will Be Performed: Tester will attempt to log in with an invalid \texttt{UserID} and \texttt{Password}. Verify that all invalid logins are unsuccessful.
+          How Test Will Be Performed: Tester will attempt to log in with an invalid \texttt{UserID} and \texttt{Password}. Verify that all invalid logins are unsuccessful.
 
-Requirements Covered: SRS Req \#1 (authentication).
+          Requirements Covered: SRS Req \#1 (authentication).
 \end{enumerate}
 
 \paragraph{Login with Valid Credentials}
 
 \begin{enumerate}
 
-\item{FR-2\\}
-Control: Manual
+    \item{FR-2\\}
+          Control: Manual
 
-Initial State: System at login screen, ready to accept credentials.
+          Initial State: System at login screen, ready to accept credentials.
 
-Input: \texttt{UserID} and \texttt{Password} for valid commissioner, captain, and player accounts.
+          Input: \texttt{UserID} and \texttt{Password} for valid commissioner, captain, and player accounts.
 
-Output: Successful login for valid credentials.
+          Output: Successful login for valid credentials.
 
-Test Case Derivation: Valid login credentials should result in a successful login to the system. This is also how the system will differentiate users to perform actions requiring Role permissions.
+          Test Case Derivation: Valid login credentials should result in a successful login to the system. This is also how the system will differentiate users to perform actions requiring Role permissions.
 
-How Test Will Be Performed: Tester will log in with a valid \texttt{UserID} and Password for each \texttt{Role} (Player, Captain, Commissioner) and verify access to the platform after successful login under the correct account.
+          How Test Will Be Performed: Tester will log in with a valid \texttt{UserID} and Password for each \texttt{Role} (Player, Captain, Commissioner) and verify access to the platform after successful login under the correct account.
 
-Requirements Covered: SRS Req \#1 (authentication).
+          Requirements Covered: SRS Req \#1 (authentication).
 \end{enumerate}
 
 \subsubsection{Team Management}
@@ -449,85 +449,85 @@ This section includes tests for the functionality of team creation and managemen
 
 \begin{enumerate}
 
-\item{FR-3\\}
-Control: Manual
+    \item{FR-3\\}
+          Control: Manual
 
-Initial State: User is logged in with Role set to Captain, with no existing team associated with \texttt{CaptainID}. System is on the create team page, with at least one team registered in the database.
+          Initial State: User is logged in with Role set to Captain, with no existing team associated with \texttt{CaptainID}. System is on the create team page, with at least one team registered in the database.
 
-Input: Enter a \texttt{TeamName} that already exists in the database and a Division.
+          Input: Enter a \texttt{TeamName} that already exists in the database and a Division.
 
-Output: Unsuccessful creation of a team with a duplicate \texttt{TeamName}. Error message displayed to Captain addressing that the \texttt{TeamName} already exists.
+          Output: Unsuccessful creation of a team with a duplicate \texttt{TeamName}. Error message displayed to Captain addressing that the \texttt{TeamName} already exists.
 
-Test Case Derivation: As a general rule, there are to be no duplicate \texttt{TeamName}. Captains should not be able to create a team with a \texttt{TeamName} that is already taken
+          Test Case Derivation: As a general rule, there are to be no duplicate \texttt{TeamName}. Captains should not be able to create a team with a \texttt{TeamName} that is already taken
 
-How Test Will Be Performed: Tester (with Captain account) submits a request to create a new team using a duplicate \texttt{TeamName}. Verify that the team is not added to the database.
+          How Test Will Be Performed: Tester (with Captain account) submits a request to create a new team using a duplicate \texttt{TeamName}. Verify that the team is not added to the database.
 
-Requirements Covered: SRS Req \#5 (team creation).
+          Requirements Covered: SRS Req \#5 (team creation).
 
-\item{FR-4\\}
-Control: Manual
+    \item{FR-4\\}
+          Control: Manual
 
-Initial State: User is logged in with Role set to Captain, with no existing team associated with \texttt{CaptainID}. System is on the create team page.
+          Initial State: User is logged in with Role set to Captain, with no existing team associated with \texttt{CaptainID}. System is on the create team page.
 
-Input: Enter a unique TeamName and Division.
+          Input: Enter a unique TeamName and Division.
 
-Output: Successful team creation after submission.
+          Output: Successful team creation after submission.
 
-Test Case Derivation: With valid input, Captains should be able to register their team into the system.
+          Test Case Derivation: With valid input, Captains should be able to register their team into the system.
 
-How Test Will Be Performed: Captain creates a valid new team. Verify that the team is created and added to the database. New entry should include \texttt{TeamID, TeamName, Division, CaptainID, Roster}.
+          How Test Will Be Performed: Captain creates a valid new team. Verify that the team is created and added to the database. New entry should include \texttt{TeamID, TeamName, Division, CaptainID, Roster}.
 
-Requirements Covered: SRS Req \#5 (team creation).
+          Requirements Covered: SRS Req \#5 (team creation).
 
-\item{FR-5\\}
-Control: Manual
+    \item{FR-5\\}
+          Control: Manual
 
-Initial State: User logged in with Role set to Captain, with an existing team associated with \texttt{CaptainID}. System is on the create team page.
+          Initial State: User logged in with Role set to Captain, with an existing team associated with \texttt{CaptainID}. System is on the create team page.
 
-Input: Enter a new TeamName and Division.
+          Input: Enter a new TeamName and Division.
 
-Output: Unsuccessful creation of a team. Error message displayed for multiple teams under one \texttt{CaptainID}.
+          Output: Unsuccessful creation of a team. Error message displayed for multiple teams under one \texttt{CaptainID}.
 
-Test Case Derivation: As a general rule, Captains only have one team. Captains should not be able to create a new team when they already have one registered under their \texttt{CaptainID}.
+          Test Case Derivation: As a general rule, Captains only have one team. Captains should not be able to create a new team when they already have one registered under their \texttt{CaptainID}.
 
-How Test Will Be Performed: Captain attempts to create a second team. Verify that the team is not entered in the database.
+          How Test Will Be Performed: Captain attempts to create a second team. Verify that the team is not entered in the database.
 
-Requirements Covered: SRS Req \#5 (team creation).
+          Requirements Covered: SRS Req \#5 (team creation).
 \end{enumerate}
 
 \paragraph{Joining a Team}
 
 \begin{enumerate}
 
-\item{FR-6\\}
-Control: Manual
+    \item{FR-6\\}
+          Control: Manual
 
-Initial State: User logged in with Role set to Player, without an existing team associated with \texttt{PlayerID}. Another user logged in as Captain of \texttt{TeamName}.
+          Initial State: User logged in with Role set to Player, without an existing team associated with \texttt{PlayerID}. Another user logged in as Captain of \texttt{TeamName}.
 
-Input: Player requests to join \texttt{TeamName}.
+          Input: Player requests to join \texttt{TeamName}.
 
-Output: Player's request is sent to the team's Captain.
+          Output: Player's request is sent to the team's Captain.
 
-Test Case Derivation: Players should be able to send join requests to Captains for review and approval.
+          Test Case Derivation: Players should be able to send join requests to Captains for review and approval.
 
-How Test Will Be Performed: Player requests to join a team. Verify that the associated Captain recieves the request (Refer to \textbf{FR-7}).
+          How Test Will Be Performed: Player requests to join a team. Verify that the associated Captain recieves the request (Refer to \textbf{FR-7}).
 
-Requirements Covered: SRS Req \#6 (joining teams).
+          Requirements Covered: SRS Req \#6 (joining teams).
 
-\item{FR-7\\}
-Control: Manual
+    \item{FR-7\\}
+          Control: Manual
 
-Initial State: User logged in with Role set to Captain, with an existing team associated with \texttt{CaptainID}. A player has requested to join the associated team.
+          Initial State: User logged in with Role set to Captain, with an existing team associated with \texttt{CaptainID}. A player has requested to join the associated team.
 
-Input: Captain receives and approves request.
+          Input: Captain receives and approves request.
 
-Output: \texttt{PlayerID} is added to \texttt{Roster} of the team associated with \texttt{TeamName}.
+          Output: \texttt{PlayerID} is added to \texttt{Roster} of the team associated with \texttt{TeamName}.
 
-Test Case Derivation: Players should be added to a team after a request is approved.
+          Test Case Derivation: Players should be added to a team after a request is approved.
 
-How Test Will Be Performed: Captain approves a pending player's join request. Verify the team updates accordingly: \texttt{Roster} updated in database and the player should have permissions to view team-specific information.
+          How Test Will Be Performed: Captain approves a pending player's join request. Verify the team updates accordingly: \texttt{Roster} updated in database and the player should have permissions to view team-specific information.
 
-Requirements Covered: SRS Req \#6 (joining teams).
+          Requirements Covered: SRS Req \#6 (joining teams).
 
 \end{enumerate}
 
@@ -539,27 +539,27 @@ This section tests game scheduling and rescheduling requests, focusing on the in
 
 \begin{enumerate}
 
-\item{FR-7\\}
-Control: Manual
+    \item{FR-7\\}
+          Control: Manual
 
-Initial State: Teams have been registered in the system, each with \texttt{TeamIDs} and preferences for game days/times. No current season schedule exists.
+          Initial State: Teams have been registered in the system, each with \texttt{TeamIDs} and preferences for game days/times. No current season schedule exists.
 
-Input: 
-Set up a sample database file containing:
-\begin{itemize}
-  \item Team Availability: Preferences for game days and times.
-  \item Division Assignments: Each \texttt{TeamID} is assigned a division.
-  \item Game Count Requirement: Ensures each team has an equal number of games.
-  \item Available Slots: The availability of the event space.
-\end{itemize}
+          Input:
+          Set up a sample database file containing:
+          \begin{itemize}
+              \item Team Availability: Preferences for game days and times.
+              \item Division Assignments: Each \texttt{TeamID} is assigned a division.
+              \item Game Count Requirement: Ensures each team has an equal number of games.
+              \item Available Slots: The availability of the event space.
+          \end{itemize}
 
-Output: The system generates an appropriate season game schedule.
+          Output: The system generates an appropriate season game schedule.
 
-Test Case Derivation: The system needs to be able to generate an initial schedule for the season based on team availability and preferences.
+          Test Case Derivation: The system needs to be able to generate an initial schedule for the season based on team availability and preferences.
 
-How Test Will Be Performed: Load the database with team availability and divisional information. Run the schedule generation process. Refer to \textbf{TPERF-2} for performance test of the generated schedule.
+          How Test Will Be Performed: Load the database with team availability and divisional information. Run the schedule generation process. Refer to \textbf{TPERF-2} for performance test of the generated schedule.
 
-Requirements Covered: SRS Req \#7 (Schedule Automation).
+          Requirements Covered: SRS Req \#7 (Schedule Automation).
 
 \end{enumerate}
 
@@ -567,20 +567,20 @@ Requirements Covered: SRS Req \#7 (Schedule Automation).
 
 \begin{enumerate}
 
-\item{FR-8\\}
-Control: Manual
+    \item{FR-8\\}
+          Control: Manual
 
-Initial State: Season schedule is generated and displayed, with captain logged in. System is on game report page.
+          Initial State: Season schedule is generated and displayed, with captain logged in. System is on game report page.
 
-Input: Captain submits game results (\texttt{Results, ScoreTeamA, ScoreTeamB}) or forfeits for a selected game.
+          Input: Captain submits game results (\texttt{Results, ScoreTeamA, ScoreTeamB}) or forfeits for a selected game.
 
-Output: Game report is updated and Standings are updated (\texttt{TeamID, Wins, Losses, Ties, Rank}).
+          Output: Game report is updated and Standings are updated (\texttt{TeamID, Wins, Losses, Ties, Rank}).
 
-Test Case Derivation: Captains should be able to report game results which should be reflected in the platform's standings/reporting.
+          Test Case Derivation: Captains should be able to report game results which should be reflected in the platform's standings/reporting.
 
-How Test Will Be Performed: Captain reports games. Verify that the report is reflected in database and that standings are automatically updated accordingly.
+          How Test Will Be Performed: Captain reports games. Verify that the report is reflected in database and that standings are automatically updated accordingly.
 
-Requirements Covered: SRS Req \#12 (Reporting).
+          Requirements Covered: SRS Req \#12 (Reporting).
 
 \end{enumerate}
 
@@ -588,35 +588,35 @@ Requirements Covered: SRS Req \#12 (Reporting).
 
 \begin{enumerate}
 
-\item{FR-9\\}
-Control: Manual
+    \item{FR-9\\}
+          Control: Manual
 
-Initial State: Season schedule is generated and displayed, with commissioner and captain logged in. System is on scheduling page.
+          Initial State: Season schedule is generated and displayed, with commissioner and captain logged in. System is on scheduling page.
 
-Input: Captain submits a reschedule request in an open slot. The request is valid and associated with the appropriate \texttt{ScheduleID, GameID, and SlotNumber}.
+          Input: Captain submits a reschedule request in an open slot. The request is valid and associated with the appropriate \texttt{ScheduleID, GameID, and SlotNumber}.
 
-Output: Request is sent to Commissioner.
+          Output: Request is sent to Commissioner.
 
-Test Case Derivation: Rescheduling requests from captains should be sent to the Comissioner for review and approval.
+          Test Case Derivation: Rescheduling requests from captains should be sent to the Comissioner for review and approval.
 
-How Test Will Be Performed: Captain initiates reschedule request. Verify that the request is sent to the commissioner for approval.
+          How Test Will Be Performed: Captain initiates reschedule request. Verify that the request is sent to the commissioner for approval.
 
-Requirements Covered: SRS Req \#8 (rescheduling).
+          Requirements Covered: SRS Req \#8 (rescheduling).
 
-\item{FR-10\\}
-Control: Manual
+    \item{FR-10\\}
+          Control: Manual
 
-Initial State: Commissioner logged in. System is on schedule page with a scheduled game entry available.
+          Initial State: Commissioner logged in. System is on schedule page with a scheduled game entry available.
 
-Input: Commissioner applies an override (cancel or reschedule) on an existing \texttt{GameID} or approves a reschedule request.
+          Input: Commissioner applies an override (cancel or reschedule) on an existing \texttt{GameID} or approves a reschedule request.
 
-Output: Override is reflected in the schedule. Notifications are sent to all IDs in \texttt{Roster} of teams associated with the overridden game.
+          Output: Override is reflected in the schedule. Notifications are sent to all IDs in \texttt{Roster} of teams associated with the overridden game.
 
-Test Case Derivation: Schedule changes should be reflected in all affected user’s view and they should be notified of the changes.
+          Test Case Derivation: Schedule changes should be reflected in all affected user’s view and they should be notified of the changes.
 
-How Test Will Be Performed: Commissioner applies an override on an existing game. Verify the game change (\texttt{Schedule view, SlotNumber}, and \texttt{Available Slots} are updated). Verify notifications are received by both teams.
+          How Test Will Be Performed: Commissioner applies an override on an existing game. Verify the game change (\texttt{Schedule view, SlotNumber}, and \texttt{Available Slots} are updated). Verify notifications are received by both teams.
 
-Requirements Covered: SRS Req \#11 (game overrides).
+          Requirements Covered: SRS Req \#11 (game overrides).
 
 \end{enumerate}
 
@@ -628,20 +628,20 @@ This section includes tests for league-wide announcements and commissioner game 
 
 \begin{enumerate}
 
-\item{FR-11\\}
-Control: Manual
+    \item{FR-11\\}
+          Control: Manual
 
-Initial State: Commissioner logged in. System is on announcement page.
+          Initial State: Commissioner logged in. System is on announcement page.
 
-Input: Commissioner posts a league-wide announcement to be visible across platform views.
+          Input: Commissioner posts a league-wide announcement to be visible across platform views.
 
-Output: Announcement is visible to all users.
+          Output: Announcement is visible to all users.
 
-Test Case Derivation: Commissioners' posts should be viewable by all users.
+          Test Case Derivation: Commissioners' posts should be viewable by all users.
 
-How Test Will Be Performed: Commissioner posts announcement; verify visibility for all \texttt{Roles}.
+          How Test Will Be Performed: Commissioner posts announcement; verify visibility for all \texttt{Roles}.
 
-Requirements Covered: SRS Req \#9, \#10 (announcements).
+          Requirements Covered: SRS Req \#9, \#10 (announcements).
 \end{enumerate}
 
 ...
@@ -653,190 +653,198 @@ Requirements Covered: SRS Req \#9, \#10 (announcements).
 \subsection{Tests for Nonfunctional Requirements}
 
 \subsubsection{Look and Feel}
-		
+
+\paragraph{Consistent and Usable UI}
+
 \begin{enumerate}
 
-\item{TLF-1\\}
+    \item{TLF-1\\}
 
-Control: Manual
-					
-Initial State: Web application is launched.
-					
-Input: Tester navigates through primary views (including login, team management, and schedule viewing)
-					
-Output: The platform’s interface should be modern, intuitive, and visually consistent across all views.
+          Control: Manual
 
-Test Case Derivation: Ensures a consistent, modern interface as specified.
-					
-How test will be performed: Manually inspect visual consistency across pages on different devices. This can be included in the results of the usability survey as well as remaining consistent with the stylings and design library used.
+          Initial State: Web application is launched.
 
-Requirements Covered: SRS Req 10.1.
+          Input: Tester navigates through primary views (including login, team management, and schedule viewing)
+
+          Output: The platform’s interface should be modern, intuitive, and visually consistent across all views.
+
+          Test Case Derivation: Ensures a consistent, modern interface as specified.
+
+          How test will be performed: Manually inspect visual consistency across pages on different devices. This can be included in the results of the usability survey as well as remaining consistent with the stylings and design library used.
+
+          Requirements Covered: SRS Req 10.1.
 
 \end{enumerate}
 
 \subsubsection{Usability and Humanity}
 
+\paragraph{Localization and Easy Navigation}
+
 \begin{enumerate}
 
-\item{TUH-1\\}
+    \item{TUH-1\\}
 
-Control: Dynamic, Manual
-					
-Initial State:  Web application is launched, user is on login page.
-					
-Input: Tester is asked to navigate through different platform views (login, announcements, standings, schedule)
-					
-Output: Tester successfully navigates to each view within \hyperref[MIN_NAVTIME]{\texttt{MIN\_NAVTIME}} minutes with no prior experience or external help.
+          Control: Dynamic, Manual
 
-Test Case Derivation: Ease of use is achieved if new users can complete essential navigation quickly and independently, as specified.
-					
-How test will be performed: Conduct a observational study of usability with a \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} participants who have no prior experience with the platform. Record the time taken for each view. Following the tasks, participants will complete a survey (in Appendix) to provide feedback on task difficulty and ease of navigation.
+          Initial State:  Web application is launched, user is on login page.
 
-Requirements Covered: SRS Req 11.1.
+          Input: Tester is asked to navigate through different platform views (login, announcements, standings, schedule)
 
-\item{TUH-2\\}
+          Output: Tester successfully navigates to each view within \hyperref[MIN_NAVTIME]{\texttt{MIN\_NAVTIME}} minutes with no prior experience or external help.
 
-Control: Manual
-					
-Initial State:  Web application is launched, user is on login page.
-					
-Input: Tester views date and time fields, metric system measurements, and content language.
-					
-Output: Tester verifies platform displays date and time in Canadian format, uses the metric system, and all text is in Canadian English.
+          Test Case Derivation: Ease of use is achieved if new users can complete essential navigation quickly and independently, as specified.
 
-Test Case Derivation: Adhering to Canadian localization standards ensures that users are comfortable with the displayed information format.
-					
-How test will be performed: Verify date, time, and measurement units across the platform views. Ask usability testers to confirm that information formats are clear and match Canadian standards. Feedback survey included in Appendix.
+          How test will be performed: Conduct a observational study of usability with a \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} participants who have no prior experience with the platform. Record the time taken for each view. Following the tasks, participants will complete a survey (in Appendix) to provide feedback on task difficulty and ease of navigation.
 
-Requirements Covered: SRS Req 11.2.
+          Requirements Covered: SRS Req 11.1.
 
-\item{TUH-3\\}
+    \item{TUH-2\\}
 
-Control: Dynamic, Manual
-					
-Initial State:  Web application is launched, user is on login page.
-					
-Input: Tester is asked to perform certain tasks within the platform (login, create team, request reschedule)
-					
-Output: Tester completes each task within an average of \hyperref[AVG_TASK_TIME]{\texttt{AVG\_TASK\_TIME}} minutes with no prior experience, while easily understanding and utilizing in-app help (navigation instructions, tooltips, and help documentation) to complete tasks.
+          Control: Manual
 
-Test Case Derivation: Effective learning support is demonstrated if new users can understand and perform basic tasks using the platform's in-app guidance.
+          Initial State:  Web application is launched, user is on login page.
 
-How test will be performed: Conduct a observational study of usability with \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} participants who have no prior experience with the platform. Record the time taken for each task completion. Following the tasks, participants will complete a survey (in Appendix) to provide feedback on task difficulty and provided guidance.
+          Input: Tester views date and time fields, metric system measurements, and content language.
 
-Requirements Covered: SRS Req 11.3-11.4
+          Output: Tester verifies platform displays date and time in Canadian format, uses the metric system, and all text is in Canadian English.
+
+          Test Case Derivation: Adhering to Canadian localization standards ensures that users are comfortable with the displayed information format.
+
+          How test will be performed: Verify date, time, and measurement units across the platform views. Ask usability testers to confirm that information formats are clear and match Canadian standards. Feedback survey included in Appendix.
+
+          Requirements Covered: SRS Req 11.2.
+
+    \item{TUH-3\\}
+
+          Control: Dynamic, Manual
+
+          Initial State:  Web application is launched, user is on login page.
+
+          Input: Tester is asked to perform certain tasks within the platform (login, create team, request reschedule)
+
+          Output: Tester completes each task within an average of \hyperref[AVG_TASK_TIME]{\texttt{AVG\_TASK\_TIME}} minutes with no prior experience, while easily understanding and utilizing in-app help (navigation instructions, tooltips, and help documentation) to complete tasks.
+
+          Test Case Derivation: Effective learning support is demonstrated if new users can understand and perform basic tasks using the platform's in-app guidance.
+
+          How test will be performed: Conduct a observational study of usability with \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} participants who have no prior experience with the platform. Record the time taken for each task completion. Following the tasks, participants will complete a survey (in Appendix) to provide feedback on task difficulty and provided guidance.
+
+          Requirements Covered: SRS Req 11.3-11.4
 
 \end{enumerate}
 
 \subsubsection{Performance}
 
+\paragraph{Accurate Data Representations}
+
 \begin{enumerate}
 
-\item{TPERF-1\\}
+    \item{TPERF-1\\}
 
-Type: Automated
+          Type: Automated
 
-Initial State: Platform is set up with sample data for standings and scheduling.
+          Initial State: Platform is set up with sample data for standings and scheduling.
 
-Input/Condition: Tester views league standings.
+          Input/Condition: Tester views league standings.
 
-Output/Result: The standings are calculated (as mentioned in FR) with 100\% accuracy.
+          Output/Result: The standings are calculated (as mentioned in FR) with 100\% accuracy.
 
-How test will be performed: Create test cases with predefined standings. Use an automated script to perform calculations and check results against expected outcomes, ensuring all calculations are accurate.
+          How test will be performed: Create test cases with predefined standings. Use an automated script to perform calculations and check results against expected outcomes, ensuring all calculations are accurate.
 
-Requirements Covered: SRS Req 12.1, 12.3.
+          Requirements Covered: SRS Req 12.1, 12.3.
 
-\item{TPERF-2\\}
+    \item{TPERF-2\\}
 
-Type: Automated, Manual
+          Type: Automated, Manual
 
-Initial State: Platform is set up with sample data (teams and preferences) for scheduling.
+          Initial State: Platform is set up with sample data (teams and preferences) for scheduling.
 
-Input/Condition: Tester views league schedule.
+          Input/Condition: Tester views league schedule.
 
-Output/Result:
-\begin{itemize}
-\item{The displayed schedule shows that all teams have a balanced number of scheduled games, ensuring that no team has a game count that differs by more than \hyperref[MAX_GAME_DIFF]{\texttt{MAX\_GAME\_DIFF}} games from any other team.}
-\item{The displayed schedule shows that all teams play 100\% of their games within their division.}
-\item{The displayed schedule is conflict-free, considering time and location.}
-\item{The displayed schedule is optimized based on matching team preferences.}
-\end{itemize}
+          Output/Result:
+          \begin{itemize}
+              \item{The displayed schedule shows that all teams have a balanced number of scheduled games, ensuring that no team has a game count that differs by more than \hyperref[MAX_GAME_DIFF]{\texttt{MAX\_GAME\_DIFF}} games from any other team.}
+              \item{The displayed schedule shows that all teams play 100\% of their games within their division.}
+              \item{The displayed schedule is conflict-free, considering time and location.}
+              \item{The displayed schedule is optimized based on matching team preferences.}
+          \end{itemize}
 
-How test will be performed:  The platform is prepared with a sample dataset containing multiple teams and generates a schedule, ensuring each team is assigned games within the schedule. An automated script is used to capture the output schedule and iterate through each team's scheduled games to verify the correctness of divisional match-ups, the balance of games, and log any conflicts.
+          How test will be performed:  The platform is prepared with a sample dataset containing multiple teams and generates a schedule, ensuring each team is assigned games within the schedule. An automated script is used to capture the output schedule and iterate through each team's scheduled games to verify the correctness of divisional match-ups, the balance of games, and log any conflicts.
 
-Requirements Covered: SRS Req 12.4.
+          Requirements Covered: SRS Req 12.4.
 
-\item{TPERF-3\\}
+    \item{TPERF-3\\}
 
-Type: Dynamic, Automatic
+          Type: Dynamic, Automatic
 
-Initial State: The web application is launched.
+          Initial State: The web application is launched.
 
-Input/Condition: A pair of new login credentials are added.
+          Input/Condition: A pair of new login credentials are added.
 
-Output/Result: Format of credentials in database.
+          Output/Result: Format of credentials in database.
 
-How test will be performed: An automated script is used to add a pair of
-new credentials and check whether the information is stored in the database.
+          How test will be performed: An automated script is used to add a pair of
+          new credentials and check whether the information is stored in the database.
 
-Requirements Covered: SRS Req 12.2.
+          Requirements Covered: SRS Req 12.2.
 
-\item{TPERF-4\\}
+    \item{TPERF-4\\}
 
-Type: Manual
+          Type: Manual
 
-Initial State: The platform is operational with a form ready for submission (e.g., team registration, game scheduling).
+          Initial State: The platform is operational with a form ready for submission (e.g., team registration, game scheduling).
 
-Input/Condition: Tester fills out the form with invalid data (e.g., missing required fields, incorrect data formats).
+          Input/Condition: Tester fills out the form with invalid data (e.g., missing required fields, incorrect data formats).
 
-Output/Result:
+          Output/Result:
 
-The platform highlights the fields with errors (e.g., required fields that are empty, invalid email formats) and displays appropriate error messages  next to each highlighted field. The form submission is prevented until all errors are corrected.
+          The platform highlights the fields with errors (e.g., required fields that are empty, invalid email formats) and displays appropriate error messages  next to each highlighted field. The form submission is prevented until all errors are corrected.
 
-How test will be performed:
+          How test will be performed:
 
-Testers will intentionally leave required fields blank, enter invalid data formats  and submit the form. Testers will verify that the fields with errors are highlighted visually and informative error messages appear next to the problematic fields, indicating the nature of the errors. Testers will confirm that the information in the form is not submitted into the database until the errors are corrected and the form is resubmitted, showing a success message upon submission
+          Testers will intentionally leave required fields blank, enter invalid data formats  and submit the form. Testers will verify that the fields with errors are highlighted visually and informative error messages appear next to the problematic fields, indicating the nature of the errors. Testers will confirm that the information in the form is not submitted into the database until the errors are corrected and the form is resubmitted, showing a success message upon submission
 
-Requirements Covered: SRS Req 12.4.
+          Requirements Covered: SRS Req 12.4.
 
 \end{enumerate}
 
 
 \subsubsection{Operational and Environmental}
 
+\paragraph{Accessability}
+
 \begin{enumerate}
 
-\item{TOPE-1\\}
+    \item{TOPE-1\\}
 
-Control: Manual
+          Control: Manual
 
-Initial State: Platform launched on desktop, tablet, and smartphone.
+          Initial State: Platform launched on desktop, tablet, and smartphone.
 
-Input: Test and access all features and navigate on each device type.
+          Input: Test and access all features and navigate on each device type.
 
-Output: Platform should be fully accessible on all device types.
+          Output: Platform should be fully accessible on all device types.
 
-Test Case Derivation: Ensures multi-device compatibility.
+          Test Case Derivation: Ensures multi-device compatibility.
 
-How test will be performed: Manual testing of the platform features, responsiveness, and navigations on desktop, tablet, and smartphone.
+          How test will be performed: Manual testing of the platform features, responsiveness, and navigations on desktop, tablet, and smartphone.
 
-Requirements Covered: SRS Req 13.1.
+          Requirements Covered: SRS Req 13.1.
 
-\item{TOPE-2\\}
+    \item{TOPE-2\\}
 
-Control: Manual
+          Control: Manual
 
-Initial State: Platform open in Chrome, Firefox, Safari, and Edge.
+          Initial State: Platform open in Chrome, Firefox, Safari, and Edge.
 
-Input: Access all features in each browser.
+          Input: Access all features in each browser.
 
-Output: Platform displays correctly across major browsers.
+          Output: Platform displays correctly across major browsers.
 
-Test Case Derivation: Confirms browser compatibility.
+          Test Case Derivation: Confirms browser compatibility.
 
-How test will be performed: Testers review platform views and features in each browser.
+          How test will be performed: Testers review platform views and features in each browser.
 
-Requirements Covered: SRS Req 13.2-13.3.
+          Requirements Covered: SRS Req 13.2-13.3.
 
 \end{enumerate}
 
@@ -844,136 +852,141 @@ Requirements Covered: SRS Req 13.2-13.3.
 
 \begin{enumerate}
 
-\item{TMS-1\\}
+    \item{TMS-1\\}
 
-Type: Manual
+          Type: Manual
 
-Initial State: The platform is launched.
+          Initial State: The platform is launched.
 
-Input/Condition: Tester is asked to contact support.
+          Input/Condition: Tester is asked to contact support.
 
-Output/Result: Support email receives help request from tester without any external help.
+          Output/Result: Support email receives help request from tester without any external help.
 
-How test will be performed: \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} Tester are asked to reach
-support through email and record any difficulties encountered.
+          How test will be performed: \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} Tester are asked to reach
+          support through email and record any difficulties encountered.
 
-Requirements Covered: SRS Req 14.1, 14.2.
+          Requirements Covered: SRS Req 14.1, 14.2.
 
 \end{enumerate}
 
 \subsubsection{Security}
 
-\begin{enumerate}
-
-\item{TSEC-1\\}
-
-Type: Manual
-
-Initial State: Platform is launched, and user roles are assigned.
-
-Input/Condition: Tester logs in as an Administrator, Team Manager, and Player and verifies correct access.
-
-Output/Result:
-
-\begin{itemize}
-\item{The Player role has restricted access with basic features (ex. viewing schedule, joining teams)}
-\item{The Captain role has access to additional team management features.}
-\item{The Commissioner has access to all administrative features.}
-
-\end{itemize} 
-
-How test will be performed: Manually log in with a dummy user role for each level and attempt to access various features. Verify that the access levels match the defined role-based access control requirements.
-
-Requirements Covered: SRS Req 15.1, 15.2.
-
-\item{TSEC-2\\}
-
-Type: Manual
-
-Initial State: Platform is ready for data entry.
-
-Input/Condition: Tester attempts to submit invalid information into the database (ex. team roster with missing player names, invalid team or game information).
-
-Output/Result: The system displays helpful error messages and prevents data entries - no data should be submitted or saved for invalid inputs, preventing any unwanted database behaviour or liability.
-
-How test will be performed: Enter invalid data into the respective forms and submit. Observe the system's responses and ensure appropriate validation messages are displayed.
-
-Requirements Covered: SRS Req 15.1, 15.2.
-
-\item{TSEC-3\\}
-
-Type: Manual
-
-Initial State: Platform login page is loaded, and the database connection is active.
-
-Input/Condition: Tester inputs SQL injection strings into form fields such as the username and password fields.
-
-Output/Result:
-
-\begin{itemize}
-    \item{The platform rejects input containing SQL injection patterns.} 
-    \item{No unintended database behavior occurs (e.g., unauthorized login or data loss).} 
-    \item{Error messages are displayed without revealing system vulnerabilities (e.g., "Invalid credentials" instead of SQL syntax errors).} 
-\end{itemize}
-
-How test will be performed: 
-\begin{enumerate} 
-    \item{Navigate to the login page and enter SQL injection strings in the username and password fields.} 
-    \item{Attempt to log in and observe the platform's behavior.} 
-    \item{Verify that no unauthorized access or system behavior is triggered.} 
-    \item{Review server logs to ensure the application logs the attempt without exposing database details.} 
-\end{enumerate}
-
-\end{enumerate}
-
-\subsubsection{Cultural}
+\paragraph{Data Access Governance}
 
 \begin{enumerate}
 
-\item{TCU-1\\}
+    \item{TSEC-1\\}
 
-Type: Manual
-					
-Initial State: Platform is launched in default settings.
-					
-Input/Condition: Tester views platform content, date, and time information.
-					
-Output/Result: All text is displayed in Canadian English, with time shown in the appropriate Hamilton, Ontario, Canada time zone (EST).
-					
-How test will be performed: Manually inspect the platform to ensure text and date/time formats match Canadian English and the local time zone.
+          Type: Manual
 
-Requirements Covered: SRS Req 16.1.
+          Initial State: Platform is launched, and user roles are assigned.
+
+          Input/Condition: Tester logs in as an Administrator, Team Manager, and Player and verifies correct access.
+
+          Output/Result:
+
+          \begin{itemize}
+              \item{The Player role has restricted access with basic features (ex. viewing schedule, joining teams)}
+              \item{The Captain role has access to additional team management features.}
+              \item{The Commissioner has access to all administrative features.}
+
+          \end{itemize}
+
+          How test will be performed: Manually log in with a dummy user role for each level and attempt to access various features. Verify that the access levels match the defined role-based access control requirements.
+
+          Requirements Covered: SRS Req 15.1, 15.2.
+
+    \item{TSEC-2\\}
+
+          Type: Manual
+
+          Initial State: Platform is ready for data entry.
+
+          Input/Condition: Tester attempts to submit invalid information into the database (ex. team roster with missing player names, invalid team or game information).
+
+          Output/Result: The system displays helpful error messages and prevents data entries - no data should be submitted or saved for invalid inputs, preventing any unwanted database behaviour or liability.
+
+          How test will be performed: Enter invalid data into the respective forms and submit. Observe the system's responses and ensure appropriate validation messages are displayed.
+
+          Requirements Covered: SRS Req 15.1, 15.2.
+
+    \item{TSEC-3\\}
+
+          Type: Manual
+
+          Initial State: Platform login page is loaded, and the database connection is active.
+
+          Input/Condition: Tester inputs SQL injection strings into form fields such as the username and password fields.
+
+          Output/Result:
+
+          \begin{itemize}
+              \item{The platform rejects input containing SQL injection patterns.}
+              \item{No unintended database behavior occurs (e.g., unauthorized login or data loss).}
+              \item{Error messages are displayed without revealing system vulnerabilities (e.g., "Invalid credentials" instead of SQL syntax errors).}
+          \end{itemize}
+
+          How test will be performed:
+          \begin{enumerate}
+              \item{Navigate to the login page and enter SQL injection strings in the username and password fields.}
+              \item{Attempt to log in and observe the platform's behavior.}
+              \item{Verify that no unauthorized access or system behavior is triggered.}
+              \item{Review server logs to ensure the application logs the attempt without exposing database details.}
+          \end{enumerate}
+
+\end{enumerate}
+
+\subsubsection{C ultural}
+
+\begin{enumerate}
+
+    \item{TCU-1\\}
+
+          Type: Manual
+
+          Initial State: Platform is launched in default settings.
+
+          Input/Condition: Tester views platform content, date, and time information.
+
+          Output/Result: All text is displayed in Canadian English, with time shown in the appropriate Hamilton, Ontario, Canada time zone (EST).
+
+          How test will be performed: Manually inspect the platform to ensure text and date/time formats match Canadian English and the local time zone.
+
+          Requirements Covered: SRS Req 16.1.
 
 \end{enumerate}
 
 \subsubsection{Compliance}
+
+\paragraph{Account Deletion and Usage Standards}
+
 \begin{enumerate}
-\item{TC-1\\}
-Type: Functional, Manual
-					
-Initial State: Dummy user account exists, with personal data such as email and phone number stored in the platform.
-					
-Input/Condition: User initiates a request to delete their account and associated data.
-					
-Output/Result: All personal data associated with the account is removed from database and platform, and user receives confirmation of data deletion.
-					
-How test will be performed: Manually delete an account and verify that all associated data is removed. Log any unexpected time elapsed to ensure security and compliance in appropriate time.
+    \item{TC-1\\}
+          Type: Functional, Manual
 
-Requirements Covered: SRS Req 17.1.
+          Initial State: Dummy user account exists, with personal data such as email and phone number stored in the platform.
 
-\item{TC-2\\}
+          Input/Condition: User initiates a request to delete their account and associated data.
 
-Type: Manual
-					
-Initial State: Platform is launched.
-					
-Input/Condition: Tester visually inspect the platform against W3C web standards to verify adherence to industry standards (readable fonts, accessible colors, and clear navigation).
-					
-Output/Result: Tester verifies platform's adherence to W3C web standards.
-					
-How test will be performed: Manually inspect the interface against \href{https://www.w3.org/standards/}{W3C web standards} to verify font readability, contrast, and navigation.
+          Output/Result: All personal data associated with the account is removed from database and platform, and user receives confirmation of data deletion.
 
-Requirements Covered: SRS Req 17.2.
+          How test will be performed: Manually delete an account and verify that all associated data is removed. Log any unexpected time elapsed to ensure security and compliance in appropriate time.
+
+          Requirements Covered: SRS Req 17.1.
+
+    \item{TC-2\\}
+
+          Type: Manual
+
+          Initial State: Platform is launched.
+
+          Input/Condition: Tester visually inspect the platform against W3C web standards to verify adherence to industry standards (readable fonts, accessible colors, and clear navigation).
+
+          Output/Result: Tester verifies platform's adherence to W3C web standards.
+
+          How test will be performed: Manually inspect the interface against \href{https://www.w3.org/standards/}{W3C web standards} to verify font readability, contrast, and navigation.
+
+          Requirements Covered: SRS Req 17.2.
 \end{enumerate}
 
 ...
@@ -982,94 +995,94 @@ Requirements Covered: SRS Req 17.2.
 Note : Requirement IDs are from SRS
 \begin{center}
     \begin{tabular}{ |c|c|c| }
-		\hline
-		\textbf{Requirement ID } & \textbf{Test Case ID(s)} & \textbf{Description of Coverage} \\ \hline
-		FR-1 & \makecell{Login-Invalid, \\ Login-Valid} & \makecell{Tests login functionality \\ with valid and invalid credentials.} \\ \hline
-		FR-2 & \makecell{Captain-TeamCreation, \\ Captain-TeamDuplication} & \makecell{Ensures unique team creation \\ and duplication prevention.} \\ \hline
-		FR-3 & \makecell{Player-JoinTeam, \\ Captain-ApproveJoin} & \makecell{Covers team joining requests and\\ approvals.} \\ \hline
-		FR-7 & Game-ScheduleGeneration & \makecell{Verifies automated schedule\\ generation.} \\ \hline
-		FR-8 & Captain-GameReport & \makecell{Ensures captains can submit\\ game results.} \\ \hline
-		FR-9 & Captain-RescheduleRequest & \makecell{Verifies rescheduling requests.} \\ \hline
-		FR-10 & Admin-OverrideSchedule & \makecell{Validates admin ability to\\ override schedules.} \\ \hline
-		NFR-11.1 & Usability-NavigationTest & \makecell{Tests user ease of navigation\\ through the platform.} \\ \hline
-		NFR-12.4 & Performance-ScheduleValidation & \makecell{Verifies schedule accuracy under\\ performance constraints.} \\ \hline
-		NFR-13.2 & Compliance-W3CStandards & \makecell{Confirms adherence to web\\ standards (W3C).} \\ \hline
-		% \label{table:traceability_matrix}
-	\end{tabular}
+        \hline
+        \textbf{Requirement ID } & \textbf{Test Case ID(s)}        & \textbf{Description of Coverage}           \\ \hline
+        FR-1                     & \makecell{Login-Invalid,                                                     \\ Login-Valid} & \makecell{Tests login functionality \\ with valid and invalid credentials.} \\ \hline
+        FR-2                     & \makecell{Captain-TeamCreation,                                              \\ Captain-TeamDuplication} & \makecell{Ensures unique team creation \\ and duplication prevention.} \\ \hline
+        FR-3                     & \makecell{Player-JoinTeam,                                                   \\ Captain-ApproveJoin} & \makecell{Covers team joining requests and\\ approvals.} \\ \hline
+        FR-7                     & Game-ScheduleGeneration         & \makecell{Verifies automated schedule      \\ generation.} \\ \hline
+        FR-8                     & Captain-GameReport              & \makecell{Ensures captains can submit      \\ game results.} \\ \hline
+        FR-9                     & Captain-RescheduleRequest       & \makecell{Verifies rescheduling requests.} \\ \hline
+        FR-10                    & Admin-OverrideSchedule          & \makecell{Validates admin ability to       \\ override schedules.} \\ \hline
+        NFR-11.1                 & Usability-NavigationTest        & \makecell{Tests user ease of navigation    \\ through the platform.} \\ \hline
+        NFR-12.4                 & Performance-ScheduleValidation  & \makecell{Verifies schedule accuracy under \\ performance constraints.} \\ \hline
+        NFR-13.2                 & Compliance-W3CStandards         & \makecell{Confirms adherence to web        \\ standards (W3C).} \\ \hline
+        % \label{table:traceability_matrix}
+    \end{tabular}
 \end{center}
-For more, refer to requirements in SRS Document () 
+For more, refer to requirements in SRS Document ()
 
 \section{Unit Test Description}
 
 \wss{This section should not be filled in until after the MIS (detailed design
-  document) has been completed.}
+    document) has been completed.}
 
 \wss{Reference your MIS (detailed design document) and explain your overall
-philosophy for test case selection.}  
+    philosophy for test case selection.}
 
-\wss{To save space and time, it may be an option to provide less detail in this section.  
-For the unit tests you can potentially layout your testing strategy here.  That is, you 
-can explain how tests will be selected for each module.  For instance, your test building 
-approach could be test cases for each access program, including one test for normal behaviour 
-and as many tests as needed for edge cases.  Rather than create the details of the input 
-and output here, you could point to the unit testing code.  For this to work, you code 
-needs to be well-documented, with meaningful names for all of the tests.}
+\wss{To save space and time, it may be an option to provide less detail in this section.
+    For the unit tests you can potentially layout your testing strategy here.  That is, you
+    can explain how tests will be selected for each module.  For instance, your test building
+    approach could be test cases for each access program, including one test for normal behaviour
+    and as many tests as needed for edge cases.  Rather than create the details of the input
+    and output here, you could point to the unit testing code.  For this to work, you code
+    needs to be well-documented, with meaningful names for all of the tests.}
 
 \subsection{Unit Testing Scope}
 
 \wss{What modules are outside of the scope.  If there are modules that are
-  developed by someone else, then you would say here if you aren't planning on
-  verifying them.  There may also be modules that are part of your software, but
-  have a lower priority for verification than others.  If this is the case,
-  explain your rationale for the ranking of module importance.}
+    developed by someone else, then you would say here if you aren't planning on
+    verifying them.  There may also be modules that are part of your software, but
+    have a lower priority for verification than others.  If this is the case,
+    explain your rationale for the ranking of module importance.}
 
 \subsection{Tests for Functional Requirements}
 
 \wss{Most of the verification will be through automated unit testing.  If
-  appropriate specific modules can be verified by a non-testing based
-  technique.  That can also be documented in this section.}
+    appropriate specific modules can be verified by a non-testing based
+    technique.  That can also be documented in this section.}
 
 \subsubsection{Module 1}
 
 \wss{Include a blurb here to explain why the subsections below cover the module.
-  References to the MIS would be good.  You will want tests from a black box
-  perspective and from a white box perspective.  Explain to the reader how the
-  tests were selected.}
+    References to the MIS would be good.  You will want tests from a black box
+    perspective and from a white box perspective.  Explain to the reader how the
+    tests were selected.}
 
 \begin{enumerate}
 
-\item{test-id1\\}
+    \item{test-id1\\}
 
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
+          Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+              be automatic}
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+          Initial State:
 
-How test will be performed: 
-					
-\item{test-id2\\}
+          Input:
 
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
+          Output: \wss{The expected result for the given inputs}
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+          Test Case Derivation: \wss{Justify the expected value given in the Output field}
 
-How test will be performed: 
+          How test will be performed:
 
-\item{...\\}
-    
+    \item{test-id2\\}
+
+          Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+              be automatic}
+
+          Initial State:
+
+          Input:
+
+          Output: \wss{The expected result for the given inputs}
+
+          Test Case Derivation: \wss{Justify the expected value given in the Output field}
+
+          How test will be performed:
+
+    \item{...\\}
+
 \end{enumerate}
 
 \subsubsection{Module 2}
@@ -1079,40 +1092,40 @@ How test will be performed:
 \subsection{Tests for Nonfunctional Requirements}
 
 \wss{If there is a module that needs to be independently assessed for
-  performance, those test cases can go here.  In some projects, planning for
-  nonfunctional tests of units will not be that relevant.}
+    performance, those test cases can go here.  In some projects, planning for
+    nonfunctional tests of units will not be that relevant.}
 
 \wss{These tests may involve collecting performance data from previously
-  mentioned functional tests.}
+    mentioned functional tests.}
 
 \subsubsection{Module ?}
-		
+
 \begin{enumerate}
 
-\item{test-id1\\}
+    \item{test-id1\\}
 
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input/Condition: 
-					
-Output/Result: 
-					
-How test will be performed: 
-					
-\item{test-id2\\}
+          Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+              be automatic}
 
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
+          Initial State:
+
+          Input/Condition:
+
+          Output/Result:
+
+          How test will be performed:
+
+    \item{test-id2\\}
+
+          Type: Functional, Dynamic, Manual, Static etc.
+
+          Initial State:
+
+          Input:
+
+          Output:
+
+          How test will be performed:
 
 \end{enumerate}
 
@@ -1123,7 +1136,7 @@ How test will be performed:
 \subsection{Traceability Between Test Cases and Modules}
 
 \wss{Provide evidence that all of the modules have been considered.}
-				
+
 \bibliographystyle{plainnat}
 
 \bibliography{../../refs/References}
@@ -1140,41 +1153,41 @@ The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
 Their values are defined in this section for easy maintenance.
 \begin{longtable}{|l|l|l|p{5cm}|}
 
-\hline
-parameter & value & unit & description\\
-\hline
-\texttt{MIN\_NAVTIME}\label{MIN_NAVTIME} & 60 & s & the minimum time for testers to navigate to a main view \\
-\hline
-\texttt{MIN\_TESTERS}\label{MIN_TESTERS} & 5 & n/a & the minimum testers required for a certain system test \\
-\hline
-\texttt{AVG\_TASK\_TIME}\label{AVG_TASK_TIME} & 3 & min & the average task time for a task completion \\
-\hline
-\texttt{MAX\_GAME\_DIFF}\label{MAX_GAME_DIFF} & 2 & n/a & the maximum difference of total scheduled games between two teams \\
-\hline
+    \hline
+    parameter                                     & value & unit & description                                                       \\
+    \hline
+    \texttt{MIN\_NAVTIME}\label{MIN_NAVTIME}      & 60    & s    & the minimum time for testers to navigate to a main view           \\
+    \hline
+    \texttt{MIN\_TESTERS}\label{MIN_TESTERS}      & 5     & n/a  & the minimum testers required for a certain system test            \\
+    \hline
+    \texttt{AVG\_TASK\_TIME}\label{AVG_TASK_TIME} & 3     & min  & the average task time for a task completion                       \\
+    \hline
+    \texttt{MAX\_GAME\_DIFF}\label{MAX_GAME_DIFF} & 2     & n/a  & the maximum difference of total scheduled games between two teams \\
+    \hline
 \end{longtable}
 
 \subsection{Usability Survey Questions}
 
 \paragraph{Learning}
 \begin{itemize}
-\item{How easy was it to learn how to use the platform? (1-5)}
-\item{How helpful were the instructions or help resources in learning how to use the platform? (1-5)}
-\item{How confident do you feel using the platform without assistance after your initial experience? (1-5)}
+    \item{How easy was it to learn how to use the platform? (1-5)}
+    \item{How helpful were the instructions or help resources in learning how to use the platform? (1-5)}
+    \item{How confident do you feel using the platform without assistance after your initial experience? (1-5)}
 \end{itemize}
 
 \paragraph{Usability}
 \begin{itemize}
-\item{How intuitive do you find the navigation of the platform? (1-5)}
-\item{Did you encounter any errors or issues while using the platform? If so, please describe them. (Open-ended)}
+    \item{How intuitive do you find the navigation of the platform? (1-5)}
+    \item{Did you encounter any errors or issues while using the platform? If so, please describe them. (Open-ended)}
 \end{itemize}
 
 
 \paragraph{Accessibility}
 \begin{itemize}
-\item{How accessible do you find the platform in terms of visual design (e.g., color contrast, text size, font)? (1-5)}
-\item{Did you encounter any errors or issues while using the platform? If so, please describe them. (Open-ended)}
-\item{Do you have any suggestions for improving the accessibility of the platform?
-(Open-ended)}
+    \item{How accessible do you find the platform in terms of visual design (e.g., color contrast, text size, font)? (1-5)}
+    \item{Did you encounter any errors or issues while using the platform? If so, please describe them. (Open-ended)}
+    \item{Do you have any suggestions for improving the accessibility of the platform?
+          (Open-ended)}
 \end{itemize}
 
 \newpage{}
@@ -1188,100 +1201,100 @@ graduate attribute of Lifelong Learning.
 \input{../Reflection.tex}
 
 \begin{enumerate}
-	\item What went well while writing this deliverable?
-	
-	There was a lot of effective communication and problem solving throughout the
-	development of the VnV plan. The team was able to develop clear sections and 
-	specific testing categories for features such as the authentication, access
-	control, game scheduling, etc. This made is easier to organize the structure
-	of the document. Using a google doc, the team was able to create an intial 
-	draft with tasks assigned to team members either individually, or in sub groups.
-	Following the creation of the ideas brainstormed in the draft, we created a 
-	formal documentation of the VnV plan utilizing LaTeX.
-	
-	\item What pain points did you experience during this deliverable, and how
-		did you resolve them?
-	
-		A challenge we faced during the formulation of this deliverable was ensuring
-		the traceability between test cases and requirements listed in section 4.4. 
-		The process of tracking each requirements to their respective test cases can
-		easily become complex. To resolve this issue, we established a mapping method
-		to simplify the traceability.
-	
-	\item What knowledge and skills will the team collectively need to acquire to
-	successfully complete the verification and validation of your project?
-	Examples of possible knowledge and skills include dynamic testing knowledge,
-	static testing knowledge, specific tool usage, Valgrind etc.  You should look to
-	identify at least one item for each team member.
-	
-		\textbf{Static and dynamic testing knowledge} will be an important skill the
-		team will collectively need for the completion of verification and validation.
-		Thiw will be critical for validating both functional and non functional
-		requirements.
-	
-		\textbf{Usability and performance testing} will be a necessary skill for the 
-		verification and validation, as it will be essential for the understanding
-		of the human factors and performance for the non functional requirements.
-	
-		\textbf{Security testing} will be an important topic for the completion of
-		this deliverable due to the teams emphasis on security. A proper
-		understanding of cybersecurity principles will help improve the security.
+    \item What went well while writing this deliverable?
 
-		\textbf{Tool proficiency} will a skill necessary for the team to acquire to
-		improve the automated testing tools, as well as the efficiency of and accuracy
-		of the testing.
+          There was a lot of effective communication and problem solving throughout the
+          development of the VnV plan. The team was able to develop clear sections and
+          specific testing categories for features such as the authentication, access
+          control, game scheduling, etc. This made is easier to organize the structure
+          of the document. Using a google doc, the team was able to create an intial
+          draft with tasks assigned to team members either individually, or in sub groups.
+          Following the creation of the ideas brainstormed in the draft, we created a
+          formal documentation of the VnV plan utilizing LaTeX.
 
-		\textbf{Traceability and Requirements Management} will be crucial for our team
-		to understand how to link each requirement to test cases specific test cases.
-		
-	\item For each of the knowledge areas and skills identified in the previous
-	question, what are at least two approaches to acquiring the knowledge or
-	mastering the skill?  Of the identified approaches, which will each team
-	member pursue, and why did they make this choice?
-	
-	\textbf{Static and dynamic testing knowledge - Damien} 
+    \item What pain points did you experience during this deliverable, and how
+          did you resolve them?
 
-	Damien will work on enhancing his statis and dynamic testing knowledge with the
-	assitance of online resources.
-	\begin{enumerate}
-		\item Taking an online course with a focus on software testing methods.
-		\item Organize a peer learning session where team members individually
-		search and share various testing techniques.
-	\end{enumerate}
-	\textbf{Usability and performance testing - Emma} 
+          A challenge we faced during the formulation of this deliverable was ensuring
+          the traceability between test cases and requirements listed in section 4.4.
+          The process of tracking each requirements to their respective test cases can
+          easily become complex. To resolve this issue, we established a mapping method
+          to simplify the traceability.
 
-	Emma will work on her usability and performance testing skills to improve
-	the teams performance metrics.
-	\begin{enumerate}
-		\item Evaluate our perfomance matrix using analytical tools.
-		\item Learn more about UX/UI principles using online resources.
-	\end{enumerate}
-	\textbf{Security testing - Tuoyo}
+    \item What knowledge and skills will the team collectively need to acquire to
+          successfully complete the verification and validation of your project?
+          Examples of possible knowledge and skills include dynamic testing knowledge,
+          static testing knowledge, specific tool usage, Valgrind etc.  You should look to
+          identify at least one item for each team member.
 
-	Tuoyo will focus on improving his skills with the security testing to assist
-	the team with improving security practices.
-	\begin{enumerate}
-		\item Enroll in a cybersecurity course to learn core concepts.
-		\item Learn more about common vulnerablities and techniques to mitigate them
-	\end{enumerate}
+          \textbf{Static and dynamic testing knowledge} will be an important skill the
+          team will collectively need for the completion of verification and validation.
+          Thiw will be critical for validating both functional and non functional
+          requirements.
 
-	\textbf{Tool proficiency - Jad} 
+          \textbf{Usability and performance testing} will be a necessary skill for the
+          verification and validation, as it will be essential for the understanding
+          of the human factors and performance for the non functional requirements.
 
-	Jad will work on tool proficiency to improve the teams automated processes.
-	\begin{enumerate}
-		\item Practice using selected tools in examples scenarios.
-		\item Attend vendor webinars or tutorials for selected tools.
-	\end{enumerate}
+          \textbf{Security testing} will be an important topic for the completion of
+          this deliverable due to the teams emphasis on security. A proper
+          understanding of cybersecurity principles will help improve the security.
 
-	\textbf{Traceability and Requirements Management - Derek} 
+          \textbf{Tool proficiency} will a skill necessary for the team to acquire to
+          improve the automated testing tools, as well as the efficiency of and accuracy
+          of the testing.
 
-	Derek will work on the Traceability and Requirements Management to improve the 
-	validation and verification of requirements.
-	\begin{enumerate}
-		\item Learn the use of requirement management tools to facilitate traceability.
-		\item Research and study best practices in requirement management.
-	\end{enumerate}
-	  
+          \textbf{Traceability and Requirements Management} will be crucial for our team
+          to understand how to link each requirement to test cases specific test cases.
+
+    \item For each of the knowledge areas and skills identified in the previous
+          question, what are at least two approaches to acquiring the knowledge or
+          mastering the skill?  Of the identified approaches, which will each team
+          member pursue, and why did they make this choice?
+
+          \textbf{Static and dynamic testing knowledge - Damien}
+
+          Damien will work on enhancing his statis and dynamic testing knowledge with the
+          assitance of online resources.
+          \begin{enumerate}
+              \item Taking an online course with a focus on software testing methods.
+              \item Organize a peer learning session where team members individually
+                    search and share various testing techniques.
+          \end{enumerate}
+          \textbf{Usability and performance testing - Emma}
+
+          Emma will work on her usability and performance testing skills to improve
+          the teams performance metrics.
+          \begin{enumerate}
+              \item Evaluate our perfomance matrix using analytical tools.
+              \item Learn more about UX/UI principles using online resources.
+          \end{enumerate}
+          \textbf{Security testing - Tuoyo}
+
+          Tuoyo will focus on improving his skills with the security testing to assist
+          the team with improving security practices.
+          \begin{enumerate}
+              \item Enroll in a cybersecurity course to learn core concepts.
+              \item Learn more about common vulnerablities and techniques to mitigate them
+          \end{enumerate}
+
+          \textbf{Tool proficiency - Jad}
+
+          Jad will work on tool proficiency to improve the teams automated processes.
+          \begin{enumerate}
+              \item Practice using selected tools in examples scenarios.
+              \item Attend vendor webinars or tutorials for selected tools.
+          \end{enumerate}
+
+          \textbf{Traceability and Requirements Management - Derek}
+
+          Derek will work on the Traceability and Requirements Management to improve the
+          validation and verification of requirements.
+          \begin{enumerate}
+              \item Learn the use of requirement management tools to facilitate traceability.
+              \item Research and study best practices in requirement management.
+          \end{enumerate}
+
 \end{enumerate}
 
 
