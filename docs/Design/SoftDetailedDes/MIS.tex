@@ -275,62 +275,80 @@ User Interface Module
 \subsection{Semantics}
 
 \subsubsection{State Variables}
+\[
+\text{schedule} \subseteq \mathcal{T} \times \mathcal{S} \times \mathcal{G}
+\]
+where:
 \begin{itemize}
-    \item \textbf{schedule: Object} \\ The current schedule object containing all games, gameslots, and team assignments.
+    \item \(\mathcal{T}\): Set of all teams.
+    \item \(\mathcal{S}\): Set of available slots.
+    \item \(\mathcal{G}\): Set of all game identifiers.
 \end{itemize}
 
 \subsubsection{Environment Variables}
-\begin{itemize}
-    \item None
-\end{itemize}
+None.
 
 \subsubsection{Assumptions}
 \begin{itemize}
-    \item Valid team and gameslot data are provided for schedule creation.
+    \item \( \forall t \in \mathcal{T}, \; \exists s \in \mathcal{S}, \; t\) is scheduled exactly once per week.
+    \item Valid team (\(t \in \mathcal{T}\)) and slot (\(s \in \mathcal{S}\)) data are provided for schedule creation.
 \end{itemize}
 
 \subsubsection{Access Routine Semantics}
 
-\noindent createSchedule(teams, slots, seasonLength):
-\begin{itemize}
-    \item transition: $schedule := generateSchedule(teams, slots, seasonLength)$
-    \item output: $out := schedule$
-    \item exception: None
-\end{itemize}
+\noindent \textbf{createSchedule(teams, slots, seasonLength):}
+\begin{align*}
+    & \text{transition: } \text{schedule} := \text{generateSchedule}(teams, slots, seasonLength) \\
+    & \text{output: } \text{out} := \text{schedule} \\
+    & \text{constraint: } \forall t \in \mathcal{T}, \; \exists s \in \mathcal{S}, \; t \text{ plays once per week.} \\
+    & \text{exception: } \text{None.}
+\end{align*}
 
-\noindent addGame(details):
-\begin{itemize}
-    \item transition: Adds a new game to the schedule using the provided details.
-    \item output: $out := true$ if the game is successfully added.
-    \item exception: Raises InvalidInput if details are incomplete or invalid.
-\end{itemize}
+\vspace{1em}
 
-\noindent removeGame(gameId):
-\begin{itemize}
-    \item transition: Removes the game with the given gameId from the schedule.
-    \item output: $out := true$ if the game is successfully removed.
-    \item exception: Raises GameNotFound if the game does not exist.
-\end{itemize}
+\noindent \textbf{addGame(details):}
+\begin{align*}
+    & \text{transition: } \text{schedule} := \text{schedule} \cup \{(t_1, t_2, s) \;|\; t_1, t_2 \in \mathcal{T}, \; s \in \mathcal{S}\} \\
+    & \text{output: } \text{out} := \text{true if details are valid, false otherwise.} \\
+    & \text{exception: } \text{InvalidInput if details are incomplete or invalid.}
+\end{align*}
 
-\noindent updateGameSlot(gameId, newSlot):
-\begin{itemize}
-    \item transition: Updates the slot for the game with gameId in the schedule to newSlot. Removes the game from the old slot.
-    \item output: $out := true$ if the update is successful.
-    \item exception: Raises GameNotFound if the game does not exist.
-\end{itemize}
+\vspace{1em}
 
-\noindent rescheduleGame(gameId, newSlot, oldSlot):
-\begin{itemize}
-    \item transition: Removes the game with gameId from oldSlot and assigns it to newSlot in the schedule.
-    \item output: $out := true$ if the reschedule is successful.
-    \item exception: Raises GameNotFound if the game does not exist or SlotNotFound if either slot does not exist.
-\end{itemize}
+\noindent \textbf{removeGame(gameId):}
+\begin{align*}
+    & \text{transition: } \text{schedule} := \text{schedule} \setminus \{g \;|\; g \in \mathcal{G}, \; g.\text{id} = \text{gameId}\} \\
+    & \text{output: } \text{out} := \text{true if gameId exists in schedule, false otherwise.} \\
+    & \text{exception: } \text{GameNotFound if gameId does not exist.}
+\end{align*}
+
+\vspace{1em}
+
+\noindent \textbf{updateGameSlot(gameId, newSlot):}
+\begin{align*}
+    & \text{transition: } \text{schedule} := \text{schedule} \setminus \{g \;|\; g \in \mathcal{G}, \; g.\text{id} = \text{gameId}\} \\
+    & \quad \cup \{(t_1, t_2, \text{newSlot})\} \\
+    & \text{output: } \text{out} := \text{true if the update is successful.} \\
+    & \text{exception: } \text{GameNotFound if gameId does not exist.}
+\end{align*}
+
+\vspace{1em}
+
+\noindent \textbf{rescheduleGame(gameId, newSlot, oldSlot):}
+\begin{align*}
+    & \text{transition: } \text{schedule} := \text{schedule} \setminus \{(t_1, t_2, \text{oldSlot}) \;|\; t_1, t_2 \in \mathcal{T}\} \\
+    & \quad \cup \{(t_1, t_2, \text{newSlot})\} \\
+    & \text{output: } \text{out} := \text{true if the reschedule is successful.} \\
+    & \text{exceptions: }
+    \begin{cases}
+        \text{GameNotFound} & \text{if gameId does not exist.} \\
+        \text{SlotNotFound} & \text{if oldSlot or newSlot does not exist.}
+    \end{cases}
+\end{align*}
 
 \subsubsection{Local Functions}
+None.
 
-\begin{itemize}
-    \item None
-\end{itemize}
 
 \newpage
 
