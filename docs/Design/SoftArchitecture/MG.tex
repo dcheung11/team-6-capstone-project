@@ -583,6 +583,99 @@ needed. Drawings, Sketches, Figma}
 
 \section{Design of Communication Protocols}
 
+\subsection*{Overview}
+The communication protocols for the GSA Softball League platform are designed to ensure secure, reliable, and efficient interaction between system components and users. The platform employs a combination of RESTful APIs, web protocols, and encryption techniques to facilitate communication between the frontend, backend, and database, as well as external services.
+
+\subsection*{Protocols}
+
+\subsubsection*{Frontend to Backend Communication}
+\begin{itemize}
+    \item \textbf{Protocol}: HTTPS (Hypertext Transfer Protocol Secure)
+    \item \textbf{Description}:
+    \begin{itemize}
+        \item All communication between the frontend and backend is secured using HTTPS, ensuring data integrity and confidentiality.
+        \item RESTful APIs handle requests such as login, data retrieval, schedule updates, and notifications.
+    \end{itemize}
+    \item \textbf{Endpoints}:
+    \begin{itemize}
+        \item \texttt{/api/login}: Handles user authentication.
+        \item \texttt{/api/schedule}: Retrieves game schedules.
+        \item \texttt{/api/report}: Submits match results.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Backend to Database Communication}
+\begin{itemize}
+    \item \textbf{Protocol}: MongoDB Wire Protocol (Over SSL/TLS)
+    \item \textbf{Description}:
+    \begin{itemize}
+        \item Secure communication between the backend and the MongoDB database is facilitated by the MongoDB Wire Protocol over SSL/TLS.
+        \item Queries include CRUD operations for users, teams, schedules, and standings.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Backend to External Services}
+\begin{itemize}
+    \item \textbf{Protocol}: HTTPS with Third-Party APIs
+    \item \textbf{Description}:
+    \begin{itemize}
+        \item External services such as email or SMS notifications (e.g., Twilio, SendGrid) communicate securely using HTTPS.
+        \item APIs for notification services handle user alerts, such as schedule changes or reminders.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Client to Client Communication}
+\begin{itemize}
+    \item \textbf{Protocol}: WebSockets (Optional)
+    \item \textbf{Description}:
+    \begin{itemize}
+        \item Real-time updates for users, such as live score tracking or notifications, can be implemented using WebSocket connections.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{User Authentication Protocol}
+\begin{itemize}
+    \item \textbf{Protocol}: JWT (JSON Web Tokens) over HTTPS
+    \item \textbf{Description}:
+    \begin{itemize}
+        \item Upon successful login, the backend issues a JWT to the client.
+        \item JWTs are used to authenticate subsequent requests securely, reducing the need to reauthenticate for every action.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Error Handling and Fault Tolerance}
+\begin{itemize}
+    \item \textbf{Timeouts}:
+    \begin{itemize}
+        \item API requests have a timeout of 30 seconds to avoid hanging requests.
+        \item The frontend displays appropriate error messages if a timeout occurs.
+    \end{itemize}
+    \item \textbf{Retries}:
+    \begin{itemize}
+        \item Failed requests to external services are retried up to three times with exponential backoff.
+    \end{itemize}
+    \item \textbf{Error Codes}:
+    \begin{itemize}
+        \item Standardized HTTP status codes are used for API responses:
+        \begin{itemize}
+            \item \texttt{200}: Success
+            \item \texttt{400}: Bad Request
+            \item \texttt{401}: Unauthorized
+            \item \texttt{403}: Forbidden
+            \item \texttt{404}: Not Found
+            \item \texttt{500}: Internal Server Error
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Security Measures}
+\begin{itemize}
+    \item \textbf{Data Encryption}: All communication is encrypted using SSL/TLS to prevent data interception.
+    \item \textbf{Authentication Tokens}: JWTs are signed and validated to ensure they are tamper-proof.
+    \item \textbf{Input Validation}: All user inputs are validated to prevent injection attacks.
+    \item \textbf{Access Control}: Role-based access control (RBAC) ensures that only authorized users can perform specific actions.
+\end{itemize}
+
 \wss{If appropriate}
 
 \section{Timeline}
