@@ -250,8 +250,8 @@ User Interface Module
     \item Standings Module: To display league standings and updates.
     \item Announcements Module: To display Announcements
     \item Notification Module: To display interface for creating notifications
-    \item User Profile Module: To display user profile info
-    
+\end{itemize}
+
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
@@ -769,7 +769,6 @@ PlayerT, GameT, TeamT
   \item The backend is connected to a database
   \item Each database operation (CRUD) will be encapsulated in a backend method to ensure separation of concerns
   \item Data consistency and integrity are maintained by the backend during each operation.
-
 \end{itemize}
 
 \subsubsection{Access Routine Semantics}
@@ -881,14 +880,16 @@ Waiver
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{|p{3cm}|p{4cm}|p{4cm}|p{4cm}|}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-\texttt{createWaiver} & Waiver details & Waiver ID & InvalidInputException \\
-\texttt{getWaiver} & Waiver ID & Waiver details & WaiverNotFoundException \\
-\texttt{signWaiver} & User ID, Waiver ID & Boolean & WaiverNotFoundException, AlreadySignedException \\
-\texttt{listWaivers} & User ID & List of waivers & - \\
+  \begin{tabular}{|p{3cm}|p{4cm}|p{4cm}|p{4cm}|}
+    \hline
+    \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+    \hline
+    \texttt{createWaiver} & Waiver details & Waiver ID & InvalidInputException \\
+    \texttt{getWaiver} & Waiver ID & Waiver details & WaiverNotFoundException \\
+    \texttt{signWaiver} & User ID, Waiver ID & Boolean & WaiverNotFoundException, AlreadySignedException \\
+    \texttt{listWaivers} & User ID & List of waivers & - \\
+  \end{tabular}
+\end{center}
 
 \subsection{Semantics}
 
@@ -907,7 +908,8 @@ Waiver
 \begin{itemize}
     \item All users accessing the waiver module are authenticated.
     \item Waiver text complies with the legal requirements of the university softball league.
-    
+\end{itemize}
+
 \subsubsection{Access Routine Semantics}
 
 \noindent \texttt{createWaiver}(details):  
@@ -1171,7 +1173,8 @@ Team Management
 \texttt{createPlayer} & Team ID, Player ID & Boolean & TeamNotFound \\
 \texttt{deletePlayer} & Team ID, Player ID & Boolean & TeamNotFound, PlayerNotFound \\
 \hline
-\end{tabular
+\end{tabular}
+\end{center}
 
 \subsection{Semantics}
 
@@ -1179,7 +1182,7 @@ Team Management
 \begin{itemize}
     \item \texttt{teamList}: A collection of all teams, their details, and associated players.
     \item \texttt{leagueTeams}: A mapping between leagues and their associated teams.
-\end{itemize
+\end{itemize}
 
 \subsubsection{Environment Variables}
 \begin{itemize}
@@ -1413,7 +1416,13 @@ Game Management Module
 
 \subsection{Uses}
 
-GameT Module, TeamT Module, Scheduling Module, and Database Module
+\begin{itemize}
+  \item GameT Module
+  \item TeamT Module
+  \item Scheduling Module
+  \item Database Module
+\end{itemize}
+
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
