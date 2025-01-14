@@ -1501,19 +1501,48 @@ graduate attribute of Problem Analysis and Design.
 
 \begin{enumerate}
   \item What went well while writing this deliverable?
+  
+  We understood the objectives of this design document quite well since we are more passionate about topics related to code writing processes, and the creation of each module includes brainstorming functions, variables, etc. Our capstone idea of a sports platform is straightforward, so many of the requirements were intuitive and discussed already with our supervisor, providing a solid foundation for our design decisions throughout this document. Thanks to the time we were given to write this document, we collaborated better compared to the previous documents. We had more meetings together as a group and discussed more through text messages, which kept everyone on track on what they were supposed to do.
+  
   \item What pain points did you experience during this deliverable, and how
         did you resolve them?
+
+  Although we discussed and assigned work better, we struggled with overall cohesiveness as we worked on each module independently from one another. Hence, although one person worked on the announcements module which depends on the notifications module, they may have no idea what the notifications module contains. Since we did not schedule specific times to work on it, there was randomness in which each module was completed. 
+  
+  Our solution to resolve this problem was to have several iterations of the design documentation, in which everyone took time to review modules, especially if they relied on other modules. This way, the necessary updates can be made continuously in case of new changes done to modules. There were also many merge conflicts due to these random completion times, as we were all making changes to the same document. We just had one person fix all the merge conflicts, and reviewed the final product to check if all the details were there and complete.
+
   \item Which of your design decisions stemmed from speaking to your client(s)
         or a proxy (e.g. your peers, stakeholders, potential users)? For those that
         were not, why, and where did they come from?
+
+  Most of our design decisions came directly from discussions with our supervisor (client), as this project was a pre-approved capstone. The rest of our design decisions came directly from our own user experiences with sports league platforms, as we were heavy users of platforms such as IMLeague for McMaster Intramurals. For example, the implementation for the game-scheduling algorithm came directly from our supervisor, as he wanted to keep the same algorithm that the league has always used. 
+
+  Similarly, we were asked to keep the user interface simple, emphasizing the importance of functionality over complexity for less tech-savvy users. Some architecture decisions, such as the backend database and choice of development framework were entirely decided based on the technical expertise of our team, which we also agreed were aligned with the industry’s best practices for robustness and scalability.
+
   \item While creating the design doc, what parts of your other documents (e.g.
         requirements, hazard analysis, etc), it any, needed to be changed, and why?
+
+  Some sections of our requirements document needed to be tweaked to consider all the modules that we’ve created, as some of the modules were based on intuition and preference, such as wanting to use MongoDB for our database. Not all database programs function the same way, so these requirements will be a continuous process as we become more familiar with this particular database platform. We also talked with our supervisor since then to discuss new details that we’ve possibly missed in our requirements document. 
+
+  The hazard analysis also needed some additional revisions, as our design process may incorporate vulnerabilities related to user authentication or data security issues. We ran into a bunch of exceptions to consider when making the functionality of each module, which could potentially be a vulnerability that we forgot to add to our hazard analysis document. These changes are made to ensure that we have consistency throughout our project documentation as we continue to develop narrower goals.
+
   \item What are the limitations of your solution?  Put another way, given
         unlimited resources, what could you do to make the project better? (LO\_ProbSolutions)
+
+  Athletes love stats. Our current solution lacks advanced analytics and reporting features due to resource constraints, which would be the amount of time for us to figure that out. It also would not be feasible as officials would have to record data continuously on a sheet of paper, which is a flawed solution because of carelessness and lack of attention coming from our own experiences, such as intramural basketball. Also, it is an advanced feature that our client did not ask for as the main functionality is prioritized. 
+
+  Given unlimited resources, machine learning algorithms to analyze player and game data for performance insights, such as determining an MVP would be interesting. Other improvements could be made to improve our project’s scalability to accommodate new teams, but again, that would be extremely unnecessary given the scope of the project.
+
   \item Give a brief overview of other design solutions you considered.  What
         are the benefits and tradeoffs of those other designs compared with the chosen
         design?  From all the potential options, why did you select the documented design?
         (LO\_Explores)
+
+  When considering design solutions, the main discussion was between time versus control. We wanted to maintain autonomy while considering the time constraints of the project. Autonomy was a big deal because we want our client to be able to use the project independently long-term without needing to update libraries or troubleshoot issues with third-party providers. If one of our external libraries stopped updating its source, that could potentially lead to an issue that our client didn’t ask for. 
+
+  For example, instead of using normal CSS, we chose to use Material UI as it is a library that is continuously up to date and won’t be disappearing any time soon. By using this react component library, we save time and efficiency by not needing to reinvent the wheel every time we want to style a component. We wanted to create the other design solutions from scratch, such as the game scheduling algorithm, as that would be the best possible solution to prevent raised concerns about the long-term sustainability of the project. 
+  
+  Other design solutions will be created with an open mind so that the platform can evolve according to specific league requirements. For example, we could choose to hard code the minimum or maximum number of players on the team, in case the client wants to easily change it in the future by replacing the value with another value. It is something that a new developer can easily understand and acknowledge, instead of needing to dive into reading documentation or in the worst case, the entire code base.
 \end{enumerate}
 
 
