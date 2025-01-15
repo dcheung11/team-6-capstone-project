@@ -48,6 +48,8 @@
 \midrule
 Dec 23 & 1.0 & Module Decomp\\
 Jan 3 & 1.1 & Added Type Modules\\
+Jan 14 & 1.2 & Revised diagram to acknowledge Record Modules\\
+
 \bottomrule
 \end{tabularx}
 
@@ -210,6 +212,11 @@ actually be implemented.
 \item [\refstepcounter{mnum} \mthemnum \label{mNotification}:] Notification Module
 \item [\refstepcounter{mnum} \mthemnum \label{mBackend}:] Backend Module
 \item [\refstepcounter{mnum} \mthemnum \label{mAlgo}:] Scheduling Algorithm Module
+\item [\refstepcounter{mnum} \mthemnum \label{mGameslotT}:] GameslotT Module
+\item [\refstepcounter{mnum} \mthemnum \label{mDivisionT}:] DivisonT Module
+\item [\refstepcounter{mnum} \mthemnum \label{mStandingT}:] StandingT Module
+\item [\refstepcounter{mnum} \mthemnum \label{mSeasonT}:] SeasonT Module
+\item [\refstepcounter{mnum} \mthemnum \label{mRR}:] Reschedule Request Module
 
 
 \end{description}
@@ -253,13 +260,6 @@ actually be implemented.
 The design of the system is intended to satisfy the requirements developed in
 the SRS. In this stage, the system is decomposed into modules. The connection
 between requirements and modules is listed in Table~\ref{TblRT}.
-
-\wss{The intention of this section is to document decisions that are made
-  ``between'' the requirements and the design.  To satisfy some requirements,
-  design decisions need to be made.  Rather than make these decisions implicit,
-  they are explicitly recorded here.  For instance, if a program has security
-  requirements, a specific design decision may be made to satisfy those
-  requirements with a password.}
 
 \section{Module Decomposition} \label{SecMD}
 
@@ -447,6 +447,52 @@ to be implemented.
     \item[Type of Module:] Abstract Data Type
   \end{description}
 
+  \subsubsection{GameslotT Module (\mref{mGameslotT})}
+
+\begin{description}
+  \item[Secrets:] The data structure used to represent a game slot.
+  \item[Services:] Holds information about game time, field, date.
+  \item[Implemented By:] Team 6
+  \item[Type of Module:] Abstract Data Type
+\end{description}
+
+\subsubsection{DivisionT Module (\mref{mDivisionT})}
+
+\begin{description}
+  \item[Secrets:] The data structure used to represent a division.
+  \item[Services:] Holds information about teams and standings within a division.
+  \item[Implemented By:] Team 6
+  \item[Type of Module:] Abstract Data Type
+\end{description}
+
+\subsubsection{StandingT Module (\mref{mStandingT})}
+
+\begin{description}
+  \item[Secrets:] The data structure used to represent a team's standings.
+  \item[Services:] Tracks wins, losses, ties, and other metrics for ranking for playoffs.
+  \item[Implemented By:] Team 6
+  \item[Type of Module:] Abstract Data Type
+\end{description}
+
+\subsubsection{SeasonT Module (\mref{mSeasonT})}
+
+\begin{description}
+  \item[Secrets:] The data structure used to represent a season.
+  \item[Services:] Holds information about teams, divisions, games, and timeframes for a season.
+  \item[Implemented By:] Team 6
+  \item[Type of Module:] Abstract Data Type
+\end{description}
+
+\subsubsection{Reschedule Request Module (\mref{mRR})}
+
+\begin{description}
+  \item[Secrets:] The data structure used to represent a reschedule request.
+  \item[Services:] Allows for creating and tracking requests to reschedule games.
+  \item[Implemented By:] Team 6
+  \item[Type of Module:] Abstract Data Type
+\end{description}
+
+
 \subsection{Software Decision Module}
 
 % \begin{description}
@@ -518,10 +564,10 @@ R9 & \mref{mUI}, \mref{mAnnouncements}, \mref{mNotification}\\
 R10 & \mref{mUI}, \mref{mScheduling}, \mref{mAlgo}\\
 R10 & \mref{mUI}, \mref{mScheduling}, \mref{mAlgo}\\
 R12 & \mref{mUI}, \mref{mGameManagement}, \mref{mBackend}\\
-
 \bottomrule
 \end{tabular}
 \caption{Trace Between Requirements and Modules}
+\textit{Note: The specific record modules are not included in traceability but are outlined in MIS.pdf}
 \label{TblRT}
 \end{table}
 
@@ -558,19 +604,11 @@ the modules. It can be seen that the graph is a directed acyclic graph
 system, and modules in the higher level of the hierarchy are essentially simpler
 because they use modules from the lower levels.
 
-\wss{The uses relation is not a data flow diagram.  In the code there will often
-be an import statement in module A when it directly uses module B.  Module B
-provides the services that module A needs.  The code for module A needs to be
-able to see these services (hence the import statement).  Since the uses
-relation is transitive, there is a use relation without an import, but the
-arrows in the diagram typically correspond to the presence of import statement.}
-
-\wss{If module A uses module B, the arrow is directed from A to B.}
-
 \begin{figure}[H]
 \centering
 \includegraphics[width=1.1\textwidth]{module-decomp.png}
 \caption{Use hierarchy among modules}
+\textit{Note: Backend Module uses several record modules that represent data entities including Game, Type, Player, Season, Standing, Division, etc. The schemas for these record modules will be further specified in the MIS.pdf}
 \label{FigUH}
 \end{figure}
 
