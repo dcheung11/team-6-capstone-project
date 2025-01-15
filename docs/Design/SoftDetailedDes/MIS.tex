@@ -54,7 +54,7 @@ urlcolor=cyan          % color of external links
   \toprule {\bf Date} & {\bf Version} & {\bf Notes}                                  \\
   \midrule
   Jan 3               & 1.0           & Added MIS for TeamT, GameT, PlayerT, Backend \\
-  Date 2              & 1.1           & Notes                                        \\
+  Jan 14              & 1.x           & Added MIS for Season and Standing Record Modules                                        \\
   \bottomrule
 \end{tabularx}
 
@@ -1567,6 +1567,87 @@ Requests are created and seen in a timely manner
 None
 
 \newpage
+
+\section{MIS of SeasonT Module} \label{SeasonT}
+
+\subsection{Module}
+
+Season Record Module
+
+\subsection{Uses} 
+\begin{itemize} 
+  \item TeamT 
+  \item DivisionT 
+  \item StandingT 
+  \item Scheduling Module 
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants} None
+
+\subsubsection{Exported Access Programs} None
+
+\subsection{Semantics}
+
+\subsubsection{State Variables} 
+\begin{itemize} 
+  \item Season ID 
+  \item Start Date 
+  \item End Date 
+  \item Divisions 
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+None
+
+\subsubsection{Assumptions}
+
+None
+\subsubsection{Access Routine Semantics}
+
+None
+
+\section{MIS of StandingT Module} 
+\label{StandingT}
+
+\subsection{Module}
+
+Standing Record Module
+
+\subsection{Uses} 
+\begin{itemize} 
+  \item TeamT 
+  \item DivisionT
+  \item SeasonT 
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants} None
+
+\subsubsection{Exported Access Programs} None
+
+\subsection{Semantics}
+
+\subsubsection{State Variables} 
+\begin{itemize} 
+  \item Rankings
+  \item DivisionID 
+\end{itemize}
+
+\subsubsection{Environment Variables}
+
+None
+
+\subsubsection{Assumptions}
+
+Standings are updated based on the outcome of games.
+
+\subsubsection{Access Routine Semantics}
+
+None
 
 \section{Appendix} \label{Appendix}
 
