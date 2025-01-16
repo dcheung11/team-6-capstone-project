@@ -308,7 +308,7 @@ None.
 
 \noindent \textbf{addGame(details):}
 \begin{align*}
-    & \text{transition: } \text{schedule} := \text{schedule} \cup \{(t_1, t_2, s) \;|\; t_1, t_2 \in \mathcal{T}, \; s \in \mathcal{S}\} \\
+    & \text{transition: } \text{schedule} := \text{schedule} \cup \{(t_1, t_2, s) \;|\; t_1, t_2 \in \mathcal{T}, \; t_1 \neq t_2, \; s \in \mathcal{S}\} \\
     & \text{output: } \text{out} := \text{true if details are valid, false otherwise.} \\
     & \text{exception: } \text{InvalidInput if details are incomplete or invalid.}
 \end{align*}
