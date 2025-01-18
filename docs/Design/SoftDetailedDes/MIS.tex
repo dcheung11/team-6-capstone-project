@@ -54,7 +54,8 @@ urlcolor=cyan          % color of external links
   \toprule {\bf Date} & {\bf Version} & {\bf Notes}                                  \\
   \midrule
   Jan 3               & 1.0           & Added MIS for TeamT, GameT, PlayerT, Backend \\
-  Jan 14              & 1.x           & Added MIS for Season and Standing Record Modules                                        \\
+  Jan 14              & 1.1          & Added MIS for Season and Standing Record Modules           \\
+  Jan 17              & 1.2          & Added sections 2,3,4                                        \\
   \bottomrule
 \end{tabularx}
 
@@ -62,9 +63,27 @@ urlcolor=cyan          % color of external links
 
 \section{Symbols, Abbreviations and Acronyms}
 
-See SRS Documentation at \wss{give url}
+See SRS Documentation at \url{https://github.com/dcheung11/team-6-capstone-project/blob/main/docs/SRS-Volere/SRS.pdf}
 
-\wss{Also add any additional symbols, abbreviations or acronyms}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{l l} 
+  \toprule		
+  \textbf{symbol} & \textbf{description}\\
+  \midrule 
+  AC & Anticipated Change\\
+  DAG & Directed Acyclic Graph \\
+  M & Module \\
+  MG & Module Guide \\
+  MIS & Module Interface Specification\\
+  OS & Operating System \\
+  R & Requirement\\
+  SRS & Software Requirements Specification\\
+  UC & Unlikely Change \\
+  RBAC & Role-Based Access Control \\
+  JSON & JavaScript Object Notation \\
+  API & Application Programming Interface \\
+  \bottomrule
+\end{tabular}\\
 
 \newpage
 
@@ -77,16 +96,13 @@ See SRS Documentation at \wss{give url}
 \section{Introduction}
 
 The following document details the Module Interface Specifications for
-\wss{Fill in your project name and description}
+Pitch Perfect McMaster GSA Softball League Platform, a web application for managing the McMaster GSA Softball League.  
 
 Complementary documents include the System Requirement Specifications
 and Module Guide.  The full documentation and implementation can be
-found at \url{...}.  \wss{provide the url for your repo}
+found at \url{https://github.com/dcheung11/team-6-capstone-project}.
 
 \section{Notation}
-
-\wss{You should describe your notation.  You can use what is below as
-  a starting point.}
 
 The structure of the MIS for modules comes from \citet{HoffmanAndStrooper1995},
 with the addition that template modules have been adapted from
@@ -108,6 +124,11 @@ The following table summarizes the primitive data types used by \progname.
     integer            & $\mathbb{Z}$      & a number without a fractional component in (-$\infty$, $\infty$) \\
     natural number     & $\mathbb{N}$      & a number without a fractional component in [1, $\infty$)         \\
     real               & $\mathbb{R}$      & any number in (-$\infty$, $\infty$)                              \\
+    multiple assignment & :=                & multiple assignment statement                                    \\
+    set               & $\{$ ... $\}$     & collection of unique elements                                    \\
+    not in set       & $\backslash$          & element not in set  \\
+    union        & $\cup$             & union of two sets                                                \\             
+    intersection & $\cap$             & intersection of two sets                                         \\                        
     \bottomrule
   \end{tabular}
 \end{center}
@@ -127,33 +148,35 @@ The following table is taken directly from the Module Guide document for this pr
 \begin{table}[h!]
   \centering
   \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
-    \toprule
-    \textbf{Level 1}                               & \textbf{Level 2}                \\
-    \midrule
-
-    {Hardware-Hiding}                              & ~                               \\
-    \midrule
-
-    \multirow{7}{0.3\textwidth}{Behaviour-Hiding}  & Input Parameters                \\
-                                                   & Output Format                   \\
-                                                   & Output Verification             \\
-                                                   & Temperature ODEs                \\
-                                                   & Energy Equations                \\
-                                                   & Control Module                  \\
-                                                   & Specification Parameters Module \\
-    \midrule
-
-    \multirow{3}{0.3\textwidth}{Software Decision} & {Sequence Data Structure}       \\
-                                                   & ODE Solver                      \\
-                                                   & Plotting                        \\
-    \bottomrule
+  \toprule
+  \textbf{Level 1} & \textbf{Level 2}\\
+  \midrule
+  
+  {Hardware-Hiding Module} & ~ \\
+  \midrule
+  
+  \multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & User Interface Module\\
+  & Authentication Module\\
+  & Team Management Module\\
+  & Game Management Module\\
+  & Announcements Module\\
+  & Scheduling Module\\
+  & Standings Module\\
+  & Waiver Module\\
+  & PlayerT Module\\
+  & TeamT Module\\
+  & GameT Module\\
+  \midrule
+  
+  \multirow{3}{0.3\textwidth}{Software Decision Module} & {Database Module}\\
+  & {Notification Module}\\
+  & {Scheduling Algorithm Module}\\
+  \bottomrule
+  
   \end{tabular}
   \caption{Module Hierarchy}
   \label{TblMH}
-\end{table}
-
-\newpage
-~\newpage
+  \end{table}
 
 \newpage
 
@@ -803,8 +826,7 @@ None
 None
 
 \subsubsection{ERD for Database}
-see local file Capstone_ERD.png if better quality needed
-
+% see local file Capstone_ERD.png if better quality needed
 \includegraphics[scale=0.5]{Capstone_ERD.png}
 
 \section{MIS of Waiver Module} \label{WaiverModule}
@@ -1669,13 +1691,9 @@ None
 
 \section{Appendix} \label{Appendix}
 
-\wss{Extra information if required}
-
 \newpage{}
 
 \section*{Appendix --- Reflection}
-
-\wss{Not required for CAS 741 projects}
 
 The information in this section will be used to evaluate the team members on the
 graduate attribute of Problem Analysis and Design.
