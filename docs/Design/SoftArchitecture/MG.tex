@@ -49,6 +49,7 @@
 Dec 23 & 1.0 & Module Decomp\\
 Jan 3 & 1.1 & Added Type Modules\\
 Jan 14 & 1.2 & Revised diagram to acknowledge Record Modules\\
+Jan 17 & 1.3 & Added User Interfaces \\
 
 \bottomrule
 \end{tabularx}
@@ -173,10 +174,6 @@ change.
 \item[\refstepcounter{acnum} \actheacnum \label{acDataSecurity}:] Data Security and Privacy Updates.
 \item[\refstepcounter{acnum} \actheacnum \label{acNotifSystem}:] Improved Notification System. 
 \end{description}
-
-\wss{Anticipated changes relate to changes that would be made in requirements,
-design or implementation choices.  They are not related to changes that are made
-at run-time, like the values of parameters.}
 
 \subsection{Unlikely Changes} \label{SecUchange}
 
@@ -622,8 +619,82 @@ because they use modules from the lower levels.
 
 \section{User Interfaces}
 
-\wss{Design of user interface for software and hardware.  Attach an appendix if
-needed. Drawings, Sketches, Figma}
+The user interface for the McMaster Graduate Softball Association's platform has been designed to ensure usability, accessibility, and responsiveness.
+The prototype can be viewed on Figma \href{https://www.figma.com/proto/rm299NXqDphgHPHdfcNJfY/Softball-Capstone?node-id=17-409&p=f&t=5iRFT3K5cxIsTIDJ-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=17%3A146&show-proto-sidebar=1}{here}.
+The sections below provide an overview of the key views in the system with associated screenshots.
+
+\newpage
+
+\subsection{Login View}
+The login view allows users to securely log in to the system using their credentials. The interface is simple and intuitive, ensuring accessibility for all users.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{loginpage.png}
+    \caption{Login View}
+    \label{fig:login_view}
+\end{figure}
+
+\newpage
+
+\subsection{Homepage View}
+The homepage view provides users with a dashboard that displays key information, such as upcoming games, announcements, and navigation options.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.22]{homepage.png}
+    \caption{Homepage View}
+    \label{fig:homepage_view}
+\end{figure}
+
+\newpage
+
+\subsection{Team View}
+The team management view players to view their team information, including upcoming games and current statistics.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{teampage.png}
+    \caption{Team Management View}
+    \label{fig:team_management_view}
+\end{figure}
+
+\newpage
+
+\subsection{Scheduling View}
+The scheduling view allows users to view the season's game schedule.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{schedulepage.png}
+    \caption{Scheduling View}
+    \label{fig:scheduling_view}
+\end{figure}
+
+\newpage
+
+\subsection{Standings View}
+The standings view displays the league rankings, win-loss records, and statistical summaries for all teams.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{standingspage.png}
+    \caption{Standings View}
+    \label{fig:standings_view}
+\end{figure}
+
+\newpage
+
+\subsection{Announcements View}
+The announcements view is used to view league-wide updates and messages.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.22]{announcementpage.png}
+    \caption{Announcements View}
+    \label{fig:announcements_view}
+\end{figure}
+
 
 \section{Design of Communication Protocols}
 
