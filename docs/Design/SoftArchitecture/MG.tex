@@ -48,6 +48,9 @@
 \midrule
 Dec 23 & 1.0 & Module Decomp\\
 Jan 3 & 1.1 & Added Type Modules\\
+Jan 14 & 1.2 & Revised diagram to acknowledge Record Modules\\
+Jan 17 & 1.3 & Added User Interfaces \\
+
 \bottomrule
 \end{tabularx}
 
@@ -74,7 +77,13 @@ This section records information for easy reference.
   SRS & Software Requirements Specification\\
   \progname & Explanation of program name\\
   UC & Unlikely Change \\
-  \wss{etc.} & \wss{...}\\
+  RBAC & Role-Based Access Control \\
+  HTTP & HyperText Transfer Protocol \\
+  HTTPS & HyperText Transfer Protocol Secure \\
+  SSL & Secure Sockets Layers \\
+  TLS & Transport Layer Security \\
+  JWT & JSON Web Security \\
+  API & Application Programming Interface \\
   \bottomrule
 \end{tabular}\\
 
@@ -157,16 +166,14 @@ adapted here is called design for
 change.
 
 \begin{description}
-\item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The specific
-  hardware on which the software is running.
-\item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the
-  initial input data.
-\item ...
+\item[\refstepcounter{acnum} \actheacnum \label{acEnhancedAuth}:] Enhanced Authentication Features.
+\item[\refstepcounter{acnum} \actheacnum \label{acSessionUpdate}:] Session Management Updates.
+\item[\refstepcounter{acnum} \actheacnum \label{acDbSchema}:] Database Schema Adjustments.
+\item[\refstepcounter{acnum} \actheacnum \label{acUIEnhance}:] User Interface (UI) Enhancements.
+\item[\refstepcounter{acnum} \actheacnum \label{acNewAlg}:] Integration of New Scheduling Algorithms.
+\item[\refstepcounter{acnum} \actheacnum \label{acDataSecurity}:] Data Security and Privacy Updates.
+\item[\refstepcounter{acnum} \actheacnum \label{acNotifSystem}:] Improved Notification System. 
 \end{description}
-
-\wss{Anticipated changes relate to changes that would be made in requirements,
-design or implementation choices.  They are not related to changes that are made
-at run-time, like the values of parameters.}
 
 \subsection{Unlikely Changes} \label{SecUchange}
 
@@ -178,9 +185,12 @@ will potentially need to be modified. Hence, it is not intended that these
 decisions will be changed.
 
 \begin{description}
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] Input/Output devices
-  (Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
-\item ...
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucTechStack}:] Complete Redesign of the Technology Stack.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucAuthFeatures}:] Elimination of Authentication Features.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucDataStores}:] Replacement of Database Storage.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucRBAC}:] Removal of Role-Based Access Control (RBAC).
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucSchedLogic}:] Simplification of Scheduling Logic.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucEncryptStandard}:] Discontinuation of Encryption Standards.
 \end{description}
 
 \section{Module Hierarchy} \label{SecMH}
@@ -205,6 +215,11 @@ actually be implemented.
 \item [\refstepcounter{mnum} \mthemnum \label{mNotification}:] Notification Module
 \item [\refstepcounter{mnum} \mthemnum \label{mBackend}:] Backend Module
 \item [\refstepcounter{mnum} \mthemnum \label{mAlgo}:] Scheduling Algorithm Module
+\item [\refstepcounter{mnum} \mthemnum \label{mGameslotT}:] GameslotT Module
+\item [\refstepcounter{mnum} \mthemnum \label{mDivisionT}:] DivisonT Module
+\item [\refstepcounter{mnum} \mthemnum \label{mStandingT}:] StandingT Module
+\item [\refstepcounter{mnum} \mthemnum \label{mSeasonT}:] SeasonT Module
+\item [\refstepcounter{mnum} \mthemnum \label{mRR}:] Reschedule Request Module
 
 
 \end{description}
@@ -248,13 +263,6 @@ actually be implemented.
 The design of the system is intended to satisfy the requirements developed in
 the SRS. In this stage, the system is decomposed into modules. The connection
 between requirements and modules is listed in Table~\ref{TblRT}.
-
-\wss{The intention of this section is to document decisions that are made
-  ``between'' the requirements and the design.  To satisfy some requirements,
-  design decisions need to be made.  Rather than make these decisions implicit,
-  they are explicitly recorded here.  For instance, if a program has security
-  requirements, a specific design decision may be made to satisfy those
-  requirements with a password.}
 
 \section{Module Decomposition} \label{SecMD}
 
@@ -442,6 +450,52 @@ to be implemented.
     \item[Type of Module:] Abstract Data Type
   \end{description}
 
+  \subsubsection{GameslotT Module (\mref{mGameslotT})}
+
+\begin{description}
+  \item[Secrets:] The data structure used to represent a game slot.
+  \item[Services:] Holds information about game time, field, date.
+  \item[Implemented By:] Team 6
+  \item[Type of Module:] Abstract Data Type
+\end{description}
+
+\subsubsection{DivisionT Module (\mref{mDivisionT})}
+
+\begin{description}
+  \item[Secrets:] The data structure used to represent a division.
+  \item[Services:] Holds information about teams and standings within a division.
+  \item[Implemented By:] Team 6
+  \item[Type of Module:] Abstract Data Type
+\end{description}
+
+\subsubsection{StandingT Module (\mref{mStandingT})}
+
+\begin{description}
+  \item[Secrets:] The data structure used to represent a team's standings.
+  \item[Services:] Tracks wins, losses, ties, and other metrics for ranking for playoffs.
+  \item[Implemented By:] Team 6
+  \item[Type of Module:] Abstract Data Type
+\end{description}
+
+\subsubsection{SeasonT Module (\mref{mSeasonT})}
+
+\begin{description}
+  \item[Secrets:] The data structure used to represent a season.
+  \item[Services:] Holds information about teams, divisions, games, and timeframes for a season.
+  \item[Implemented By:] Team 6
+  \item[Type of Module:] Abstract Data Type
+\end{description}
+
+\subsubsection{Reschedule Request Module (\mref{mRR})}
+
+\begin{description}
+  \item[Secrets:] The data structure used to represent a reschedule request.
+  \item[Services:] Allows for creating and tracking requests to reschedule games.
+  \item[Implemented By:] Team 6
+  \item[Type of Module:] Abstract Data Type
+\end{description}
+
+
 \subsection{Software Decision Module}
 
 % \begin{description}
@@ -513,10 +567,10 @@ R9 & \mref{mUI}, \mref{mAnnouncements}, \mref{mNotification}\\
 R10 & \mref{mUI}, \mref{mScheduling}, \mref{mAlgo}\\
 R10 & \mref{mUI}, \mref{mScheduling}, \mref{mAlgo}\\
 R12 & \mref{mUI}, \mref{mGameManagement}, \mref{mBackend}\\
-
 \bottomrule
 \end{tabular}
 \caption{Trace Between Requirements and Modules}
+\textit{Note: The specific record modules are not included in traceability but are outlined in MIS.pdf}
 \label{TblRT}
 \end{table}
 
@@ -526,18 +580,14 @@ R12 & \mref{mUI}, \mref{mGameManagement}, \mref{mBackend}\\
 \toprule
 \textbf{AC} & \textbf{Modules}\\
 \midrule
-\acref{acHardware} & \mref{mHH}\\
-\acref{acInput} & \mref{mInput}\\
-\acref{acParams} & \mref{mParams}\\
-\acref{acVerify} & \mref{mVerify}\\
-\acref{acOutput} & \mref{mOutput}\\
-\acref{acVerifyOut} & \mref{mVerifyOut}\\
-\acref{acODEs} & \mref{mODEs}\\
-\acref{acEnergy} & \mref{mEnergy}\\
-\acref{acControl} & \mref{mControl}\\
-\acref{acSeqDS} & \mref{mSeqDS}\\
-\acref{acSolver} & \mref{mSolver}\\
-\acref{acPlot} & \mref{mPlot}\\
+% \acref{acHardware} & \mref{mHH}\\
+\acref{acEnhancedAuth} & \mref{mUI}, \mref{mAuth}, \mref{mBackend}\\
+\acref{acSessionUpdate} & \mref{mUI}, \mref{mAuth}, \mref{mBackend}\\
+\acref{acDbSchema} & \mref{mAuth}, \mref{mTeamManagement}, \mref{mStandings}, \mref{mBackend}\\
+\acref{acUIEnhance} & \mref{mUI}, \mref{mNotification}\\
+\acref{acNewAlg} & \mref{mScheduling}, \mref{mAlgo}\\
+\acref{acDataSecurity} & \mref{mAuth}, \mref{mStandings}, \mref{mBackend}\\
+\acref{acNotifSystem} & \mref{mNotification}, \mref{mBackend}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Anticipated Changes and Modules}
@@ -557,19 +607,11 @@ the modules. It can be seen that the graph is a directed acyclic graph
 system, and modules in the higher level of the hierarchy are essentially simpler
 because they use modules from the lower levels.
 
-\wss{The uses relation is not a data flow diagram.  In the code there will often
-be an import statement in module A when it directly uses module B.  Module B
-provides the services that module A needs.  The code for module A needs to be
-able to see these services (hence the import statement).  Since the uses
-relation is transitive, there is a use relation without an import, but the
-arrows in the diagram typically correspond to the presence of import statement.}
-
-\wss{If module A uses module B, the arrow is directed from A to B.}
-
 \begin{figure}[H]
 \centering
 \includegraphics[width=1.1\textwidth]{module-decomp.png}
 \caption{Use hierarchy among modules}
+\textit{Note: Backend Module uses several record modules that represent data entities including Game, Type, Player, Season, Standing, Division, etc. The schemas for these record modules will be further specified in the MIS.pdf}
 \label{FigUH}
 \end{figure}
 
@@ -577,18 +619,346 @@ arrows in the diagram typically correspond to the presence of import statement.}
 
 \section{User Interfaces}
 
-\wss{Design of user interface for software and hardware.  Attach an appendix if
-needed. Drawings, Sketches, Figma}
+The user interface for the McMaster Graduate Softball Association's platform has been designed to ensure usability, accessibility, and responsiveness.
+The prototype can be viewed on Figma \href{https://www.figma.com/proto/rm299NXqDphgHPHdfcNJfY/Softball-Capstone?node-id=17-409&p=f&t=5iRFT3K5cxIsTIDJ-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=17%3A146&show-proto-sidebar=1}{here}.
+The sections below provide an overview of the key views in the system with associated screenshots.
+
+\newpage
+
+\subsection{Login View}
+The login view allows users to securely log in to the system using their credentials. The interface is simple and intuitive, ensuring accessibility for all users.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{loginpage.png}
+    \caption{Login View}
+    \label{fig:login_view}
+\end{figure}
+
+\newpage
+
+\subsection{Homepage View}
+The homepage view provides users with a dashboard that displays key information, such as upcoming games, announcements, and navigation options.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.22]{homepage.png}
+    \caption{Homepage View}
+    \label{fig:homepage_view}
+\end{figure}
+
+\newpage
+
+\subsection{Team View}
+The team management view players to view their team information, including upcoming games and current statistics.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{teampage.png}
+    \caption{Team Management View}
+    \label{fig:team_management_view}
+\end{figure}
+
+\newpage
+
+\subsection{Scheduling View}
+The scheduling view allows users to view the season's game schedule.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{schedulepage.png}
+    \caption{Scheduling View}
+    \label{fig:scheduling_view}
+\end{figure}
+
+\newpage
+
+\subsection{Standings View}
+The standings view displays the league rankings, win-loss records, and statistical summaries for all teams.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{standingspage.png}
+    \caption{Standings View}
+    \label{fig:standings_view}
+\end{figure}
+
+\newpage
+
+\subsection{Announcements View}
+The announcements view is used to view league-wide updates and messages.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.22]{announcementpage.png}
+    \caption{Announcements View}
+    \label{fig:announcements_view}
+\end{figure}
+
 
 \section{Design of Communication Protocols}
 
-\wss{If appropriate}
+\subsection*{Overview}
+The communication protocols for the GSA Softball League platform are designed to ensure secure, reliable, and efficient interaction between system components and users. The platform employs a combination of RESTful APIs, web protocols, and encryption techniques to facilitate communication between the frontend, backend, and database, as well as external services.
+
+\subsection*{Protocols}
+
+\subsubsection*{Frontend to Backend Communication}
+\begin{itemize}
+    \item \textbf{Protocol}: HTTPS (Hypertext Transfer Protocol Secure)
+    \item \textbf{Description}:
+    \begin{itemize}
+        \item All communication between the frontend and backend is secured using HTTPS, ensuring data integrity and confidentiality.
+        \item RESTful APIs handle requests such as login, data retrieval, schedule updates, and notifications.
+    \end{itemize}
+    \item \textbf{Endpoints}:
+    \begin{itemize}
+        \item \texttt{/api/login}: Handles user authentication.
+        \item \texttt{/api/schedule}: Retrieves game schedules.
+        \item \texttt{/api/report}: Submits match results.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Backend to Database Communication}
+\begin{itemize}
+    \item \textbf{Protocol}: MongoDB Wire Protocol (Over SSL/TLS)
+    \item \textbf{Description}:
+    \begin{itemize}
+        \item Secure communication between the backend and the MongoDB database is facilitated by the MongoDB Wire Protocol over SSL/TLS.
+        \item Queries include CRUD operations for users, teams, schedules, and standings.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Backend to External Services}
+\begin{itemize}
+    \item \textbf{Protocol}: HTTPS with Third-Party APIs
+    \item \textbf{Description}:
+    \begin{itemize}
+        \item External services such as email or SMS notifications (e.g., Twilio, SendGrid) communicate securely using HTTPS.
+        \item APIs for notification services handle user alerts, such as schedule changes or reminders.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Client to Client Communication}
+\begin{itemize}
+    \item \textbf{Protocol}: WebSockets (Optional)
+    \item \textbf{Description}:
+    \begin{itemize}
+        \item Real-time updates for users, such as live score tracking or notifications, can be implemented using WebSocket connections.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{User Authentication Protocol}
+\begin{itemize}
+    \item \textbf{Protocol}: JWT (JSON Web Tokens) over HTTPS
+    \item \textbf{Description}:
+    \begin{itemize}
+        \item Upon successful login, the backend issues a JWT to the client.
+        \item JWTs are used to authenticate subsequent requests securely, reducing the need to reauthenticate for every action.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Error Handling and Fault Tolerance}
+\begin{itemize}
+    \item \textbf{Timeouts}:
+    \begin{itemize}
+        \item API requests have a timeout of 30 seconds to avoid hanging requests.
+        \item The frontend displays appropriate error messages if a timeout occurs.
+    \end{itemize}
+    \item \textbf{Retries}:
+    \begin{itemize}
+        \item Failed requests to external services are retried up to three times with exponential backoff.
+    \end{itemize}
+    \item \textbf{Error Codes}:
+    \begin{itemize}
+        \item Standardized HTTP status codes are used for API responses:
+        \begin{itemize}
+            \item \texttt{200}: Success
+            \item \texttt{400}: Bad Request
+            \item \texttt{401}: Unauthorized
+            \item \texttt{403}: Forbidden
+            \item \texttt{404}: Not Found
+            \item \texttt{500}: Internal Server Error
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Security Measures}
+\begin{itemize}
+    \item \textbf{Data Encryption}: All communication is encrypted using SSL/TLS to prevent data interception.
+    \item \textbf{Authentication Tokens}: JWTs are signed and validated to ensure they are tamper-proof.
+    \item \textbf{Input Validation}: All user inputs are validated to prevent injection attacks.
+    \item \textbf{Access Control}: Role-based access control (RBAC) ensures that only authorized users can perform specific actions.
+\end{itemize}
 
 \section{Timeline}
 
-\wss{Schedule of tasks and who is responsible}
+Note: Weeks 1 refers to the beginning of the year 2025
 
-\wss{You can point to GitHub if this information is included there}
+\subsection*{Phase 1: Documentation and Initial Setup (Week 1)}
+
+\begin{enumerate}
+    \item \textbf{Week 1: Finalization of Documentation}
+    \begin{itemize}
+        \item \textbf{Tasks}:
+        \begin{itemize}
+            \item Complete the \textbf{Module Interface Specification (MIS)}.
+            \item Finalize the \textbf{Module Guide}.
+            \item Create the initial sketches for the \textbf{User Interface.}
+            \item Create the \textbf{Design of Communication Protocols}.
+        \end{itemize}
+        \item \textbf{Responsible Members}:
+        \begin{itemize}
+            \item \textbf{Damien Cheung:} Module Hierarchy, Module Decomposition, First Traceability Matrix, Use Hierarchy Between Modules,
+            GameT Module, TeamT Module, PlayerT Module, Backend/Database Module.
+            \item \textbf{Temituoyo Ugborogho:} Anticipated and Unlikely Changes, Second Traceability Matrix, Design of Communication Protocols,
+            Timeline, Authentication Module.
+            \item \textbf{Emma Wigglesworth:} User Interface, Scheduling Module, Scheduling Algorithm Module
+            \item \textbf{Derek Li:} Notification Module, Announcement Module, Team Management Module, Waiver Module.
+            \item \textbf{Jad Haytaoglu:} Game Management Module, User Interface Module.
+            \item \textbf{All Members:} Review and finalization of documents.
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Phase 2: Core Module Development (Week 2)}
+
+\begin{enumerate}
+    \item \textbf{Week 2: Core Module Development}
+    \begin{itemize}
+        \item \textbf{Tasks}:
+        \begin{itemize}
+			\item Initialize and develop the \textbf{Database}.
+            \item Develop the \textbf{Authentication Module} (login, session management, token generation).
+            \item Create the \textbf{Scheduling Module} (game allocation logic).
+            \item Implement the \textbf{Team Management Module} (team creation, roster management).
+            \item Conduct preliminary unit testing for each core module.
+        \end{itemize}
+        \item \textbf{Responsible Members}:
+        \begin{itemize}
+			\item Damien Cheung and Jad Haytaoglu: Database.
+            \item Temituoyo Ugborogho: Authentication Module.
+            \item Emma Wigglesworth: Scheduling Module.
+            \item Derek Li: Team Management Module.
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Phase 3: Supporting Module Development and Integration (Week 3)}
+
+\begin{enumerate}
+    \item \textbf{Week 3: Supporting Module Development and Integration}
+    \begin{itemize}
+        \item \textbf{Tasks}:
+        \begin{itemize}
+            \item Develop the \textbf{Notification Module} (alerts for schedule changes, announcements).
+            \item Implement the \textbf{Game Management Module} (game data handling, score reporting).
+            \item Build the \textbf{User Profile Module} (managing user preferences and settings).
+            \item Integrate all developed modules (core and supporting) into a unified system.
+            \item Conduct basic system-level integration tests.
+        \end{itemize}
+        \item \textbf{Responsible Members}:
+        \begin{itemize}
+            \item Derek Li: Notification Module Development.
+            \item Jad Haytaoglu: Game Management Module Development and backend/database integration.
+            \item Damien Cheung: Backend and Database Integration.
+            \item All Members: Collaborative Integration Testing.
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Phase 4: System Testing and Final Refinements (Week 4)}
+
+\begin{enumerate}
+    \item \textbf{Week 4: System Testing and Final Refinements}
+    \begin{itemize}
+        \item \textbf{Tasks}:
+        \begin{itemize}
+            \item Conduct end-to-end system testing for all modules.
+            \item Validate role-based access control (RBAC) functionality.
+            \item Validate encryption protocols for secure data transfer (in transit and at rest).
+            \item Prepare deployment documentation, including user guides and system setup instructions.
+            \item Conduct a final review of traceability matrices and ensure alignment with anticipated changes.
+        \end{itemize}
+        \item \textbf{Responsible Members}:
+        \begin{itemize}
+            \item Damien Cheung and Jad Haytaoglu: Final Database and Backend Testing.
+            \item Damien Cheung and Temituoyo Ugborogho: Final Communication Protocols and Traceability Documentation.
+            \item Emma Wigglesworth, Temituoyo Ugborogho and Derek Li: Collaborative System Testing.
+            \item All Members: Deployment Review.
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Key Details}
+\begin{itemize}
+    \item \textbf{Documentation}:
+    \begin{itemize}
+        \item Week 1 is entirely focused on finalizing all project documentation to ensure clarity and direction for subsequent development phases.
+    \end{itemize}
+    \item \textbf{Testing and Verification}:
+    \begin{itemize}
+        \item Unit testing will be performed for each module during development.
+        \item Integration testing will be conducted immediately after module integration in \textbf{Week 3}.
+        \item End-to-end testing will occur in \textbf{Week 4} to ensure Rev 0 readiness.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Table of Responsibility To Date}
+
+\begin{center}
+	% \begin{tabular}{ | c | c | }
+	\begin{tabular}{| p{0.3\textwidth} | p{0.6\textwidth} |}
+		\hline
+		Team Member & Responsibility \\ 
+		\toprule
+
+		\multirow{3}{0.3\textwidth}{Emma Wigglesworth}
+		& User Interface \\
+		& Scheduling Module \\
+		& Scheduling Algorithm Module \\
+
+		\midrule
+
+		\multirow{4}{0.3\textwidth}{Derek Li}
+		& Notification Module \\
+		& Announcement Module \\
+		& Team Management Module \\
+		& Waiver Module \\
+
+		\midrule
+
+		\multirow{2}{0.3\textwidth}{Jad Haytaoglu}
+		& Game Management Module \\
+		& User Interface Module \\
+
+		\midrule
+
+		\multirow{8}{0.3\textwidth}{Damien Cheung}
+		& Module Hierarchy \\
+		& Module Decomposition \\
+		& First Traceability Matrix \\
+		& Use Hierarchy Between Modules \\
+		& GameT Module \\
+		& TeamT Module \\
+		& PlayerT Module \\
+		& Backend/Database Module \\
+
+		\midrule
+
+		\multirow{5}{0.3\textwidth}{Temituoyo Ugborogho}
+		& Anticipated and Unlikely Changes \\
+		& Second Traceability Matrix \\
+		& Design of Communication Protocols \\
+		& Timeline \\
+		& Authentication Module \\
+
+		\bottomrule
+
+	\end{tabular}
+\end{center}
+
+More info can be found \href{https://github.com/dcheung11/team-6-capstone-project}{here.}
 
 \bibliographystyle {plainnat}
 \bibliography{../../../refs/References}
