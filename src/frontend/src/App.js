@@ -1,15 +1,17 @@
-import NavBar from "./components/NavBar";
+import React from 'react';
+import routes from './routes';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 
 function App() {
   return (
-    <div>
-      <NavBar />
-      <h3>
-        GSA Rev 0 : Create /containers, implement Home.js, Announcements.js,
-        MyTeam.js, Schedule.js, Standings.js. Add NavBar to these components
-        when required
-      </h3>
-    </div>
+    <Router>
+      <Routes>
+        {routes.map((route, index) => (
+          <Route key={index} exact path={route.path} element={<route.component />} />
+        ))}
+      </Routes>
+    </Router>
   );
 }
 
