@@ -30,13 +30,13 @@ const NavBar = () => {
           </Box>
 
           <Box sx={{ display: "flex", gap: 3 }}>
-            <Button color="inherit" href="/">
+            <Button color="inherit" href="/home">
               Home
             </Button>
             <Button color="inherit" href="/announcements">
               Announcements
             </Button>
-            <Button color="inherit" href="/my-team">
+            <Button color="inherit" href="/team">
               My Team
             </Button>
             <Button color="inherit" href="/schedule">
@@ -44,6 +44,9 @@ const NavBar = () => {
             </Button>
             <Button color="inherit" href="/standings">
               Standings
+            </Button>
+            <Button color="inherit" href="/info">
+              Useful Info
             </Button>
           </Box>
           <Box sx={{ ml: "auto" }}>

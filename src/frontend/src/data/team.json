@@ -1,0 +1,120 @@
+{
+    "team_name": "Team 1",
+    "team_logo": "./images/baseball.png",
+    "team_record": "12/1/4",
+    "captain": "Derek Li",
+    "schedule": [
+        {
+          "date": "May 5, 2025",
+          "team": "Ballers",
+          "field": "Field 2 5:00PM",
+          "result": "L",
+          "score": "8-10"
+        },
+        {
+          "date": "May 7, 2025",
+          "team": "Pitch Perfect",
+          "field": "Field 1 5:30PM",
+          "result": "W",
+          "score": "12-8"
+        },
+        {
+          "date": "May 12, 2025",
+          "team": "Fast N Furious",
+          "field": "Field 2 5:00PM",
+          "result": "L",
+          "score": "5-7"
+        },
+        {
+          "date": "May 15, 2025",
+          "team": "Bat Throwers",
+          "field": "Field 1 5:30PM",
+          "result": "W",
+          "score": "9-6"
+        },
+        {
+          "date": "May 19, 2025",
+          "team": "Ballers",
+          "field": "Field 2 5:00PM",
+          "result": "D",
+          "score": "10-10"
+        },
+        {
+          "date": "May 22, 2025",
+          "team": "Pitch Perfect",
+          "field": "Field 1 5:30PM",
+          "result": null,
+          "score": null
+        },
+        {
+          "date": "May 27, 2025",
+          "team": "Fast N Furious",
+          "field": "Field 2 5:00PM",
+          "result": null,
+          "score": null
+        },
+        {
+          "date": "May 30, 2025",
+          "team": "Bat Throwers",
+          "field": "Field 1 5:30PM",
+          "result": null,
+          "score": null
+        },
+        {
+          "date": "Jun 4, 2025",
+          "team": "Splat Throwers",
+          "field": "Field 1 5:30PM",
+          "result": null,
+          "score": null
+        },
+        {
+          "date": "Jun 10, 2025",
+          "team": "Shmat Throwers",
+          "field": "Field 1 5:30PM",
+          "result": null,
+          "score": null
+        }
+      ],
+    "roster":  [
+        {
+          "name": "Derek Li",
+          "email": "name@example.com"
+        },
+        {
+          "name": "Damien Cheung",
+          "email": "email@dot.com"
+        },
+        {
+          "name": "Jad Hey",
+          "email": "email@dot.com"
+        },
+        {
+          "name": "Jad Hoy",
+          "email": "email@dot.com"
+        },
+        {
+          "name": "Emma Wiggins",
+          "email": "email@dot.com"
+        },
+        {
+          "name": "Toyo Uggyt",
+          "email": "molvnj@dot.com"
+        }
+      ],
+    "notifications": [
+        {
+          "title": "Reschedule Request",
+          "description":
+            "Ballers wants to move your game from Thursday May 5th to Monday May 9th"
+        },
+        {
+          "title": "Request to Join Team",
+          "description": "LeBron James wants to Join your team"
+        },
+        {
+          "title": "Reschedule Request",
+          "description":
+            "Ballers wants to move your game from Thursday May 5th to Monday May 9th"
+        }
+      ]
+  }
