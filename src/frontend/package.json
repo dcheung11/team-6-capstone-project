@@ -41,6 +41,9 @@
     ]
   },
   "devDependencies": {
-    "ajv": "^7.2.4"
+    "ajv": "^7.2.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^4.0.0"
   }
 }
