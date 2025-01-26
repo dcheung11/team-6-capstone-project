@@ -2,11 +2,15 @@ require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require("cors");
 
 const playersRoutes = require('./routes/players-routes');
 const HttpError = require('./models/http-error');
 
 const app = express();
+
+// Enable CORS for all origins
+app.use(cors());
 
 app.use(bodyParser.json());
 
