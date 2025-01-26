@@ -1,4 +1,4 @@
-// const REACT_APP_API_BASE_URL = <localhost/(backendport)>
+const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // replace with your backend port
 
 export async function signup(firstName, lastName, email, password) {
   try {
