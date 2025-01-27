@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { signup } from "../api/player";
 
 export default function LoginForm() {
   const [loginState, setLoginState] = useState(true); // true for login, false for signup
@@ -14,8 +15,15 @@ export default function LoginForm() {
       // todo - implement send login request
       console.log("login: " + email, password);
     } else {
-      // todo - implement send signup request
-      console.log("signup: " + firstName, lastName, email, password);
+      // May need to add validation or better error handling here
+
+      signup(firstName, lastName, email, password)
+        .then((data) => {
+          console.log("Signup response:", data);
+        })
+        .catch((error) => {
+          console.error("Signup error:", error);
+        });
     }
   };
 
