@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { signup } from "../api/player";
+import { Alert, Box, Button, TextField, Typography } from "@mui/material";
+import { login, signup } from "../api/player";
 
 export default function LoginForm() {
   const [loginState, setLoginState] = useState(true); // true for login, false for signup
@@ -8,21 +8,37 @@ export default function LoginForm() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [alert, setAlert] = useState(false);
+  const [alertSeverity, setAlertSeverity] = useState(null);
+  const [alertContent, setAlertContent] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (loginState) {
-      // todo - implement send login request
-      console.log("login: " + email, password);
-    } else {
-      // May need to add validation or better error handling here
-
-      signup(firstName, lastName, email, password)
-        .then((data) => {
-          console.log("Signup response:", data);
+      login(email, password)
+        .then(() => {
+          setAlertContent("Login successful.");
+          setAlertSeverity("success");
+          setAlert(true);
+          window.location.href = "/home";
         })
         .catch((error) => {
-          console.error("Signup error:", error);
+          setAlertContent(error.message);
+          setAlertSeverity("error");
+          setAlert(true);
+        });
+    } else {
+      signup(firstName, lastName, email, password)
+        .then(() => {
+          setLoginState(true);
+          setAlertContent("Account created successfully. Please login.");
+          setAlertSeverity("success");
+          setAlert(true);
+        })
+        .catch((error) => {
+          setAlertContent(error.message);
+          setAlertSeverity("error");
+          setAlert(true);
         });
     }
   };
@@ -32,6 +48,7 @@ export default function LoginForm() {
       component="form"
       sx={{ display: "flex", flexDirection: "column", gap: 3 }}
     >
+      {alert ? <Alert severity={alertSeverity}>{alertContent}</Alert> : <></>}
       {!loginState && (
         <Box>
           <Typography

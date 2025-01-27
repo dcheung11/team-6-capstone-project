@@ -18,4 +18,6 @@ router.post(
   playersController.signup
 );
 
+router.post('/login', playersController.login);
+
 module.exports = router;
