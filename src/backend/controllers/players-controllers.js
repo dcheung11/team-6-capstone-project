@@ -26,7 +26,7 @@ const signup = async (req, res, next) => {
       new HttpError("Invalid inputs passed, please check your data.", 422)
     );
   }
-  const { name, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   let existingPlayer;
   try {
@@ -48,7 +48,8 @@ const signup = async (req, res, next) => {
   }
 
   const createdPlayer = new Player({
-    name,
+    firstName,
+    lastName,
     email,
     password,
     waiverStatus: false,

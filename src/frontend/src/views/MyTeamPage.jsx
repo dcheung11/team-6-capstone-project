@@ -7,6 +7,13 @@ import NotificationsRow from "../components/NotificationsRow";
 import temp_team_info from "../data/team.json";
 
 export default function MyTeamPage() {
+  const columns = [
+    { header: "Date", key: "date" },
+    { header: "Opposing Team", key: "team" },
+    { header: "Result", key: "result" },
+    { header: "Score", key: "score" },
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50">
       <NavBar />
@@ -67,7 +74,7 @@ export default function MyTeamPage() {
         <Typography variant="h5" component="h2" gutterBottom>
           Games
         </Typography>
-        <ScheduleTable games={temp_team_info.schedule} />
+        <ScheduleTable columns={columns} data={temp_team_info.schedule} />
 
         {/* TODO - add submit score for captain */}
         {/* <Box sx={{ display: "flex", justifyContent: "flex-end" }}>

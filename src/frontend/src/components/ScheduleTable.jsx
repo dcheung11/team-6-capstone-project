@@ -7,28 +7,27 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
 } from "@mui/material";
 
 export default function ScheduleTable(props) {
   return (
-    <TableContainer component={Paper} sx={{ mb: 6 }}>
-      <Table>
+    <TableContainer component={Paper} sx={{ mb: 6, maxHeight: "50vh" }}>
+      <Table stickyHeader>
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Opposing Team</TableCell>
-            <TableCell>Result</TableCell>
-            <TableCell>Score</TableCell>
+            {props.columns.map((column, index) => (
+              <TableCell key={index}>{column.header}</TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.games.map((game, index) => (
-            <TableRow key={index}>
-              <TableCell>{game.date}</TableCell>
-              <TableCell>{game.team}</TableCell>
-              <TableCell>{game.result}</TableCell>
-              <TableCell>{game.score}</TableCell>
+          {props.data.map((row, rowIndex) => (
+            <TableRow key={rowIndex}>
+              {props.columns.map((column, colIndex) => (
+                <TableCell key={colIndex} sx={{ height: 12 }}>
+                  {column.accessor ? column.accessor(row) : row[column.key]}
+                </TableCell>
+              ))}
             </TableRow>
           ))}
         </TableBody>
