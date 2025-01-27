@@ -1,13 +1,15 @@
-import HomePage from './views/HomePage';
-import LoginPage from './views/LoginPage';
+import HomePage from "./views/HomePage";
+import LeagueManagementPage from "./views/LeagueManagementPage";
+import LoginPage from "./views/LoginPage";
+import MyTeamPage from "./views/MyTeamPage";
 import AnnouncementsPage from './views/AnnouncementsPage';
-import MyTeamPage from './views/MyTeamPage';
 
 const routes = [
-  { path: '/', component: LoginPage }, 
-  { path: '/home', component: HomePage },
+  { path: "/home", component: HomePage },
+  { path: "/", component: LoginPage },
+  { path: "/team", component: MyTeamPage },
+  { path: "/manage", component: LeagueManagementPage },
   { path: '/announcements', component: AnnouncementsPage },
-  { path: '/team', component: MyTeamPage },
 ];
 
 export default routes;
