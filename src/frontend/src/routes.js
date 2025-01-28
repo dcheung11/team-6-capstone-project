@@ -4,6 +4,8 @@ import LeagueManagementPage from "./views/LeagueManagementPage";
 import LoginPage from "./views/LoginPage";
 import MyTeamPage from "./views/MyTeamPage";
 import AnnouncementsPage from './views/AnnouncementsPage';
+import CreateAnnouncementsPage from './views/CreateAnnouncementsPage';
+import EditAnnouncementsPage from './views/EditAnnouncementsPage';
 
 const routes = [
   { path: "/home", component: HomePage },
@@ -12,6 +14,8 @@ const routes = [
   { path: "/standings", component: StandingsPage },
   { path: "/manage", component: LeagueManagementPage, private: true },
   { path: '/announcements', component: AnnouncementsPage },
+  { path: '/announcements/edit/:id', component: EditAnnouncementsPage },// private: true },
+  { path: '/announcements/create', component: CreateAnnouncementsPage },// private: true },
 ];
 
 export default routes;

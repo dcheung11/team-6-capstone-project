@@ -1,7 +1,8 @@
 import { Box, Container, Typography, Grid, Card, CardContent, CardMedia, Button, Stack } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import FavoriteIcon from "@mui/icons-material/Favorite"
-import NavBar from "../components/NavBar";
+import NavBar from "../components/NavBar"
+import { useNavigate } from "react-router-dom"
 
 const StyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
@@ -9,7 +10,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.primary.contrastText,
   height: "100%",
-}))
+}));
 
 const DateAuthor = styled(Typography)(({ theme }) => ({
   color: theme.palette.grey[500],
@@ -17,9 +18,19 @@ const DateAuthor = styled(Typography)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   gap: theme.spacing(1),
-}))
+}));
 
-export default function AnnouncementPage() {
+export default function AnnouncementPage({ userRole = "commissioner" }) {
+  const navigate = useNavigate();
+
+  const handleCreateAnnouncement = () => {
+    navigate("/announcements/create"); // Navigate to the create announcement page
+  };
+
+  const handleEditAnnouncement = (id) => {
+    navigate(`/announcements/edit/${id}`); // Navigate to the edit announcement page
+  };
+
   const pastAnnouncements = [
     { id: 1, title: "Announcement 1", date: "10 Oct 21", author: "Jane Ostin" },
     { id: 2, title: "Announcement 2", date: "10 Oct 21", author: "Jane Ostin" },
@@ -27,12 +38,31 @@ export default function AnnouncementPage() {
     { id: 4, title: "Announcement 4", date: "10 Oct 21", author: "Jane Ostin" },
     { id: 5, title: "Announcement 5", date: "10 Oct 21", author: "Jane Ostin" },
     { id: 6, title: "Announcement 6", date: "10 Oct 21", author: "Jane Ostin" },
-  ]
+  ];
 
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <NavBar />
       <Container maxWidth="lg" sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+        {/* Commissioner Controls */}
+        <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}>
+          <Button
+            variant="contained"
+            sx={{ backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#59002B" } }}
+            onClick={handleCreateAnnouncement}
+          >
+            Create New Announcement
+          </Button>
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}>
+            <Button
+            variant="contained"
+            sx={{ backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#59002B" } }}
+            onClick={() => handleEditAnnouncement(0)}
+          >
+            EDIT
+          </Button>
+          </Box>        
         {/* Main Announcement */}
         <Box sx={{ py: 6, flexGrow: 1 }}>
           <Typography variant="h3" align="center" gutterBottom>
@@ -86,19 +116,37 @@ export default function AnnouncementPage() {
                         <FavoriteIcon sx={{ fontSize: 16 }} />
                         {announcement.date} by {announcement.author}
                       </DateAuthor>
-                      <Button
-                        variant="text"
-                        sx={{
-                          color: "primary.contrastText",
-                          textDecoration: "underline",
-                          "&:hover": {
-                            backgroundColor: "transparent",
-                            textDecoration: "none",
-                          },
-                        }}
-                      >
-                        READ MORE
-                      </Button>
+                      <Stack direction="row" spacing={2}>
+                        <Button
+                          variant="text"
+                          sx={{
+                            color: "primary.contrastText",
+                            textDecoration: "underline",
+                            "&:hover": {
+                              backgroundColor: "transparent",
+                              textDecoration: "none",
+                            },
+                          }}
+                        >
+                          READ MORE
+                        </Button>
+                        {userRole === "commissioner" && (
+                          <Button
+                            variant="text"
+                            sx={{
+                              color: "primary.contrastText",
+                              textDecoration: "underline",
+                              "&:hover": {
+                                backgroundColor: "transparent",
+                                textDecoration: "none",
+                              },
+                            }}
+                            onClick={() => handleEditAnnouncement(announcement.id)}
+                          >
+                            EDIT
+                          </Button>
+                        )}
+                      </Stack>
                     </Stack>
                   </CardContent>
                 </StyledCard>
@@ -108,5 +156,5 @@ export default function AnnouncementPage() {
         </Container>
       </Box>
     </Box>
-  )
+  );
 }
