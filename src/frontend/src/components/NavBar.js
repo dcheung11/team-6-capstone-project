@@ -13,7 +13,7 @@ import { Person as PersonIcon } from "@mui/icons-material";
 import { useAuth } from "../hooks/AuthProvider";
 
 const NavBar = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const auth = useAuth();
 
