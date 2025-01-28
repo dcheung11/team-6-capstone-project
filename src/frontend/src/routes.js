@@ -10,7 +10,7 @@ const routes = [
   { path: "/", component: LoginPage },
   { path: "/team", component: MyTeamPage },
   { path: "/standings", component: StandingsPage },
-  { path: "/manage", component: LeagueManagementPage },
+  { path: "/manage", component: LeagueManagementPage, private: true },
   { path: '/announcements', component: AnnouncementsPage },
 ];
 

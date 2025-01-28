@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Alert, Box, Button, TextField, Typography } from "@mui/material";
-import { login, signup } from "../api/player";
+import { signup } from "../api/player";
+import { useAuth } from "../hooks/AuthProvider";
 
 export default function LoginForm() {
   const [loginState, setLoginState] = useState(true); // true for login, false for signup
@@ -11,16 +12,17 @@ export default function LoginForm() {
   const [alert, setAlert] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState(null);
   const [alertContent, setAlertContent] = useState("");
+  const auth = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (loginState) {
-      login(email, password)
+      auth
+        .login(email, password)
         .then(() => {
           setAlertContent("Login successful.");
           setAlertSeverity("success");
           setAlert(true);
-          window.location.href = "/home";
         })
         .catch((error) => {
           setAlertContent(error.message);
