@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Button,
@@ -6,10 +6,25 @@ import {
   Box,
   IconButton,
   Container,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { Person as PersonIcon } from "@mui/icons-material";
+import { useAuth } from "../hooks/AuthProvider";
 
 const NavBar = () => {
+  const [open, setOpen] = useState(true);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const auth = useAuth();
+
+  const handleIconClick = (event) => {
+    setOpen(!open);
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleProfileClick = () => {
+    console.log("Profile clicked");
+  };
   return (
     <AppBar
       position="static"
@@ -50,9 +65,13 @@ const NavBar = () => {
             </Button>
           </Box>
           <Box sx={{ ml: "auto" }}>
-            <IconButton color="inherit" size="large">
+            <IconButton color="inherit" size="large" onClick={handleIconClick}>
               <PersonIcon />
             </IconButton>
+            <Menu anchorEl={anchorEl} open={open} onClose={handleIconClick}>
+              <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+              <MenuItem onClick={() => auth.logOut()}>Logout</MenuItem>
+            </Menu>
           </Box>
         </Toolbar>
       </Container>

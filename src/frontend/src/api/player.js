@@ -22,26 +22,3 @@ export async function signup(firstName, lastName, email, password) {
     throw error; 
   }
 }
-
-export async function login(email, password) {
-  try {
-    const response = await fetch(`${REACT_APP_API_BASE_URL}/players/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Login failed");
-    }
-
-    const data = await response.json();
-    return data; 
-  } catch (error) {
-    console.error("Error during login:", error.message);
-    throw error; 
-  }
-}
