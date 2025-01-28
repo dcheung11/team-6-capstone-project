@@ -65,7 +65,7 @@ export default function CreateAnnouncement() {
                 variant="outlined"
                 size="large"
                 sx={{ textTransform: 'none' }}
-                onClick={() => navigate('/manage/announcements')}
+                onClick={() => navigate('/announcements')}
             >
                 Cancel
             </Button>
