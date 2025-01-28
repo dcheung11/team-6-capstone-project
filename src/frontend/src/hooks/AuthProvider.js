@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
       });
       const res = await response.json();
       console.log("Login response:", res);
-      if (res) {
+      if (res.playerId) {
         setPlayerId(res.playerId);
         setToken(res.token);
         localStorage.setItem("site", res.token);
