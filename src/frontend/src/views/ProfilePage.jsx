@@ -19,7 +19,6 @@ import {
 import { styled } from "@mui/material/styles"
 import EditIcon from "@mui/icons-material/Edit"
 
-// Example styled container if you want a similar “card” effect
 const ProfileContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.common.white,
   borderRadius: theme.spacing(2),
@@ -40,7 +39,6 @@ export default function ProfilePage() {
     teams: [
         { name: temp_team_info.team_name, logo: temp_team_info.team_logo },
         { name: "Warriors", logo: "/images/warriors.png" },
-        { name: "Lakers", logo: "/images/lakers.png" }
     ],
     notifications: ["Game Rescheduled", "Game Cancelled", "Request to join accepted"],
   })
@@ -68,7 +66,7 @@ export default function ProfilePage() {
     <>
       <NavBar />
       <Box sx={{
-          bgcolor: "grey.100", // or your choice of off‐white
+          bgcolor: "grey.100",
           minHeight: "100vh",
           py: 4,
         }}>
@@ -118,7 +116,6 @@ export default function ProfilePage() {
                     value={profile.fullName}
                     // readOnly or disabled until edit mode
                     InputProps={{ readOnly: true }}
-                    // TODO: onChange handler if editable
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -165,7 +162,7 @@ export default function ProfilePage() {
                 </Typography>
                 <List>
                     {profile.teams.map((team, index) => (
-                    <ListItem key={index} disablePadding>
+                    <ListItem key={index}>
                         <ListItemAvatar>
                         <Avatar
                             src={team.logo}
@@ -173,7 +170,7 @@ export default function ProfilePage() {
                             sx={{
                             width: 35,
                             height: 35,
-                            bgcolor: "primary.light", // Fallback background color
+                            bgcolor: "#7A003C",
                             }}
                         >
                             {/* Fallback text if logo is missing: first letter of the team name */}
