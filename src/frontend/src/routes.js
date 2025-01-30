@@ -7,6 +7,7 @@ import AnnouncementsPage from "./views/AnnouncementsPage";
 import CreateAnnouncementsPage from "./views/CreateAnnouncementsPage";
 import EditAnnouncementsPage from "./views/EditAnnouncementsPage";
 import RegisterTeamPage from "./views/RegisterTeamPage";
+import PlayersPage from "./views/PlayersPage";
 
 const routes = [
   { path: "/home", component: HomePage },
@@ -18,6 +19,7 @@ const routes = [
   { path: "/announcements/edit/:id", component: EditAnnouncementsPage }, // private: true },
   { path: "/announcements/create", component: CreateAnnouncementsPage }, // private: true },
   { path: "/registerteam", component: RegisterTeamPage },
+  { path: "/players", component: PlayersPage },
 ];
 
 export default routes;
