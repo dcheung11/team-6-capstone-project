@@ -47,6 +47,7 @@ export default function HomePage() {
               McMaster GSA is dedicated to providing a social and supportive community... lorem ipsum dolor sit amet...
             </Typography>
             <Button
+              href="/registerteam"
               variant="contained"
               size="large"
               sx={{
@@ -60,7 +61,7 @@ export default function HomePage() {
                 },
               }}
             >
-              Register Team
+              Register Team 
             </Button>
           </Grid>
           <Grid item xs={12} md={6}>
