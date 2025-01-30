@@ -220,7 +220,7 @@ export default function ProfilePage() {
                   {profile.notifications.map((notif, index) => (
                     <ListItem disablePadding key={index}>
                       <ListItemButton
-                        onClick={() => alert(`Clicked on notification: ${notif}`)}
+                        onClick={() => console.log(`Clicked on notification: ${notif}`)}
                       >
                         <ListItemText primary={notif} />
                       </ListItemButton>
