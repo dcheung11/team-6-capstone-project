@@ -14,7 +14,7 @@ import {
   ListItemButton,
   ListItemText,
   ListItemAvatar,
-  IconButton,
+  Button,
 } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import EditIcon from "@mui/icons-material/Edit"
@@ -43,6 +43,9 @@ export default function ProfilePage() {
     notifications: ["Game Rescheduled", "Game Cancelled", "Request to join accepted"],
   })
 
+  // track edit mode with boolean
+  const [editMode, setEditMode] = useState(false)
+
   // TODO: On component mount, fetch profile details from backend
   useEffect(() => {
     // using placeholder data
@@ -56,10 +59,11 @@ export default function ProfilePage() {
     }))
   }, [])
 
-  // Example edit handler
   const handleEditClick = () => {
     // TODO: Possibly open a dialog or switch text fields from read-only to editable
+    // Toggle edit mode
     console.log("Edit button clicked")
+    setEditMode((prev) => !prev)
   }
 
   return (
@@ -93,13 +97,15 @@ export default function ProfilePage() {
                 </Typography>
               </Grid>
               <Grid item xs={12} sm={"auto"}>
-                <IconButton
-                  color="primary"
-                  onClick={handleEditClick}
-                  sx={{ borderRadius: 2 }}
-                >
-                  <EditIcon />
-                </IconButton>
+              {/* Button toggles between "Edit" and "Done" */}
+                <Button
+                    variant="contained"
+                    onClick={handleEditClick}
+                    startIcon={!editMode ? <EditIcon /> : null} // only show icon if editMode is false
+                    sx={{ borderRadius: 2, backgroundColor: "#7A003C"}}
+                    >
+                    {editMode ? "Done" : "Edit"}
+                </Button>
               </Grid>
             </Grid>
 
@@ -114,8 +120,15 @@ export default function ProfilePage() {
                     fullWidth
                     placeholder="Full Name"
                     value={profile.fullName}
-                    // readOnly or disabled until edit mode
-                    InputProps={{ readOnly: true }}
+                    // If NOT editMode, we set readOnly
+                    InputProps={{ readOnly: !editMode }}
+                    // Remove hover outlines when not in edit mode
+                    sx={{
+                      ...( !editMode && {
+                          "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
+                          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
+                        }),
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -126,7 +139,13 @@ export default function ProfilePage() {
                     fullWidth
                     placeholder="Nickname"
                     value={profile.nickname}
-                    InputProps={{ readOnly: true }}
+                    InputProps={{ readOnly: !editMode }}
+                    sx={{
+                        ...( !editMode && {
+                          "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
+                          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
+                        }),
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -136,8 +155,13 @@ export default function ProfilePage() {
                   <TextField
                     fullWidth
                     placeholder="Gender"
-                    value={profile.gender}
-                    InputProps={{ readOnly: true }}
+                    InputProps={{ readOnly: !editMode }}
+                    sx={{
+                      ...( !editMode && {
+                        "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
+                        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
+                      }),
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -148,7 +172,13 @@ export default function ProfilePage() {
                     fullWidth
                     placeholder="Phone Number"
                     value={profile.phoneNumber}
-                    InputProps={{ readOnly: true }}
+                    InputProps={{ readOnly: !editMode }}
+                    sx={{
+                      ...( !editMode && {
+                        "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
+                        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
+                      }),
+                    }}
                   />
                 </Grid>
               </Grid>
