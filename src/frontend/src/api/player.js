@@ -17,8 +17,30 @@ export async function signup(firstName, lastName, email, password) {
     }
 
     const data = await response.json();
-    return data; 
+    return data;
   } catch (error) {
-    throw error; 
+    throw error;
+  }
+}
+
+export async function allPlayers() {
+  try {
+    const response = await fetch(`${REACT_APP_API_BASE_URL}/players`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("All players response:", response);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Fetching all players failed");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
   }
 }
