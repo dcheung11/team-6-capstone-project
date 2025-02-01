@@ -11,11 +11,13 @@ import {
 } from "@mui/material";
 import { Person as PersonIcon } from "@mui/icons-material";
 import { useAuth } from "../hooks/AuthProvider";
+import { useNavigate } from "react-router";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const auth = useAuth();
+  const navigate = useNavigate();
 
   const handleIconClick = (event) => {
     setOpen(!open);
@@ -24,6 +26,7 @@ const NavBar = () => {
 
   const handleProfileClick = () => {
     console.log("Profile clicked");
+    navigate("/profile");
   };
   return (
     <AppBar
