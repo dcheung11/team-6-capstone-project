@@ -20,4 +20,6 @@ router.post(
 
 router.post('/login', playersController.login);
 
+router.get('/:pid', playersController.getPlayerById);
+
 module.exports = router;
