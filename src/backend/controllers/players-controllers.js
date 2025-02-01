@@ -91,13 +91,11 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
-  res
-    .status(201)
-    .json({
-      playerId: createdPlayer.id,
-      email: createdPlayer.email,
-      token: token,
-    });
+  res.status(201).json({
+    playerId: createdPlayer.id,
+    email: createdPlayer.email,
+    token: token,
+  });
 };
 
 const login = async (req, res, next) => {
@@ -160,10 +158,36 @@ const login = async (req, res, next) => {
   res.json({
     playerId: existingPlayer.id,
     email: existingPlayer.email,
-    token: token
+    token: token,
   });
+};
+
+const getPlayerById = async (req, res, next) => {
+  const playerId = req.params.pid;
+
+  let player;
+  try {
+    player = await Player.findById(playerId);
+  } catch (err) {
+    const error = new HttpError(
+      "Fetching player failed, please try again later.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!player) {
+    const error = new HttpError(
+      "Could not find a player for the provided id.",
+      404
+    );
+    return next(error);
+  }
+
+  res.json({ player: player.toObject({ getters: true }) });
 };
 
 exports.getPlayers = getPlayers;
 exports.signup = signup;
 exports.login = login;
+exports.getPlayerById = getPlayerById;

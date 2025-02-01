@@ -1,10 +1,11 @@
-require('dotenv').config()
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+require("dotenv").config();
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 const cors = require("cors");
 
-const playersRoutes = require('./routes/players-routes');
+const playersRoutes = require("./routes/players-routes");
+const teamsRoutes = require("./routes/teams-routes");
 const seasonRoutes = require('./routes/season-routes');
 const scheduleRoutes = require('./routes/schedule-routes');
 
@@ -17,12 +18,14 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
-app.use('/api/players', playersRoutes);
+app.use("/api/players", playersRoutes);
+app.use("/api/teams", teamsRoutes);
+
 app.use('/api/season', seasonRoutes);
 app.use("/api/schedule", scheduleRoutes);
 
 app.use((req, res, next) => {
-  const error = new HttpError('Could not find this route.', 404);
+  const error = new HttpError("Could not find this route.", 404);
   throw error;
 });
 
@@ -31,7 +34,7 @@ app.use((error, req, res, next) => {
     return next(error);
   }
   res.status(error.code || 500);
-  res.json({ message: error.message || 'An unknown error occurred!' });
+  res.json({ message: error.message || "An unknown error occurred!" });
 });
 
 const PORT = process.env.PORT || 3000;
@@ -44,7 +47,6 @@ mongoose
       console.log(`Server running on port ${PORT}`);
     });
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err);
   });
-
