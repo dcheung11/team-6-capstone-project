@@ -44,3 +44,26 @@ export async function allPlayers() {
     throw error;
   }
 }
+
+export async function getPlayerById(playerId) {
+  try {
+    const response = await fetch(`${REACT_APP_API_BASE_URL}/players/${playerId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        
+      },
+    });
+
+    console.log("Get player by ID response:", response);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Fetching player by ID failed");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
