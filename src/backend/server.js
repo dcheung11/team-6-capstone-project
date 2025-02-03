@@ -6,9 +6,10 @@ const cors = require("cors");
 
 const playersRoutes = require("./routes/players-routes");
 const teamsRoutes = require("./routes/teams-routes");
-const seasonRoutes = require('./routes/season-routes');
+const seasonRoutes = require("./routes/season-routes");
+const announcementRoutes = require("./routes/announcements-routes");
 
-const HttpError = require('./models/http-error');
+const HttpError = require("./models/http-error");
 
 const app = express();
 
@@ -19,8 +20,8 @@ app.use(bodyParser.json());
 
 app.use("/api/players", playersRoutes);
 app.use("/api/teams", teamsRoutes);
-
-app.use('/api/season', seasonRoutes);
+app.use("/api/season", seasonRoutes);
+app.use("/api/announcements", announcementRoutes);
 
 app.use((req, res, next) => {
   const error = new HttpError("Could not find this route.", 404);
