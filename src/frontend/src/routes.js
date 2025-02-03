@@ -9,6 +9,7 @@ import EditAnnouncementsPage from "./views/EditAnnouncementsPage";
 import RegisterTeamPage from "./views/RegisterTeamPage";
 import PlayersPage from "./views/PlayersPage";
 import ProfilePage from "./views/ProfilePage";
+import InfoPage from "./views/InfoPage";
 
 const routes = [
   { path: "/home", component: HomePage },
@@ -22,6 +23,7 @@ const routes = [
   { path: "/registerteam", component: RegisterTeamPage },
   { path: "/players", component: PlayersPage },
   { path: "/profile", component: ProfilePage },
+  { path: "/info", component: InfoPage },
 ];
 
 export default routes;
