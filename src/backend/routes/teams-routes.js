@@ -12,8 +12,8 @@ router.post(
   [
     check("name").not().isEmpty(),
     check("division").not().isEmpty(),
-    // check("captain").not().isEmpty(),
-    // check("roster").isArray({ min: 1 }), // array is not empty
+    check("captain").not().isEmpty(),
+    check("roster").isArray({ min: 1 }), // array is not empty
   ],
   teamsController.createTeam
 );

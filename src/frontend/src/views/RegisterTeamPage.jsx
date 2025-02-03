@@ -1,11 +1,33 @@
 import NavBar from "../components/NavBar"
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { TextField, Button, Container, Typography, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import {createTeam} from "../api/team"
+import { useAuth } from "../hooks/AuthProvider";
+import { getPlayerById } from "../api/player";
 
 export default function MyTeamPage() {
     const [teamName, setTeamName] = useState("");
     const [division, setDivision] = useState("");
+    const auth = useAuth();
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+      const [playerId, setPlayerId] = useState(auth.playerId);
+      const [player, setPlayer] = useState(null);
+      useEffect(() => {
+        const fetchPlayerById = async (pid) => {
+          try {
+            const data = await getPlayerById(pid);
+            setPlayer(data.player);
+            // console.log("player", data);
+          } catch (err) {
+            setError(err.message || "Failed to fetch player");
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        fetchPlayerById(playerId);
+      }, []);
   
     const handleTeamNameChange = (e) => {
       setTeamName(e.target.value);
@@ -19,7 +41,7 @@ export default function MyTeamPage() {
       e.preventDefault();
       console.log("Team Name:", teamName);
       console.log("Selected Division:", division);
-      createTeam(teamName, division, "captainName", ["captainName", "player2", "player3"])
+      createTeam(teamName, division, player, [player])
     };
 
     return (
