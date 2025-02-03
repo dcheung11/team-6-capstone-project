@@ -10,12 +10,16 @@ import {
   DialogContent,
   DialogActions,
   TextField,
+  Box,
+  Grid,
+  Card,
+  CardContent,
 } from "@mui/material";
 import NavBar from "../components/NavBar";
-import teams from "../data/teams";
-import TeamTable from "../components/TeamTable";
+import teamsData from "../data/teams";
 import schedule from "../data/schedule";
 import ScheduleTable from "../components/ScheduleTable";
+import TeamSchedulingComponent from "../components/TeamSchedulingComponent";
 
 const divisions = [
   { id: "A", name: "A" },
@@ -37,13 +41,9 @@ const columns = [
 ];
 
 const LeagueManagementPage = () => {
+  const [teams, setTeams] = useState(teamsData);
   const [openLaunchDialog, setOpenLaunchDialog] = useState(false);
   const [seasonName, setSeasonName] = useState("");
-
-  const handleGenerateSchedule = () => {
-    // Implement schedule generation logic here
-    // call api to generate schedule
-  };
 
   const handleLaunchSeason = () => {
     // Implement season launch logic here
@@ -75,18 +75,11 @@ const LeagueManagementPage = () => {
             }}
           />
 
-          <Typography variant="h6" gutterBottom sx={{ mb: 2, mt: 2 }}>
-            Registered Teams{" "}
-          </Typography>
-          <TeamTable teams={teams} divisions={divisions} />
-
-          <Button
-            variant="contained"
-            sx={{ ml: 2, backgroundColor: "#7A003C" }}
-            onClick={() => handleGenerateSchedule()}
-          >
-            Generate Schedule
-          </Button>
+          <TeamSchedulingComponent
+            teams={teams}
+            setTeams={setTeams}
+            divisions={divisions}
+          />
         </Paper>
         <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
           Schedule
