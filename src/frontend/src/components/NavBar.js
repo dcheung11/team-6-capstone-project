@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Button,
@@ -8,16 +8,38 @@ import {
   Container,
   Menu,
   MenuItem,
+  Typography,
 } from "@mui/material";
 import { Person as PersonIcon } from "@mui/icons-material";
 import { useAuth } from "../hooks/AuthProvider";
 import { useNavigate } from "react-router";
+import { getPlayerById } from "../api/player";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const auth = useAuth();
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [playerId, setPlayerId] = useState(auth.playerId);
+  const [player, setPlayer] = useState(null);
+  useEffect(() => {
+    const fetchPlayerById = async (pid) => {
+      try {
+        const data = await getPlayerById(pid);
+        setPlayer(data.player);
+        console.log("Upcoming Seasons:", data);
+      } catch (err) {
+        setError(err.message || "Failed to fetch player");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlayerById(playerId);
+  }, []);
 
   const handleIconClick = (event) => {
     setOpen(!open);
@@ -69,6 +91,11 @@ const NavBar = () => {
           </Box>
           <Box sx={{ ml: "auto" }}>
             <IconButton color="inherit" size="large" onClick={handleIconClick}>
+              <Typography sx={{ mr: 1 }}>
+                {player
+                  ? `${player.firstName} ${player.lastName}`
+                  : "TEMP (not logged in)"}
+              </Typography>
               <PersonIcon />
             </IconButton>
             <Menu anchorEl={anchorEl} open={open} onClose={handleIconClick}>
