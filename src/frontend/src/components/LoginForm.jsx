@@ -45,10 +45,18 @@ export default function LoginForm() {
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSubmit(event);
+    }
+  };
+
   return (
     <Box
       component="form"
       sx={{ display: "flex", flexDirection: "column", gap: 3 }}
+      onKeyDown={handleKeyDown}
     >
       {alert ? <Alert severity={alertSeverity}>{alertContent}</Alert> : <></>}
       {!loginState && (
