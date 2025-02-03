@@ -10,6 +10,7 @@ import RegisterTeamPage from "./views/RegisterTeamPage";
 import PlayersPage from "./views/PlayersPage";
 import ProfilePage from "./views/ProfilePage";
 import InfoPage from "./views/InfoPage";
+import SchedulePage from "./views/SchedulePage";
 
 const routes = [
   { path: "/home", component: HomePage },
@@ -24,6 +25,7 @@ const routes = [
   { path: "/players", component: PlayersPage },
   { path: "/profile", component: ProfilePage },
   { path: "/info", component: InfoPage },
+  { path: "/schedule", component: SchedulePage },
 ];
 
 export default routes;
