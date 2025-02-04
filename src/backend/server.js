@@ -8,6 +8,7 @@ const playersRoutes = require("./routes/players-routes");
 const teamsRoutes = require("./routes/teams-routes");
 const seasonRoutes = require("./routes/season-routes");
 const announcementRoutes = require("./routes/announcements-routes");
+const scheduleRoutes = require('./routes/schedule-routes');
 
 const HttpError = require("./models/http-error");
 
@@ -20,7 +21,8 @@ app.use(bodyParser.json());
 
 app.use("/api/players", playersRoutes);
 app.use("/api/teams", teamsRoutes);
-app.use("/api/season", seasonRoutes);
+app.use("/api/seasons", seasonRoutes);
+app.use("/api/schedules", scheduleRoutes);
 app.use("/api/announcements", announcementRoutes);
 
 app.use((req, res, next) => {
