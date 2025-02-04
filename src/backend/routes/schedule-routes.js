@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-    generateScheduleController,
+    generateSchedule,
     getAllSchedules,
     getScheduleById,
     deleteSchedule
@@ -8,10 +8,9 @@ const {
 
 const router = express.Router();
 
-router.post("/generate", generateScheduleController);
+router.post("/generate", generateSchedule);
 
-router.get("/schedules", getAllSchedules);
-
+router.get("/all", getAllSchedules);
 router.get("/:id", getScheduleById);
 
 router.delete("/:id", deleteSchedule);

@@ -13,6 +13,11 @@ const GameSchema = new mongoose.Schema({
     ref: "Gameslot",
     required: true,
   },
+  division: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Division',
+    required: true
+  }
 });
 
 module.exports = mongoose.model("Game", GameSchema);

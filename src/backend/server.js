@@ -21,8 +21,8 @@ app.use(bodyParser.json());
 
 app.use("/api/players", playersRoutes);
 app.use("/api/teams", teamsRoutes);
-app.use("/api/season", seasonRoutes);
-app.use("/api/schedule", scheduleRoutes);
+app.use("/api/seasons", seasonRoutes);
+app.use("/api/schedules", scheduleRoutes);
 app.use("/api/announcements", announcementRoutes);
 
 app.use((req, res, next) => {
