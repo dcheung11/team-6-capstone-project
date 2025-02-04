@@ -10,10 +10,6 @@ import {
   DialogContent,
   DialogActions,
   TextField,
-  Box,
-  Grid,
-  Card,
-  CardContent,
 } from "@mui/material";
 import NavBar from "../components/NavBar";
 import teamsData from "../data/teams";
