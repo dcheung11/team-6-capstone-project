@@ -3,14 +3,14 @@ const mongoose = require('mongoose');
 const StandingSchema = new mongoose.Schema(
   {
     division: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Division',
       required: true,
     },
     rankings: [
       {
         team: {
-          type: Schema.Types.ObjectId,
+          type: mongoose.Schema.Types.ObjectId,
           ref: 'Team',
           required: true,
         },

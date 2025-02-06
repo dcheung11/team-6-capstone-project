@@ -3,14 +3,10 @@ const Schema = mongoose.Schema;
 
 const ScheduleSchema = new Schema(
   {
-    season: { 
+    seasonId: { 
       type: Schema.Types.ObjectId,
       ref: 'Season',
       required: true,
-    },
-    division: {
-      type: Schema.Types.ObjectId,
-      ref: 'Division',
     },
     gameSlots: [ 
       { 
