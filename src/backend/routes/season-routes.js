@@ -5,6 +5,8 @@ const seasonController = require("../controllers/season-controllers");
 
 const router = express.Router();
 
+router.get("/", seasonController.getAllSeasons);
+
 router.get("/upcoming", seasonController.getUpcomingSeasons);
 
 router.get("/ongoing", seasonController.getOngoingSeasons);
@@ -27,5 +29,9 @@ router.post(
   ],
   seasonController.createSeason
 );
+
+router.delete("/:sid", seasonController.deleteSeason);
+
+router.get("/:sid", seasonController.getSeasonById);
 
 module.exports = router;

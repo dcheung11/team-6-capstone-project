@@ -5,7 +5,7 @@ const Season = require("../models/season");
 const getUpcomingSeasons = async (req, res, next) => {
   let seasons;
   try {
-    seasons = await Season.find({ status: 'upcoming' }); 
+    seasons = await Season.find({ status: "upcoming" });
   } catch (err) {
     const error = new HttpError(
       "Fetching open seasons failed, please try again later.",
@@ -21,7 +21,7 @@ const getUpcomingSeasons = async (req, res, next) => {
 const getOngoingSeasons = async (req, res, next) => {
   let seasons;
   try {
-    seasons = await Season.find({ status: 'ongoing' });
+    seasons = await Season.find({ status: "ongoing" });
   } catch (err) {
     const error = new HttpError(
       "Fetching ongoing seasons failed, please try again later.",
@@ -37,7 +37,7 @@ const getOngoingSeasons = async (req, res, next) => {
 const getArchivedSeasons = async (req, res, next) => {
   let seasons;
   try {
-    seasons = await Season.find({ status: 'archived' });
+    seasons = await Season.find({ status: "archived" });
   } catch (err) {
     const error = new HttpError(
       "Fetching archived seasons failed, please try again later.",
@@ -52,7 +52,7 @@ const getArchivedSeasons = async (req, res, next) => {
 
 const createSeason = async (req, res, next) => {
   const errors = validationResult(req);
-  console.log(errors)
+  console.log(errors);
   if (!errors.isEmpty()) {
     return next(
       new HttpError("Invalid inputs passed, please check your data.", 422)
@@ -72,10 +72,7 @@ const createSeason = async (req, res, next) => {
   }
 
   if (existingSeason) {
-    const error = new HttpError(
-      "Season name exists already.",
-      422
-    );
+    const error = new HttpError("Season name exists already.", 422);
     return next(error);
   }
 
@@ -95,14 +92,88 @@ const createSeason = async (req, res, next) => {
     return next(error);
   }
 
-  res
-    .status(201)
-    .json({
-      seasonId: createdSeason.id,
-    });
+  res.status(201).json({
+    seasonId: createdSeason.id,
+  });
+};
+
+const getAllSeasons = async (req, res, next) => {
+  let seasons;
+  try {
+    seasons = await Season.find();
+  } catch (err) {
+    const error = new HttpError(
+      "Fetching seasons failed, please try again later.",
+      500
+    );
+    return next(error);
+  }
+  res.json({
+    seasons: seasons.map((season) => season.toObject({ getters: true })),
+  });
+};
+
+const deleteSeason = async (req, res, next) => {
+  const seasonId = req.params.sid;
+
+  let season;
+  try {
+    season = await Season.findById(seasonId);
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not delete season.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!season) {
+    const error = new HttpError("Could not find season for this id.", 404);
+    return next(error);
+  }
+
+  try {
+    await season.deleteOne();
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not delete season.",
+      500
+    );
+    return next(error);
+  }
+
+  res.status(200).json({ message: "Deleted season." });
+};
+
+const getSeasonById = async (req, res, next) => {
+  const seasonId = req.params.sid;
+
+  let season;
+  try {
+    season = await Season.findById(seasonId);
+  } catch (err) {
+    const error = new HttpError(
+      "Fetching season failed, please try again later.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!season) {
+    const error = new HttpError(
+      "Could not find season for the provided id.",
+      404
+    );
+    return next(error);
+  }
+
+  res.json({ season: season.toObject({ getters: true }) });
 };
 
 exports.getUpcomingSeasons = getUpcomingSeasons;
 exports.getOngoingSeasons = getOngoingSeasons;
 exports.getArchivedSeasons = getArchivedSeasons;
 exports.createSeason = createSeason;
+exports.getAllSeasons = getAllSeasons;
+exports.deleteSeason = deleteSeason;
+exports.getSeasonById = getSeasonById;
