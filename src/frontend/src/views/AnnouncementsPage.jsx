@@ -1,8 +1,10 @@
-import { Box, Container, Typography, Grid, Card, CardContent, CardMedia, Button, Stack } from "@mui/material"
-import { styled } from "@mui/material/styles"
-import FavoriteIcon from "@mui/icons-material/Favorite"
-import NavBar from "../components/NavBar"
-import { useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react";
+import { Box, Container, Typography, Grid, Card, CardContent, Button, Stack } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import NavBar from "../components/NavBar";
+import { useNavigate } from "react-router-dom";
+import { getAnnouncements } from "../api/announcements"; // Import API call
 
 const StyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
@@ -22,72 +24,73 @@ const DateAuthor = styled(Typography)(({ theme }) => ({
 
 export default function AnnouncementPage({ userRole = "commissioner" }) {
   const navigate = useNavigate();
+  const [announcements, setAnnouncements] = useState([]);
 
-  const handleCreateAnnouncement = () => {
-    navigate("/announcements/create"); // Navigate to the create announcement page
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAnnouncements();
+        setAnnouncements(data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))); // Sort by newest first
+      } catch (error) {
+        console.error("Error fetching announcements:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
-  const handleEditAnnouncement = (id) => {
-    navigate(`/announcements/edit/${id}`); // Navigate to the edit announcement page
-  };
+  if (announcements.length === 0) {
+    return (
+      <Box sx={{ bgcolor: "background.default", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+        <NavBar />
+        <Container maxWidth="lg" sx={{ mt: 4, flexGrow: 1, display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: "bold", mb: 4 }}>
+            No Announcements Yet
+          </Typography>
+        </Container>
+      </Box>
+    );
+  }
 
-  const pastAnnouncements = [
-    { id: 1, title: "Announcement 1", date: "10 Oct 21", author: "Jane Ostin" },
-    { id: 2, title: "Announcement 2", date: "10 Oct 21", author: "Jane Ostin" },
-    { id: 3, title: "Announcement 3", date: "10 Oct 21", author: "Jane Ostin" },
-    { id: 4, title: "Announcement 4", date: "10 Oct 21", author: "Jane Ostin" },
-    { id: 5, title: "Announcement 5", date: "10 Oct 21", author: "Jane Ostin" },
-    { id: 6, title: "Announcement 6", date: "10 Oct 21", author: "Jane Ostin" },
-  ];
+  const mainAnnouncement = announcements[0];
+  const pastAnnouncements = announcements.slice(1, 7);
 
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <NavBar />
       <Container maxWidth="lg" sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-        {/* Commissioner Controls */}
-        <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}>
-          <Button
-            variant="contained"
-            sx={{ backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#59002B" } }}
-            onClick={handleCreateAnnouncement}
-          >
-            Create New Announcement
-          </Button>
-          </Box>
+        {userRole === "commissioner" && (
           <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}>
             <Button
-            variant="contained"
-            sx={{ backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#59002B" } }}
-            onClick={() => handleEditAnnouncement(0)}
-          >
-            EDIT
-          </Button>
-          </Box>        
+              variant="contained"
+              sx={{ backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#59002B" } }}
+              onClick={() => navigate("/announcements/create")}
+            >
+              Create New Announcement
+            </Button>
+          </Box>
+        )}
+        {userRole === "commissioner" && (
+            <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}>
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#59002B" } }}
+                onClick={() => navigate(`/announcements/edit/${mainAnnouncement._id}`)}
+              >
+                EDIT
+              </Button>
+            </Box>
+          )}
+
         {/* Main Announcement */}
         <Box sx={{ py: 6, flexGrow: 1 }}>
           <Typography variant="h3" align="center" gutterBottom>
-            Announcement Title
+            {mainAnnouncement.title}
           </Typography>
           <Typography align="center" color="text.secondary" gutterBottom>
-            29 Oct 18, by Milan Obama
+            {new Date(mainAnnouncement.createdAt).toLocaleDateString()}
           </Typography>
-
           <Typography paragraph sx={{ mt: 4 }}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lectus amet, eu lacus viverra magna ullamcorper
-            ultricies. Laoreet est molestie tellus, vulputat, vitae. Viverra vitae nunc molestie nec. Id orci tincidunt
-            amet ullamcorper morbi mauris augue.
-          </Typography>
-
-          <Typography paragraph>
-            Faucibus ornare tincidunt malesuada phasellus. Volutpat, est id tincidunt dolor eu. Enim dictum semean
-            ultricies pharetra lorem leo cursus. Mollis dui turpis sed suscipit. Mauris vestibulum in phasellus velit
-            morbi lobortis varius egestas posuere.
-          </Typography>
-
-          <Typography paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim dapibus quis id convallis vitae auctor feugiat
-            massa. Semper ac blandit neque vulputate tincidunt venenatis. Orci lectus enim nunc proin lobortis faucibus
-            vulputate in consectetur.
+            {mainAnnouncement.content}
           </Typography>
         </Box>
       </Container>
@@ -101,22 +104,21 @@ export default function AnnouncementPage({ userRole = "commissioner" }) {
 
           <Grid container spacing={3}>
             {pastAnnouncements.map((announcement) => (
-              <Grid item xs={12} md={6} key={announcement.id}>
+              <Grid item xs={12} md={6} key={announcement._id}>
                 <StyledCard>
                   <CardContent sx={{ flex: 1 }}>
                     <Typography variant="h6" gutterBottom>
                       {announcement.title}
                     </Typography>
                     <Typography variant="body2" paragraph>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim dapibus quis id convallis vitae
-                      auctor feugiat massa
+                      {announcement.content.length > 100 ? `${announcement.content.substring(0, 100)}...` : announcement.content}
                     </Typography>
                     <Stack direction="row" justifyContent="space-between" alignItems="center">
                       <DateAuthor>
                         <FavoriteIcon sx={{ fontSize: 16 }} />
-                        {announcement.date} by {announcement.author}
+                        {new Date(announcement.createdAt).toLocaleDateString()}
                       </DateAuthor>
-                      <Stack direction="row" spacing={2}>
+                      {userRole === "commissioner" && (
                         <Button
                           variant="text"
                           sx={{
@@ -127,26 +129,11 @@ export default function AnnouncementPage({ userRole = "commissioner" }) {
                               textDecoration: "none",
                             },
                           }}
+                          onClick={() => navigate(`/announcements/edit/${announcement._id}`)}
                         >
-                          READ MORE
+                          EDIT
                         </Button>
-                        {userRole === "commissioner" && (
-                          <Button
-                            variant="text"
-                            sx={{
-                              color: "primary.contrastText",
-                              textDecoration: "underline",
-                              "&:hover": {
-                                backgroundColor: "transparent",
-                                textDecoration: "none",
-                              },
-                            }}
-                            onClick={() => handleEditAnnouncement(announcement.id)}
-                          >
-                            EDIT
-                          </Button>
-                        )}
-                      </Stack>
+                      )}
                     </Stack>
                   </CardContent>
                 </StyledCard>
