@@ -8,7 +8,6 @@ export async function createSeason(
 ) {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/seasons/create`, {
-    const response = await fetch(`${REACT_APP_API_BASE_URL}/seasons/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -32,7 +31,6 @@ export async function createSeason(
 export async function getOngoingSeasons() {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/seasons/ongoing`, {
-    const response = await fetch(`${REACT_APP_API_BASE_URL}/seasons/ongoing`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -54,7 +52,6 @@ export async function getOngoingSeasons() {
 export async function getUpcomingSeasons() {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/seasons/upcoming`, {
-    const response = await fetch(`${REACT_APP_API_BASE_URL}/seasons/upcoming`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -75,7 +72,6 @@ export async function getUpcomingSeasons() {
 
 export async function getArchivedSeasons() {
   try {
-    const response = await fetch(`${REACT_APP_API_BASE_URL}/seasons/archived`, {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/seasons/archived`, {
       method: "GET",
       headers: {
