@@ -47,7 +47,7 @@ export default function AnnouncementPage({ userRole = "commissioner" }) {
           <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 4 }}>
             <Button
               variant="contained"
-              sx={{ backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#59002B" } }}
+              sx={{ borderRadius: 2, backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#59002B" } }}
               onClick={() => navigate("/announcements/create")}
             >
               Create New Announcement
