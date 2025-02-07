@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Container, Typography, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import { getAnnouncements } from "../api/announcements";
 import PastAnnouncementsSection from "../components/PastAnnouncements";
@@ -8,6 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 
 export default function AnnouncementPage({ userRole = "commissioner" }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [announcements, setAnnouncements] = useState([]);
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
 
@@ -16,8 +17,9 @@ export default function AnnouncementPage({ userRole = "commissioner" }) {
       try {
         const data = await getAnnouncements();
         const sortedAnnouncements = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        const passedAnnouncement = location.state?.selectedAnnouncement;
         setAnnouncements(sortedAnnouncements);
-        setSelectedAnnouncement(sortedAnnouncements[0]); // Default to the most recent announcement
+        setSelectedAnnouncement(passedAnnouncement || sortedAnnouncements[0]); // Default to the most recent announcement
       } catch (error) {
         console.error("Error fetching announcements:", error);
       }

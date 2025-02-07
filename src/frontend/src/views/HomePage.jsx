@@ -20,25 +20,36 @@ import { styled } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { useNavigate } from "react-router-dom";
 import {
   getArchivedSeasons,
   getOngoingSeasons,
   getUpcomingSeasons,
 } from "../api/season";
+import { getAnnouncements } from "../api/announcements";
 import { SeasonsCard } from "../components/SeasonsCard";
 
 const StyledCard = styled(Card)(({ theme }) => ({
-  height: "100%",
+  height: "300px",
   display: "flex",
   flexDirection: "column",
-  borderRadius: theme.spacing(2),
+  justifyContent: "space-between",
+  borderRadius: theme.spacing(3),
   backgroundColor: theme.palette.grey[200],
+  padding: theme.spacing(2),
+  transition: "transform 0.3s ease, box-shadow 0.3s ease",
+  "&:hover": {
+    transform: "scale(1.05)",
+    boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.3)",
+  },
 }));
 
 export default function HomePage() {
+  const navigate = useNavigate();
   const [upcomingSeasons, setUpcomingSeasons] = useState(null);
   const [ongoingSeasons, setOngoingSeasons] = useState(null);
   const [archivedSeasons, setArchivedSeasons] = useState(null);
+  const [announcements, setAnnouncements] = useState([]); // Store fetched announcements
 
   // todo: can use these to show loading spinner or error message
   const [loading, setLoading] = useState(true);
@@ -81,9 +92,20 @@ export default function HomePage() {
       }
     };
 
+    const fetchAnnouncements = async () => {
+      try {
+        const data = await getAnnouncements();
+        const sortedAnnouncements = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setAnnouncements(sortedAnnouncements.slice(0, 3)); // Get the 3 most recent announcements
+      } catch (err) {
+        setError(err.message || "Failed to fetch announcements");
+      }
+    };
+
     fetchUpcomingSeasons();
     fetchOngoingSeasons();
     fetchArchivedSeasons();
+    fetchAnnouncements();
   }, []);
 
   return (
@@ -170,54 +192,60 @@ export default function HomePage() {
               >
                 Announcements
               </Typography>
-              <Stack direction="row" spacing={2}>
-                <IconButton sx={{ bgcolor: "grey.100" }}>
-                  <ArrowBackIcon />
-                </IconButton>
-                <IconButton sx={{ bgcolor: "grey.100" }}>
-                  <ArrowForwardIcon />
-                </IconButton>
-              </Stack>
             </Box>
-            <Grid container spacing={3}>
-              {[1, 2, 3].map((item) => (
-                <Grid item xs={12} md={4} key={item}>
-                  <StyledCard>
-                    <CardMedia
-                      component="img"
-                      height="200"
-                      alt={`Announcement ${item}`}
-                    />
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Neque volutpat morbi
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ mb: 2 }}
-                      >
-                        Et blandit non sit ac egestas risus non.
-                      </Typography>
-                      <Button
-                        variant="contained"
-                        sx={{
-                          bgcolor: "common.black",
-                          color: "common.white",
-                          borderRadius: "50px",
-                          "&:hover": {
-                            bgcolor: "common.black",
-                            opacity: 0.9,
-                          },
+
+            <Grid container spacing={4}>
+              {announcements.length === 0 ? (
+                <Typography>No announcements available.</Typography>
+              ) : (
+                announcements.map((announcement) => (
+                  <Grid item xs={12} md={4} key={announcement._id}>
+                    <StyledCard>
+                      <CardContent sx={{ 
+                        flexGrow: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between"
                         }}
-                      >
-                        Read
-                      </Button>
-                    </CardContent>
-                  </StyledCard>
-                </Grid>
-              ))}
-            </Grid>
+                        >
+                        <Typography 
+                        gutterBottom 
+                        variant="h4" 
+                        component="h2"
+                        sx={{
+                          fontWeight: 700,
+                        }}
+                        >
+                          {announcement.title}
+                        </Typography>
+                        <Typography variant="body" color="text.secondary" sx={{ mb: 2 }}>
+                          {announcement.content.length > 100
+                            ? `${announcement.content.substring(0, 100)}...`
+                            : announcement.content}
+                        </Typography>
+                        <Button
+                          variant="contained"
+                          sx={{
+                            bgcolor: "common.black",
+                            color: "common.white",
+                            borderRadius: "50px",
+                            width: "fit-content",
+                            "&:hover": {
+                              bgcolor: "#7A003C",
+                              opacity: 0.9,
+                            },
+                            
+                          }}
+                          onClick={() => navigate(`/announcements`, { state: {selectedAnnouncement: announcement} })}
+                        >
+                          Read More
+                        </Button>
+                      </CardContent>
+                    </StyledCard>
+                  </Grid>
+                ))
+              )}
+           </Grid>
           </Container>
         </Box>
       </Box>
