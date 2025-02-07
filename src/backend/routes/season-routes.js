@@ -34,4 +34,6 @@ router.delete("/:sid", seasonController.deleteSeason);
 
 router.get("/:sid", seasonController.getSeasonById);
 
+router.patch("/:sid/divisionTeams", seasonController.updateSeasonDivisionTeams);
+
 module.exports = router;

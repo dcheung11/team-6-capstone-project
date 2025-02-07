@@ -54,5 +54,35 @@ const createTeam = async (req, res, next) => {
   res.status(201).json({ team: createdTeam });
 };
 
+const getTeamsById = async (req, res, next) => {
+  const teamIds = req.params.id.split(",");
+
+  let teams;
+  try {
+    teams = await Team.find({ _id: { $in: teamIds } });
+  } catch (err) {
+    const error = new HttpError(
+      "Fetching teams failed, please try again later.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!teams || teams.length === 0) {
+    const error = new HttpError(
+      "Could not find team(s) for the provided id(s).",
+      404
+    );
+    return next(error);
+  }
+
+  res.json({
+    teams: teams.map((team) =>
+      team.toObject({ getters: true })
+    ),
+  });
+};
+
 exports.getTeams = getTeams;
 exports.createTeam = createTeam;
+exports.getTeamsById = getTeamsById;

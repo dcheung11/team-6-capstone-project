@@ -154,3 +154,30 @@ export async function getSeasonById(id) {
     throw error;
   }
 }
+
+export async function updateSeasonDivisionTeams(id, divisions) {
+  try {
+    console.log(JSON.stringify({ divisions }));
+    const response = await fetch(
+      `${REACT_APP_API_BASE_URL}/seasons/${id}/divisionTeams`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ divisions }),
+      }
+    );
+
+    console.log("Update Season Division Teams response:", response);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Update season division teams failed");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

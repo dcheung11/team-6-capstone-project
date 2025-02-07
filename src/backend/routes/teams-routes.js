@@ -18,6 +18,6 @@ router.post(
   teamsController.createTeam
 );
 
-// router.post("/login", playersController.login);
+router.get("/:id", teamsController.getTeamsById);
 
 module.exports = router;
