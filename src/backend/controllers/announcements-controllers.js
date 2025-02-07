@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator");
 const HttpError = require("../models/http-error"); // Adjust the path as necessary
-const Announcement = require("../models/announcement"); // Adjust the path as necessary
+const Announcement = require("../models/announcements"); // Adjust the path as necessary
 
 const createAnnouncement = async (req, res, next) => {
   const errors = validationResult(req);

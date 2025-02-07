@@ -1,93 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Typography, TextField, Button, Box, Container } from '@mui/material';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Container, Typography, Box } from "@mui/material";
 import NavBar from "../components/NavBar";
+import AnnouncementForm from "../components/AnnouncementForm";
+import { getAnnouncementById, editAnnouncement } from "../api/announcements";
 
-export default function EditAnnouncement() {
-  const { id } = useParams(); // Get the announcement ID from the URL
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+export default function EditAnnouncementPage() {
+  const { id } = useParams();
   const navigate = useNavigate();
+  const [announcement, setAnnouncement] = useState(null);
 
   useEffect(() => {
-    // Fetch the existing announcement data
     const fetchAnnouncement = async () => {
       try {
-        const response = await axios.get(`/api/announcements/${id}`);
-        setTitle(response.data.title);
-        setContent(response.data.content);
+        const response = await getAnnouncementById(id);
+        console.log("Fetched Announcement:", response); // Debugging
+        setAnnouncement(response.announcement); // Ensure we're accessing the correct key
       } catch (error) {
-        console.error('Error fetching announcement:', error);
+        console.error("Error fetching announcement:", error);
       }
     };
     fetchAnnouncement();
   }, [id]);
 
-  // Suggestion for submitting announcements from DeepSeek
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  const handleEdit = async ({ title, content }) => {
+    try {
+      await editAnnouncement(id, title, content);
+      navigate("/announcements"); // Redirect after editing
+    } catch (error) {
+      console.error("Error editing announcement:", error);
+    }
+  };
 
-  //   try {
-  //     const response = await axios.put(`/api/announcements/${id}`, {
-  //       title,
-  //       content,
-  //     });
-
-  //     console.log('Announcement updated:', response.data);
-  //     navigate('/announcements'); // Redirect to the announcements page
-  //   } catch (error) {
-  //     console.error('Error updating announcement:', error);
-  //   }
-  // };
+  if (announcement === null) {
+    return <Typography align="center" sx={{ mt: 4 }}>Fetching announcement details...</Typography>;
+  }
+  
+  if (!announcement) {
+    return <Typography align="center" sx={{ mt: 4, color: "red" }}>Error: Announcement not found.</Typography>;
+  }  
 
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <NavBar />
-      <Container maxWidth="lg" sx={{ mt: 4, flexGrow: 1, display: "flex", flexDirection: "column", alignItems: "center" }}>
-        {/* Centered Title */}
-        <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 'bold', mb: 4 }}>
+      <Container
+        maxWidth="lg"
+        sx={{ mt: 4, flexGrow: 1, display: "flex", flexDirection: "column", alignItems: "center" }}
+      >
+        <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: "bold", mb: 4 }}>
           Edit Announcement
         </Typography>
-
-        {/* Form */}
-        <Box sx={{ width: '100%', maxWidth: '800px', bgcolor: 'background.paper', p: 4, borderRadius: 2, boxShadow: 3 }}>
-          {/* <form onSubmit={handleSubmit}> */}
-            <TextField
-              label="Title"
-              value={`Announcement ${id}`}
-              onChange={(e) => setTitle(e.target.value)}
-              fullWidth
-              margin="normal"
-              required
-              sx={{ mb: 3 }}
-            />
-            <TextField
-              label="Content"
-              value={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim dapibus quis id convallis vitae auctor feugiat massa"}
-              onChange={(e) => setContent(e.target.value)}
-              fullWidth
-              margin="normal"
-              multiline
-              rows={6}
-              required
-              sx={{ mb: 3 }}
-            />
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-              <Button
-                variant="outlined"
-                size="large"
-                sx={{ textTransform: 'none' }}
-                onClick={() => navigate('/announcements')}
-              >
-                Cancel
-              </Button>
-              <Button type="submit" variant="contained" size="large" sx={{ textTransform: 'none' }}>
-                Save Changes
-              </Button>
-            </Box>
-          {/* </form> */}
-        </Box>
+        <AnnouncementForm
+          onSubmit={handleEdit}
+          initialTitle={announcement.title}
+          initialContent={announcement.content}
+          isEdit
+        />
       </Container>
     </Box>
   );

@@ -1,160 +1,110 @@
-import { Box, Container, Typography, Grid, Card, CardContent, CardMedia, Button, Stack } from "@mui/material"
-import { styled } from "@mui/material/styles"
-import FavoriteIcon from "@mui/icons-material/Favorite"
-import NavBar from "../components/NavBar"
-import { useNavigate } from "react-router-dom"
-
-const StyledCard = styled(Card)(({ theme }) => ({
-  display: "flex",
-  borderRadius: theme.spacing(2),
-  backgroundColor: theme.palette.primary.main,
-  color: theme.palette.primary.contrastText,
-  height: "100%",
-}));
-
-const DateAuthor = styled(Typography)(({ theme }) => ({
-  color: theme.palette.grey[500],
-  fontSize: "0.875rem",
-  display: "flex",
-  alignItems: "center",
-  gap: theme.spacing(1),
-}));
+import React, { useState, useEffect } from "react";
+import { Box, Container, Typography, Button } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
+import NavBar from "../components/NavBar";
+import { getAnnouncements } from "../api/announcements";
+import PastAnnouncementsSection from "../components/PastAnnouncements";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function AnnouncementPage({ userRole = "commissioner" }) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [announcements, setAnnouncements] = useState([]);
+  const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
 
-  const handleCreateAnnouncement = () => {
-    navigate("/announcements/create"); // Navigate to the create announcement page
-  };
+  useEffect(() => {
+    const fetchAnnouncements = async () => {
+      try {
+        const data = await getAnnouncements();
+        const sortedAnnouncements = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        const passedAnnouncement = location.state?.selectedAnnouncement;
+        setAnnouncements(sortedAnnouncements);
+        setSelectedAnnouncement(passedAnnouncement || sortedAnnouncements[0]); // Default to the most recent announcement
+      } catch (error) {
+        console.error("Error fetching announcements:", error);
+      }
+    };
+    fetchAnnouncements();
+  }, []);
 
-  const handleEditAnnouncement = (id) => {
-    navigate(`/announcements/edit/${id}`); // Navigate to the edit announcement page
-  };
+  if (!selectedAnnouncement || announcements.length === 0) {
+    return <Typography>Loading...</Typography>;
+  }
 
-  const pastAnnouncements = [
-    { id: 1, title: "Announcement 1", date: "10 Oct 21", author: "Jane Ostin" },
-    { id: 2, title: "Announcement 2", date: "10 Oct 21", author: "Jane Ostin" },
-    { id: 3, title: "Announcement 3", date: "10 Oct 21", author: "Jane Ostin" },
-    { id: 4, title: "Announcement 4", date: "10 Oct 21", author: "Jane Ostin" },
-    { id: 5, title: "Announcement 5", date: "10 Oct 21", author: "Jane Ostin" },
-    { id: 6, title: "Announcement 6", date: "10 Oct 21", author: "Jane Ostin" },
-  ];
+  // to exclude the selected announcement from past announcements
+  // (if user has selected READ MORE from past announcement list)
+  const pastAnnouncements = announcements.filter(
+    (announcement) => announcement._id !== selectedAnnouncement._id
+  );
+  
 
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <NavBar />
-      <Container maxWidth="lg" sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+      <Container maxWidth="lg" sx={{ py: 6, flexGrow: 1 }}>
         {/* Commissioner Controls */}
-        <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}>
-          <Button
-            variant="contained"
-            sx={{ backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#59002B" } }}
-            onClick={handleCreateAnnouncement}
-          >
-            Create New Announcement
-          </Button>
-          </Box>
-          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}>
+        {userRole === "commissioner" && (
+          <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 4 }}>
             <Button
-            variant="contained"
-            sx={{ backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#59002B" } }}
-            onClick={() => handleEditAnnouncement(0)}
-          >
-            EDIT
-          </Button>
-          </Box>        
+              variant="contained"
+              sx={{ borderRadius: 2, backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#59002B" } }}
+              onClick={() => navigate("/announcements/create")}
+            >
+              Create New Announcement
+            </Button>
+          </Box>
+        )}
+
         {/* Main Announcement */}
-        <Box sx={{ py: 6, flexGrow: 1 }}>
-          <Typography variant="h3" align="center" gutterBottom>
-            Announcement Title
+        <Box sx={{ py: 2 }}>
+          <Typography 
+          variant="h3" 
+          align="center" 
+          gutterBottom
+          sx={{
+            fontSize: { xs: "3rem", md: "4rem" },
+            fontWeight: 900,
+          }}
+          >
+            {selectedAnnouncement.title}
           </Typography>
           <Typography align="center" color="text.secondary" gutterBottom>
-            29 Oct 18, by Milan Obama
+            {new Date(selectedAnnouncement.createdAt).toLocaleDateString()}
           </Typography>
+          <Typography 
+          paragraph
+          sx={{
+            fontSize: { md: "1.2rem" },
+          }}
+          >
+            {selectedAnnouncement.content}</Typography>
 
-          <Typography paragraph sx={{ mt: 4 }}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lectus amet, eu lacus viverra magna ullamcorper
-            ultricies. Laoreet est molestie tellus, vulputat, vitae. Viverra vitae nunc molestie nec. Id orci tincidunt
-            amet ullamcorper morbi mauris augue.
-          </Typography>
-
-          <Typography paragraph>
-            Faucibus ornare tincidunt malesuada phasellus. Volutpat, est id tincidunt dolor eu. Enim dictum semean
-            ultricies pharetra lorem leo cursus. Mollis dui turpis sed suscipit. Mauris vestibulum in phasellus velit
-            morbi lobortis varius egestas posuere.
-          </Typography>
-
-          <Typography paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim dapibus quis id convallis vitae auctor feugiat
-            massa. Semper ac blandit neque vulputate tincidunt venenatis. Orci lectus enim nunc proin lobortis faucibus
-            vulputate in consectetur.
-          </Typography>
+          {/* Edit Button for Main Announcement */}
+          {userRole === "commissioner" && (
+            <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+              <Button
+                variant="contained"
+                sx={{ 
+                  borderRadius: 2, 
+                  backgroundColor: "#7A003C", "&:hover": 
+                  { backgroundColor: "#59002B" } 
+                }}
+                onClick={() => navigate(`/announcements/edit/${selectedAnnouncement._id}`)}
+                startIcon={<EditIcon />}
+              >
+                Edit
+              </Button>
+            </Box>
+          )}
         </Box>
       </Container>
 
-      {/* Past Announcements */}
-      <Box sx={{ bgcolor: "#495965", py: 6, width: "100%", flexGrow: 1 }}>
-        <Container maxWidth="lg">
-          <Typography variant="h4" color="common.white" gutterBottom sx={{ mb: 4 }}>
-            Past Announcements
-          </Typography>
-
-          <Grid container spacing={3}>
-            {pastAnnouncements.map((announcement) => (
-              <Grid item xs={12} md={6} key={announcement.id}>
-                <StyledCard>
-                  <CardContent sx={{ flex: 1 }}>
-                    <Typography variant="h6" gutterBottom>
-                      {announcement.title}
-                    </Typography>
-                    <Typography variant="body2" paragraph>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim dapibus quis id convallis vitae
-                      auctor feugiat massa
-                    </Typography>
-                    <Stack direction="row" justifyContent="space-between" alignItems="center">
-                      <DateAuthor>
-                        <FavoriteIcon sx={{ fontSize: 16 }} />
-                        {announcement.date} by {announcement.author}
-                      </DateAuthor>
-                      <Stack direction="row" spacing={2}>
-                        <Button
-                          variant="text"
-                          sx={{
-                            color: "primary.contrastText",
-                            textDecoration: "underline",
-                            "&:hover": {
-                              backgroundColor: "transparent",
-                              textDecoration: "none",
-                            },
-                          }}
-                        >
-                          READ MORE
-                        </Button>
-                        {userRole === "commissioner" && (
-                          <Button
-                            variant="text"
-                            sx={{
-                              color: "primary.contrastText",
-                              textDecoration: "underline",
-                              "&:hover": {
-                                backgroundColor: "transparent",
-                                textDecoration: "none",
-                              },
-                            }}
-                            onClick={() => handleEditAnnouncement(announcement.id)}
-                          >
-                            EDIT
-                          </Button>
-                        )}
-                      </Stack>
-                    </Stack>
-                  </CardContent>
-                </StyledCard>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      </Box>
+      {/* Past Announcements Section */}
+      <PastAnnouncementsSection
+        pastAnnouncements={pastAnnouncements}
+        userRole={userRole}
+        onReadMore={setSelectedAnnouncement} // Pass function to update the main announcement
+      />
     </Box>
   );
 }
