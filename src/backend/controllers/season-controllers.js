@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const HttpError = require("../models/http-error");
 const Season = require("../models/season");
+const Division = require("../models/division");
 
 const getUpcomingSeasons = async (req, res, next) => {
   let seasons;
@@ -65,7 +66,7 @@ const createSeason = async (req, res, next) => {
     existingSeason = await Season.findOne({ name: name });
   } catch (err) {
     const error = new HttpError(
-      "Signing up failed, please try again later.",
+      "Creating failed, please try again later.",
       500
     );
     return next(error);
@@ -89,6 +90,28 @@ const createSeason = async (req, res, next) => {
     await createdSeason.save();
   } catch (err) {
     const error = new HttpError("Create Season failed, please try again.", 500);
+    return next(error);
+  }
+
+  const divisionPromises = [];
+  for (let i = 1; i <= (allowedDivisions || 4); i++) {
+    const division = new Division({
+      name: `Division ${i}`,
+      seasonId: createdSeason._id,
+      teams: [], // Empty teams for now
+    });
+    divisionPromises.push(division.save());
+  }
+
+  try {
+    const divisions = await Promise.all(divisionPromises);
+    createdSeason.divisions = divisions.map((division) => division._id);
+    await createdSeason.save(); // Update season with division IDs
+  } catch (err) {
+    const error = new HttpError(
+      "Creating divisions failed, please try again later.",
+      500
+    );
     return next(error);
   }
 
