@@ -4,17 +4,20 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import { getAnnouncements } from "../api/announcements";
 import PastAnnouncementsSection from "../components/PastAnnouncements";
-import EditIcon from "@mui/icons-material/Edit"
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function AnnouncementPage({ userRole = "commissioner" }) {
   const navigate = useNavigate();
   const [announcements, setAnnouncements] = useState([]);
+  const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
 
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {
         const data = await getAnnouncements();
-        setAnnouncements(data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))); // Sort by newest first
+        const sortedAnnouncements = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setAnnouncements(sortedAnnouncements);
+        setSelectedAnnouncement(sortedAnnouncements[0]); // Default to the most recent announcement
       } catch (error) {
         console.error("Error fetching announcements:", error);
       }
@@ -22,13 +25,16 @@ export default function AnnouncementPage({ userRole = "commissioner" }) {
     fetchAnnouncements();
   }, []);
 
-  if (announcements.length === 0) {
-    console.log("announcments loading...")
-    return //<Typography>Loading...</Typography>;
+  if (!selectedAnnouncement || announcements.length === 0) {
+    return <Typography>Loading...</Typography>;
   }
 
-  const mainAnnouncement = announcements[0];
-  const pastAnnouncements = announcements.slice(1, 7);
+  // to exclude the selected announcement from past announcements
+  // (if user has selected READ MORE from past announcement list)
+  const pastAnnouncements = announcements.filter(
+    (announcement) => announcement._id !== selectedAnnouncement._id
+  );
+  
 
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
@@ -39,7 +45,7 @@ export default function AnnouncementPage({ userRole = "commissioner" }) {
           <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 4 }}>
             <Button
               variant="contained"
-              sx={{ borderRadius: 2, backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#59002B" } }}
+              sx={{ backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#59002B" } }}
               onClick={() => navigate("/announcements/create")}
             >
               Create New Announcement
@@ -48,22 +54,28 @@ export default function AnnouncementPage({ userRole = "commissioner" }) {
         )}
 
         {/* Main Announcement */}
-        <Box sx={{ py: 4 }}>
+        <Box sx={{ py: 2 }}>
           <Typography 
-          variant="h2" 
+          variant="h3" 
           align="center" 
           gutterBottom
           sx={{
-            fontSize: { xs: "2rem", md: "3rem" },
-            fontWeight: 800,
+            fontSize: { xs: "3rem", md: "4rem" },
+            fontWeight: 900,
           }}
           >
-            {mainAnnouncement.title}
+            {selectedAnnouncement.title}
           </Typography>
           <Typography align="center" color="text.secondary" gutterBottom>
-            {new Date(mainAnnouncement.createdAt).toLocaleDateString()}
+            {new Date(selectedAnnouncement.createdAt).toLocaleDateString()}
           </Typography>
-          <Typography paragraph>{mainAnnouncement.content}</Typography>
+          <Typography 
+          paragraph
+          sx={{
+            fontSize: { md: "1.2rem" },
+          }}
+          >
+            {selectedAnnouncement.content}</Typography>
 
           {/* Edit Button for Main Announcement */}
           {userRole === "commissioner" && (
@@ -75,7 +87,7 @@ export default function AnnouncementPage({ userRole = "commissioner" }) {
                   backgroundColor: "#7A003C", "&:hover": 
                   { backgroundColor: "#59002B" } 
                 }}
-                onClick={() => navigate(`/announcements/edit/${mainAnnouncement._id}`)}
+                onClick={() => navigate(`/announcements/edit/${selectedAnnouncement._id}`)}
                 startIcon={<EditIcon />}
               >
                 Edit
@@ -86,7 +98,11 @@ export default function AnnouncementPage({ userRole = "commissioner" }) {
       </Container>
 
       {/* Past Announcements Section */}
-      <PastAnnouncementsSection pastAnnouncements={pastAnnouncements} userRole={userRole} />
+      <PastAnnouncementsSection
+        pastAnnouncements={pastAnnouncements}
+        userRole={userRole}
+        onReadMore={setSelectedAnnouncement} // Pass function to update the main announcement
+      />
     </Box>
   );
 }

@@ -34,7 +34,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export default function CardAnnouncement({ announcement, userRole }) {
+export default function CardAnnouncement({ announcement, userRole, onReadMore }) {
   const navigate = useNavigate();
 
   return (
@@ -53,14 +53,20 @@ export default function CardAnnouncement({ announcement, userRole }) {
           >
             {new Date(announcement.createdAt).toLocaleDateString()}
           </Typography>
-          {userRole === "commissioner" && (
+          <Stack direction="row" spacing={1}>
             <StyledButton 
-            onClick={() => navigate(`/announcements/edit/${announcement._id}`)}
-            startIcon={<EditIcon />}
+            onClick={() => onReadMore(announcement)}
+            sx={{color: "#FED99A", textDecoration: "underline"}}
             >
-              EDIT
-            </StyledButton>
-          )}
+                Read More</StyledButton>
+            {userRole === "commissioner" && (
+              <StyledButton 
+                onClick={() => navigate(`/announcements/edit/${announcement._id}`)}
+                startIcon={<EditIcon />}>
+                EDIT
+              </StyledButton>
+            )}
+          </Stack>
         </Stack>
       </CardContent>
     </StyledCard>
