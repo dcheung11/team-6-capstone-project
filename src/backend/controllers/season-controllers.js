@@ -193,6 +193,36 @@ const getSeasonById = async (req, res, next) => {
   res.json({ season: season.toObject({ getters: true }) });
 };
 
+const getRegisteredTeams = async (req, res, next) => {
+  const seasonId = req.params.sid;
+
+  let season;
+  try {
+    season = await Season.findById(seasonId).populate("divisions");
+  } catch (err) {
+    const error = new HttpError(
+      "Fetching season failed, please try again later.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!season) {
+    const error = new HttpError(
+      "Could not find season for the provided id.",
+      404
+    );
+    return next(error);
+  }
+// TODO: double check this
+  res.json({
+    teams: season.divisions.reduce(
+      (acc, division) => acc.concat(division.teams),
+      []
+    ),
+  });
+}
+
 exports.getUpcomingSeasons = getUpcomingSeasons;
 exports.getOngoingSeasons = getOngoingSeasons;
 exports.getArchivedSeasons = getArchivedSeasons;
