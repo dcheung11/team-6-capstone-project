@@ -34,24 +34,20 @@ const style = {
 export default function TeamTable(props) {
   const [open, setOpen] = useState(false);
   const [teamToDelete, setTeamToDelete] = useState(null);
-  const handleDivisionChange = (name, newDivision) => {
-    console.log(`Changing division for team ${name} to ${newDivision}`);
 
-    props.setTeams(
-      props.teams.map((team) =>
-        team.name === name ? { ...team, division: newDivision } : team
-      )
-    );
+  const handleDivisionChange = (teamId, newDivisionId) => {
+    console.log(`Changing division for team ${teamId} to ${newDivisionId}`);
+    const updatedTeams = props.tempTeams.map((team) => {
+      if (team.id === teamId) {
+        return { ...team, division: newDivisionId };
+      }
+      return team;
+    });
+    props.setTempTeams(updatedTeams);
   };
 
   const handlePaymentToggle = (name) => {
     console.log(`Changing paid for team ${name}`);
-
-    props.setTeams(
-      props.teams.map((team) =>
-        team.name === name ? { ...team, paid: !team.paid } : team
-      )
-    );
     setOpen(false);
   };
 
@@ -69,6 +65,18 @@ export default function TeamTable(props) {
     setTeamToDelete(name);
     setOpen(true);
   };
+
+  function getDivisionName(divisionId) {
+    const division = props.divisions.find(
+      (division) => division.id === divisionId
+    );
+    return division ? division.name : "null"; // Default fallback, change later
+  }
+
+  function getPreferredDivision(refTeam) {
+    const team = props.registeredTeams.find((team) => team.id === refTeam.id);
+    return team && team.division ? team.division : null;
+  }
 
   return (
     <>
@@ -89,31 +97,34 @@ export default function TeamTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.teams.map((team) => (
+            {(props.tempTeams || []).map((team) => (
               <TableRow key={team.id}>
                 <TableCell>{team.name}</TableCell>
                 <TableCell>{team.captain}</TableCell>
                 <TableCell>{team.captain}@email.com</TableCell>
-                <TableCell>1</TableCell>
-                <TableCell>{props.getPreferredDivision(team)}</TableCell>
+                <TableCell>{team.roster.length}</TableCell>
+                <TableCell>
+                  {getDivisionName(getPreferredDivision(team))}
+                </TableCell>
                 <TableCell>
                   <Select
                     defaultValue={team.division}
                     value={team.division}
+                    label={getDivisionName(team.division)}
                     onChange={(e) =>
-                      handleDivisionChange(team.name, e.target.value)
+                      handleDivisionChange(team.id, e.target.value)
                     }
                     size="small"
                   >
                     {props.divisions.map((division) => (
-                      <MenuItem key={division.id} value={division.name}>
+                      <MenuItem key={division.id} value={division.id}>
                         {division.name}
                       </MenuItem>
                     ))}
                   </Select>
                 </TableCell>
-                <TableCell>Balanced</TableCell>
-                <TableCell>Friday</TableCell>
+                <TableCell>{team.preferredTimes}</TableCell>
+                <TableCell>{team.blacklistDays}</TableCell>
                 <TableCell>
                   <FormControlLabel
                     control={

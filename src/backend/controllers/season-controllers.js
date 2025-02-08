@@ -193,35 +193,64 @@ const getSeasonById = async (req, res, next) => {
   res.json({ season: season.toObject({ getters: true }) });
 };
 
-const getRegisteredTeams = async (req, res, next) => {
+const updateSeasonDivisionTeams = async (req, res, next) => {
   const seasonId = req.params.sid;
+  const { divisions } = req.body;
 
   let season;
   try {
-    season = await Season.findById(seasonId).populate("divisions");
+    season = await Season.findById(seasonId);
   } catch (err) {
     const error = new HttpError(
-      "Fetching season failed, please try again later.",
+      "Something went wrong, could not update season.",
       500
     );
     return next(error);
   }
 
   if (!season) {
+    const error = new HttpError("Could not find season for this id.", 404);
+    return next(error);
+  }
+
+  // Iterate over the divisions in the request body
+  for (const updatedDivision of divisions) {
+    const division = await Division.findById(updatedDivision.id);
+
+    if (!division) {
+      const error = new HttpError("Could not find division for this id.", 404);
+      return next(error);
+    }
+
+    // Update the teams for this division
+    division.teams = updatedDivision.teams;
+
+    try {
+      await division.save();
+    } catch (err) {
+      const error = new HttpError(
+        "Something went wrong, could not update division.",
+        500
+      );
+      return next(error);
+    }
+  }
+
+  // update the season's divisions with the new division ids
+  season.divisions = divisions.map((updatedDivision) => updatedDivision.id);
+
+  try {
+    await season.save();
+  } catch (err) {
     const error = new HttpError(
-      "Could not find season for the provided id.",
-      404
+      "Something went wrong, could not update season.",
+      500
     );
     return next(error);
   }
-// TODO: double check this
-  res.json({
-    teams: season.divisions.reduce(
-      (acc, division) => acc.concat(division.teams),
-      []
-    ),
-  });
-}
+
+  res.status(200).json({ season: season.toObject({ getters: true }) });
+};
 
 exports.getUpcomingSeasons = getUpcomingSeasons;
 exports.getOngoingSeasons = getOngoingSeasons;
@@ -230,3 +259,4 @@ exports.createSeason = createSeason;
 exports.getAllSeasons = getAllSeasons;
 exports.deleteSeason = deleteSeason;
 exports.getSeasonById = getSeasonById;
+exports.updateSeasonDivisionTeams = updateSeasonDivisionTeams;
