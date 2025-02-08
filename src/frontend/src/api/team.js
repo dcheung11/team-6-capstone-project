@@ -1,19 +1,24 @@
 const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // replace with your backend port
 
-export async function createTeam(name, division, captain, roster) {
+// body = { name, divisionId, captainId, roster, seasonId }
+export async function registerTeam(body) {
+  console.log(JSON.stringify(body));
   try {
-    const response = await fetch(`${REACT_APP_API_BASE_URL}/teams/createTeam`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, division, captain, roster }),
-    });
+    const response = await fetch(
+      `${REACT_APP_API_BASE_URL}/teams/registerTeam`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      }
+    );
 
-    console.log("createTeam response:", response);
+    console.log("registerTeam response:", response);
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.message || "createTeam failed");
+      throw new Error(error.message || "registerTeam failed");
     }
 
     const data = await response.json();
@@ -26,7 +31,6 @@ export async function createTeam(name, division, captain, roster) {
 export async function getTeamsById(ids) {
   try {
     const idString = ids.join(",");
-    console.log("id stringTEAM ID", idString);
     const response = await fetch(
       `${REACT_APP_API_BASE_URL}/teams/${idString}`,
       {
