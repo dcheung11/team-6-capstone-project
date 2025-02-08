@@ -12,10 +12,7 @@ const getUpcomingSeasons = async (req, res, next) => {
       })
       .populate({
         path: "registeredTeams",
-        populate: [
-          { path: "captainId" }, 
-          { path: "roster" }, 
-        ],
+        populate: [{ path: "captainId" }, { path: "roster" }],
       });
   } catch (err) {
     const error = new HttpError(
@@ -38,10 +35,7 @@ const getOngoingSeasons = async (req, res, next) => {
       })
       .populate({
         path: "registeredTeams",
-        populate: [
-          { path: "captainId" }, 
-          { path: "roster" },
-        ],
+        populate: [{ path: "captainId" }, { path: "roster" }],
       });
   } catch (err) {
     const error = new HttpError(
@@ -64,10 +58,7 @@ const getArchivedSeasons = async (req, res, next) => {
       })
       .populate({
         path: "registeredTeams",
-        populate: [
-          { path: "captainId" },
-          { path: "roster" }, 
-        ],
+        populate: [{ path: "captainId" }, { path: "roster" }],
       });
   } catch (err) {
     const error = new HttpError(
@@ -161,10 +152,7 @@ const getAllSeasons = async (req, res, next) => {
       })
       .populate({
         path: "registeredTeams",
-        populate: [
-          { path: "captainId" }, 
-          { path: "roster" }, 
-        ],
+        populate: [{ path: "captainId" }, { path: "roster" }],
       });
   } catch (err) {
     const error = new HttpError(
@@ -215,16 +203,13 @@ const getSeasonById = async (req, res, next) => {
 
   let season;
   try {
-    season = await Season.find(seasonId)
+    season = await Season.findById(seasonId)
       .populate({
         path: "divisions",
       })
       .populate({
         path: "registeredTeams",
-        populate: [
-          { path: "captainId" }, 
-          { path: "roster" },
-        ],
+        populate: [{ path: "captainId" }, { path: "roster" }],
       });
   } catch (err) {
     const error = new HttpError(
