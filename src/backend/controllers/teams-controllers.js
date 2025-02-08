@@ -8,9 +8,16 @@ const season = require("../models/season");
 const getTeams = async (req, res, next) => {
   let teams;
   try {
-    teams = await Team.find();
+    teams = await Team.find()
+      .populate("divisionId") // Populating division
+      .populate("roster") // Populating the roster of players
+      .populate("captainId") // Populating captain
+      .populate("season"); // Po;
   } catch (err) {
-    const error = new HttpError("Fetching teams failed, please try again later.", 500);
+    const error = new HttpError(
+      "Fetching teams failed, please try again later.",
+      500
+    );
     return next(error);
   }
   res.json({
@@ -21,15 +28,24 @@ const getTeams = async (req, res, next) => {
 const registerTeam = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return next(new HttpError("Invalid inputs passed, please check your data.", 422));
+    return next(
+      new HttpError("Invalid inputs passed, please check your data.", 422)
+    );
   }
   const { name, divisionId, captainId, roster, seasonId } = req.body;
 
   let existingTeam;
   try {
-    existingTeam = await Team.findOne({ name: name, divisionId: divisionId, seasonId: seasonId });
+    existingTeam = await Team.findOne({
+      name: name,
+      divisionId: divisionId,
+      seasonId: seasonId,
+    });
   } catch (err) {
-    const error = new HttpError("1 Creating team failed, please try again.", 500);
+    const error = new HttpError(
+      "1 Creating team failed, please try again.",
+      500
+    );
     return next(error);
   }
 
@@ -57,7 +73,10 @@ const registerTeam = async (req, res, next) => {
     const division = await Division.findById(divisionId);
     division.teams.push(createdTeam);
   } catch (err) {
-    const error = new HttpError("2 Creating team failed, please try again.", 500);
+    const error = new HttpError(
+      "2 Creating team failed, please try again.",
+      500
+    );
     return next(error);
   }
 
@@ -69,7 +88,11 @@ const getTeamsById = async (req, res, next) => {
 
   let teams;
   try {
-    teams = await Team.find({ _id: { $in: teamIds } });
+    teams = await Team.find({ _id: { $in: teamIds } })
+      .populate("divisionId") // Populating division
+      .populate("roster") // Populating the roster of players
+      .populate("captainId") // Populating captain
+      .populate("season"); // Po;
   } catch (err) {
     const error = new HttpError(
       "Fetching teams failed, please try again later.",
