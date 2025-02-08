@@ -48,7 +48,7 @@ export const SeasonsCard = (props) => {
               </Box>
               {season.status === "upcoming" && (
                 <Button
-                  href="/registerteam"
+                  href={`/registerteam/${season.id}`}
                   variant="contained"
                   size="large"
                   sx={{

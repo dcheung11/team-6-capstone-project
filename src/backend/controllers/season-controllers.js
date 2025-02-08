@@ -104,7 +104,9 @@ const createSeason = async (req, res, next) => {
   }
 
   try {
-    const divisions = await Promise.all(divisionPromises);
+    const divisions = await Promise.all(
+      divisionPromises.map((p) => p.catch((err) => err))
+    );
     createdSeason.divisions = divisions.map((division) => division._id);
     await createdSeason.save(); // Update season with division IDs
   } catch (err) {

@@ -21,7 +21,7 @@ const routes = [
   { path: "/announcements", component: AnnouncementsPage },
   { path: "/announcements/edit/:id", component: EditAnnouncementsPage }, // private: true },
   { path: "/announcements/create", component: CreateAnnouncementsPage }, // private: true },
-  { path: "/registerteam", component: RegisterTeamPage },
+  { path: "/registerteam/:id", component: RegisterTeamPage },
   { path: "/players", component: PlayersPage },
   { path: "/profile", component: ProfilePage },
   { path: "/info", component: InfoPage },
