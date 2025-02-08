@@ -167,7 +167,7 @@ const getPlayerById = async (req, res, next) => {
 
   let player;
   try {
-    player = await Player.findById(playerId);
+    player = await Player.findById(playerId).populate("team");
   } catch (err) {
     const error = new HttpError(
       "Fetching player failed, please try again later.",

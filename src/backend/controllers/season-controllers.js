@@ -6,7 +6,7 @@ const Division = require("../models/division");
 const getUpcomingSeasons = async (req, res, next) => {
   let seasons;
   try {
-    seasons = await Season.find({ status: "upcoming" });
+    seasons = await Season.find({ status: "upcoming" }).populate("divisions registeredTeams");;
   } catch (err) {
     const error = new HttpError(
       "Fetching open seasons failed, please try again later.",
@@ -22,7 +22,7 @@ const getUpcomingSeasons = async (req, res, next) => {
 const getOngoingSeasons = async (req, res, next) => {
   let seasons;
   try {
-    seasons = await Season.find({ status: "ongoing" });
+    seasons = await Season.find({ status: "ongoing" }).populate("divisions registeredTeams");;
   } catch (err) {
     const error = new HttpError(
       "Fetching ongoing seasons failed, please try again later.",
@@ -38,7 +38,7 @@ const getOngoingSeasons = async (req, res, next) => {
 const getArchivedSeasons = async (req, res, next) => {
   let seasons;
   try {
-    seasons = await Season.find({ status: "archived" });
+    seasons = await Season.find({ status: "archived" }).populate("divisions registeredTeams");;
   } catch (err) {
     const error = new HttpError(
       "Fetching archived seasons failed, please try again later.",
@@ -125,7 +125,7 @@ const createSeason = async (req, res, next) => {
 const getAllSeasons = async (req, res, next) => {
   let seasons;
   try {
-    seasons = await Season.find();
+    seasons = await Season.find().populate("divisions registeredTeams");
   } catch (err) {
     const error = new HttpError(
       "Fetching seasons failed, please try again later.",
@@ -175,7 +175,7 @@ const getSeasonById = async (req, res, next) => {
 
   let season;
   try {
-    season = await Season.findById(seasonId);
+    season = await Season.findById(seasonId).populate("divisions registeredTeams");;
   } catch (err) {
     const error = new HttpError(
       "Fetching season failed, please try again later.",

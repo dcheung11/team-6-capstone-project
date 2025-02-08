@@ -4,7 +4,6 @@ export async function getDivisionsById(ids) {
   try {
     // Join the array of IDs into a comma-separated string
     const idString = ids.join(",");
-    console.log("id string", idString);
     const response = await fetch(
       `${REACT_APP_API_BASE_URL}/divisions/${idString}`
     );
