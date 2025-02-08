@@ -119,10 +119,13 @@ export default function RegisterTeamPage() {
           sx={{
             fontSize: "4rem",
             fontWeight: 700,
-            mb: 6,
+            mb: 2,
           }}
         >
-          {season && season.name} Register Team
+          Register Team
+        </Typography>
+        <Typography sx={{ mb: 2 }} variant="h4">
+          Season: {season && season.name}
         </Typography>
 
         <form onSubmit={handleSubmit}>
