@@ -36,4 +36,6 @@ router.get("/:sid", seasonController.getSeasonById);
 
 router.patch("/:sid/divisionTeams", seasonController.updateSeasonDivisionTeams);
 
+router.patch("/:sid/launch", seasonController.updateToOngoingSeason);
+
 module.exports = router;
