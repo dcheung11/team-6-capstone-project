@@ -39,8 +39,6 @@ const columns = [
 ];
 
 const LeagueManagementPage = () => {
-  const [teams, setTeams] = useState(teamsData);
-
   // Season state values
   const [upcomingSeasons, setUpcomingSeasons] = useState(null);
   const [ongoingSeasons, setOngoingSeasons] = useState(null);
@@ -142,9 +140,8 @@ const LeagueManagementPage = () => {
                       <TeamSchedulingComponent
                         // registeredTeamsIds={season.registeredTeams}
                         season={season}
-                        teams={teams}
-                        setTeams={setTeams}
                         divisions={season.divisions}
+                        registeredTeams={season.registeredTeams}
                       />
                     </AccordionDetails>
                   </Accordion>

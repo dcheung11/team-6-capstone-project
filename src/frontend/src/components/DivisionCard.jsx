@@ -10,7 +10,7 @@ export const DivisionCard = (props) => {
         </Typography>
         <Box sx={{ mt: 2, overflowY: "auto", height: "120px" }}>
           {(props.tempTeams || [])
-            .filter((team) => team.division == props.division.id)
+            .filter((team) => team.divisionId == props.division.id)
             .map((team, index) => (
               <Typography key={index} variant="body2" color="text.secondary">
                 {team.name}

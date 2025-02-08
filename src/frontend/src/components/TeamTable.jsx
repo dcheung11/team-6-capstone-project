@@ -36,10 +36,9 @@ export default function TeamTable(props) {
   const [teamToDelete, setTeamToDelete] = useState(null);
 
   const handleDivisionChange = (teamId, newDivisionId) => {
-    console.log(`Changing division for team ${teamId} to ${newDivisionId}`);
     const updatedTeams = props.tempTeams.map((team) => {
       if (team.id === teamId) {
-        return { ...team, division: newDivisionId };
+        return { ...team, divisionId: newDivisionId };
       }
       return team;
     });
@@ -75,8 +74,30 @@ export default function TeamTable(props) {
 
   function getPreferredDivision(refTeam) {
     const team = props.registeredTeams.find((team) => team.id === refTeam.id);
-    return team && team.division ? team.division : null;
+    return team && team.divisionId ? team.divisionId : null;
   }
+
+  const columns = [
+    { label: "Team Name", accessor: (team) => team.name },
+    {
+      label: "Captain",
+      accessor: (team) =>
+        `${team.captainId.firstName} ${team.captainId.lastName}`,
+    },
+    { label: "Captain Email", accessor: (team) => team.captainId.email },
+    { label: "Roster Size", accessor: (team) => team.roster.length },
+
+    { label: "Preferred Times", accessor: (team) => team.preferredTimes },
+    {
+      label: "Blacklist Days",
+      accessor: (team) =>
+        team.blacklistDays.length > 0 ? team.blacklistDays.join(", ") : "None",
+    },
+    {
+      label: "Preferred Division",
+      accessor: (team) => getDivisionName(getPreferredDivision(team)),
+    },
+  ];
 
   return (
     <>
@@ -84,14 +105,10 @@ export default function TeamTable(props) {
         <Table stickyHeader aria-label="team management table" size="small">
           <TableHead>
             <TableRow>
-              <TableCell>Team Name</TableCell>
-              <TableCell>Captain</TableCell>
-              <TableCell>Captain Email</TableCell>
-              <TableCell>Roster Size</TableCell>
-              <TableCell>Preferred Division</TableCell>
+              {columns.map((col, index) => (
+                <TableCell key={index}>{col.label}</TableCell>
+              ))}
               <TableCell>Division</TableCell>
-              <TableCell>Preferred Times</TableCell>
-              <TableCell>Blacklist Days</TableCell>
               <TableCell>Payment Status</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
@@ -99,18 +116,14 @@ export default function TeamTable(props) {
           <TableBody>
             {(props.tempTeams || []).map((team) => (
               <TableRow key={team.id}>
-                <TableCell>{team.name}</TableCell>
-                <TableCell>{team.captain}</TableCell>
-                <TableCell>{team.captain}@email.com</TableCell>
-                <TableCell>{team.roster.length}</TableCell>
-                <TableCell>
-                  {getDivisionName(getPreferredDivision(team))}
-                </TableCell>
+                {columns.map((col, index) => (
+                  <TableCell key={index}>{col.accessor(team)}</TableCell>
+                ))}
                 <TableCell>
                   <Select
-                    defaultValue={team.division}
-                    value={team.division}
-                    label={getDivisionName(team.division)}
+                    defaultValue={team.divisionId}
+                    value={team.divisionId}
+                    label={getDivisionName(team.divisionId)}
                     onChange={(e) =>
                       handleDivisionChange(team.id, e.target.value)
                     }
@@ -123,8 +136,6 @@ export default function TeamTable(props) {
                     ))}
                   </Select>
                 </TableCell>
-                <TableCell>{team.preferredTimes}</TableCell>
-                <TableCell>{team.blacklistDays}</TableCell>
                 <TableCell>
                   <FormControlLabel
                     control={
