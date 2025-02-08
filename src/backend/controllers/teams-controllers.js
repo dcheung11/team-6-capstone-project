@@ -1,6 +1,9 @@
 const { validationResult } = require("express-validator");
 const HttpError = require("../models/http-error");
 const Team = require("../models/team");
+const Season = require("../models/season");
+const Division = require("../models/division");
+const season = require("../models/season");
 
 const getTeams = async (req, res, next) => {
   let teams;
@@ -15,18 +18,16 @@ const getTeams = async (req, res, next) => {
   });
 };
 
-const createTeam = async (req, res, next) => {
+const registerTeam = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(new HttpError("Invalid inputs passed, please check your data.", 422));
   }
-  const { name, division, captain, roster } = req.body;
-
-  console.log(req.body);
+  const { name, divisionId, captainId, roster, seasonId } = req.body;
 
   let existingTeam;
   try {
-    existingTeam = await Team.findOne({ name: name, division: division });
+    existingTeam = await Team.findOne({ name: name, divisionId: divisionId, seasonId: seasonId });
   } catch (err) {
     const error = new HttpError("1 Creating team failed, please try again.", 500);
     return next(error);
@@ -39,13 +40,22 @@ const createTeam = async (req, res, next) => {
 
   const createdTeam = new Team({
     name,
-    division,
+    divisionId,
     roster: roster || [], // Default to empty array if not provided
-    captain,
+    captainId,
+    seasonId,
   });
 
   try {
     await createdTeam.save();
+    // Add team to season
+    const season = await Season.findById(seasonId);
+    season.registeredTeams.push(createdTeam._id);
+    await season.save();
+
+    // Add team to division
+    const division = await Division.findById(divisionId);
+    division.teams.push(createdTeam);
   } catch (err) {
     const error = new HttpError("2 Creating team failed, please try again.", 500);
     return next(error);
@@ -84,5 +94,5 @@ const getTeamsById = async (req, res, next) => {
 };
 
 exports.getTeams = getTeams;
-exports.createTeam = createTeam;
+exports.registerTeam = registerTeam;
 exports.getTeamsById = getTeamsById;
