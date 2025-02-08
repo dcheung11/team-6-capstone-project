@@ -5,6 +5,7 @@ import ScheduleTable from "../components/ScheduleTable";
 import GamesRow from "../components/GamesRow";
 import NotificationsRow from "../components/NotificationsRow";
 import temp_team_info from "../data/team.json";
+import dummySchedule from "../data/schedule.json";
 import { useAuth } from "../hooks/AuthProvider";
 import { getPlayerById } from "../api/player";
 import { useEffect, useState } from "react";
@@ -44,6 +45,7 @@ export default function MyTeamPage() {
       <NavBar />
 
       <Container maxWidth="lg" sx={{ py: 4 }}>
+        {/* Maybe we add a tab for the teams a player is on, and it could be href to /team/:teamId ? */}
         <Typography variant="h4" component="h2" gutterBottom>
           Teams
         </Typography>
@@ -116,7 +118,7 @@ export default function MyTeamPage() {
         <Typography variant="h4" component="h2" gutterBottom>
           Games
         </Typography>
-        <ScheduleTable columns={columns} data={temp_team_info.schedule} />
+        <ScheduleTable schedule={dummySchedule}/>
 
         {/* TODO - add submit score for captain */}
         {/* <Box sx={{ display: "flex", justifyContent: "flex-end" }}>

@@ -27,10 +27,6 @@ export default function AnnouncementPage({ userRole = "commissioner" }) {
     fetchAnnouncements();
   }, []);
 
-  if (!selectedAnnouncement || announcements.length === 0) {
-    return <Typography>Loading...</Typography>;
-  }
-
   // to exclude the selected announcement from past announcements
   // (if user has selected READ MORE from past announcement list)
   const pastAnnouncements = announcements.filter(
@@ -41,70 +37,76 @@ export default function AnnouncementPage({ userRole = "commissioner" }) {
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <NavBar />
-      <Container maxWidth="lg" sx={{ py: 6, flexGrow: 1 }}>
-        {/* Commissioner Controls */}
-        {userRole === "commissioner" && (
-          <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 4 }}>
-            <Button
-              variant="contained"
-              sx={{ borderRadius: 2, backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#59002B" } }}
-              onClick={() => navigate("/announcements/create")}
-            >
-              Create New Announcement
-            </Button>
-          </Box>
-        )}
+      {!selectedAnnouncement || announcements.length === 0 ? (
+        <Typography sx={{ p: 5 }}>Loading...</Typography>
+      ) : (
+        <>
+          <Container maxWidth="lg" sx={{ py: 6, flexGrow: 1 }}>
+            {/* Commissioner Controls */}
+            {userRole === "commissioner" && (
+              <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 4 }}>
+                <Button
+                  variant="contained"
+                  sx={{ borderRadius: 2, backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#59002B" } }}
+                  onClick={() => navigate("/announcements/create")}
+                >
+                  Create New Announcement
+                </Button>
+              </Box>
+            )}
 
-        {/* Main Announcement */}
-        <Box sx={{ py: 2 }}>
-          <Typography 
-          variant="h3" 
-          align="center" 
-          gutterBottom
-          sx={{
-            fontSize: { xs: "3rem", md: "4rem" },
-            fontWeight: 900,
-          }}
-          >
-            {selectedAnnouncement.title}
-          </Typography>
-          <Typography align="center" color="text.secondary" gutterBottom>
-            {new Date(selectedAnnouncement.createdAt).toLocaleDateString()}
-          </Typography>
-          <Typography 
-          paragraph
-          sx={{
-            fontSize: { md: "1.2rem" },
-          }}
-          >
-            {selectedAnnouncement.content}</Typography>
-
-          {/* Edit Button for Main Announcement */}
-          {userRole === "commissioner" && (
-            <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
-              <Button
-                variant="contained"
-                sx={{ 
-                  borderRadius: 2, 
-                  backgroundColor: "#7A003C", "&:hover": 
-                  { backgroundColor: "#59002B" } 
+            {/* Main Announcement */}
+            <Box sx={{ py: 2 }}>
+              <Typography
+                variant="h3"
+                align="center"
+                gutterBottom
+                sx={{
+                  fontSize: { xs: "3rem", md: "4rem" },
+                  fontWeight: 900,
                 }}
-                onClick={() => navigate(`/announcements/edit/${selectedAnnouncement._id}`)}
-                startIcon={<EditIcon />}
               >
-                Edit
-              </Button>
-            </Box>
-          )}
-        </Box>
-      </Container>
+                {selectedAnnouncement.title}
+              </Typography>
+              <Typography align="center" color="text.secondary" gutterBottom>
+                {new Date(selectedAnnouncement.createdAt).toLocaleDateString()}
+              </Typography>
+              <Typography
+                paragraph
+                sx={{
+                  fontSize: { md: "1.2rem" },
+                }}
+              >
+                {selectedAnnouncement.content}</Typography>
 
-      {/* Past Announcements Section */}
-      <PastAnnouncementsSection
-        pastAnnouncements={pastAnnouncements}
-        userRole={userRole}
-        onReadMore={setSelectedAnnouncement} // Pass function to update the main announcement
-      />
+              {/* Edit Button for Main Announcement */}
+              {userRole === "commissioner" && (
+                <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      borderRadius: 2,
+                      backgroundColor: "#7A003C", "&:hover": 
+                      { backgroundColor: "#59002B" }
+                    }}
+                    onClick={() => navigate(`/announcements/edit/${selectedAnnouncement._id}`)}
+                    startIcon={<EditIcon />}
+                  >
+                    Edit
+                  </Button>
+                </Box>
+              )}
+            </Box>
+          </Container>
+
+          {/* Past Announcements Section */}
+          <PastAnnouncementsSection
+            pastAnnouncements={pastAnnouncements}
+            userRole={userRole}
+            onReadMore={setSelectedAnnouncement} // Pass function to update the main announcement
+          />
+        </>
+      )}
     </Box>
   );
 }

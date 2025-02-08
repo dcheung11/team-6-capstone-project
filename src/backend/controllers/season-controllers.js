@@ -6,7 +6,14 @@ const Division = require("../models/division");
 const getUpcomingSeasons = async (req, res, next) => {
   let seasons;
   try {
-    seasons = await Season.find({ status: "upcoming" }).populate("divisions registeredTeams");;
+    seasons = await Season.find({ status: "upcoming" })
+      .populate({
+        path: "divisions",
+      })
+      .populate({
+        path: "registeredTeams",
+        populate: [{ path: "captainId" }, { path: "roster" }],
+      });
   } catch (err) {
     const error = new HttpError(
       "Fetching open seasons failed, please try again later.",
@@ -22,7 +29,14 @@ const getUpcomingSeasons = async (req, res, next) => {
 const getOngoingSeasons = async (req, res, next) => {
   let seasons;
   try {
-    seasons = await Season.find({ status: "ongoing" }).populate("divisions registeredTeams");;
+    seasons = await Season.find({ status: "ongoing" })
+      .populate({
+        path: "divisions",
+      })
+      .populate({
+        path: "registeredTeams",
+        populate: [{ path: "captainId" }, { path: "roster" }],
+      });
   } catch (err) {
     const error = new HttpError(
       "Fetching ongoing seasons failed, please try again later.",
@@ -38,7 +52,14 @@ const getOngoingSeasons = async (req, res, next) => {
 const getArchivedSeasons = async (req, res, next) => {
   let seasons;
   try {
-    seasons = await Season.find({ status: "archived" }).populate("divisions registeredTeams");;
+    seasons = await Season.find({ status: "archived" })
+      .populate({
+        path: "divisions",
+      })
+      .populate({
+        path: "registeredTeams",
+        populate: [{ path: "captainId" }, { path: "roster" }],
+      });
   } catch (err) {
     const error = new HttpError(
       "Fetching archived seasons failed, please try again later.",
@@ -125,7 +146,14 @@ const createSeason = async (req, res, next) => {
 const getAllSeasons = async (req, res, next) => {
   let seasons;
   try {
-    seasons = await Season.find().populate("divisions registeredTeams");
+    seasons = await Season.find()
+      .populate({
+        path: "divisions",
+      })
+      .populate({
+        path: "registeredTeams",
+        populate: [{ path: "captainId" }, { path: "roster" }],
+      });
   } catch (err) {
     const error = new HttpError(
       "Fetching seasons failed, please try again later.",
@@ -175,7 +203,14 @@ const getSeasonById = async (req, res, next) => {
 
   let season;
   try {
-    season = await Season.findById(seasonId).populate("divisions registeredTeams");;
+    season = await Season.findById(seasonId)
+      .populate({
+        path: "divisions",
+      })
+      .populate({
+        path: "registeredTeams",
+        populate: [{ path: "captainId" }, { path: "roster" }],
+      });
   } catch (err) {
     const error = new HttpError(
       "Fetching season failed, please try again later.",
@@ -254,6 +289,40 @@ const updateSeasonDivisionTeams = async (req, res, next) => {
   res.status(200).json({ season: season.toObject({ getters: true }) });
 };
 
+const updateToOngoingSeason = async (req, res, next) => {
+  const seasonId = req.params.sid;
+
+  let season;
+  try {
+    season = await Season.findById(seasonId);
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not update season.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!season) {
+    const error = new HttpError("Could not find season for this id.", 404);
+    return next(error);
+  }
+
+  season.status = "ongoing";
+
+  try {
+    await season.save();
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not update season.",
+      500
+    );
+    return next(error);
+  }
+
+  res.status(200).json({ season: season.toObject({ getters: true }) });
+};
+
 exports.getUpcomingSeasons = getUpcomingSeasons;
 exports.getOngoingSeasons = getOngoingSeasons;
 exports.getArchivedSeasons = getArchivedSeasons;
@@ -262,3 +331,4 @@ exports.getAllSeasons = getAllSeasons;
 exports.deleteSeason = deleteSeason;
 exports.getSeasonById = getSeasonById;
 exports.updateSeasonDivisionTeams = updateSeasonDivisionTeams;
+exports.updateToOngoingSeason = updateToOngoingSeason;

@@ -92,9 +92,7 @@ const NavBar = () => {
           <Box sx={{ ml: "auto" }}>
             <IconButton color="inherit" size="large" onClick={handleIconClick}>
               <Typography sx={{ mr: 1 }}>
-                {player
-                  ? `${player.firstName} ${player.lastName}`
-                  : "TEMP (not logged in)"}
+                {player ? `${player.firstName} ${player.lastName}` : ""}
               </Typography>
               <PersonIcon />
             </IconButton>

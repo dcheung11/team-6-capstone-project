@@ -2,21 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Typography, Box, Grid, Button } from "@mui/material";
 import TeamTable from "./TeamTable";
 import { DivisionCard } from "./DivisionCard";
-import { getDivisionsById } from "../api/division";
-import { getTeamsById } from "../api/team";
-import { updateSeasonDivisionTeams } from "../api/season";
+import { launchSeason, updateSeasonDivisionTeams } from "../api/season";
+import { generateSchedule, getScheduleBySeasonId } from "../api/schedule";
+import ScheduleTable from "./ScheduleTable";
 
 export default function TeamSchedulingComponent(props) {
-  const [divisions, setDivisions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [registeredTeams, setRegisteredTeams] = useState(null);
-  const [teams, setTeams] = useState(props.teams);
   const [divisionsSet, setDivisionsSet] = useState(false);
+  const [schedule, setSchedule] = useState(null);
 
   // Used for commissioner to set divisions before generating schedule
-  const [tempTeams, setTempTeams] = useState(registeredTeams);
-  const [tempDivisions, setTempDivisions] = useState(divisions);
+  const [tempTeams, setTempTeams] = useState([...props.registeredTeams]);
+  const [tempDivisions, setTempDivisions] = useState(props.divisions);
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   function generateTempDivision(divisions, teams) {
     const tempDivisions = divisions.map((division) => {
@@ -29,83 +28,46 @@ export default function TeamSchedulingComponent(props) {
     return tempDivisions;
   }
 
-  // fetching divisions and teams
   useEffect(() => {
-    const fetchDivisions = async (divisionIds) => {
-      try {
-        const data = await getDivisionsById(divisionIds);
-        setDivisions(data.divisions);
-        setTempDivisions(data.divisions);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
+    setTempDivisions(
+      generateTempDivision(tempDivisions, props.registeredTeams)
+    );
+  }, [props.registeredTeams]);
 
-    const fetchTeams = async (teamIds) => {
-      try {
-        const data = await getTeamsById(teamIds);
-        setRegisteredTeams(data.teams);
-        setTempTeams([...data.teams]);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
-
-    if (props.divisions && props.divisions.length > 0) {
-      fetchDivisions(props.divisions);
-    } else {
-      setLoading(false);
-      setError("No division IDs provided");
-    }
-
-    if (
-      props.season &&
-      props.season.registeredTeams &&
-      props.season.registeredTeams.length > 0
-    ) {
-      fetchTeams(props.season.registeredTeams);
-    } else {
-      setLoading(false);
-      setError("No Team IDs provided");
-    }
-  }, []);
-
-  useEffect(() => {
-    setTempDivisions(generateTempDivision(tempDivisions, registeredTeams));
-  }, [registeredTeams]);
-
+  // Get the unchanging preferred division of a team
   const getPreferredDivision = (refTeam) => {
-    const team = props.teams.filter((team) => team.name === refTeam.name)[0];
+    const team = props.registeredTeams.filter(
+      (team) => team.name === refTeam.name
+    )[0];
     return team && team.division ? team.division : null;
   };
 
+  // Get the teams in a division
   const calculateDivisionTeams = (division) => {
-    return teams.filter((team) => team.division === division);
+    return props.registeredTeams.filter((team) => team.division === division);
   };
 
+  // Set divisions for the season
   const handleSetDivisions = () => {
-
     const updateDivisionTeams = async (seasonId, divisionTeams) => {
       try {
-        const data = await updateSeasonDivisionTeams(seasonId, divisionTeams);
+        setLoading(true);
+        await updateSeasonDivisionTeams(seasonId, divisionTeams);
         setDivisionsSet(true);
+        setLoading(false);
       } catch (err) {
-        console.error(err);
+        setLoading(false);
+        setError(err.message || "Failed to update division teams");
       }
     };
 
-    // prepare request body
     const divisionTeamsRequestBody = [];
-    divisions.forEach((division) => {
+    props.divisions.forEach((division) => {
       divisionTeamsRequestBody.push({ id: division.id, teams: [] });
     });
     tempTeams.forEach((team) => {
       let division = divisionTeamsRequestBody.find(
-        (d) => d.id === team.division
+        (d) => d.id === team.divisionId
       );
       division.teams.push(team.id);
     });
@@ -113,10 +75,25 @@ export default function TeamSchedulingComponent(props) {
     updateDivisionTeams(props.season.id, divisionTeamsRequestBody);
   };
 
-  const handleGenerateSchedule = () => {
-    // Implement schedule generation logic here
-    // call api to generate schedule
-    console.log("Generating schedule with teams: ", teams);
+  const handleGenerateSchedule = async () => {
+    try {
+      setLoading(true);
+      await generateSchedule(props.season.id);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(error.message || "Failed to generate schedule");
+    }
+
+    try {
+      setLoading(true);
+      const data = await getScheduleBySeasonId(props.season.id);
+      setSchedule(data.schedule);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(error.message || "Failed to get schedule");
+    }
   };
 
   const handleDeleteTeam = (name) => {
@@ -126,16 +103,30 @@ export default function TeamSchedulingComponent(props) {
     // call api to delete team
   };
 
+  const handleLaunchSeason = async () => {
+    // Implement season launch logic here
+    // call api to launch season
+    try {
+      setLoading(true);
+      await launchSeason(props.season.id);
+      setLoading(false);
+      alert("Season launched successfully");
+    } catch (error) {
+      setLoading(false);
+      setError(error.message || "Failed to launch season");
+    }
+  };
+
   return (
     <>
       <Typography variant="h6" gutterBottom sx={{ mb: 2, mt: 2 }}>
-        Registered Teams{" "}
+        Registered Teams
       </Typography>
       <TeamTable
-        registeredTeams={registeredTeams}
+        registeredTeams={props.registeredTeams}
         tempTeams={tempTeams}
         setTempTeams={setTempTeams}
-        divisions={divisions}
+        divisions={props.divisions}
         getPreferredDivision={getPreferredDivision}
         handleDeleteTeam={handleDeleteTeam}
         tempDivisions={tempDivisions}
@@ -171,6 +162,25 @@ export default function TeamSchedulingComponent(props) {
         onClick={() => handleGenerateSchedule()}
       >
         Generate Schedule
+      </Button>
+      <Typography variant="h6" gutterBottom sx={{ mb: 2, mt: 2 }}>
+        Schedule
+      </Typography>
+      {schedule ? (
+        <ScheduleTable schedule={schedule} />
+      ) : loading ? (
+        <Typography>Loading...</Typography>
+      ) : (
+        <Typography>No schedule yet.</Typography>
+      )}
+      <Button
+        variant="contained"
+        size="small"
+        disabled={!schedule}
+        sx={{ backgroundColor: "#7A003C" }}
+        onClick={() => handleLaunchSeason()}
+      >
+        Launch Season
       </Button>
     </>
   );

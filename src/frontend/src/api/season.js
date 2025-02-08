@@ -157,7 +157,6 @@ export async function getSeasonById(id) {
 
 export async function updateSeasonDivisionTeams(id, divisions) {
   try {
-    console.log(JSON.stringify({ divisions }));
     const response = await fetch(
       `${REACT_APP_API_BASE_URL}/seasons/${id}/divisionTeams`,
       {
@@ -173,6 +172,31 @@ export async function updateSeasonDivisionTeams(id, divisions) {
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Update season division teams failed");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function launchSeason(seasonId) {
+  try {
+    const response = await fetch(
+      `${REACT_APP_API_BASE_URL}/seasons/${seasonId}/launch`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("Launch Season response:", response);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Launch season failed");
     }
 
     const data = await response.json();

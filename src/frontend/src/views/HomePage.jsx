@@ -134,10 +134,9 @@ export default function HomePage() {
                 Welcome to the McMaster Graduate Students Association Softball
                 League!
               </Typography>
-              <Accordion>
+              <Accordion defaultExpanded={true}>
                 <AccordionSummary
                   expandIcon={<ArrowDropDownIcon />}
-                  aria-controls="panel1-content"
                   id="upcoming-header"
                 >
                   <Typography component="span">Upcoming Seasons</Typography>
@@ -155,17 +154,6 @@ export default function HomePage() {
                 </AccordionSummary>
                 <AccordionDetails>
                   <SeasonsCard seasons={ongoingSeasons} status="Ongoing" />
-                </AccordionDetails>
-              </Accordion>
-              <Accordion>
-                <AccordionSummary
-                  expandIcon={<ArrowDropDownIcon />}
-                  id="archived-header"
-                >
-                  <Typography component="span">Archived Seasons</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <SeasonsCard seasons={archivedSeasons} status="Archived" />
                 </AccordionDetails>
               </Accordion>
             </Grid>
@@ -202,19 +190,19 @@ export default function HomePage() {
                   <Grid item xs={12} md={4} key={announcement._id}>
                     <StyledCard>
                       <CardContent sx={{ 
-                        flexGrow: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-between"
-                        }}
-                        >
-                        <Typography 
-                        gutterBottom 
-                        variant="h4" 
-                        component="h2"
-                        sx={{
-                          fontWeight: 700,
-                        }}
+                          flexGrow: 1,
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between"
+                          }}
+                      >
+                        <Typography
+                          gutterBottom
+                          variant="h4"
+                          component="h2"
+                          sx={{
+                            fontWeight: 700,
+                          }}
                         >
                           {announcement.title}
                         </Typography>
@@ -234,7 +222,6 @@ export default function HomePage() {
                               bgcolor: "#7A003C",
                               opacity: 0.9,
                             },
-                            
                           }}
                           onClick={() => navigate(`/announcements`, { state: {selectedAnnouncement: announcement} })}
                         >
@@ -245,7 +232,7 @@ export default function HomePage() {
                   </Grid>
                 ))
               )}
-           </Grid>
+            </Grid>
           </Container>
         </Box>
       </Box>

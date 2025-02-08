@@ -78,7 +78,7 @@ export default function SchedulePage() {
                   </TabList>
                 </Box>
                 <TabPanel value="1">
-                  <ScheduleTable columns={columns} data={schedule} />
+                  <ScheduleTable schedule={schedule} />
                 </TabPanel>
                 <TabPanel value="2">View Two</TabPanel>
                 <TabPanel value="3">View Three</TabPanel>

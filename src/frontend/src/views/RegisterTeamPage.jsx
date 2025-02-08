@@ -31,7 +31,6 @@ export default function RegisterTeamPage() {
   const [playerId, setPlayerId] = useState(auth.playerId);
   const [player, setPlayer] = useState(null);
   const [season, setSeason] = useState(null);
-  const [divisions, setDivisions] = useState([]);
 
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
@@ -47,8 +46,10 @@ export default function RegisterTeamPage() {
 
     const fetchSeasonById = async (sid) => {
       try {
+        setLoading(true);
         const data = await getSeasonById(sid);
         setSeason(data.season);
+        setLoading(false);
       } catch (err) {
         setError(err.message || "Failed to fetch season");
       } finally {
@@ -59,23 +60,6 @@ export default function RegisterTeamPage() {
     fetchPlayerById(playerId);
     fetchSeasonById(seasonId);
   }, []);
-
-  useEffect(() => {
-    const fetchDivisionById = async (dids) => {
-      try {
-        const data = await getDivisionsById(dids);
-        setDivisions(data.divisions);
-      } catch (err) {
-        setError(err.message || "Failed to fetch divisions");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (season) {
-      fetchDivisionById(season.divisions);
-    }
-  }, [season]);
 
   const handleTeamNameChange = (e) => {
     setTeamName(e.target.value);
@@ -146,8 +130,9 @@ export default function RegisterTeamPage() {
               label="Division"
               required
             >
-              {divisions &&
-                divisions.map((division) => (
+              {season &&
+                season.divisions &&
+                season.divisions.map((division) => (
                   <MenuItem key={division._id} value={division._id}>
                     {division.name}
                   </MenuItem>
