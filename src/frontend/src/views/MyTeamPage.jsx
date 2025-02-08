@@ -45,6 +45,7 @@ export default function MyTeamPage() {
       <NavBar />
 
       <Container maxWidth="lg" sx={{ py: 4 }}>
+        {/* Maybe we add a tab for the teams a player is on, and it could be href to /team/:teamId ? */}
         <Typography variant="h4" component="h2" gutterBottom>
           Teams
         </Typography>
