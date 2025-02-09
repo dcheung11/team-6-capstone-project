@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button, Box } from "@mui/material";
 
-export default function AnnouncementForm({ onSubmit, initialTitle = "", initialContent = "", isEdit = false }) {
+export default function AnnouncementForm({ onSubmit, onDelete, initialTitle = "", initialContent = "", isEdit = false }) {
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
 
@@ -49,18 +49,38 @@ export default function AnnouncementForm({ onSubmit, initialTitle = "", initialC
         required
         sx={{ mb: 3 }}
       />
-      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
-        <Button
-          variant="outlined"
-          size="large"
-          sx={{ textTransform: "none" }}
-          onClick={() => window.history.back()}
-        >
-          Cancel
-        </Button>
-        <Button type="submit" variant="contained" size="large" sx={{ textTransform: "none" }}>
-          {isEdit ? "Save Changes" : "Create Announcement"}
-        </Button>
+      <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}>
+        {/* Delete Button */}
+        {isEdit && (
+          <Button
+            variant="outlined"
+            size="large"
+            color="error"
+            onClick={onDelete}
+            sx={{
+              textTransform: "none",
+              borderColor: "red",
+              color: "red",
+              "&:hover": { bgcolor: "rgba(255,0,0,0.1)" },
+            }}
+          >
+            Delete
+          </Button>
+        )}
+        {/* Cancel and Submit Buttons */}
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <Button
+            variant="outlined"
+            size="large"
+            sx={{ textTransform: "none" }}
+            onClick={() => window.history.back()}
+          >
+            Cancel
+          </Button>
+          <Button type="submit" variant="contained" size="large" sx={{ textTransform: "none" }}>
+            {isEdit ? "Save Changes" : "Create Announcement"}
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

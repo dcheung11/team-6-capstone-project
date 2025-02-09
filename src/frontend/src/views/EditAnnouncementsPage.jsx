@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Container, Typography, Box } from "@mui/material";
 import NavBar from "../components/NavBar";
 import AnnouncementForm from "../components/AnnouncementForm";
-import { getAnnouncementById, editAnnouncement } from "../api/announcements";
+import { getAnnouncementById, editAnnouncement, deleteAnnouncement } from "../api/announcements";
 
 export default function EditAnnouncementPage() {
   const { id } = useParams();
@@ -32,6 +32,17 @@ export default function EditAnnouncementPage() {
     }
   };
 
+  const handleDelete = async () => {
+    if (window.confirm("Are you sure you want to delete this announcement?")) {
+      try {
+        await deleteAnnouncement(id);
+        navigate("/announcements"); // Redirect after deletion
+      } catch (error) {
+        console.error("Error deleting announcement:", error);
+      }
+    }
+  };
+
   if (announcement === null) {
     return <Typography align="center" sx={{ mt: 4 }}>Fetching announcement details...</Typography>;
   }
@@ -52,6 +63,7 @@ export default function EditAnnouncementPage() {
         </Typography>
         <AnnouncementForm
           onSubmit={handleEdit}
+          onDelete={handleDelete}
           initialTitle={announcement.title}
           initialContent={announcement.content}
           isEdit
