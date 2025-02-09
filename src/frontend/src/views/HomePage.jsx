@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
-
 import {
   Box,
   Container,
@@ -28,6 +27,7 @@ import {
 } from "../api/season";
 import { getAnnouncements } from "../api/announcements";
 import { SeasonsCard } from "../components/SeasonsCard";
+import GSALogo from "../assets/GSALogo.png";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   height: "300px",
@@ -112,53 +112,82 @@ export default function HomePage() {
     <>
       <NavBar />
       <Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
-        {/* Hero Section */}
-        <Container maxWidth="lg" sx={{ pt: 8, pb: 4, width: "100%" }}>
-          <Grid spacing={6} alignItems="center">
-            <Grid item xs={12} md={6}>
-              <Typography
-                variant="h1"
-                sx={{
-                  fontSize: { xs: "3rem", md: "4rem" },
-                  fontWeight: 900,
-                  color: "text.primary",
-                  mb: 2,
-                }}
-              >
-                McMaster GSA
-              </Typography>
-              <Typography
-                variant="body1"
-                sx={{ color: "text.secondary", mb: 4, fontSize: "1.1rem" }}
-              >
-                Welcome to the McMaster Graduate Students Association Softball
-                League!
-              </Typography>
-              <Accordion defaultExpanded={true}>
-                <AccordionSummary
-                  expandIcon={<ArrowDropDownIcon />}
-                  id="upcoming-header"
-                >
-                  <Typography component="span">Upcoming Seasons</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <SeasonsCard seasons={upcomingSeasons} status="Upcoming" />
-                </AccordionDetails>
-              </Accordion>
-              <Accordion>
-                <AccordionSummary
-                  expandIcon={<ArrowDropDownIcon />}
-                  id="ongoing-header"
-                >
-                  <Typography component="span">Ongoing Seasons</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <SeasonsCard seasons={ongoingSeasons} status="Ongoing" />
-                </AccordionDetails>
-              </Accordion>
-            </Grid>
+      
+      {/* Hero Section */}
+      <Container maxWidth="lg" sx={{ pt: 8, pb: 4, width: "100%" }}>
+        <Grid container spacing={2} alignItems="center">
+          {/* Title and Welcome Message */}
+          <Grid item xs={8} md={8}>
+            <Typography
+              variant="h1"
+              sx={{
+                fontSize: { xs: "3rem", md: "4rem" },
+                fontWeight: 900,
+                color: "text.primary",
+                mb: 1,
+              }}
+            >
+              McMaster GSA
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{ color: "text.secondary", fontSize: "1.1rem" }}
+            >
+              Welcome to the McMaster Graduate Students Association Softball League!
+            </Typography>
           </Grid>
-        </Container>
+
+          {/* Logo */}
+          <Grid
+            item
+            xs={4}
+            md={4}
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src={GSALogo}
+              alt="GSA Logo"
+              style={{
+                width: "300px",
+                height: "auto",
+                objectFit: "contain",
+                paddingBottom: "3px",
+              }}
+            />
+          </Grid>
+        </Grid>
+      </Container>
+
+      {/* Seasons Section */}
+      <Container maxWidth="lg" sx={{ pt: 4, pb: 4 }}>
+        <Accordion defaultExpanded={true}>
+          <AccordionSummary
+            expandIcon={<ArrowDropDownIcon />}
+            id="upcoming-header"
+          >
+            <Typography component="span">Upcoming Seasons</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <SeasonsCard seasons={upcomingSeasons} status="Upcoming" />
+          </AccordionDetails>
+        </Accordion>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ArrowDropDownIcon />}
+            id="ongoing-header"
+          >
+            <Typography component="span">Ongoing Seasons</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <SeasonsCard seasons={ongoingSeasons} status="Ongoing" />
+          </AccordionDetails>
+        </Accordion>
+      </Container>
+
 
         {/* Announcements Section */}
         <Box sx={{ py: 8 }}>
