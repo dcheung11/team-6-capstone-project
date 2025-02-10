@@ -22,16 +22,17 @@ export default function LoginPage() {
               fontSize: "3.5rem",
               mb: 3,
               lineHeight: 1.2,
+              fontWeight: 900,
             }}
           >
             McMaster GSA Softball League
           </Typography>
           <img
-            src="/images/gsa.png"
+            src="/images/mcmaster_crest.png"
             alt="GSA Logo"
             style={{
               width: "250px",
-              height: "250px",
+              height: "300px",
             }}
           />
         </Box>

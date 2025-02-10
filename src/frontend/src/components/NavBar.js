@@ -59,12 +59,12 @@ const NavBar = () => {
         <Toolbar disableGutters sx={{ height: 64 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 4 }}>
             <img
-              src="/images/gsa.png"
+              src="/images/mcmaster_crest.png"
               alt="GSA Logo"
               style={{
                 marginRight: "32px",
                 width: "50px",
-                height: "50px",
+                height: "60px",
               }}
             />
           </Box>

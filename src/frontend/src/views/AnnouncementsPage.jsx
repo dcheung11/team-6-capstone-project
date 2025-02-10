@@ -38,7 +38,7 @@ export default function AnnouncementPage({ userRole = "commissioner" }) {
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <NavBar />
       {!selectedAnnouncement || announcements.length === 0 ? (
-        <Typography sx={{ p: 5 }}>Loading...</Typography>
+        console.log('No announcements fetched')
       ) : (
         <>
           <Container maxWidth="lg" sx={{ py: 6, flexGrow: 1 }}>
