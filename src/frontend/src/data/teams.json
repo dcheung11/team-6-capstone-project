@@ -1,0 +1,146 @@
+[
+  {
+    "name": "Team 1",
+    "captain": "Derek Li",
+    "paid": false,
+    "division": "D"
+  },
+  {
+    "name": "Team 2",
+    "captain": "Bob",
+    "paid": false,
+    "division": "D"
+  },
+  {
+    "name": "Team 3",
+    "captain": "Derek Li",
+    "paid": true,
+    "division": "D"
+  },
+  {
+    "name": "Team 4",
+    "captain": "Bob",
+    "paid": true,
+    "division": "D"
+  },
+  {
+    "name": "Team 5",
+    "captain": "Derek Li",
+    "paid": true,
+    "division": "D"
+  },
+  {
+    "name": "Team 6",
+    "captain": "Bob",
+    "paid": true,
+    "division": "D"
+  },
+  {
+    "name": "Team 7",
+    "captain": "Derek Li",
+    "paid": true,
+    "division": "C"
+  },
+  {
+    "name": "Team 8",
+    "captain": "Bob",
+    "paid": true,
+    "division": "C"
+  },
+  {
+    "name": "Team 9",
+    "captain": "Derek Li",
+    "paid": false,
+    "division": "C"
+  },
+  {
+    "name": "Team 10",
+    "captain": "Bob",
+    "paid": true,
+    "division": "C"
+  },
+  {
+    "name": "Team 11",
+    "captain": "Derek Li",
+    "paid": true,
+    "division": "C"
+  },
+  {
+    "name": "Team 12",
+    "captain": "Bob",
+    "paid": true,
+    "division": "C"
+  },
+  {
+    "name": "Team 13",
+    "captain": "Derek Li",
+    "paid": true,
+    "division": "C"
+  },
+  {
+    "name": "Team 14",
+    "captain": "Bob",
+    "paid": true,
+    "division": "B"
+  },
+  {
+    "name": "Team 15",
+    "captain": "Derek Li",
+    "paid": true,
+    "division": "B"
+  },
+  {
+    "name": "Team 16",
+    "captain": "Bob",
+    "paid": true,
+    "division": "B"
+  },
+  {
+    "name": "Team 17",
+    "captain": "Derek Li",
+    "paid": true,
+    "division": "B"
+  },
+  {
+    "name": "Team 18",
+    "captain": "Bob",
+    "paid": true,
+    "division": "B"
+  },
+  {
+    "name": "Team 19",
+    "captain": "Derek Li",
+    "paid": true,
+    "division": "A"
+  },
+  {
+    "name": "Team 20",
+    "captain": "Bob",
+    "paid": false,
+    "division": "A"
+  },
+  {
+    "name": "Team 21",
+    "captain": "Derek Li",
+    "paid": false,
+    "division": "A"
+  },
+  {
+    "name": "Team 22",
+    "captain": "Bob",
+    "paid": true,
+    "division": "A"
+  },
+  {
+    "name": "Team 23",
+    "captain": "Derek Li",
+    "paid": true,
+    "division": "A"
+  },
+  {
+    "name": "Team 24",
+    "captain": "Bob",
+    "paid": true,
+    "division": "A"
+  }
+]

@@ -1,0 +1,100 @@
+[
+  {
+    "id": 1,
+    "name": "Thunderbolts",
+    "division": "A",
+    "blacklist_days": [],
+    "preferred_times": ["6:30", "8:00"]
+  },
+  {
+    "id": 2,
+    "name": "Red Rockets",
+    "division": "A",
+    "blacklist_days": [],
+    "preferred_times": ["5:00", "8:00"]
+  },
+  {
+    "id": 3,
+    "name": "Blue Blazers",
+    "division": "A",
+    "blacklist_days": [],
+    "preferred_times": []
+  },
+  {
+    "id": 4,
+    "name": "Golden Griffins",
+    "division": "A",
+    "blacklist_days": [],
+    "preferred_times": ["5:00", "9:30"]
+  },
+  {
+    "id": 5,
+    "name": "Emerald Eagles",
+    "division": "A",
+    "blacklist_days": [],
+    "preferred_times": ["6:30"]
+  },
+  {
+    "id": 6,
+    "name": "Silver Sharks",
+    "division": "B",
+    "blacklist_days": [],
+    "preferred_times": ["8:00", "9:30"]
+  },
+  {
+    "id": 7,
+    "name": "Crimson Coyotes",
+    "division": "B",
+    "blacklist_days": [],
+    "preferred_times": ["6:30", "8:00"]
+  },
+  {
+    "id": 8,
+    "name": "Ivory Irons",
+    "division": "B",
+    "blacklist_days": [],
+    "preferred_times": ["5:00", "6:30"]
+  },
+  {
+    "id": 9,
+    "name": "Amber Arrows",
+    "division": "B",
+    "blacklist_days": [],
+    "preferred_times": []
+  },
+  {
+    "id": 10,
+    "name": "Bronze Bears",
+    "division": "B",
+    "blacklist_days": [],
+    "preferred_times": ["6:30", "8:00"]
+  },
+  {
+    "id": 11,
+    "name": "Onyx Owls",
+    "division": "B",
+    "blacklist_days": ["Monday"],
+    "preferred_times": ["9:30"]
+  },
+  {
+    "id": 26,
+    "name": "Titanium Toucans",
+    "division": "A",
+    "blacklist_days": ["Monday"],
+    "preferred_times": ["5:00", "6:30"]
+  },
+  {
+    "id": 27,
+    "name": "Iron Ibis",
+    "division": "A",
+    "blacklist_days": ["Wednesday"],
+    "preferred_times": ["8:00"]
+  },
+  {
+    "id": 28,
+    "name": "Magenta Monkeys",
+    "division": "A",
+    "blacklist_days": ["Monday", "Friday"],
+    "preferred_times": []
+  }
+]
