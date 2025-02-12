@@ -1,4 +1,4 @@
-import { Typography, Container, Box } from "@mui/material";
+import { Typography, Container, Box, Tab, Stack } from "@mui/material";
 import NavBar from "../components/NavBar";
 import RosterTable from "../components/RosterTable";
 import ScheduleTable from "../components/ScheduleTable";
@@ -9,20 +9,33 @@ import dummySchedule from "../data/schedule.json";
 import { useAuth } from "../hooks/AuthProvider";
 import { getPlayerById } from "../api/player";
 import { useEffect, useState } from "react";
-import NoTeamsCard from "../components/NoTeamsCard";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import NoDataCard from "../components/NoDataCard";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function MyTeamPage() {
   const auth = useAuth();
+  const { id: teamId } = useParams();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [playerId, setPlayerId] = useState(auth.playerId);
   const [player, setPlayer] = useState(null);
+
+  const [teamTabValue, setTeamTabValue] = useState(teamId || null);
+
+  const handleChange = (event, newValue) => {
+    setTeamTabValue(newValue);
+    navigate(`/team/${newValue}`); // Update URL on tab change
+  };
+
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
       try {
         const data = await getPlayerById(pid);
-        setPlayer(data);
-        console.log("Upcoming Seasons:", data);
+        setPlayer(data.player);
       } catch (err) {
         setError(err.message || "Failed to fetch player");
       } finally {
@@ -33,107 +46,90 @@ export default function MyTeamPage() {
     fetchPlayerById(playerId);
   }, []);
 
-  const columns = [
-    { header: "Date", key: "date" },
-    { header: "Opposing Team", key: "team" },
-    { header: "Result", key: "result" },
-    { header: "Score", key: "score" },
-  ];
-
   return (
     <div className="min-h-screen bg-gray-50">
       <NavBar />
-
       <Container maxWidth="lg" sx={{ py: 4 }}>
         {/* Maybe we add a tab for the teams a player is on, and it could be href to /team/:teamId ? */}
         <Typography variant="h4" component="h2" gutterBottom>
           Teams
         </Typography>
-        <Box sx={{ display: "flex", alignItems: "center", mb: 6, gap: 4 }}>
-          {/* placeholder until teams are implemented */}
-          {player && player.team ? (
-            <Box>
-              <Typography variant="h5" component="h2" gutterBottom>
-                Team Information
-              </Typography>
-              <Typography variant="body1">
-                Team Name: {player.team.name}
-              </Typography>
-              <Typography variant="body1">
-                Team Record: {player.team.record}
-              </Typography>
-              <img
-                src={temp_team_info.team_logo}
-                alt="Team Logo"
-                width={200}
-                height={200}
-                className="rounded-full"
-              />
-              <Typography variant="h3" component="h1" gutterBottom>
-                {temp_team_info.team_name}
-              </Typography>
-              <Typography variant="subtitle1" gutterBottom>
-                Record (W/D/L)
-              </Typography>
-              <Typography variant="body1">
-                {temp_team_info.team_record}
-              </Typography>
-              {/* TODO: For captains */}
-              {/* <Button
-              variant="contained"
-              sx={{
-                mt: 2,
-                bgcolor: "#800020",
-                "&:hover": {
-                  bgcolor: "#600018",
-                },
-              }}
-            >
-              Invite Players
-            </Button> */}
+        {player && player.team ? (
+          <TabContext value={teamTabValue}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <TabList onChange={handleChange}>
+                <Tab label={player.team.name} value={player.team.id} />
+              </TabList>
             </Box>
-          ) : (
-            <NoTeamsCard />
-          )}
-        </Box>
+            <TabPanel value={player.team.id}>
+              <Box>
+                <Typography variant="h4" component="h1" gutterBottom>
+                  {player.team.name}
+                </Typography>
+                <Stack
+                  direction="row"
+                  spacing={4}
+                  marginBottom={2}
+                  alignItems="center"
+                >
+                  <Typography variant="h6" component="h2">
+                    Record (W/D/L): {player.team.wins}-{player.team.draws}-
+                    {player.team.losses}
+                  </Typography>
 
-        {/* For captain view */}
-        <Typography variant="h4" component="h2" gutterBottom>
-          Notifications
-        </Typography>
-        <NotificationsRow notifications={temp_team_info.notifications} />
+                  <Typography variant="h6" component="h2">
+                    {player.team.divisionId.name}
+                  </Typography>
+                </Stack>
 
-        <Typography variant="h4" component="h2" gutterBottom>
-          Roster
-        </Typography>
-        <RosterTable players={temp_team_info.roster} />
+                {/* For captain view */}
+                <Typography variant="h4" component="h2" gutterBottom>
+                  Notifications
+                </Typography>
+                {player.team.notifications &&
+                player.team.notifications.length > 0 ? (
+                  <NotificationsRow
+                    notifications={temp_team_info.notifications}
+                  />
+                ) : (
+                  <NoDataCard text="No notifications to show." />
+                )}
 
-        <Typography variant="h4" component="h2" gutterBottom>
-          Upcoming Games
-        </Typography>
-        <GamesRow
-          games={temp_team_info.schedule.filter((game) => game.result === null)}
-        />
+                <Typography variant="h4" component="h2" gutterBottom>
+                  Roster
+                </Typography>
+                <RosterTable
+                  roster={player.team.roster}
+                  captain={player.team.captainId}
+                />
 
-        <Typography variant="h4" component="h2" gutterBottom>
-          Games
-        </Typography>
-        <ScheduleTable schedule={dummySchedule}/>
-
-        {/* TODO - add submit score for captain */}
-        {/* <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button
-            variant="contained"
-            sx={{
-              bgcolor: "#800020",
-              "&:hover": {
-                bgcolor: "#600018",
-              },
-            }}
-          >
-            Submit Score
-          </Button>
-        </Box> */}
+                <Typography variant="h4" component="h2" gutterBottom>
+                  Upcoming Games
+                </Typography>
+                {player.team.schedule && player.team.schedule.length > 0 ? (
+                  // adjust to display schedule games when its available
+                  <GamesRow
+                    games={temp_team_info.schedule.filter(
+                      (game) => game.result === null
+                    )}
+                  />
+                ) : (
+                  <NoDataCard text="No games to show." />
+                )}
+                <Typography variant="h4" component="h2" gutterBottom>
+                  Schedule
+                </Typography>
+                {player.team.schedule && player.team.schedule.length > 0 ? (
+                  <ScheduleTable schedule={dummySchedule} />
+                ) : (
+                  <NoDataCard text="No schedule to show." />
+                )}
+              </Box>
+            </TabPanel>
+          </TabContext>
+        ) : (
+          <NoDataCard text="No teams to show. Join or create a team to see team information." />
+        )}
       </Container>
     </div>
   );
