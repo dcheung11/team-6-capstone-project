@@ -3,6 +3,7 @@ import NavBar from "../components/NavBar"
 import temp_team_info from "../data/team.json";
 import { getPlayerById } from "../api/player";
 import { useAuth } from "../hooks/AuthProvider";
+import { acceptInvite } from "../api/player";
 
 import {
   Box,
@@ -31,55 +32,34 @@ const ProfileContainer = styled(Box)(({ theme }) => ({
 
 export default function ProfilePage() {
   const auth = useAuth();
-  const [playerId, setPlayerId] = useState(auth.playerId);
-  const [player, setPlayer] = useState(null);
+  // const [player, setPlayer] = useState(null);
 
-    useEffect(() => {
-      const fetchPlayerById = async (pid) => {
-        try {
-          const data = await getPlayerById(pid);
-          setPlayer(data.player);
-        } catch (err) {
-        } 
-      };
-  
-      fetchPlayerById(playerId);
-    }, []);
-
-    console.log(player)
-  
-  
   // placeholder profile
-  const [profile, setProfile] = useState({
-    fullName: "",
-    nickname: "",
+  const [player, setPlayer] = useState({
+    firstName: "",
+    lastName: "",
     gender: "",
     phoneNumber: "",
     email: "",
     username: "",
-    teams: [
-        { name: temp_team_info.team_name, logo: temp_team_info.team_logo },
-        { name: "Warriors", logo: "/images/warriors.png" },
-    ],
-    notifications: ["Game Rescheduled", "Game Cancelled", "Request to join accepted"],
-    // invites: player.invites
+    team: "",
+    invites: [] // Safe access
   })
+
+  useEffect(() => {
+    const fetchPlayerById = async (pid) => {
+      try {
+        const data = await getPlayerById(pid);
+        setPlayer(data.player);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchPlayerById(auth.playerId);
+  }, [auth.playerId]);
 
   // track edit mode with boolean
   const [editMode, setEditMode] = useState(false)
-
-  // TODO: On component mount, fetch profile details from backend
-  useEffect(() => {
-    // using placeholder data
-    setProfile((p) => ({
-      ...p,
-      fullName: "LeBron James",
-      nickname: "jad",
-      email: "LeGoat@gmail.com",
-      gender: "",
-      phoneNumber: "",
-    }))
-  }, [])
 
   const handleEditClick = () => {
     // TODO: Possibly open a dialog or switch text fields from read-only to editable
@@ -87,6 +67,18 @@ export default function ProfilePage() {
     console.log("Edit button clicked")
     setEditMode((prev) => !prev)
   }
+
+   const handleAcceptInvite = (team) => {
+      const requestBody = {
+        playerId: auth.playerId,
+        teamId: team
+      };
+      try {
+        acceptInvite(requestBody);
+      } catch (err) {
+        console.log("Failed to accept team invite");
+      }
+    }
 
   return (
     <>
@@ -104,18 +96,18 @@ export default function ProfilePage() {
               <Grid item xs={12} sm={"auto"}>
                 <Avatar
                   sx={{ width: 80, height: 80, fontSize: "2rem" }}
-                  alt={profile.fullName}
+                  alt={player.firstName}
                 >
                   {/* potensh <Avatar src={profile.avatarURL} /> */}
-                  {profile.fullName.charAt(0) || "U"}
+                  {player.firstName.charAt(0) || "U"}
                 </Avatar>
               </Grid>
               <Grid item xs={12} sm>
                 <Typography variant="h5" sx={{ fontWeight: 700 }}>
-                  {profile.fullName} ({profile.nickname})
+                  {player.firstName} {player.lastName}
                 </Typography>
                 <Typography variant="body1" color="text.secondary">
-                  {profile.email}
+                  {player.email}
                 </Typography>
               </Grid>
               <Grid item xs={12} sm={"auto"}>
@@ -136,12 +128,12 @@ export default function ProfilePage() {
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <Typography variant="subtitle2" sx={{ mb: 1 }}>
-                    Full Name
+                    First Name
                   </Typography>
                   <TextField
                     fullWidth
-                    placeholder="Full Name"
-                    value={profile.fullName}
+                    placeholder="First Name"
+                    value={player.firstName}
                     // If NOT editMode, we set readOnly
                     InputProps={{ readOnly: !editMode }}
                     // Remove hover outlines when not in edit mode
@@ -155,21 +147,24 @@ export default function ProfilePage() {
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Typography variant="subtitle2" sx={{ mb: 1 }}>
-                    Nick Name (optional)
+                    Last Name
                   </Typography>
                   <TextField
                     fullWidth
-                    placeholder="Nickname"
-                    value={profile.nickname}
+                    placeholder="Last Name"
+                    value={player.lastName}
+                    // If NOT editMode, we set readOnly
                     InputProps={{ readOnly: !editMode }}
+                    // Remove hover outlines when not in edit mode
                     sx={{
-                        ...( !editMode && {
+                      ...( !editMode && {
                           "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
                           "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
                         }),
                     }}
                   />
                 </Grid>
+              
                 <Grid item xs={12} md={6}>
                   <Typography variant="subtitle2" sx={{ mb: 1 }}>
                     Gender
@@ -193,7 +188,7 @@ export default function ProfilePage() {
                   <TextField
                     fullWidth
                     placeholder="Phone Number"
-                    value={profile.phoneNumber}
+                    value={player.phoneNumber}
                     InputProps={{ readOnly: !editMode }}
                     sx={{
                       ...( !editMode && {
@@ -213,39 +208,29 @@ export default function ProfilePage() {
                   My Teams
                 </Typography>
                 <List>
-                    {profile.teams.map((team, index) => (
-                    <ListItem key={index}>
-                        <ListItemAvatar>
-                        <Avatar
-                            src={team.logo}
-                            alt={team.name}
-                            sx={{
-                            width: 35,
-                            height: 35,
-                            bgcolor: "#7A003C",
-                            }}
-                        >
-                            {/* Fallback text if logo is missing: first letter of the team name */}
-                            {team.name.charAt(0)}
+                 <ListItem>
+                      <ListItemAvatar>
+                        <Avatar src={player.team.name} alt={player.team.name} sx={{ width: 35, height: 35, bgcolor: "#7A003C" }}>
+                          {player.team.name.charAt(0)}
                         </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText primary={team.name} />
+                      </ListItemAvatar>
+                      <ListItemText primary={player.team.name} />
                     </ListItem>
-                    ))}
                 </List>
-              </Grid>
+              </Grid> 
               <Grid item xs={12} md={6}>
                 <Typography variant="h6" sx={{ mb: 2 }}>
-                  Notifications
+                  Team Invites
                 </Typography>
                 <List disablePadding>
-                  {profile.notifications.map((notif, index) => (
-                    <ListItem disablePadding key={index}>
-                      <ListItemButton
-                        onClick={() => console.log(`Clicked on notification: ${notif}`)}
-                      >
-                        <ListItemText primary={notif} />
-                      </ListItemButton>
+                  {player.invites?.map((team, index) => (
+                    <ListItem key={index} secondaryAction={
+                      <>
+                        <Button color="success" onClick={() => handleAcceptInvite(team)} sx={{ mr: 1 }}>Accept</Button>
+                        {/* <Button color="error" onClick={() => handleDeclineInvite(team)}>Decline</Button> */}
+                      </>
+                    }>
+                      <ListItemText primary={team} />
                     </ListItem>
                   ))}
                 </List>

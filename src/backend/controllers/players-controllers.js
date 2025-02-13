@@ -151,8 +151,9 @@ const getPlayerById = async (req, res, next) => {
 };
 
 const acceptInvite = async (req, res, next) => {
-  const playerId = req.params.pid;
-  const { teamId } = req.body; // The ID of the team the player is accepting the invite to
+  const { teamId, playerId } = req.body; // Team ID and Player ID
+
+  console.log(playerId, teamId);
 
   let player, team;
   try {
