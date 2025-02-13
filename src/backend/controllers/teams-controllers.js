@@ -89,10 +89,10 @@ const getTeamsById = async (req, res, next) => {
   let teams;
   try {
     teams = await Team.find({ _id: { $in: teamIds } })
-      .populate("divisionId") // Populating division
-      .populate("roster") // Populating the roster of players
-      .populate("captainId") // Populating captain
-      .populate("season"); // Po;
+      .populate("divisionId") 
+      .populate("roster") 
+      .populate("captainId") 
+      .populate("seasonId"); 
   } catch (err) {
     const error = new HttpError(
       "Fetching teams failed, please try again later.",

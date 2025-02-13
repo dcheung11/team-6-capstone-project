@@ -15,7 +15,8 @@ import SchedulePage from "./views/SchedulePage";
 const routes = [
   { path: "/home", component: HomePage },
   { path: "/", component: LoginPage },
-  { path: "/team", component: MyTeamPage },
+  { path: "/team/", component: MyTeamPage },
+  { path: "/team/:id", component: MyTeamPage },
   { path: "/standings", component: StandingsPage },
   { path: "/manage", component: LeagueManagementPage, private: true },
   { path: "/announcements", component: AnnouncementsPage },

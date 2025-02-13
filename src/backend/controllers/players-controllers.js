@@ -167,7 +167,15 @@ const getPlayerById = async (req, res, next) => {
 
   let player;
   try {
-    player = await Player.findById(playerId).populate("team");
+    player = await Player.findById(playerId).populate({
+      path: "team",
+      populate: [
+        { path: "roster" }, // Populate roster with player details
+        { path: "captainId" }, // Populate captain details
+        { path: "divisionId" }, // Populate division details
+        { path: "seasonId" }, // Populate season details
+      ],
+    });
   } catch (err) {
     const error = new HttpError(
       "Fetching player failed, please try again later.",

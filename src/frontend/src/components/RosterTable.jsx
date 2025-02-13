@@ -20,12 +20,16 @@ export default function RosterTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.players.map((player, index) => (
+          {props.roster.map((player, index) => (
             <TableRow key={index}>
-              {props.players.captain === player.name ? (
-                <TableCell>{player.name} (Captain) </TableCell>
+              {props.captain.id === player.id ? (
+                <TableCell>
+                  {player.firstName} {player.lastName} (Captain){" "}
+                </TableCell>
               ) : (
-                <TableCell>{player.name}</TableCell>
+                <TableCell>
+                  {player.firstName} {player.lastName}
+                </TableCell>
               )}
               <TableCell>{player.email}</TableCell>
             </TableRow>

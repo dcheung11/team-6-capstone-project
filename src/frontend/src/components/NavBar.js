@@ -25,11 +25,14 @@ const NavBar = () => {
   const [error, setError] = useState(null);
   const [playerId, setPlayerId] = useState(auth.playerId);
   const [player, setPlayer] = useState(null);
+  const [teamId, setTeamId] = useState("");
+  
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
       try {
         const data = await getPlayerById(pid);
         setPlayer(data.player);
+        setTeamId(data.player.team.id);
         console.log("Upcoming Seasons:", data);
       } catch (err) {
         setError(err.message || "Failed to fetch player");
@@ -76,7 +79,7 @@ const NavBar = () => {
             <Button color="inherit" href="/announcements">
               Announcements
             </Button>
-            <Button color="inherit" href="/team">
+            <Button color="inherit" href={`/team/${teamId}`}>
               My Team
             </Button>
             <Button color="inherit" href="/schedule">
