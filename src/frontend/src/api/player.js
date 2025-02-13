@@ -67,14 +67,14 @@ export async function getPlayerById(playerId) {
   }
 }
 
-export async function acceptInvite(team) {
+export async function acceptInvite(playerId, teamId) {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/players/acceptinvite`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ team }),
+      body: JSON.stringify(playerId, teamId), // Send both playerId and teamId
     });
 
     console.log("Accept invite response:", response);
