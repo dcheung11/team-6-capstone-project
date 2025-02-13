@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
 import NavBar from "../components/NavBar"
 import temp_team_info from "../data/team.json";
+import { getPlayerById } from "../api/player";
+import { useAuth } from "../hooks/AuthProvider";
 
 import {
   Box,
@@ -28,6 +30,25 @@ const ProfileContainer = styled(Box)(({ theme }) => ({
 }))
 
 export default function ProfilePage() {
+  const auth = useAuth();
+  const [playerId, setPlayerId] = useState(auth.playerId);
+  const [player, setPlayer] = useState(null);
+
+    useEffect(() => {
+      const fetchPlayerById = async (pid) => {
+        try {
+          const data = await getPlayerById(pid);
+          setPlayer(data.player);
+        } catch (err) {
+        } 
+      };
+  
+      fetchPlayerById(playerId);
+    }, []);
+
+    console.log(player)
+  
+  
   // placeholder profile
   const [profile, setProfile] = useState({
     fullName: "",
@@ -41,6 +62,7 @@ export default function ProfilePage() {
         { name: "Warriors", logo: "/images/warriors.png" },
     ],
     notifications: ["Game Rescheduled", "Game Cancelled", "Request to join accepted"],
+    // invites: player.invites
   })
 
   // track edit mode with boolean

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getPlayerById } from "../api/player";
+import { useAuth } from "../hooks/AuthProvider";
+import { sendInvite } from "../api/player";
 import {
   Paper,
   Table,
@@ -12,12 +14,37 @@ import {
 } from "@mui/material";
 
 export default function PlayerTable(props) {
+
+  const auth = useAuth();
+  const [playerId, setPlayerId] = useState(auth.playerId);
+  const [player, setPlayer] = useState(null);
   const [playersWithTeams, setPlayersWithTeams] = useState([]);
-  // Function to handle inviting a player to a team
-  const handleInvite = (player) => {
-    console.log(`Inviting ${player.firstName} ${player.lastName} to a team`);
-    // You can replace this with actual logic to send an invite
-  };
+
+  useEffect(() => {
+    const fetchPlayerById = async (pid) => {
+      try {
+        const data = await getPlayerById(pid);
+        setPlayer(data.player);
+      } catch (err) {
+        console.log("Failed to fetch player");
+      } 
+    };
+
+    fetchPlayerById(playerId);
+  }, []);
+
+  //Function to handle inviting a player to a team
+  const handleInvite = (invitee) => {
+    const requestBody = {
+      playerId: invitee,
+      teamId: player.team.id,
+    };
+    try {
+      sendInvite(requestBody);
+    } catch (err) {
+      console.log("Failed to invite player");
+    }
+  }
 
   const fetchPlayerById = async (pid) => {
     let data;
@@ -42,6 +69,8 @@ export default function PlayerTable(props) {
 
     fetchPlayersDetails(); // Fetch all player details on component mount
   }, [props.players]);
+
+  console.log(playersWithTeams)
   
 
   return (
@@ -64,7 +93,7 @@ export default function PlayerTable(props) {
                   <Button 
                     variant="contained" 
                     sx={{ backgroundColor: "#7A003C", color: "white", "&:hover": { backgroundColor: "#5A002C" } }} 
-                    onClick={() => handleInvite(player)}
+                    onClick={() => handleInvite(player.id)}
                   >
                     Invite to Team
                   </Button>

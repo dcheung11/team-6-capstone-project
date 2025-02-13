@@ -4,6 +4,7 @@ const Team = require("../models/team");
 const Season = require("../models/season");
 const Division = require("../models/division");
 const season = require("../models/season");
+const Player = require("../models/player");
 
 const getTeams = async (req, res, next) => {
   let teams;
@@ -68,6 +69,17 @@ const registerTeam = async (req, res, next) => {
     const error = new HttpError("2 Creating team failed, please try again.", 500);
     return next(error);
   }
+
+  // Now associate the captain and players with the created team
+  const captain = await Player.findById(captainId);
+  if (!captain) {
+    const error = new HttpError("Captain not found.", 404);
+    return next(error);
+  }
+
+  // Update captain's team
+  captain.team = createdTeam._id;
+  await captain.save();
 
   res.status(201).json({ team: createdTeam });
 };
