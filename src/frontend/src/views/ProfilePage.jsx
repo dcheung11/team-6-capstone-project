@@ -42,11 +42,7 @@ export default function ProfilePage() {
     phoneNumber: "",
     email: "",
     username: "",
-    teams: [
-        { name: temp_team_info.team_name, logo: temp_team_info.team_logo },
-        { name: "Warriors", logo: "/images/warriors.png" },
-    ],
-    notifications: ["Game Rescheduled", "Game Cancelled", "Request to join accepted"],
+    team: "",
     invites: [] // Safe access
   })
 
@@ -212,25 +208,14 @@ export default function ProfilePage() {
                   My Teams
                 </Typography>
                 <List>
-                    {player.team?.map((team, index) => (
-                    <ListItem key={index}>
-                        <ListItemAvatar>
-                        <Avatar
-                            src={team.logo}
-                            alt={team.name}
-                            sx={{
-                            width: 35,
-                           height: 35,
-                            bgcolor: "#7A003C",
-                            }}
-                        >
-                            {/* Fallback text if logo is missing: first letter of the team name */}
-                            {team.name.charAt(0)}
+                 <ListItem>
+                      <ListItemAvatar>
+                        <Avatar src={player.team.name} alt={player.team.name} sx={{ width: 35, height: 35, bgcolor: "#7A003C" }}>
+                          {player.team.name.charAt(0)}
                         </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText primary={team.name} />
+                      </ListItemAvatar>
+                      <ListItemText primary={player.team.name} />
                     </ListItem>
-                    ))}
                 </List>
               </Grid> 
               <Grid item xs={12} md={6}>
