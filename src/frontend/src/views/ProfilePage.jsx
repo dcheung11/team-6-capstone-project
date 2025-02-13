@@ -42,7 +42,7 @@ export default function ProfilePage() {
     phoneNumber: "",
     email: "",
     username: "",
-    team: "",
+    team: { id: "", name: "" }, // team object with id and name
     invites: [] // Safe access
   })
 
