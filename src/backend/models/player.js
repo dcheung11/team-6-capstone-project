@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const PlayerSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
@@ -6,8 +6,9 @@ const PlayerSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   waiverStatus: { type: Boolean, default: false },
-  team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
-  role: { type: String, default: 'player' },
+  team: { type: mongoose.Schema.Types.ObjectId, ref: "Team" },
+  role: { type: String, default: "player" },
+  invites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Team" }],
 });
 
-module.exports = mongoose.model('Player', PlayerSchema);
+module.exports = mongoose.model("Player", PlayerSchema);

@@ -18,8 +18,12 @@ router.post(
   playersController.signup
 );
 
-router.post('/login', playersController.login);
+router.post("/login", playersController.login);
 
-router.get('/:pid', playersController.getPlayerById);
+router.get("/:pid", playersController.getPlayerById);
+
+router.post("/acceptinvite", playersController.acceptInvite);
+
+router.post("/sendinvite", playersController.sendInvite);
 
 module.exports = router;

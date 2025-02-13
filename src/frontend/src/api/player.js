@@ -51,7 +51,6 @@ export async function getPlayerById(playerId) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        
       },
     });
 
@@ -59,6 +58,52 @@ export async function getPlayerById(playerId) {
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Fetching player by ID failed");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function acceptInvite(team) {
+  try {
+    const response = await fetch(`${REACT_APP_API_BASE_URL}/players/acceptinvite`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ team }),
+    });
+
+    console.log("Accept invite response:", response);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Accept invite failed");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function sendInvite(playerId, teamId) {
+  try {
+    const response = await fetch(`${REACT_APP_API_BASE_URL}/players/sendinvite`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(playerId, teamId), // Send both playerId and teamId
+    });
+
+    console.log("Send invite response:", response);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Send invite failed");
     }
 
     const data = await response.json();
