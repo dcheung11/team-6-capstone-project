@@ -8,7 +8,9 @@ const HttpError = require("../models/http-error");
 
 const getAllSchedules = async (req, res) => {
   try {
-    const schedules = await Schedule.find().populate("games division season schedule");
+    const schedules = await Schedule.find().populate(
+      "games division season schedule"
+    );
     res.json(schedules);
   } catch (error) {
     console.error("Error fetching schedules:", error);
@@ -44,36 +46,44 @@ const generateSchedule = async (req, res) => {
   try {
     console.log("Starting schedule generation...");
     console.log("req.body: ", req.body);
-    const { seasonId, divisions } = req.body;
+    const { seasonId } = req.body;
 
     console.log("seasonId: ", seasonId);
 
     if (!seasonId) return res.status(400).json({ error: "Season ID required" });
 
-    // console.log(`[3/4] Generating slots for ${season.divisions.length} divisions...`);
-    console.log(`Generating slots for all divisions...`);
-
     // create season object from seasonId and populate divisions to have division objects
     const season = await Season.findById(seasonId)
       .populate("divisions")
       .populate("schedule");
+
     console.log("season: ", season);
 
     // Find or create season-level schedule
     let schedule = season.schedule;
 
-    if (!schedule) {
-      // convert seasonId into an ObjectId
-      // const seasonObjectId = new mongoose.Types.ObjectId(seasonId);
-      schedule = new Schedule({ seasonId: seasonId });
-      console.log("schedule: ", schedule);
+    if (schedule) {
+      // If a schedule already exists, delete the old games and the schedule - prevents duplicates
+      const oldSchedule = await Schedule.findById(season.schedule);
+      if (oldSchedule) {
+        // Delete all games associated with the old schedule first
+        await Promise.all(
+          oldSchedule.games.map((gameId) => Game.findByIdAndDelete(gameId))
+        );
 
+        // Delete the old schedule itself
+        oldSchedule.games = [];
+        await oldSchedule.save(); // Save the schedule with an empty games array
+        schedule = await Schedule.findById(season.schedule);
+      }
+    } else {
+      // No existing schedule, so create a new one
+      schedule = new Schedule({ seasonId: seasonId });
       await schedule.save();
-      console.log("schedule: ", schedule);
 
       season.schedule = schedule._id;
       await season.save();
-      console.log("season with schedule: ", season);
+      console.log("New season schedule created: ", season);
     }
 
     // Generate global gameslots once
@@ -98,12 +108,12 @@ const generateSchedule = async (req, res) => {
     });
     console.log("Fully generated schedule: \n");
     //print every game in the schedule
-    for (let i = 0; i < schedule.games.length; i++) {
-      let game = await Game.findById(schedule.games[i]).populate(
-        "date time field"
-      );
-      console.log(game);
-    }
+    // Deleted this for now - its not required because the games will be populated in the get request
+    // for (let i = 0; i < schedule.games.length; i++) {
+    //   let game = await Game.findById(schedule.games[i]).populate(
+    //     "date time field"
+    //   );
+    // }
   } catch (error) {
     console.error("Error generating schedule:", error);
     res.status(500).json({ error: "Failed to generate schedule" });
@@ -188,7 +198,6 @@ const assignDivisionGames = async (pairings, schedule, division) => {
         // Update slot and schedule
         slot.game = game._id;
         await slot.save();
-        console.log("schedule: ", schedule);
         schedule.games.push(game._id);
         division.games = division.games || [];
         division.games.push(game._id);
