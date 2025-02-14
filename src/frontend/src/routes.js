@@ -11,6 +11,7 @@ import PlayersPage from "./views/PlayersPage";
 import ProfilePage from "./views/ProfilePage";
 import InfoPage from "./views/InfoPage";
 import SchedulePage from "./views/SchedulePage";
+import ScheduleView from "./views/ScheduleView";
 
 const routes = [
   { path: "/home", component: HomePage },
@@ -26,7 +27,7 @@ const routes = [
   { path: "/players", component: PlayersPage },
   { path: "/profile", component: ProfilePage },
   { path: "/info", component: InfoPage },
-  { path: "/schedule", component: SchedulePage },
+  { path: "/schedule", component: ScheduleView },
 ];
 
 export default routes;
