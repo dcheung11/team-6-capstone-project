@@ -75,3 +75,27 @@ export async function getTeams() {
     throw error;
   }
 }
+
+export async function getScheduleGamesByTeamId(id) {
+  try {
+    const response = await fetch(
+      `${REACT_APP_API_BASE_URL}/teams/schedule/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Fetching schedule failed");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

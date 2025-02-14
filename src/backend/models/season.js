@@ -47,10 +47,10 @@ const SeasonSchema = new mongoose.Schema(
         },
         message: "Teams must be unique.",
       },
-      schedule: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Schedule", // Reference to Schedule model
-      }
+    },
+    schedule: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Schedule", // Reference to Schedule model
     },
   },
   {

@@ -21,4 +21,6 @@ router.post(
 
 router.get("/:id", teamsController.getTeamsById);
 
+router.get("/schedule/:id", teamsController.getScheduleGamesByTeamId);
+
 module.exports = router;
