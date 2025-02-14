@@ -5,6 +5,7 @@ import { DivisionCard } from "./DivisionCard";
 import { launchSeason, updateSeasonDivisionTeams } from "../api/season";
 import { generateSchedule, getScheduleBySeasonId } from "../api/schedule";
 import ScheduleTable from "./ScheduleTable";
+import LoadingOverlay from "./LoadingOverlay";
 
 export default function TeamSchedulingComponent(props) {
   const [divisionsSet, setDivisionsSet] = useState(false);
@@ -54,10 +55,11 @@ export default function TeamSchedulingComponent(props) {
         setLoading(true);
         await updateSeasonDivisionTeams(seasonId, divisionTeams);
         setDivisionsSet(true);
-        setLoading(false);
       } catch (err) {
         setLoading(false);
         setError(err.message || "Failed to update division teams");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -79,7 +81,6 @@ export default function TeamSchedulingComponent(props) {
     try {
       setLoading(true);
       await generateSchedule(props.season.id);
-      setLoading(false);
     } catch (error) {
       setLoading(false);
       setError(error.message || "Failed to generate schedule");
@@ -89,10 +90,11 @@ export default function TeamSchedulingComponent(props) {
       setLoading(true);
       const data = await getScheduleBySeasonId(props.season.id);
       setSchedule(data.schedule);
-      setLoading(false);
     } catch (error) {
       setLoading(false);
       setError(error.message || "Failed to get schedule");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -119,6 +121,7 @@ export default function TeamSchedulingComponent(props) {
 
   return (
     <>
+      {loading && <LoadingOverlay loading={loading} />}
       <Typography variant="h6" gutterBottom sx={{ mb: 2, mt: 2 }}>
         Registered Teams
       </Typography>

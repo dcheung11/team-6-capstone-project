@@ -68,7 +68,16 @@ const generateSchedule = async (req, res) => {
       if (oldSchedule) {
         // Delete all games associated with the old schedule first
         await Promise.all(
-          oldSchedule.games.map((gameId) => Game.findByIdAndDelete(gameId))
+          oldSchedule.games.map(async (gameId) => {
+            const game = await Game.findByIdAndDelete(gameId);
+            if (game) {
+              // Update the corresponding game slots to set the `game` field to `null`
+              await Gameslot.updateMany(
+                { game: gameId },
+                { $set: { game: null } }
+              );
+            }
+          })
         );
 
         // Delete the old schedule itself
@@ -146,19 +155,46 @@ const generateGameSlots = async (schedule, startDate, endDate) => {
   await schedule.save();
 };
 
+// const generateDivisionPairings = (teams) => {
+//   const pairings = [];
+//   const n = teams.length;
+//   const matchupsPerOpponent = Math.ceil(20 / (n - 1));
+
+//   // Generate all possible pairs
+//   for (let i = 0; i < n; i++) {
+//     for (let j = i + 1; j < n; j++) {
+//       // Add pair multiple times to reach required games
+//       for (let k = 0; k < matchupsPerOpponent; k++) {
+//         pairings.push([teams[i], teams[j]]);
+//       }
+//     }
+//   }
+//   return pairings;
+// };
+
+// New generateDivisionPairings function that generates pairings in a round-robin fashion
+// this shuffles the order of games and improves the runtime as well
+
 const generateDivisionPairings = (teams) => {
   const pairings = [];
   const n = teams.length;
-  const matchupsPerOpponent = Math.ceil(20 / (n - 1));
+  const gamesPerTeam = 20; // Each team should play 20 games
+  const gamesPerRound = Math.floor(n / 2); // Number of games in each round
+  const totalGames = (gamesPerTeam * n) / 2;
 
-  // Generate all possible pairs
-  for (let i = 0; i < n; i++) {
-    for (let j = i + 1; j < n; j++) {
-      // Add pair multiple times to reach required games
-      for (let k = 0; k < matchupsPerOpponent; k++) {
-        pairings.push([teams[i], teams[j]]);
-      }
+  let round = 0;
+
+  // Roundrobin - Generate pairings until each team reaches the required games
+  while (pairings.length < totalGames) {
+    for (let i = 0; i < gamesPerRound; i++) {
+      const team1 = teams[i];
+      const team2 = teams[n - 1 - i];
+      pairings.push([team1, team2]);
     }
+
+    // Rotate teams (except the first one) for the next round
+    teams.push(teams.shift());
+    round++;
   }
   return pairings;
 };
@@ -170,8 +206,14 @@ const assignDivisionGames = async (pairings, schedule, division) => {
   }).sort("date time");
 
   const teamAvailability = new Map();
-
   for (const [team1, team2] of pairings) {
+    
+    /* TODO: Implement the algorithm to assign games to available slots
+    This might be slow and also we need to space out games throughout the season
+
+    Also, this currently does Division by Division, which means one division will 
+    be fully scheduled before moving to the next division - NOT GOOD. */
+
     for (const slot of availableSlots) {
       if (slot.game) continue;
 
