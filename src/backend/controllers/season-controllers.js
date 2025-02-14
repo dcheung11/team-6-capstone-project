@@ -36,6 +36,17 @@ const getOngoingSeasons = async (req, res, next) => {
       .populate({
         path: "registeredTeams",
         populate: [{ path: "captainId" }, { path: "roster" }],
+      })
+      .populate({
+        path: "schedule", // Populate the schedule array
+        populate: {
+          path: "games", // Populate the games array inside schedule
+          populate: [
+            { path: "team1" }, // Populate team1 inside games
+            { path: "team2" }, // Populate team2 inside games
+            { path: "division" }, // Populate division inside games
+          ],
+        },
       });
   } catch (err) {
     const error = new HttpError(

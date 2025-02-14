@@ -8,7 +8,7 @@ const HttpError = require("../models/http-error");
 
 const getAllSchedules = async (req, res) => {
   try {
-    const schedules = await Schedule.find().populate("games division season");
+    const schedules = await Schedule.find().populate("games division season schedule");
     res.json(schedules);
   } catch (error) {
     console.error("Error fetching schedules:", error);
