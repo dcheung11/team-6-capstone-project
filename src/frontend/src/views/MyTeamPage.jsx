@@ -14,6 +14,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import NoDataCard from "../components/NoDataCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { getScheduleGamesByTeamId } from "../api/team";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 export default function MyTeamPage() {
   const auth = useAuth();
@@ -35,12 +36,11 @@ export default function MyTeamPage() {
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
       try {
+        setLoading(true);
         const data = await getPlayerById(pid);
         setPlayer(data.player);
       } catch (err) {
         setError(err.message || "Failed to fetch player");
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -48,21 +48,24 @@ export default function MyTeamPage() {
   }, []);
 
   useEffect(() => {
+    if (!player) return;
+
     const fetchScheduleGamesByTeamId = async (tid) => {
       try {
         const data = await getScheduleGamesByTeamId(tid);
         setTeamGames(data);
+        setLoading(false);
       } catch (err) {
         setError(err.message || "Failed to fetch schedule games");
       } finally {
-        setLoading(false);
+        setLoading(false); // Set loading false only once, after both API calls
       }
     };
 
     if (teamTabValue) {
       fetchScheduleGamesByTeamId(teamTabValue);
     }
-  }, [player]);
+  }, [player, teamTabValue]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -72,7 +75,9 @@ export default function MyTeamPage() {
         <Typography variant="h4" component="h2" gutterBottom>
           Teams
         </Typography>
-        {player && player.team ? (
+        {loading ? (
+          <LoadingOverlay loading={loading} />
+        ) : player && player.team ? (
           <TabContext value={teamTabValue}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList onChange={handleChange}>
@@ -82,8 +87,21 @@ export default function MyTeamPage() {
             <TabPanel value={player.team.id}>
               <Box>
                 <Typography variant="h4" component="h1" gutterBottom>
-                  {player.team.name}{" "}
-                  {player.team.captainId.id === playerId && "(Captain)"}
+                  <span style={{ color: "#7A003C", fontWeight: "bold" }}>
+                    {player.team.name}
+                  </span>
+                  {player.team.captainId.id === playerId && (
+                    <span
+                      style={{
+                        color: "gray",
+                        fontWeight: "normal",
+                        fontSize: "0.8em",
+                      }}
+                    >
+                      {" "}
+                      (captain)
+                    </span>
+                  )}
                 </Typography>
                 <Stack
                   direction="row"
@@ -124,12 +142,14 @@ export default function MyTeamPage() {
                 <Typography variant="h4" component="h2" gutterBottom>
                   Upcoming Games
                 </Typography>
-                {player.team.schedule && player.team.schedule.length > 0 ? (
+                {teamGames && teamGames.games && teamGames.games.length > 0 ? (
                   // adjust to display schedule games when its available
                   <GamesRow
-                    games={temp_team_info.schedule.filter(
-                      (game) => game.result === null
-                    )}
+                    teamId={player.team.id}
+                    games={teamGames.games
+                      .filter((game) => new Date(game.date) >= new Date()) // Only future games
+                      .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sort by closest date
+                      .slice(0, 5)}
                   />
                 ) : (
                   <NoDataCard text="No games to show." />
