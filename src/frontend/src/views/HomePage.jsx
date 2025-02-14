@@ -27,6 +27,7 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import { getPlayerById } from "../api/player";
 import { useAuth } from "../hooks/AuthProvider";
 import NotificationsRow from "../components/NotificationsRow";
+import NoDataCard from "../components/NoDataCard";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   height: "300px",
@@ -206,7 +207,11 @@ export default function HomePage() {
           >
             Invitations
           </Typography>
-          <NotificationsRow teamInvites={player && player.invites} />
+          {player && player.invites && player.invites.length === 0 ? (
+            <NoDataCard text="No invitations to show." />
+          ) : (
+            <NotificationsRow teamInvites={player && player.invites} />
+          )}
         </Container>
         {/* Announcements Section */}
         <Box sx={{ py: 2 }}>
