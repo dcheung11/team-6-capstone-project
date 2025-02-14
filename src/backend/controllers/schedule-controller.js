@@ -4,6 +4,7 @@ const Gameslot = require("../models/gameslot");
 const Game = require("../models/game");
 const Season = require("../models/season");
 const Division = require("../models/division");
+const HttpError = require("../models/http-error");
 
 const getAllSchedules = async (req, res) => {
   try {
@@ -17,7 +18,9 @@ const getAllSchedules = async (req, res) => {
 
 const getScheduleById = async (req, res) => {
   try {
-    const schedule = await Schedule.findById(req.params.id).populate("games division season");
+    const schedule = await Schedule.findById(req.params.id).populate(
+      "games division season"
+    );
     if (!schedule) return res.status(404).json({ error: "Schedule not found" });
     res.json(schedule);
   } catch (error) {
@@ -40,7 +43,7 @@ const deleteSchedule = async (req, res) => {
 const generateSchedule = async (req, res) => {
   try {
     console.log("Starting schedule generation...");
-    console.log("req.body: ", req.body)
+    console.log("req.body: ", req.body);
     const { seasonId, divisions } = req.body;
 
     console.log("seasonId: ", seasonId);
@@ -51,7 +54,9 @@ const generateSchedule = async (req, res) => {
     console.log(`Generating slots for all divisions...`);
 
     // create season object from seasonId and populate divisions to have division objects
-    const season = await Season.findById(seasonId).populate("divisions");
+    const season = await Season.findById(seasonId)
+      .populate("divisions")
+      .populate("schedule");
     console.log("season: ", season);
 
     // Find or create season-level schedule
@@ -183,7 +188,7 @@ const assignDivisionGames = async (pairings, schedule, division) => {
         // Update slot and schedule
         slot.game = game._id;
         await slot.save();
-
+        console.log("schedule: ", schedule);
         schedule.games.push(game._id);
         division.games = division.games || [];
         division.games.push(game._id);
