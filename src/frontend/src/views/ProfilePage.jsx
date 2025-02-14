@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react"
-import NavBar from "../components/NavBar"
-import temp_team_info from "../data/team.json";
+import React, { useState, useEffect } from "react";
+import NavBar from "../components/NavBar";
 import { getPlayerById } from "../api/player";
 import { useAuth } from "../hooks/AuthProvider";
 import { acceptInvite } from "../api/player";
@@ -14,13 +13,12 @@ import {
   Avatar,
   List,
   ListItem,
-  ListItemButton,
   ListItemText,
   ListItemAvatar,
   Button,
-} from "@mui/material"
-import { styled } from "@mui/material/styles"
-import EditIcon from "@mui/icons-material/Edit"
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import EditIcon from "@mui/icons-material/Edit";
 
 const ProfileContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.common.white,
@@ -28,7 +26,7 @@ const ProfileContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(4),
   marginTop: theme.spacing(4),
   marginBottom: theme.spacing(4),
-}))
+}));
 
 export default function ProfilePage() {
   const auth = useAuth();
@@ -43,8 +41,8 @@ export default function ProfilePage() {
     email: "",
     username: "",
     team: { id: "", name: "" }, // team object with id and name
-    invites: [] // Safe access
-  })
+    invites: [], // Safe access
+  });
 
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
@@ -59,35 +57,37 @@ export default function ProfilePage() {
   }, [auth.playerId]);
 
   // track edit mode with boolean
-  const [editMode, setEditMode] = useState(false)
+  const [editMode, setEditMode] = useState(false);
 
   const handleEditClick = () => {
     // TODO: Possibly open a dialog or switch text fields from read-only to editable
     // Toggle edit mode
-    console.log("Edit button clicked")
-    setEditMode((prev) => !prev)
-  }
+    console.log("Edit button clicked");
+    setEditMode((prev) => !prev);
+  };
 
-   const handleAcceptInvite = (team) => {
-      const requestBody = {
-        playerId: auth.playerId,
-        teamId: team
-      };
-      try {
-        acceptInvite(requestBody);
-      } catch (err) {
-        console.log("Failed to accept team invite");
-      }
+  const handleAcceptInvite = (team) => {
+    const requestBody = {
+      playerId: auth.playerId,
+      teamId: team,
+    };
+    try {
+      acceptInvite(requestBody);
+    } catch (err) {
+      console.log("Failed to accept team invite");
     }
+  };
 
   return (
     <>
       <NavBar />
-      <Box sx={{
+      <Box
+        sx={{
           bgcolor: "grey.100",
           minHeight: "100vh",
           py: 4,
-        }}>
+        }}
+      >
         <Container maxWidth="lg">
           {/* Main container for profile */}
           <ProfileContainer>
@@ -111,14 +111,14 @@ export default function ProfilePage() {
                 </Typography>
               </Grid>
               <Grid item xs={12} sm={"auto"}>
-              {/* Button toggles between "Edit" and "Done" */}
+                {/* Button toggles between "Edit" and "Done" */}
                 <Button
-                    variant="contained"
-                    onClick={handleEditClick}
-                    startIcon={!editMode ? <EditIcon /> : null} // only show icon if editMode is false
-                    sx={{ borderRadius: 2, backgroundColor: "#7A003C"}}
-                    >
-                    {editMode ? "Done" : "Edit"}
+                  variant="contained"
+                  onClick={handleEditClick}
+                  startIcon={!editMode ? <EditIcon /> : null} // only show icon if editMode is false
+                  sx={{ borderRadius: 2, backgroundColor: "#7A003C" }}
+                >
+                  {editMode ? "Done" : "Edit"}
                 </Button>
               </Grid>
             </Grid>
@@ -138,10 +138,12 @@ export default function ProfilePage() {
                     InputProps={{ readOnly: !editMode }}
                     // Remove hover outlines when not in edit mode
                     sx={{
-                      ...( !editMode && {
-                          "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
-                          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
-                        }),
+                      ...(!editMode && {
+                        "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                          { borderColor: "#ccc" },
+                        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                          { borderColor: "#ccc" },
+                      }),
                     }}
                   />
                 </Grid>
@@ -157,14 +159,16 @@ export default function ProfilePage() {
                     InputProps={{ readOnly: !editMode }}
                     // Remove hover outlines when not in edit mode
                     sx={{
-                      ...( !editMode && {
-                          "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
-                          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
-                        }),
+                      ...(!editMode && {
+                        "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                          { borderColor: "#ccc" },
+                        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                          { borderColor: "#ccc" },
+                      }),
                     }}
                   />
                 </Grid>
-              
+
                 <Grid item xs={12} md={6}>
                   <Typography variant="subtitle2" sx={{ mb: 1 }}>
                     Gender
@@ -174,9 +178,11 @@ export default function ProfilePage() {
                     placeholder="Gender"
                     InputProps={{ readOnly: !editMode }}
                     sx={{
-                      ...( !editMode && {
-                        "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
-                        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
+                      ...(!editMode && {
+                        "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                          { borderColor: "#ccc" },
+                        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                          { borderColor: "#ccc" },
                       }),
                     }}
                   />
@@ -191,9 +197,11 @@ export default function ProfilePage() {
                     value={player.phoneNumber}
                     InputProps={{ readOnly: !editMode }}
                     sx={{
-                      ...( !editMode && {
-                        "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
-                        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {borderColor: "#ccc",},
+                      ...(!editMode && {
+                        "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                          { borderColor: "#ccc" },
+                        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                          { borderColor: "#ccc" },
                       }),
                     }}
                   />
@@ -208,29 +216,44 @@ export default function ProfilePage() {
                   My Teams
                 </Typography>
                 <List>
-                 <ListItem>
+                  {player && player.team && (
+                    <ListItem>
                       <ListItemAvatar>
-                        <Avatar src={player.team.name} alt={player.team.name} sx={{ width: 35, height: 35, bgcolor: "#7A003C" }}>
+                        <Avatar
+                          src={player.team.name}
+                          alt={player.team.name}
+                          sx={{ width: 35, height: 35, bgcolor: "#7A003C" }}
+                        >
                           {player.team.name.charAt(0)}
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText primary={player.team.name} />
                     </ListItem>
+                  )}
                 </List>
-              </Grid> 
+              </Grid>
               <Grid item xs={12} md={6}>
                 <Typography variant="h6" sx={{ mb: 2 }}>
                   Team Invites
                 </Typography>
                 <List disablePadding>
                   {player.invites?.map((team, index) => (
-                    <ListItem key={index} secondaryAction={
-                      <>
-                        <Button color="success" onClick={() => handleAcceptInvite(team)} sx={{ mr: 1 }}>Accept</Button>
-                        {/* <Button color="error" onClick={() => handleDeclineInvite(team)}>Decline</Button> */}
-                      </>
-                    }>
-                      <ListItemText primary={team} />
+                    <ListItem
+                      key={index}
+                      secondaryAction={
+                        <>
+                          <Button
+                            color="success"
+                            onClick={() => handleAcceptInvite(team.id)}
+                            sx={{ mr: 1 }}
+                          >
+                            Accept
+                          </Button>
+                          {/* <Button color="error" onClick={() => handleDeclineInvite(team)}>Decline</Button> */}
+                        </>
+                      }
+                    >
+                      <ListItemText primary={team.name} />
                     </ListItem>
                   ))}
                 </List>
@@ -240,5 +263,5 @@ export default function ProfilePage() {
         </Container>
       </Box>
     </>
-  )
+  );
 }

@@ -11,7 +11,7 @@ import {
 
 export default function RosterTable(props) {
   return (
-    <TableContainer component={Paper} sx={{ mb: 6 }}>
+    <TableContainer component={Paper} sx={{ mb: 2 }}>
       <Table>
         <TableHead>
           <TableRow>
