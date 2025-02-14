@@ -8,16 +8,11 @@ import {
   Button,
   Card,
   CardContent,
-  CardMedia,
-  IconButton,
-  Stack,
   Accordion,
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useNavigate } from "react-router-dom";
 import {
