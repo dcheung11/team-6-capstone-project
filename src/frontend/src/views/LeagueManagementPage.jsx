@@ -25,6 +25,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import { formatDate } from "../utils/Formatting";
 import CreateSeasonForm from "../components/manage/CreateSeasonForm";
 import SeasonsTable from "../components/manage/SeasonsTable";
+import ScheduleTable from "../components/ScheduleTable";
 
 const columns = [
   { header: "Game ID", key: "game_id" },
@@ -147,7 +148,24 @@ const LeagueManagementPage = () => {
                   </Accordion>
                 ))}
             </TabPanel>
-            <TabPanel value="ongoing">Nothing here yet - TODO</TabPanel>
+            <TabPanel value="ongoing">
+              {!!ongoingSeasons &&
+                ongoingSeasons.map((season) => (
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={<ArrowDropDownIcon />}
+                      id="ongoing-header"
+                    >
+                      <Typography variant="h5" component="span">
+                        {season.name}
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <ScheduleTable schedule={season.schedule} />
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
+            </TabPanel>
           </TabContext>
         </Box>
       </Container>
