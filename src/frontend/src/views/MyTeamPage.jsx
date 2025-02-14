@@ -5,7 +5,6 @@ import ScheduleTable from "../components/ScheduleTable";
 import GamesRow from "../components/GamesRow";
 import NotificationsRow from "../components/NotificationsRow";
 import temp_team_info from "../data/team.json";
-import dummySchedule from "../data/schedule.json";
 import { useAuth } from "../hooks/AuthProvider";
 import { getPlayerById } from "../api/player";
 import { useEffect, useState } from "react";
@@ -14,6 +13,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import NoDataCard from "../components/NoDataCard";
 import { useNavigate, useParams } from "react-router-dom";
+import { getScheduleGamesByTeamId } from "../api/team";
 
 export default function MyTeamPage() {
   const auth = useAuth();
@@ -23,6 +23,7 @@ export default function MyTeamPage() {
   const [error, setError] = useState(null);
   const [playerId, setPlayerId] = useState(auth.playerId);
   const [player, setPlayer] = useState(null);
+  const [teamGames, setTeamGames] = useState(null);
 
   const [teamTabValue, setTeamTabValue] = useState(teamId || null);
 
@@ -46,6 +47,23 @@ export default function MyTeamPage() {
     fetchPlayerById(playerId);
   }, []);
 
+  useEffect(() => {
+    const fetchScheduleGamesByTeamId = async (tid) => {
+      try {
+        const data = await getScheduleGamesByTeamId(tid);
+        setTeamGames(data);
+      } catch (err) {
+        setError(err.message || "Failed to fetch schedule games");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (teamTabValue) {
+      fetchScheduleGamesByTeamId(teamTabValue);
+    }
+  }, [player]);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <NavBar />
@@ -64,7 +82,8 @@ export default function MyTeamPage() {
             <TabPanel value={player.team.id}>
               <Box>
                 <Typography variant="h4" component="h1" gutterBottom>
-                  {player.team.name}
+                  {player.team.name}{" "}
+                  {player.team.captainId.id === playerId && "(Captain)"}
                 </Typography>
                 <Stack
                   direction="row"
@@ -73,12 +92,11 @@ export default function MyTeamPage() {
                   alignItems="center"
                 >
                   <Typography variant="h6" component="h2">
+                    {player.team.seasonId.name}: {player.team.divisionId.name}
+                  </Typography>
+                  <Typography variant="h6" component="h2">
                     Record (W/D/L): {player.team.wins}-{player.team.draws}-
                     {player.team.losses}
-                  </Typography>
-
-                  <Typography variant="h6" component="h2">
-                    {player.team.divisionId.name}
                   </Typography>
                 </Stack>
 
@@ -119,8 +137,8 @@ export default function MyTeamPage() {
                 <Typography variant="h4" component="h2" gutterBottom>
                   Schedule
                 </Typography>
-                {player.team.schedule && player.team.schedule.length > 0 ? (
-                  <ScheduleTable schedule={dummySchedule} />
+                {teamGames && teamGames.games && teamGames.games.length > 0 ? (
+                  <ScheduleTable schedule={teamGames} />
                 ) : (
                   <NoDataCard text="No schedule to show." />
                 )}

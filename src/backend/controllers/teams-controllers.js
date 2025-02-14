@@ -178,6 +178,11 @@ const getScheduleGamesByTeamId = async (req, res, next) => {
   }
 
   // filter schedule to return only games for the team
+  schedule.schedule.games = schedule.schedule.games.filter(
+    (game) =>
+      game.team1._id.toString() === teamId || game.team2._id.toString === teamId
+  );
+
   res.json({
     games: schedule.schedule.games.map((game) =>
       game.toObject({ getters: true })
