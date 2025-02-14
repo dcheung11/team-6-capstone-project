@@ -6,8 +6,8 @@ const GameSchema = new mongoose.Schema({
   field: { type: String, required: true },
   team1: { type: mongoose.Schema.Types.ObjectId, ref: "Team", required: true },
   team2: { type: mongoose.Schema.Types.ObjectId, ref: "Team", required: true },
-  score1: { type: Number, default: 0 },
-  score2: { type: Number, default: 0 },
+  score1: { type: Number, default: null },
+  score2: { type: Number, default: null },
   gameslot: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Gameslot",
@@ -15,9 +15,9 @@ const GameSchema = new mongoose.Schema({
   },
   division: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Division',
-    required: true
-  }
+    ref: "Division",
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Game", GameSchema);

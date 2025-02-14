@@ -7,10 +7,23 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Button,
 } from "@mui/material";
 import { formatDate } from "../utils/Formatting";
+import { updateScore } from "../api/game.js";
 
 export default function ScheduleTable(props) {
+  const handleSubmitScore = async (gameId, score1, score2) => {
+    console.log(`Submit score for game with ID: ${gameId}`);
+    console.log(score1, score2)
+    try {
+      const result = await updateScore(gameId, score1, score2);
+      console.log("Score updated successfully:", result);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   // Define columns
   const columns = [
     {
@@ -24,10 +37,24 @@ export default function ScheduleTable(props) {
     { header: "Team 2", accessor: (game) => game.team2.name },
     {
       header: "Score",
-      accessor: (game) =>
-        game.score1 !== undefined && game.score2 !== undefined
-          ? `${game.score1} - ${game.score2}`
-          : "",
+      accessor: (game) => {
+        if (game.score1 === 0 && game.score2 === 0) {
+          return (
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: "#7A003C", color: "white", "&:hover": { backgroundColor: "#5A002C" } }}
+              size="small"
+              onClick={() => handleSubmitScore(game._id)}
+            >
+              Submit Score
+            </Button>
+          );
+        } else if (game.score1 !== undefined && game.score2 !== undefined) {
+          return `${game.score1} - ${game.score2}`;
+        } else {
+          return "";
+        }
+      },
     },
   ];
 
