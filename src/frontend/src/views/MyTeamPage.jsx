@@ -1,4 +1,4 @@
-import { Typography, Container, Box, Tab, Stack } from "@mui/material";
+import { Typography, Container, Box, Tab, Stack, Button } from "@mui/material";
 import NavBar from "../components/NavBar";
 import RosterTable from "../components/RosterTable";
 import ScheduleTable from "../components/ScheduleTable";
@@ -41,6 +41,8 @@ export default function MyTeamPage() {
         setPlayer(data.player);
       } catch (err) {
         setError(err.message || "Failed to fetch player");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -138,6 +140,17 @@ export default function MyTeamPage() {
                   roster={player.team.roster}
                   captain={player.team.captainId}
                 />
+                <Button
+                  variant="contained"
+                  size="small"
+                  sx={{
+                    bgcolor: "#800020",
+                    mb: 2,
+                  }}
+                  onClick={() => navigate("/players")}
+                >
+                  Invite Players
+                </Button>
 
                 <Typography variant="h4" component="h2" gutterBottom>
                   Upcoming Games

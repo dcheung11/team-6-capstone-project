@@ -8,7 +8,9 @@ const HttpError = require("../models/http-error");
 
 const getAllSchedules = async (req, res) => {
   try {
-    const schedules = await Schedule.find().populate("games division season schedule");
+    const schedules = await Schedule.find().populate(
+      "games division season schedule"
+    );
     res.json(schedules);
   } catch (error) {
     console.error("Error fetching schedules:", error);
@@ -44,36 +46,53 @@ const generateSchedule = async (req, res) => {
   try {
     console.log("Starting schedule generation...");
     console.log("req.body: ", req.body);
-    const { seasonId, divisions } = req.body;
+    const { seasonId } = req.body;
 
     console.log("seasonId: ", seasonId);
 
     if (!seasonId) return res.status(400).json({ error: "Season ID required" });
 
-    // console.log(`[3/4] Generating slots for ${season.divisions.length} divisions...`);
-    console.log(`Generating slots for all divisions...`);
-
     // create season object from seasonId and populate divisions to have division objects
     const season = await Season.findById(seasonId)
       .populate("divisions")
       .populate("schedule");
+
     console.log("season: ", season);
 
     // Find or create season-level schedule
     let schedule = season.schedule;
 
-    if (!schedule) {
-      // convert seasonId into an ObjectId
-      // const seasonObjectId = new mongoose.Types.ObjectId(seasonId);
-      schedule = new Schedule({ seasonId: seasonId });
-      console.log("schedule: ", schedule);
+    if (schedule) {
+      // If a schedule already exists, delete the old games and the schedule - prevents duplicates
+      const oldSchedule = await Schedule.findById(season.schedule);
+      if (oldSchedule) {
+        // Delete all games associated with the old schedule first
+        await Promise.all(
+          oldSchedule.games.map(async (gameId) => {
+            const game = await Game.findByIdAndDelete(gameId);
+            if (game) {
+              // Update the corresponding game slots to set the `game` field to `null`
+              await Gameslot.updateMany(
+                { game: gameId },
+                { $set: { game: null } }
+              );
+            }
+          })
+        );
 
+        // Delete the old schedule itself
+        oldSchedule.games = [];
+        await oldSchedule.save(); // Save the schedule with an empty games array
+        schedule = await Schedule.findById(season.schedule);
+      }
+    } else {
+      // No existing schedule, so create a new one
+      schedule = new Schedule({ seasonId: seasonId });
       await schedule.save();
-      console.log("schedule: ", schedule);
 
       season.schedule = schedule._id;
       await season.save();
-      console.log("season with schedule: ", season);
+      console.log("New season schedule created: ", season);
     }
 
     // Generate global gameslots once
@@ -98,12 +117,12 @@ const generateSchedule = async (req, res) => {
     });
     console.log("Fully generated schedule: \n");
     //print every game in the schedule
-    for (let i = 0; i < schedule.games.length; i++) {
-      let game = await Game.findById(schedule.games[i]).populate(
-        "date time field"
-      );
-      console.log(game);
-    }
+    // Deleted this for now - its not required because the games will be populated in the get request
+    // for (let i = 0; i < schedule.games.length; i++) {
+    //   let game = await Game.findById(schedule.games[i]).populate(
+    //     "date time field"
+    //   );
+    // }
   } catch (error) {
     console.error("Error generating schedule:", error);
     res.status(500).json({ error: "Failed to generate schedule" });
@@ -136,19 +155,46 @@ const generateGameSlots = async (schedule, startDate, endDate) => {
   await schedule.save();
 };
 
+// const generateDivisionPairings = (teams) => {
+//   const pairings = [];
+//   const n = teams.length;
+//   const matchupsPerOpponent = Math.ceil(20 / (n - 1));
+
+//   // Generate all possible pairs
+//   for (let i = 0; i < n; i++) {
+//     for (let j = i + 1; j < n; j++) {
+//       // Add pair multiple times to reach required games
+//       for (let k = 0; k < matchupsPerOpponent; k++) {
+//         pairings.push([teams[i], teams[j]]);
+//       }
+//     }
+//   }
+//   return pairings;
+// };
+
+// New generateDivisionPairings function that generates pairings in a round-robin fashion
+// this shuffles the order of games and improves the runtime as well
+
 const generateDivisionPairings = (teams) => {
   const pairings = [];
   const n = teams.length;
-  const matchupsPerOpponent = Math.ceil(20 / (n - 1));
+  const gamesPerTeam = 20; // Each team should play 20 games
+  const gamesPerRound = Math.floor(n / 2); // Number of games in each round
+  const totalGames = (gamesPerTeam * n) / 2;
 
-  // Generate all possible pairs
-  for (let i = 0; i < n; i++) {
-    for (let j = i + 1; j < n; j++) {
-      // Add pair multiple times to reach required games
-      for (let k = 0; k < matchupsPerOpponent; k++) {
-        pairings.push([teams[i], teams[j]]);
-      }
+  let round = 0;
+
+  // Roundrobin - Generate pairings until each team reaches the required games
+  while (pairings.length < totalGames) {
+    for (let i = 0; i < gamesPerRound; i++) {
+      const team1 = teams[i];
+      const team2 = teams[n - 1 - i];
+      pairings.push([team1, team2]);
     }
+
+    // Rotate teams (except the first one) for the next round
+    teams.push(teams.shift());
+    round++;
   }
   return pairings;
 };
@@ -160,8 +206,14 @@ const assignDivisionGames = async (pairings, schedule, division) => {
   }).sort("date time");
 
   const teamAvailability = new Map();
-
   for (const [team1, team2] of pairings) {
+    
+    /* TODO: Implement the algorithm to assign games to available slots
+    This might be slow and also we need to space out games throughout the season
+
+    Also, this currently does Division by Division, which means one division will 
+    be fully scheduled before moving to the next division - NOT GOOD. */
+
     for (const slot of availableSlots) {
       if (slot.game) continue;
 
@@ -188,7 +240,6 @@ const assignDivisionGames = async (pairings, schedule, division) => {
         // Update slot and schedule
         slot.game = game._id;
         await slot.save();
-        console.log("schedule: ", schedule);
         schedule.games.push(game._id);
         division.games = division.games || [];
         division.games.push(game._id);
