@@ -23,6 +23,7 @@ import {
 import { getAnnouncements } from "../api/announcements";
 import { SeasonsCard } from "../components/SeasonsCard";
 import GSALogo from "../assets/GSALogo.png";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   height: "300px",
@@ -53,53 +54,40 @@ export default function HomePage() {
   useEffect(() => {
     const fetchUpcomingSeasons = async () => {
       try {
+        setLoading(true);
         const data = await getUpcomingSeasons();
         setUpcomingSeasons(data.seasons);
-        console.log("Upcoming Seasons:", data.seasons);
       } catch (err) {
         setError(err.message || "Failed to fetch upcoming seasons");
-      } finally {
-        setLoading(false);
       }
     };
 
     const fetchOngoingSeasons = async () => {
       try {
+        setLoading(true);
         const data = await getOngoingSeasons();
         setOngoingSeasons(data.seasons);
-        console.log("Ongoing Seasons:", data.seasons);
       } catch (err) {
         setError(err.message || "Failed to fetch ongoing seasons");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const fetchArchivedSeasons = async () => {
-      try {
-        const data = await getArchivedSeasons();
-        setArchivedSeasons(data.seasons);
-        console.log("Archived Seasons:", data.seasons);
-      } catch (err) {
-        setError(err.message || "Failed to fetch archived seasons");
-      } finally {
-        setLoading(false);
       }
     };
 
     const fetchAnnouncements = async () => {
       try {
         const data = await getAnnouncements();
-        const sortedAnnouncements = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        const sortedAnnouncements = data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
         setAnnouncements(sortedAnnouncements.slice(0, 3)); // Get the 3 most recent announcements
       } catch (err) {
         setError(err.message || "Failed to fetch announcements");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUpcomingSeasons();
     fetchOngoingSeasons();
-    fetchArchivedSeasons();
     fetchAnnouncements();
   }, []);
 
@@ -107,83 +95,81 @@ export default function HomePage() {
     <>
       <NavBar />
       <Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
-      
-      {/* Hero Section */}
-      <Container maxWidth="lg" sx={{ pt: 8, pb: 4, width: "100%" }}>
-        <Grid container spacing={2} alignItems="center">
-          {/* Title and Welcome Message */}
-          <Grid item xs={8} md={8}>
-            <Typography
-              variant="h1"
+        {loading && <LoadingOverlay loading={loading} />}
+        {/* Hero Section */}
+        <Container maxWidth="lg" sx={{ pt: 8, pb: 4, width: "100%" }}>
+          <Grid container spacing={2} alignItems="center">
+            {/* Title and Welcome Message */}
+            <Grid item xs={8} md={8}>
+              <Typography
+                variant="h1"
+                sx={{
+                  fontSize: { xs: "3rem", md: "4rem" },
+                  fontWeight: 900,
+                  color: "text.primary",
+                  mb: 1,
+                }}
+              >
+                McMaster GSA
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{ color: "text.secondary", fontSize: "1.1rem" }}
+              >
+                Welcome to the McMaster Graduate Students Association Softball
+                League!
+              </Typography>
+            </Grid>
+
+            {/* Logo */}
+            <Grid
+              item
+              xs={4}
+              md={4}
               sx={{
-                fontSize: { xs: "3rem", md: "4rem" },
-                fontWeight: 900,
-                color: "text.primary",
-                mb: 1,
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
               }}
             >
-              McMaster GSA
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{ color: "text.secondary", fontSize: "1.1rem" }}
+              <img
+                src={GSALogo}
+                alt="GSA Logo"
+                style={{
+                  width: "300px",
+                  height: "auto",
+                  objectFit: "contain",
+                  paddingBottom: "3px",
+                }}
+              />
+            </Grid>
+          </Grid>
+        </Container>
+        {/* Seasons Section */}
+        <Container maxWidth="lg" sx={{ pt: 4, pb: 4 }}>
+          <Accordion defaultExpanded={true}>
+            <AccordionSummary
+              expandIcon={<ArrowDropDownIcon />}
+              id="upcoming-header"
             >
-              Welcome to the McMaster Graduate Students Association Softball League!
-            </Typography>
-          </Grid>
-
-          {/* Logo */}
-          <Grid
-            item
-            xs={4}
-            md={4}
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}
-          >
-            <img
-              src={GSALogo}
-              alt="GSA Logo"
-              style={{
-                width: "300px",
-                height: "auto",
-                objectFit: "contain",
-                paddingBottom: "3px",
-              }}
-            />
-          </Grid>
-        </Grid>
-      </Container>
-
-      {/* Seasons Section */}
-      <Container maxWidth="lg" sx={{ pt: 4, pb: 4 }}>
-        <Accordion defaultExpanded={true}>
-          <AccordionSummary
-            expandIcon={<ArrowDropDownIcon />}
-            id="upcoming-header"
-          >
-            <Typography component="span">Upcoming Seasons</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <SeasonsCard seasons={upcomingSeasons} status="Upcoming" />
-          </AccordionDetails>
-        </Accordion>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ArrowDropDownIcon />}
-            id="ongoing-header"
-          >
-            <Typography component="span">Ongoing Seasons</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <SeasonsCard seasons={ongoingSeasons} status="Ongoing" />
-          </AccordionDetails>
-        </Accordion>
-      </Container>
-
-
+              <Typography component="span">Upcoming Seasons</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <SeasonsCard seasons={upcomingSeasons} status="Upcoming" />
+            </AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ArrowDropDownIcon />}
+              id="ongoing-header"
+            >
+              <Typography component="span">Ongoing Seasons</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <SeasonsCard seasons={ongoingSeasons} status="Ongoing" />
+            </AccordionDetails>
+          </Accordion>
+        </Container>
         {/* Announcements Section */}
         <Box sx={{ py: 8 }}>
           <Container maxWidth="lg">
@@ -213,12 +199,13 @@ export default function HomePage() {
                 announcements.map((announcement) => (
                   <Grid item xs={12} md={4} key={announcement._id}>
                     <StyledCard>
-                      <CardContent sx={{ 
+                      <CardContent
+                        sx={{
                           flexGrow: 1,
                           display: "flex",
                           flexDirection: "column",
-                          justifyContent: "space-between"
-                          }}
+                          justifyContent: "space-between",
+                        }}
                       >
                         <Typography
                           gutterBottom
@@ -230,7 +217,11 @@ export default function HomePage() {
                         >
                           {announcement.title}
                         </Typography>
-                        <Typography variant="body" color="text.secondary" sx={{ mb: 2 }}>
+                        <Typography
+                          variant="body"
+                          color="text.secondary"
+                          sx={{ mb: 2 }}
+                        >
                           {announcement.content.length > 100
                             ? `${announcement.content.substring(0, 100)}...`
                             : announcement.content}
@@ -247,7 +238,11 @@ export default function HomePage() {
                               opacity: 0.9,
                             },
                           }}
-                          onClick={() => navigate(`/announcements`, { state: {selectedAnnouncement: announcement} })}
+                          onClick={() =>
+                            navigate(`/announcements`, {
+                              state: { selectedAnnouncement: announcement },
+                            })
+                          }
                         >
                           Read More
                         </Button>

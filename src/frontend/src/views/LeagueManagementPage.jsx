@@ -26,6 +26,7 @@ import { formatDate } from "../utils/Formatting";
 import CreateSeasonForm from "../components/manage/CreateSeasonForm";
 import SeasonsTable from "../components/manage/SeasonsTable";
 import ScheduleTable from "../components/ScheduleTable";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 const columns = [
   { header: "Game ID", key: "game_id" },
@@ -58,12 +59,11 @@ const LeagueManagementPage = () => {
   useEffect(() => {
     const fetchUpcomingSeasons = async () => {
       try {
+        setLoading(true);
         const data = await getUpcomingSeasons();
         setUpcomingSeasons(data.seasons);
       } catch (err) {
         setError(err.message || "Failed to fetch upcoming seasons");
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -73,8 +73,6 @@ const LeagueManagementPage = () => {
         setOngoingSeasons(data.seasons);
       } catch (err) {
         setError(err.message || "Failed to fetch ongoing seasons");
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -97,6 +95,8 @@ const LeagueManagementPage = () => {
   return (
     <>
       <NavBar />
+      {loading && <LoadingOverlay loading={loading} />}
+
       <Container maxWidth="lg" sx={{ mt: 4 }}>
         <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
           League Management
