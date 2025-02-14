@@ -10,7 +10,10 @@ const getPlayers = async (req, res, next) => {
   try {
     players = await Player.find(); // todo: remove password for privacy
   } catch (err) {
-    const error = new HttpError("Fetching players failed, please try again later.", 500);
+    const error = new HttpError(
+      "Fetching players failed, please try again later.",
+      500
+    );
     return next(error);
   }
   res.json({
@@ -21,7 +24,9 @@ const getPlayers = async (req, res, next) => {
 const signup = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return next(new HttpError("Invalid inputs passed, please check your data.", 422));
+    return next(
+      new HttpError("Invalid inputs passed, please check your data.", 422)
+    );
   }
   const { firstName, lastName, email, password, role } = req.body;
 
@@ -29,12 +34,18 @@ const signup = async (req, res, next) => {
   try {
     existingPlayer = await Player.findOne({ email: email });
   } catch (err) {
-    const error = new HttpError("Signing up failed, please try again later.", 500);
+    const error = new HttpError(
+      "Signing up failed, please try again later.",
+      500
+    );
     return next(error);
   }
 
   if (existingPlayer) {
-    const error = new HttpError("Player exists already, please login instead.", 422);
+    const error = new HttpError(
+      "Player exists already, please login instead.",
+      422
+    );
     return next(error);
   }
 
@@ -42,7 +53,10 @@ const signup = async (req, res, next) => {
   try {
     hashedPassword = await bcrypt.hash(password, 12);
   } catch (err) {
-    const error = new HttpError("Could not create player, please try again.", 500);
+    const error = new HttpError(
+      "Could not create player, please try again.",
+      500
+    );
     return next(error);
   }
 
@@ -65,9 +79,16 @@ const signup = async (req, res, next) => {
 
   let token;
   try {
-    token = jwt.sign({ playerId: createdPlayer.id, email: createdPlayer.email }, "SECRET", { expiresIn: "2h" });
+    token = jwt.sign(
+      { playerId: createdPlayer.id, email: createdPlayer.email },
+      "SECRET",
+      { expiresIn: "2h" }
+    );
   } catch (err) {
-    const error = new HttpError("Signing up failed, please try again later.", 500);
+    const error = new HttpError(
+      "Signing up failed, please try again later.",
+      500
+    );
     return next(error);
   }
 
@@ -86,12 +107,18 @@ const login = async (req, res, next) => {
   try {
     existingPlayer = await Player.findOne({ email: email });
   } catch (err) {
-    const error = new HttpError("Logging in failed, please try again later.", 500);
+    const error = new HttpError(
+      "Logging in failed, please try again later.",
+      500
+    );
     return next(error);
   }
 
   if (!existingPlayer) {
-    const error = new HttpError("Invalid credentials, could not log you in.", 403);
+    const error = new HttpError(
+      "Invalid credentials, could not log you in.",
+      403
+    );
     return next(error);
   }
 
@@ -99,20 +126,33 @@ const login = async (req, res, next) => {
   try {
     isValidPassword = await bcrypt.compare(password, existingPlayer.password);
   } catch (err) {
-    const error = new HttpError("Could not log you in, please check your credentials and try again.", 500);
+    const error = new HttpError(
+      "Could not log you in, please check your credentials and try again.",
+      500
+    );
     return next(error);
   }
 
   if (!isValidPassword) {
-    const error = new HttpError("Invalid credentials, could not log you in.", 403);
+    const error = new HttpError(
+      "Invalid credentials, could not log you in.",
+      403
+    );
     return next(error);
   }
 
   let token;
   try {
-    token = jwt.sign({ playerId: existingPlayer.id, email: existingPlayer.email }, "SECRET", { expiresIn: "2h" });
+    token = jwt.sign(
+      { playerId: existingPlayer.id, email: existingPlayer.email },
+      "SECRET",
+      { expiresIn: "2h" }
+    );
   } catch (err) {
-    const error = new HttpError("Logging in failed, please try again later.", 500);
+    const error = new HttpError(
+      "Logging in failed, please try again later.",
+      500
+    );
     return next(error);
   }
 
@@ -128,22 +168,33 @@ const getPlayerById = async (req, res, next) => {
 
   let player;
   try {
-    player = await Player.findById(playerId).populate({
-      path: "team",
-      populate: [
-        { path: "roster" }, // Populate roster with player details
-        { path: "captainId" }, // Populate captain details
-        { path: "divisionId" }, // Populate division details
-        { path: "seasonId" }, // Populate season details
-      ],
-    });
+    player = await Player.findById(playerId)
+      .populate({
+        path: "team",
+        populate: [
+          { path: "roster" }, // Populate roster with player details
+          { path: "captainId" }, // Populate captain details
+          { path: "divisionId" }, // Populate division details
+          { path: "seasonId" }, // Populate season details
+        ],
+      })
+      .populate({
+        path: "invites",
+        populate: [{ path: "divisionId" }, { path: "captainId" }],
+      });
   } catch (err) {
-    const error = new HttpError("Fetching player failed, please try again later.", 500);
+    const error = new HttpError(
+      "Fetching player failed, please try again later.",
+      500
+    );
     return next(error);
   }
 
   if (!player) {
-    const error = new HttpError("Could not find a player for the provided id.", 404);
+    const error = new HttpError(
+      "Could not find a player for the provided id.",
+      404
+    );
     return next(error);
   }
 
@@ -160,14 +211,20 @@ const acceptInvite = async (req, res, next) => {
     // Find the player by ID
     player = await Player.findById(playerId);
     if (!player) {
-      const error = new HttpError("Could not find a player for the provided id.", 404);
+      const error = new HttpError(
+        "Could not find a player for the provided id.",
+        404
+      );
       return next(error);
     }
 
     // Find the team by ID
     team = await Team.findById(teamId); // Assuming you have a Team model
     if (!team) {
-      const error = new HttpError("Could not find the team for the provided id.", 404);
+      const error = new HttpError(
+        "Could not find the team for the provided id.",
+        404
+      );
       return next(error);
     }
 
@@ -181,7 +238,10 @@ const acceptInvite = async (req, res, next) => {
     team.roster.push(player._id);
     await team.save();
   } catch (err) {
-    const error = new HttpError("Accepting the invite failed, please try again later.", 500);
+    const error = new HttpError(
+      "Accepting the invite failed, please try again later.",
+      500
+    );
     return next(error);
   }
 
@@ -200,7 +260,10 @@ const sendInvite = async (req, res, next) => {
     // Find the player by ID
     player = await Player.findById(playerId);
     if (!player) {
-      const error = new HttpError("Could not find a player for the provided id.", 404);
+      const error = new HttpError(
+        "Could not find a player for the provided id.",
+        404
+      );
       return next(error);
     }
 
@@ -213,14 +276,20 @@ const sendInvite = async (req, res, next) => {
     // Find the team by ID
     team = await Team.findById(teamId);
     if (!team) {
-      const error = new HttpError("Could not find the team for the provided id.", 404);
+      const error = new HttpError(
+        "Could not find the team for the provided id.",
+        404
+      );
       return next(error);
     }
 
     player.invites.push(team._id); // Add the team ID to the player's invites array
     await player.save(); // Save the player document
   } catch (err) {
-    const error = new HttpError("Inviting the player failed, please try again later.", 500);
+    const error = new HttpError(
+      "Inviting the player failed, please try again later.",
+      500
+    );
     return next(error);
   }
 

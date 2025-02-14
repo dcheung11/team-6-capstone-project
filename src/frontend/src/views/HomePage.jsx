@@ -24,6 +24,9 @@ import { getAnnouncements } from "../api/announcements";
 import { SeasonsCard } from "../components/SeasonsCard";
 import GSALogo from "../assets/GSALogo.png";
 import LoadingOverlay from "../components/LoadingOverlay";
+import { getPlayerById } from "../api/player";
+import { useAuth } from "../hooks/AuthProvider";
+import NotificationsRow from "../components/NotificationsRow";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   height: "300px",
@@ -42,16 +45,28 @@ const StyledCard = styled(Card)(({ theme }) => ({
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const auth = useAuth();
+  const [player, setPlayer] = useState(null);
   const [upcomingSeasons, setUpcomingSeasons] = useState(null);
   const [ongoingSeasons, setOngoingSeasons] = useState(null);
   const [archivedSeasons, setArchivedSeasons] = useState(null);
   const [announcements, setAnnouncements] = useState([]); // Store fetched announcements
-
   // todo: can use these to show loading spinner or error message
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const fetchPlayerById = async (pid) => {
+      try {
+        setLoading(true);
+        const data = await getPlayerById(pid);
+        setPlayer(data.player);
+        console.log(data.player);
+      } catch (err) {
+        setError(err.message || "Failed to fetch player");
+      }
+    };
+
     const fetchUpcomingSeasons = async () => {
       try {
         setLoading(true);
@@ -85,7 +100,7 @@ export default function HomePage() {
         setLoading(false);
       }
     };
-
+    fetchPlayerById(auth.playerId);
     fetchUpcomingSeasons();
     fetchOngoingSeasons();
     fetchAnnouncements();
@@ -145,8 +160,18 @@ export default function HomePage() {
             </Grid>
           </Grid>
         </Container>
-        {/* Seasons Section */}
-        <Container maxWidth="lg" sx={{ pt: 4, pb: 4 }}>
+        <Container maxWidth="lg" sx={{ pt: 2 }}>
+          {/* Seasons Section */}
+          <Typography
+            variant="h3"
+            sx={{
+              fontSize: { xs: "2rem", md: "3rem" },
+              fontWeight: 700,
+              mb: 2,
+            }}
+          >
+            Seasons
+          </Typography>
           <Accordion defaultExpanded={true}>
             <AccordionSummary
               expandIcon={<ArrowDropDownIcon />}
@@ -170,8 +195,21 @@ export default function HomePage() {
             </AccordionDetails>
           </Accordion>
         </Container>
+        <Container maxWidth="lg" sx={{ pt: 2 }}>
+          <Typography
+            variant="h3"
+            sx={{
+              fontSize: { xs: "2rem", md: "3rem" },
+              fontWeight: 700,
+              mt: 4,
+            }}
+          >
+            Invitations
+          </Typography>
+          <NotificationsRow teamInvites={player && player.invites} />
+        </Container>
         {/* Announcements Section */}
-        <Box sx={{ py: 8 }}>
+        <Box sx={{ py: 2 }}>
           <Container maxWidth="lg">
             <Box
               sx={{

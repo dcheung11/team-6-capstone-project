@@ -41,6 +41,8 @@ export default function MyTeamPage() {
         setPlayer(data.player);
       } catch (err) {
         setError(err.message || "Failed to fetch player");
+      } finally {
+        setLoading(false);
       }
     };
 
