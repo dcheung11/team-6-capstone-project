@@ -15,7 +15,7 @@ import { updateScore } from "../api/game.js";
 export default function ScheduleTable(props) {
   const handleSubmitScore = async (gameId, score1, score2) => {
     console.log(`Submit score for game with ID: ${gameId}`);
-    console.log(score1, score2)
+    console.log(score1, score2);
     try {
       const result = await updateScore(gameId, score1, score2);
       console.log("Score updated successfully:", result);
@@ -38,11 +38,15 @@ export default function ScheduleTable(props) {
     {
       header: "Score",
       accessor: (game) => {
-        if (game.score1 === 0 && game.score2 === 0) {
+        if (!game.score1 && !game.score2) {
           return (
             <Button
               variant="contained"
-              sx={{ backgroundColor: "#7A003C", color: "white", "&:hover": { backgroundColor: "#5A002C" } }}
+              sx={{
+                backgroundColor: "#7A003C",
+                color: "white",
+                "&:hover": { backgroundColor: "#5A002C" },
+              }}
               size="small"
               onClick={() => handleSubmitScore(game._id)}
             >
