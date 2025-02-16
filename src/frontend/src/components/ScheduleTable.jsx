@@ -13,11 +13,11 @@ import { formatDate } from "../utils/Formatting";
 import { updateScore } from "../api/game.js";
 
 export default function ScheduleTable(props) {
-  const handleSubmitScore = async (gameId, score1, score2) => {
+  const handleSubmitScore = async (gameId, homeScore, awayScore) => {
     console.log(`Submit score for game with ID: ${gameId}`);
-    console.log(score1, score2);
+    console.log(homeScore, awayScore);
     try {
-      const result = await updateScore(gameId, score1, score2);
+      const result = await updateScore(gameId, homeScore, awayScore);
       console.log("Score updated successfully:", result);
     } catch (error) {
       console.error("Error:", error);
@@ -33,12 +33,12 @@ export default function ScheduleTable(props) {
     { header: "Time", accessor: (game) => game.time },
     { header: "Field", accessor: (game) => game.field },
     { header: "Division", accessor: (game) => game.division.name },
-    { header: "Team 1", accessor: (game) => game.team1.name },
-    { header: "Team 2", accessor: (game) => game.team2.name },
+    { header: "Home", accessor: (game) => game.homeTeam.name },
+    { header: "Away", accessor: (game) => game.awayTeam.name },
     {
       header: "Score",
       accessor: (game) => {
-        if (!game.score1 && !game.score2) {
+        if (!game.homeScore && !game.awayScore) {
           return (
             <Button
               variant="contained"
@@ -53,8 +53,8 @@ export default function ScheduleTable(props) {
               Submit Score
             </Button>
           );
-        } else if (game.score1 !== undefined && game.score2 !== undefined) {
-          return `${game.score1} - ${game.score2}`;
+        } else if (game.homeScore !== undefined && game.awayScore !== undefined) {
+          return `${game.homeScore} - ${game.awayScore}`;
         } else {
           return "";
         }

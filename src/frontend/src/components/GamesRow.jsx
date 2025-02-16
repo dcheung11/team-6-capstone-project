@@ -6,7 +6,7 @@ export default function GamesRow(props) {
   console.log(props.games);
 
   const getOpponent = (game) => {
-    return game.team1._id === props.teamId ? game.team2 : game.team1;
+    return game.homeTeam._id === props.teamId ? game.awayTeam : game.homeTeam;
   };
   return (
     <Box sx={{ display: "flex", gap: 2, mb: 6, overflowX: "auto" }}>

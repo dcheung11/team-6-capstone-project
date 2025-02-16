@@ -42,8 +42,8 @@ const getOngoingSeasons = async (req, res, next) => {
         populate: {
           path: "games", // Populate the games array inside schedule
           populate: [
-            { path: "team1" }, // Populate team1 inside games
-            { path: "team2" }, // Populate team2 inside games
+            { path: "homeTeam" }, 
+            { path: "awayTeam" },
             { path: "division" }, // Populate division inside games
           ],
         },

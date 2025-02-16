@@ -8,9 +8,9 @@ const Schedule = require("../models/schedule");
 const Game = require("../models/game");
 
 const updateScore = async (req, res, next) => {
-  const { gameId, score1, score2 } = req.params; // Game ID
+  const { gameId, homeScore, awayScore } = req.params; // Game ID
   try {
-    await Game.findByIdAndUpdate(gameId, { score1: score1, score2: score2 });
+    await Game.findByIdAndUpdate(gameId, { homeScore, awayScore });
   } catch (err) {
     const error = new HttpError("Failed to update score", 500);
     return next(error);

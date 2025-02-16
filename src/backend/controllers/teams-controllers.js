@@ -147,15 +147,15 @@ const getScheduleGamesByTeamId = async (req, res, next) => {
     return next(error);
   }
 
-  let schedule;
+  let season;
   try {
-    schedule = await Season.findById(team.seasonId).populate({
+    season = await Season.findById(team.seasonId).populate({
       path: "schedule", // Populate the schedule array
       populate: {
         path: "games", // Populate the games array inside schedule
         populate: [
-          { path: "team1" }, // Populate team1 inside games
-          { path: "team2" }, // Populate team2 inside games
+          { path: "homeTeam" },
+          { path: "awayTeam" },
           { path: "division" }, // Populate division inside games
         ],
       },
@@ -168,7 +168,7 @@ const getScheduleGamesByTeamId = async (req, res, next) => {
     return next(error);
   }
 
-  if (!schedule) {
+  if (!season) {
     const error = new HttpError(
       "Could not find schedule for the provided team id.",
       404
@@ -177,13 +177,14 @@ const getScheduleGamesByTeamId = async (req, res, next) => {
   }
 
   // filter schedule to return only games for the team
+  console.log(season.schedule.games);
   const games =
-    (schedule.schedule &&
-      schedule.schedule.games &&
-      schedule.schedule.games.filter(
+    (season.schedule &&
+      season.schedule.games &&
+      season.schedule.games.filter(
         (game) =>
-          game.team1._id.toString() === teamId ||
-          game.team2._id.toString === teamId
+          game.homeTeam._id.toString() === teamId ||
+          game.awayTeam._id.toString() === teamId
       )) ||
     [];
 
