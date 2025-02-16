@@ -17,18 +17,6 @@ import schedule from "../data/schedule.json";
 import seasons from "../data/seasons.json";
 import ScheduleTable from "../components/ScheduleTable";
 
-const columns = [
-  { header: "Game ID", key: "game_id" },
-  { header: "Date", key: "date" },
-  { header: "Field", key: "field" },
-  { header: "Time", key: "time" },
-  { header: "Team 1", key: "team1" },
-  { header: "Team 2", key: "team2" },
-  { header: "Division", key: "division" },
-  { header: "Result", key: "result" },
-  { header: "Score", key: "score" },
-];
-
 export default function SchedulePage() {
   //   const [selectedSeason, setSelectedSeason] = useState("2025");
   //   const [selectedDivision, setSelectedDivision] = useState("Division A");

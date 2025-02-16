@@ -20,9 +20,13 @@ const getAllSchedules = async (req, res) => {
 
 const getScheduleById = async (req, res) => {
   try {
-    const schedule = await Schedule.findById(req.params.id).populate(
-      "games division season"
-    );
+    const schedule = await Schedule.findById(req.params.id)
+      .populate("games seasonId")
+      .populate({
+        path: "games",
+        populate: ["homeTeam", "awayTeam"],
+      });
+
     if (!schedule) return res.status(404).json({ error: "Schedule not found" });
     res.json(schedule);
   } catch (error) {
@@ -109,6 +113,7 @@ const generateSchedule = async (req, res) => {
       const pairings = generateDivisionPairings(teams);
       await assignDivisionGames(pairings, schedule, division);
     }
+    await season.save();
 
     console.log("Schedule generation complete!");
     res.json({
@@ -178,22 +183,34 @@ const generateGameSlots = async (schedule, startDate, endDate) => {
 const generateDivisionPairings = (teams) => {
   const pairings = [];
   const n = teams.length;
-  const gamesPerTeam = 20; // Each team should play 20 games
-  const gamesPerRound = Math.floor(n / 2); // Number of games in each round
+  const gamesPerTeam = 20;
+  const gamesPerRound = Math.floor(n / 2);
   const totalGames = (gamesPerTeam * n) / 2;
 
   let round = 0;
+  const homeGamesCount = {};
 
-  // Roundrobin - Generate pairings until each team reaches the required games
+  // Initialize home count for each team
+  teams.forEach((team) => (homeGamesCount[team] = 0));
+
   while (pairings.length < totalGames) {
     for (let i = 0; i < gamesPerRound; i++) {
-      const team1 = teams[i];
-      const team2 = teams[n - 1 - i];
-      pairings.push([team1, team2]);
+      let homeTeam = teams[i];
+      let awayTeam = teams[n - 1 - i];
+
+      // Swap home/away if one team has more home games
+      if (homeGamesCount[homeTeam] > homeGamesCount[awayTeam]) {
+        [homeTeam, awayTeam] = [awayTeam, homeTeam];
+      }
+
+      pairings.push([homeTeam, awayTeam]);
+
+      // Update home count
+      homeGamesCount[homeTeam]++;
     }
 
-    // Rotate teams (except the first one) for the next round
-    teams.push(teams.shift());
+    // Rotate teams (except the first one) for Round Robin Algo
+    teams = [teams[0], ...teams.slice(2).concat(teams[1])];
     round++;
   }
   return pairings;
@@ -206,8 +223,7 @@ const assignDivisionGames = async (pairings, schedule, division) => {
   }).sort("date time");
 
   const teamAvailability = new Map();
-  for (const [team1, team2] of pairings) {
-    
+  for (const [homeTeam, awayTeam] of pairings) {
     /* TODO: Implement the algorithm to assign games to available slots
     This might be slow and also we need to space out games throughout the season
 
@@ -220,18 +236,18 @@ const assignDivisionGames = async (pairings, schedule, division) => {
       // Convert to comparable date string
       const slotDate = slot.date.toISOString().split("T")[0];
 
-      // Check team availability
-      const t1Busy = teamAvailability.get(team1._id)?.has(slotDate);
-      const t2Busy = teamAvailability.get(team2._id)?.has(slotDate);
+      // Check team availabilitya
+      const homeTeamBusy = teamAvailability.get(homeTeam._id)?.has(slotDate);
+      const awayTeamBusy = teamAvailability.get(awayTeam._id)?.has(slotDate);
 
-      if (!t1Busy && !t2Busy) {
+      if (!homeTeamBusy && !awayTeamBusy) {
         // Create game
         const game = new Game({
           date: slot.date,
           time: slot.time,
           field: slot.field,
-          team1: team1._id,
-          team2: team2._id,
+          homeTeam: homeTeam._id,
+          awayTeam: awayTeam._id,
           division: division._id,
           gameslot: slot._id,
         });
@@ -247,12 +263,12 @@ const assignDivisionGames = async (pairings, schedule, division) => {
 
         // Update availability tracking
         teamAvailability.set(
-          team1._id,
-          (teamAvailability.get(team1._id) || new Set()).add(slotDate)
+          homeTeam._id,
+          (teamAvailability.get(homeTeam._id) || new Set()).add(slotDate)
         );
         teamAvailability.set(
-          team2._id,
-          (teamAvailability.get(team2._id) || new Set()).add(slotDate)
+          awayTeam._id,
+          (teamAvailability.get(awayTeam._id) || new Set()).add(slotDate)
         );
         break;
       }
@@ -267,7 +283,11 @@ const getScheduleBySeasonId = async (req, res, next) => {
   try {
     schedule = await Schedule.findOne({ seasonId: seasonId }).populate({
       path: "games",
-      populate: [{ path: "team1" }, { path: "team2" }, { path: "division" }],
+      populate: [
+        { path: "homeTeam" },
+        { path: "awayTeam" },
+        { path: "division" },
+      ],
     });
   } catch (err) {
     const error = new HttpError(

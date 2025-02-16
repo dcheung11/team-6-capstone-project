@@ -11,7 +11,7 @@ import {
 
 export default function RosterTable(props) {
   return (
-    <TableContainer component={Paper} sx={{ mb: 2 }}>
+    <TableContainer component={Paper} sx={{ mb: 2, maxHeight: "50vh" }}>
       <Table>
         <TableHead>
           <TableRow>

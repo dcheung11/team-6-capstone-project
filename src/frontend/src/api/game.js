@@ -1,8 +1,8 @@
 const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // Backend port
 
-export async function updateScore(gameId, score1, score2) {
+export async function updateScore(gameId, homeScore, awayScore) {
   try {
-    const response = await fetch(`${REACT_APP_API_BASE_URL}/games/update-score/${gameId}/${score1}/${score2}`, {
+    const response = await fetch(`${REACT_APP_API_BASE_URL}/games/update-score/${gameId}/${homeScore}/${awayScore}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
