@@ -30,7 +30,7 @@ const ProfileContainer = styled(Box)(({ theme }) => ({
 
 export default function ProfilePage() {
   const auth = useAuth();
-  // const [player, setPlayer] = useState(null);
+  const [rerenderTrigger, setRerenderTrigger] = useState(0);
 
   // placeholder profile
   const [player, setPlayer] = useState({
@@ -66,15 +66,31 @@ export default function ProfilePage() {
     setEditMode((prev) => !prev);
   };
 
-  const handleAcceptInvite = (team) => {
+  const handleAcceptInvite = (teamId) => {
+
+    // Immediate state change before API call
+    setPlayer((prevPlayer) => ({
+      ...prevPlayer,
+      invites: prevPlayer.invites.filter((invite) => invite !== teamId),
+    }));
+
+    // Trigger re-render manually
+    setRerenderTrigger((prev) => prev + 1);
+
     const requestBody = {
       playerId: auth.playerId,
-      teamId: team,
+      teamId: teamId,
     };
     try {
       acceptInvite(requestBody);
     } catch (err) {
       console.log("Failed to accept team invite");
+
+      //Handle failure (revert the state if needed)
+      setPlayer((prevPlayer) => ({
+        ...prevPlayer,
+        invites: [...prevPlayer.invites, teamId],
+      }));
     }
   };
 
@@ -239,7 +255,7 @@ export default function ProfilePage() {
                 <List disablePadding>
                   {player.invites?.map((team, index) => (
                     <ListItem
-                      key={index}
+                      key={team.id}
                       secondaryAction={
                         <>
                           <Button
