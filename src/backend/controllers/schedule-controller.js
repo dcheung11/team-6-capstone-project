@@ -114,13 +114,124 @@ const generateSchedule = async (req, res) => {
     //   await assignDivisionGames(pairings, schedule, division);
     // }
 
+    // Collect all pairings across divisions
+    const allPairings = [];
+    const allTeams = new Map(); // teamID -> team object
+
+    // TODO: Account for byes
+    // TODO: Make sure all teams in a division play each other evenly
+
     for (const divisionId of season.divisions) {
       const division = await Division.findById(divisionId).populate("teams");
+      // if (!division?.teams?.length) continue;
       if (!division || division.teams.length < 2) continue;
 
-      const teams = division.teams;
-      const pairings = generateDivisionPairings(teams);
-      await assignDivisionGames(pairings, schedule, division, season.startDate); // Pass startDate
+      // Store teams in global map
+      division.teams.forEach((team) => {
+        allTeams.set(team._id.toString(), team);
+      });
+
+      // Generate pairings for this division
+      const pairings = generateDivisionPairings(division.teams);
+      allPairings.push(
+        ...pairings.map((p) => ({
+          home: p[0],
+          away: p[1],
+          division,
+        }))
+      );
+    }
+
+    // Shuffle pairings globally
+    const shuffledPairings = shuffleArray(allPairings);
+    console.log(`Processing ${shuffledPairings.length} pairings`);
+
+    // Initialize tracking
+    const teamTotalGames = new Map();
+    const teamAvailability = new Map();
+    const teamWeeklyCounts = new Map();
+
+    // Initialize all teams' counts
+    allTeams.forEach((team, id) => {
+      teamTotalGames.set(id, 0);
+      teamAvailability.set(id, new Set());
+      teamWeeklyCounts.set(id, new Map());
+    });
+
+    // Get available slots ONCE and track used slots
+    const allSlots = await Gameslot.find({ schedule: schedule._id }).lean();
+    const availableSlots = allSlots.filter((s) => !s.game);
+    console.log("availableSlots[0]: ", availableSlots[0]);
+    console.log(`Found ${availableSlots.length} available slots`);
+
+    // Process pairings
+    for (const { home, away, division } of shuffledPairings) {
+      const homeId = home._id.toString();
+      const awayId = away._id.toString();
+
+      // Skip if teams have enough games already
+      if (
+        teamTotalGames.get(homeId) >= 20 ||
+        teamTotalGames.get(awayId) >= 20
+      ) {
+        continue;
+      }
+
+      // Find first available slot that meets constraints
+      for (const slot of availableSlots) {
+        if (slot.game) continue; // Skip already assigned
+
+        const slotDate = new Date(slot.date);
+        const weekNumber = getWeekNumber(slotDate, season.startDate);
+        const slotDateStr = slotDate.toISOString().split("T")[0];
+
+        // Check weekly limits (3 games)
+        const homeWeekly = teamWeeklyCounts.get(homeId).get(weekNumber) || 0;
+        const awayWeekly = teamWeeklyCounts.get(awayId).get(weekNumber) || 0;
+        if (homeWeekly >= 3 || awayWeekly >= 3) continue;
+
+        // Check daily availability
+        if (teamAvailability.get(homeId).has(slotDateStr)) continue;
+        if (teamAvailability.get(awayId).has(slotDateStr)) continue;
+
+        // Create and save game
+        const game = new Game({
+          date: slotDate,
+          time: slot.time,
+          field: slot.field,
+          homeTeam: home._id,
+          awayTeam: away._id,
+          division: division._id,
+          gameslot: slot._id,
+        });
+        await game.save();
+
+        // Update slot
+        await Gameslot.updateOne(
+          { _id: slot._id },
+          { $set: { game: game._id } }
+        );
+
+        // Update tracking
+        teamTotalGames.set(homeId, teamTotalGames.get(homeId) + 1);
+        teamTotalGames.set(awayId, teamTotalGames.get(awayId) + 1);
+
+        teamAvailability.get(homeId).add(slotDateStr);
+        teamAvailability.get(awayId).add(slotDateStr);
+
+        teamWeeklyCounts.get(homeId).set(weekNumber, homeWeekly + 1);
+        teamWeeklyCounts.get(awayId).set(weekNumber, awayWeekly + 1);
+
+        // Update schedule and division
+        schedule.games.push(game._id);
+        // division.games.push(game._id);
+        // await division.save();
+        await schedule.save();
+
+        // Mark slot as used in local array
+        slot.game = game._id;
+        break;
+      }
     }
     await season.save();
 
@@ -129,7 +240,6 @@ const generateSchedule = async (req, res) => {
       message: "Schedule generated successfully",
       schedule: schedule,
     });
-    console.log("Fully generated schedule: \n");
     //print every game in the schedule
     // Deleted this for now - its not required because the games will be populated in the get request
     // for (let i = 0; i < schedule.games.length; i++) {
@@ -168,23 +278,6 @@ const generateGameSlots = async (schedule, startDate, endDate) => {
   }
   await schedule.save();
 };
-
-// const generateDivisionPairings = (teams) => {
-//   const pairings = [];
-//   const n = teams.length;
-//   const matchupsPerOpponent = Math.ceil(20 / (n - 1));
-
-//   // Generate all possible pairs
-//   for (let i = 0; i < n; i++) {
-//     for (let j = i + 1; j < n; j++) {
-//       // Add pair multiple times to reach required games
-//       for (let k = 0; k < matchupsPerOpponent; k++) {
-//         pairings.push([teams[i], teams[j]]);
-//       }
-//     }
-//   }
-//   return pairings;
-// };
 
 // New generateDivisionPairings function that generates pairings in a round-robin fashion
 // this shuffles the order of games and improves the runtime as well
@@ -243,108 +336,108 @@ const shuffleArray = (array) => {
   return array;
 };
 
-const assignDivisionGames = async (pairings, schedule, division, seasonStartDate) => {
-  const availableSlots = await Gameslot.find({
-    schedule: schedule._id,
-    game: null,
-  }).sort("date time");
+// const assignDivisionGames = async (pairings, schedule, division, seasonStartDate) => {
+//   const availableSlots = await Gameslot.find({
+//     schedule: schedule._id,
+//     game: null,
+//   }).sort("date time");
 
-  const teamAvailability = new Map();
-  const teamWeeklyCounts = new Map(); // Track games per week per team
-  const teamTotalGames = new Map(); // Tracks total games per team
+//   const teamAvailability = new Map();
+//   const teamWeeklyCounts = new Map(); // Track games per week per team
+//   const teamTotalGames = new Map(); // Tracks total games per team
 
-  // Initialize total games count for each team
-  division.teams.forEach((team) => {
-    teamTotalGames.set(team._id, 0);
-  });
+//   // Initialize total games count for each team
+//   division.teams.forEach((team) => {
+//     teamTotalGames.set(team._id, 0);
+//   });
 
-  // Shuffle pairings to distribute games more evenly
-  const shuffledPairings = shuffleArray(pairings);
+//   // Shuffle pairings to distribute games more evenly
+//   const shuffledPairings = shuffleArray(pairings);
 
-  for (const [homeTeam, awayTeam] of shuffledPairings) {
-    if (
-      teamTotalGames.get(homeTeam._id) >= 20 ||
-      teamTotalGames.get(awayTeam._id) >= 20
-    ) {
-      continue;
-    }
+//   for (const [homeTeam, awayTeam] of shuffledPairings) {
+//     if (
+//       teamTotalGames.get(homeTeam._id) >= 20 ||
+//       teamTotalGames.get(awayTeam._id) >= 20
+//     ) {
+//       continue;
+//     }
 
-    for (const slot of availableSlots) {
-      if (slot.game) continue;
+//     for (const slot of availableSlots) {
+//       if (slot.game) continue;
 
-      const slotDate = slot.date;
-      const weekNumber = getWeekNumber(slotDate, seasonStartDate);
+//       const slotDate = slot.date;
+//       const weekNumber = getWeekNumber(slotDate, seasonStartDate);
 
-      // Get current weekly counts for both teams
-      const homeCount = teamWeeklyCounts.get(homeTeam._id)?.get(weekNumber) || 0;
-      const awayCount = teamWeeklyCounts.get(awayTeam._id)?.get(weekNumber) || 0;
+//       // Get current weekly counts for both teams
+//       const homeCount = teamWeeklyCounts.get(homeTeam._id)?.get(weekNumber) || 0;
+//       const awayCount = teamWeeklyCounts.get(awayTeam._id)?.get(weekNumber) || 0;
 
-      // Check if either team exceeds the weekly limit (3 games)
-      if (homeCount >= 3 || awayCount >= 3) continue;
+//       // Check if either team exceeds the weekly limit (3 games)
+//       if (homeCount >= 3 || awayCount >= 3) continue;
 
-      // Existing check for same-day games
-      const slotDateStr = slotDate.toISOString().split('T')[0];
-      const homeBusy = teamAvailability.get(homeTeam._id)?.has(slotDateStr);
-      const awayBusy = teamAvailability.get(awayTeam._id)?.has(slotDateStr);
+//       // Existing check for same-day games
+//       const slotDateStr = slotDate.toISOString().split('T')[0];
+//       const homeBusy = teamAvailability.get(homeTeam._id)?.has(slotDateStr);
+//       const awayBusy = teamAvailability.get(awayTeam._id)?.has(slotDateStr);
 
-      if (!homeBusy && !awayBusy) {
-        // Create game
-        const game = new Game({
-          date: slot.date,
-          time: slot.time,
-          field: slot.field,
-          homeTeam: homeTeam._id,
-          awayTeam: awayTeam._id,
-          division: division._id,
-          gameslot: slot._id,
-        });
-        await game.save();
+//       if (!homeBusy && !awayBusy) {
+//         // Create game
+//         const game = new Game({
+//           date: slot.date,
+//           time: slot.time,
+//           field: slot.field,
+//           homeTeam: homeTeam._id,
+//           awayTeam: awayTeam._id,
+//           division: division._id,
+//           gameslot: slot._id,
+//         });
+//         await game.save();
 
-        // Update slot and schedule
-        slot.game = game._id;
-        await slot.save();
-        schedule.games.push(game._id);
-        division.games = division.games || [];
-        division.games.push(game._id);
-        await division.save();
+//         // Update slot and schedule
+//         slot.game = game._id;
+//         await slot.save();
+//         schedule.games.push(game._id);
+//         division.games = division.games || [];
+//         division.games.push(game._id);
+//         await division.save();
 
-        // Update team availability for the day
-        teamAvailability.set(
-          homeTeam._id,
-          (teamAvailability.get(homeTeam._id) || new Set()).add(slotDateStr)
-        );
-        teamAvailability.set(
-          awayTeam._id,
-          (teamAvailability.get(awayTeam._id) || new Set()).add(slotDateStr)
-        );
+//         // Update team availability for the day
+//         teamAvailability.set(
+//           homeTeam._id,
+//           (teamAvailability.get(homeTeam._id) || new Set()).add(slotDateStr)
+//         );
+//         teamAvailability.set(
+//           awayTeam._id,
+//           (teamAvailability.get(awayTeam._id) || new Set()).add(slotDateStr)
+//         );
 
-        // Update weekly game counts
-        if (!teamWeeklyCounts.has(homeTeam._id)) {
-          teamWeeklyCounts.set(homeTeam._id, new Map());
-        }
-        teamWeeklyCounts.get(homeTeam._id).set(weekNumber, homeCount + 1);
-        // print the team's weekly count
-        // console.log(`Team ${homeTeam._id.populate('Name')} has ${homeCount + 1} games in week ${weekNumber}`);
+//         // Update weekly game counts
+//         if (!teamWeeklyCounts.has(homeTeam._id)) {
+//           teamWeeklyCounts.set(homeTeam._id, new Map());
+//         }
+//         teamWeeklyCounts.get(homeTeam._id).set(weekNumber, homeCount + 1);
+//         // print the team's weekly count
+//         // console.log(`Team ${homeTeam._id.populate('Name')} has ${homeCount + 1} games in week ${weekNumber}`);
 
-        if (!teamWeeklyCounts.has(awayTeam._id)) {
-          teamWeeklyCounts.set(awayTeam._id, new Map());
-        }
-        teamWeeklyCounts.get(awayTeam._id).set(weekNumber, awayCount + 1);
-        // print the team's weekly count
-        // console.log(`Team ${awayTeam._id.populate('Name')} has ${awayCount + 1} games in week ${weekNumber}`);
+//         if (!teamWeeklyCounts.has(awayTeam._id)) {
+//           teamWeeklyCounts.set(awayTeam._id, new Map());
+//         }
+//         teamWeeklyCounts.get(awayTeam._id).set(weekNumber, awayCount + 1);
+//         // print the team's weekly count
+//         // console.log(`Team ${awayTeam._id.populate('Name')} has ${awayCount + 1} games in week ${weekNumber}`);
 
-        // console.log("\n=====================================\n");
+//         // console.log("\n=====================================\n");
 
-        // Update total games count
-        teamTotalGames.set(homeTeam._id, teamTotalGames.get(homeTeam._id) + 1);
-        teamTotalGames.set(awayTeam._id, teamTotalGames.get(awayTeam._id) + 1);
+//         // Update total games count
+//         teamTotalGames.set(homeTeam._id, teamTotalGames.get(homeTeam._id) + 1);
+//         teamTotalGames.set(awayTeam._id, teamTotalGames.get(awayTeam._id) + 1);
 
-        break; // Move to next pairing after assigning a slot
-      }
-    }
-  }
-  await schedule.save();
-};
+//         break; // Move to next pairing after assigning a slot
+//       }
+//     }
+//   }
+//   await schedule.save();
+// };
 
 // const assignDivisionGames = async (pairings, schedule, division) => {
 //   const availableSlots = await Gameslot.find({
@@ -357,7 +450,7 @@ const assignDivisionGames = async (pairings, schedule, division, seasonStartDate
 //     /* TODO: Implement the algorithm to assign games to available slots
 //     This might be slow and also we need to space out games throughout the season
 
-//     Also, this currently does Division by Division, which means one division will 
+//     Also, this currently does Division by Division, which means one division will
 //     be fully scheduled before moving to the next division - NOT GOOD. */
 
 //     for (const slot of availableSlots) {
