@@ -128,6 +128,41 @@ const deleteRequest = async (req, res) => {
     }
 };
 
+const getRequestById = async (req, res) => {
+    try {
+        const { requestId } = req.params;
+
+        // Find the reschedule request
+        const rescheduleRequest = await RescheduleRequest.findById(requestId);
+        if (!rescheduleRequest) {
+            return res.status(404).json({ message: "Reschedule request not found" });
+        }
+
+        res.status(200).json(rescheduleRequest);
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error });
+    }
+};
+
+const getAllRequests = async (req, res) => {
+    try {
+        // Get all reschedule requests
+        const rescheduleRequests = await RescheduleRequest.find();
+
+        res.status(200).json(rescheduleRequests);
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error });
+    }
+};
+
+module.exports = {
+    createRequest,
+    updateRequest,
+    deleteRequest,
+    getRequestById,
+    getAllRequests
+};
+
 module.exports = {
   createRequest,
   updateRequest,
