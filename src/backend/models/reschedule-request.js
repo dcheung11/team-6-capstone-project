@@ -18,7 +18,7 @@ const RescheduleRequestSchema = new Schema(
       ref: 'Team',
       required: true,
     },
-    requestedGameSlot: {
+    requestedGameslot: {
       type: Schema.Types.ObjectId,
       ref: 'GameSlot',
       required: true,
