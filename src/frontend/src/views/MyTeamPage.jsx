@@ -127,7 +127,7 @@ export default function MyTeamPage() {
                 {player.team.notifications &&
                 player.team.notifications.length > 0 ? (
                   <NotificationsRow
-                    notifications={temp_team_info.notifications}
+                    notifications={player.team.notifications}
                   />
                 ) : (
                   <NoDataCard text="No notifications to show." />
