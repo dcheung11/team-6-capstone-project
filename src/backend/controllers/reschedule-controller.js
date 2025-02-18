@@ -162,9 +162,3 @@ module.exports = {
     getRequestById,
     getAllRequests
 };
-
-module.exports = {
-  createRequest,
-  updateRequest,
-  deleteRequest
-};

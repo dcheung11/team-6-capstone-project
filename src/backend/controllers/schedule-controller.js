@@ -49,7 +49,7 @@ const deleteSchedule = async (req, res) => {
 const generateSchedule = async (req, res) => {
   try {
     console.log("Starting schedule generation...");
-    console.log("req.body: ", req.body);
+    // console.log("req.body: ", req.body);
     const { seasonId } = req.body;
 
     console.log("seasonId: ", seasonId);
@@ -61,7 +61,7 @@ const generateSchedule = async (req, res) => {
       .populate("divisions")
       .populate("schedule");
 
-    console.log("season: ", season);
+    // console.log("season: ", season);
 
     // Find or create season-level schedule
     let schedule = season.schedule;
@@ -96,7 +96,7 @@ const generateSchedule = async (req, res) => {
 
       season.schedule = schedule._id;
       await season.save();
-      console.log("New season schedule created: ", season);
+      // console.log("New season schedule created: ", season);
     }
 
     // Generate global gameslots once

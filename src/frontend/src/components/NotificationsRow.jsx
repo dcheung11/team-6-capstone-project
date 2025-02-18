@@ -9,10 +9,10 @@ export default function NotificationsRow(props) {
           <Card key={index} sx={{ minWidth: 300 }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>
-                {notification.title}
+                {notification?.type || "None"}
               </Typography>
               <Typography variant="body2">
-                {notification.description}
+                {notification?.message}
               </Typography>
             </CardContent>
           </Card>

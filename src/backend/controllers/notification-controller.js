@@ -1,5 +1,5 @@
-const Notification = require("../models/notification-model");
-const Team = require("../models/team-model"); // Assuming you have a Team model
+const Notification = require("../models/notification");
+const Team = require("../models/team"); // Assuming you have a Team model
 
 // Create a new notification
 const createNotification = async (req, res) => {
@@ -18,6 +18,24 @@ const createNotification = async (req, res) => {
   } catch (error) {
     res.status(400).send(error);
   }
+};
+
+const getNotificationsByTeamId = async (req, res) => {
+    try {
+        console.log("this ran");
+        const team = await Team.findById(req.params.id).populate('notifications');
+        console.log("team from notifications: ", team);
+        // console.log("req.params: ", req.params);
+
+        if (!team) {
+            return res.status(404).send();
+        }
+
+        // console.log("team.notifications: ", team.notifications);
+        res.send(team.notifications);
+    } catch (error) {
+        res.status(500).send(error);
+    }
 };
 
 const getNotificationById = async (req, res) => {
@@ -107,5 +125,6 @@ module.exports = {
     updateNotification,
     deleteNotification,
     getNotificationById,
-    getAllNotifications
+    getAllNotifications,
+    getNotificationsByTeamId
 };
