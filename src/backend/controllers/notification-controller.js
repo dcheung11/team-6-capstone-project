@@ -11,6 +11,29 @@ const createNotification = async (req, res) => {
     }
 };
 
+const getNotificationById = async (req, res) => {
+    try {
+        const notification = await Notification.findById(req.params.id);
+
+        if (!notification) {
+            return res.status(404).send();
+        }
+
+        res.send(notification);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+};
+
+const getAllNotifications = async (req, res) => {
+    try {
+        const notifications = await Notification.find({});
+        res.send(notifications);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+};
+
 // Update an existing notification
 const updateNotification = async (req, res) => {
     try {
@@ -53,5 +76,7 @@ const deleteNotification = async (req, res) => {
 module.exports = {
     createNotification,
     updateNotification,
-    deleteNotification
+    deleteNotification,
+    getNotificationById,
+    getAllNotifications
 };
