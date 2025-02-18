@@ -77,7 +77,7 @@ export default function MyTeamPage() {
     const fetchNotificationsByTeamId = async (tid) => {
       try {
         const data = await getNotificationsByTeamId(tid);
-        setTeamNotifications(data);
+        setTeamNotifications(data.notificatioms || data);
         setLoading(false);
       } catch (err) {
         setError(err.message || "Failed to fetch notifications");
@@ -146,10 +146,10 @@ export default function MyTeamPage() {
                 <Typography variant="h4" component="h2" gutterBottom>
                   Notifications
                 </Typography>
-                {player.team.notifications &&
-                player.team.notifications.length > 0 ? (
+                {teamNotifications &&
+                teamNotifications.length > 0 ? (
                   <NotificationsRow
-                    notifications={player.team.notifications}
+                    notifications={teamNotifications}
                   />
                 ) : (
                   <NoDataCard text="No notifications to show." />
