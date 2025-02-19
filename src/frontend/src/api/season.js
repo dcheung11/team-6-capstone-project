@@ -205,3 +205,28 @@ export async function launchSeason(seasonId) {
     throw error;
   }
 }
+
+export async function removeTeamFromSeason(seasonId, teamId) {
+  try {
+    const response = await fetch(
+      `${REACT_APP_API_BASE_URL}/seasons/${seasonId}/removeTeam/${teamId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("Remove Team from Season response:", response);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Remove team from season failed");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

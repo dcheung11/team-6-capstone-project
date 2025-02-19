@@ -42,7 +42,7 @@ const getOngoingSeasons = async (req, res, next) => {
         populate: {
           path: "games", // Populate the games array inside schedule
           populate: [
-            { path: "homeTeam" }, 
+            { path: "homeTeam" },
             { path: "awayTeam" },
             { path: "division" }, // Populate division inside games
           ],
@@ -334,6 +334,43 @@ const updateToOngoingSeason = async (req, res, next) => {
   res.status(200).json({ season: season.toObject({ getters: true }) });
 };
 
+const removeTeamFromSeason = async (req, res, next) => {
+  const seasonId = req.params.sid;
+  const teamId = req.params.tid;
+
+  let season;
+  try {
+    season = await Season.findById(seasonId);
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not remove team from season.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!season) {
+    const error = new HttpError("Could not find season for this id.", 404);
+    return next(error);
+  }
+
+  season.registeredTeams = season.registeredTeams.filter(
+    (team) => team.toString() !== teamId
+  );
+
+  try {
+    await season.save();
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not remove team from season.",
+      500
+    );
+    return next(error);
+  }
+
+  res.status(200).json({ season: season.toObject({ getters: true }) });
+};
+
 exports.getUpcomingSeasons = getUpcomingSeasons;
 exports.getOngoingSeasons = getOngoingSeasons;
 exports.getArchivedSeasons = getArchivedSeasons;
@@ -343,3 +380,4 @@ exports.deleteSeason = deleteSeason;
 exports.getSeasonById = getSeasonById;
 exports.updateSeasonDivisionTeams = updateSeasonDivisionTeams;
 exports.updateToOngoingSeason = updateToOngoingSeason;
+exports.removeTeamFromSeason = removeTeamFromSeason;

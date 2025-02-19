@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Typography, Box, Grid, Button } from "@mui/material";
 import TeamTable from "./TeamTable";
 import { DivisionCard } from "./DivisionCard";
-import { launchSeason, updateSeasonDivisionTeams } from "../api/season";
+import {
+  launchSeason,
+  removeTeamFromSeason,
+  updateSeasonDivisionTeams,
+} from "../api/season";
 import { generateSchedule, getScheduleBySeasonId } from "../api/schedule";
 import ScheduleTable from "./ScheduleTable";
 import LoadingOverlay from "./LoadingOverlay";
@@ -80,7 +84,8 @@ export default function TeamSchedulingComponent(props) {
   const handleGenerateSchedule = async () => {
     try {
       setLoading(true);
-      await generateSchedule(props.season.id);
+      const da = await generateSchedule(props.season.id);
+      console.log(da);
     } catch (error) {
       setLoading(false);
       setError(error.message || "Failed to generate schedule");
@@ -98,11 +103,24 @@ export default function TeamSchedulingComponent(props) {
     }
   };
 
-  const handleDeleteTeam = (name) => {
-    console.log(`Deleting team with id ${name}`);
+  const handleDeleteTeam = (teamId) => {
+    console.log(`Deleting team with id ${teamId}`);
 
     // Implement team deletion logic here
     // call api to delete team
+
+    const removeTeam = async (seasonId, teamId) => {
+      try {
+        setLoading(true);
+        await removeTeamFromSeason(seasonId, teamId);
+        setLoading(false);
+        alert("Team deleted successfully");
+      } catch (error) {
+        setLoading(false);
+        setError(error.message || "Failed to delete team");
+      }
+    };
+    removeTeam(props.season.id, teamId);
   };
 
   const handleLaunchSeason = async () => {
