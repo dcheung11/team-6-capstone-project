@@ -257,7 +257,6 @@ const assignDivisionGames = async (allDivisionPairings, schedule, season) => {
 
   for (const slot of availableSlots) {
     if (interleavedPairings.length === 0) break; // Stop if no more pairings are left
-    console.log(interleavedPairings.length);
     const slotDate = slot.date.toISOString().split("T")[0];
     const weekNumber = getWeekNumber(slot.date, season.startDate);
     // Find the first valid pairing for this slot
