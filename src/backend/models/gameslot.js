@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const GameSlotSchema = new mongoose.Schema({
   date: {
@@ -15,14 +15,16 @@ const GameSlotSchema = new mongoose.Schema({
   },
   schedule: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Schedule',
+    ref: "Schedule",
     required: true,
   },
   game: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Game',
+    ref: "Game",
     required: false, // A slot may or may not have a game
   },
 });
 
-module.exports = mongoose.model('GameSlot', GameSlotSchema);
+GameSlotSchema.index({ date: 1, time: 1, field: 1 }, { unique: true });
+
+module.exports = mongoose.model("GameSlot", GameSlotSchema);
