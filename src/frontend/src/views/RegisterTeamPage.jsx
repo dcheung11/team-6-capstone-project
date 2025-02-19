@@ -85,6 +85,8 @@ export default function RegisterTeamPage() {
       captainId: playerId,
       roster: [player],
       seasonId: seasonId,
+      preferredTimes: preferredTime,
+      blacklistDays: blacklistDay,
     };
     try {
       registerTeam(requestBody);

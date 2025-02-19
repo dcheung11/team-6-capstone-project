@@ -32,7 +32,15 @@ const registerTeam = async (req, res, next) => {
       new HttpError("Invalid inputs passed, please check your data.", 422)
     );
   }
-  const { name, divisionId, captainId, roster, seasonId } = req.body;
+  const {
+    name,
+    divisionId,
+    captainId,
+    roster,
+    seasonId,
+    preferredTimes,
+    blacklistDays,
+  } = req.body;
 
   let existingTeam;
   try {
@@ -60,7 +68,11 @@ const registerTeam = async (req, res, next) => {
     roster: roster || [], // Default to empty array if not provided
     captainId,
     seasonId,
+    preferredTimes: preferredTimes || "Balanced",
+    blacklistDays: blacklistDays || "None",
   });
+
+  console.log(createdTeam);
 
   try {
     await createdTeam.save();
@@ -177,7 +189,6 @@ const getScheduleGamesByTeamId = async (req, res, next) => {
   }
 
   // filter schedule to return only games for the team
-  console.log(season.schedule.games);
   const games =
     (season.schedule &&
       season.schedule.games &&

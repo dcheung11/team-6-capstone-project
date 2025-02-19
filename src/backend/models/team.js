@@ -17,7 +17,7 @@ const TeamSchema = new mongoose.Schema({
   blacklistDays: [
     {
       type: String,
-      enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      enum: ["None", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
       required: false,
     },
   ],
