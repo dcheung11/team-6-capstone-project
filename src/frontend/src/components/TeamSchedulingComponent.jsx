@@ -84,8 +84,7 @@ export default function TeamSchedulingComponent(props) {
   const handleGenerateSchedule = async () => {
     try {
       setLoading(true);
-      const da = await generateSchedule(props.season.id);
-      console.log(da);
+      await generateSchedule(props.season.id);
     } catch (error) {
       setLoading(false);
       setError(error.message || "Failed to generate schedule");
