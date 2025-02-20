@@ -8,12 +8,28 @@ const Schedule = require("../models/schedule");
 const Game = require("../models/game");
 
 const updateScore = async (req, res, next) => {
-  const { gameId, homeScore, awayScore } = req.params; // Game ID
+  const { gameId, homeScore, awayScore } = req.params;
+
   try {
-    await Game.findByIdAndUpdate(gameId, { homeScore, awayScore });
+    const updatedGame = await Game.findByIdAndUpdate(
+      gameId,
+      {
+        homeScore: Number(homeScore),
+        awayScore: Number(awayScore),
+        submitted: true, // Set submitted to true
+      },
+      { new: true } // Returns the updated document
+    );
+
+    if (!updatedGame) {
+      return next(new HttpError("Game not found", 404));
+    }
+
+    console.log("Updated game:", updatedGame);
+    res.json({ message: "Score updated successfully", game: updatedGame });
   } catch (err) {
-    const error = new HttpError("Failed to update score", 500);
-    return next(error);
+    console.error("Error updating score:", err);
+    return next(new HttpError("Failed to update score", 500));
   }
 };
 
