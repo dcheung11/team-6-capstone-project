@@ -62,33 +62,70 @@ const createRequest = async (req, res) => {
   }
 };
 
-const updateRequest = async (req, res) => {
+const acceptRequest = async (req, res) => {
   try {
-    const { requestId, status } = req.body;
+    const { rescheduleRequestId } = req.params;
 
     // Find the reschedule request
-    const rescheduleRequest = await RescheduleRequest.findById(requestId);
+    const rescheduleRequest = await RescheduleRequest.findById(rescheduleRequestId);
+
     if (!rescheduleRequest) {
       return res.status(404).json({ message: "Reschedule request not found" });
     }
 
-    // Update the status of the reschedule request
-    await RescheduleRequest.updateOne({ _id: requestId }, { status: status });
+    // Update the status of the reschedule request to accepted
+    rescheduleRequest.status = "Accepted";
+    await rescheduleRequest.save();
+    
 
-    // If the request is accepted, update the game slots and game
-    if (status === "accepted") {
-      const game = await Game.findById(rescheduleRequest.game);
-      const originalSlot = await game.gameslot.populate();
-      const requestedSlot = await rescheduleRequest.requestedGameslot.populate();
+    // Update the game slots and game
+    const game = await Game.findById(rescheduleRequest.game);
+    const originalSlot = await Gameslot.findById(game.gameslot);
+    const requestedSlot = await Gameslot.findById(rescheduleRequest.requestedGameslot);
+
+    await Gameslot.updateOne({ _id: originalSlot._id }, { game: null });
+    await Gameslot.updateOne({ _id: requestedSlot._id }, { game: game._id });
+    game.date = requestedSlot.date;
+    game.time = requestedSlot.time;
+    game.field = requestedSlot.field;
+    game.gameslot = requestedSlot._id;
+
+    await game.save();
+
+    // Create a notification for the requesting team
+    const notification = new Notification({
+      type: "update",
+      sender: rescheduleRequest.recipientTeam,
+      recipient: rescheduleRequest.requestingTeam,
+      message: `Your reschedule request has been accepted.`,
+    });
+
+    await notification.save();
+
+    res.status(200).json({ message: "Reschedule request accepted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+const declineRequest = async (req, res) => {
+  try {
+    const { rescheduleRequestId } = req.params;
+
+    // Find the reschedule request
+    const rescheduleRequest = await RescheduleRequest.findById(rescheduleRequestId);
+    if (!rescheduleRequest) {
+      return res.status(404).json({ message: "Reschedule request not found" });
+    }
+
+    // Update the status of the reschedule request to declined
+    rescheduleRequest.status = "Declined";
+    try {
+      await rescheduleRequest.save();
       
-      await Gameslot.updateOne({ _id: originalSlot._id }, { game: null });
-      await Gameslot.updateOne({ _id: requestedSlot._id }, { game: game });
-      game.date = requestedSlot.date;
-      game.time = requestedSlot.time;
-      game.field = requestedSlot.field;
-      game.gameslot = requestedSlot._id;
-
-      await game.save();
+    } catch (error) {
+      console.error("Error saving reschedule request while declining: ", error);
+      return res.status(500).json({ message: "Error saving reschedule request", error });
     }
 
     // Create a notification for the requesting team
@@ -96,18 +133,64 @@ const updateRequest = async (req, res) => {
       type: "update",
       sender: rescheduleRequest.recipientTeam,
       recipient: rescheduleRequest.requestingTeam,
-      message: `Your reschedule request has been ${status}.`,
+      message: `Your reschedule request has been declined.`,
     });
 
     await notification.save();
 
-    res
-      .status(200)
-      .json({ message: `Reschedule request ${status} successfully` });
+    
+    res.status(200).json({ message: "Reschedule request declined successfully" });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+// const updateRequest = async (req, res) => {
+//   try {
+//     const { requestId, status } = req.body;
+
+//     // Find the reschedule request
+//     const rescheduleRequest = await RescheduleRequest.findById(requestId);
+//     if (!rescheduleRequest) {
+//       return res.status(404).json({ message: "Reschedule request not found" });
+//     }
+
+//     // Update the status of the reschedule request
+//     await RescheduleRequest.updateOne({ _id: requestId }, { status: status });
+
+//     // If the request is accepted, update the game slots and game
+//     if (status === "accepted") {
+//       const game = await Game.findById(rescheduleRequest.game);
+//       const originalSlot = await game.gameslot.populate();
+//       const requestedSlot = await rescheduleRequest.requestedGameslot.populate();
+      
+//       await Gameslot.updateOne({ _id: originalSlot._id }, { game: null });
+//       await Gameslot.updateOne({ _id: requestedSlot._id }, { game: game });
+//       game.date = requestedSlot.date;
+//       game.time = requestedSlot.time;
+//       game.field = requestedSlot.field;
+//       game.gameslot = requestedSlot._id;
+
+//       await game.save();
+//     }
+
+//     // Create a notification for the requesting team
+//     const notification = new Notification({
+//       type: "update",
+//       sender: rescheduleRequest.recipientTeam,
+//       recipient: rescheduleRequest.requestingTeam,
+//       message: `Your reschedule request has been ${status}.`,
+//     });
+
+//     await notification.save();
+
+//     res
+//       .status(200)
+//       .json({ message: `Reschedule request ${status} successfully` });
+//   } catch (error) {
+//     res.status(500).json({ message: "Server error", error });
+//   }
+// };
 
 const deleteRequest = async (req, res) => {
     try {
@@ -157,14 +240,10 @@ const getAllRequests = async (req, res) => {
 
 module.exports = {
     createRequest,
-    updateRequest,
+    // updateRequest,
     deleteRequest,
     getRequestById,
-    getAllRequests
-};
-
-module.exports = {
-  createRequest,
-  updateRequest,
-  deleteRequest
+    getAllRequests,
+    acceptRequest,
+    declineRequest
 };

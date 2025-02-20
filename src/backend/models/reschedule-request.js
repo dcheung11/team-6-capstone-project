@@ -25,10 +25,10 @@ const RescheduleRequestSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ['Pending', 'Approved', 'Rejected'],
+      enum: ['Pending', 'Accepted', 'Declined'],
       default: 'Pending',
     },
-    requestDate: {
+    createdAt: {
       type: Date,
       default: Date.now,
     },

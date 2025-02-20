@@ -10,10 +10,16 @@ router.get('/', rescheduleController.getAllRequests);
 router.get('/:id', rescheduleController.getRequestById);
 
 // Route to create a new reschedule request
-router.post('/', rescheduleController.createRequest);
+router.post('/create', rescheduleController.createRequest);
+
+// Route to accept a reschedule request by ID
+router.put('/:rescheduleRequestId/accept', rescheduleController.acceptRequest);
+
+// Route to decline a reschedule request by ID
+router.put('/:rescheduleRequestId/decline', rescheduleController.declineRequest);
 
 // Route to update an existing reschedule request by ID
-router.put('/:id', rescheduleController.updateRequest);
+// router.put('/:id', rescheduleController.updateRequest);
 
 // Route to delete a reschedule request by ID
 router.delete('/:id', rescheduleController.deleteRequest);

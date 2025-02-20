@@ -9,6 +9,7 @@ const TeamSchema = new mongoose.Schema({
   wins: { type: Number, default: 0 },
   losses: { type: Number, default: 0 },
   draws: { type: Number, default: 0 },
+  notifications: [{ type: mongoose.Schema.Types.ObjectId, ref: "Notification" }],
   preferredTimes: {
     type: String,
     enum: ["Mostly Early", "Balanced", "Mostly Late"],

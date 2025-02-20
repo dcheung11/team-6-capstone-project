@@ -7,6 +7,7 @@ import NotificationsRow from "../components/NotificationsRow";
 import temp_team_info from "../data/team.json";
 import { useAuth } from "../hooks/AuthProvider";
 import { getPlayerById } from "../api/player";
+import { getNotificationsByTeamId } from "../api/notification";
 import { useEffect, useState } from "react";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -25,6 +26,7 @@ export default function MyTeamPage() {
   const [playerId, setPlayerId] = useState(auth.playerId);
   const [player, setPlayer] = useState(null);
   const [teamGames, setTeamGames] = useState(null);
+  const [teamNotifications, setTeamNotifications] = useState(null);
 
   const [teamTabValue, setTeamTabValue] = useState(teamId || null);
 
@@ -66,6 +68,26 @@ export default function MyTeamPage() {
 
     if (teamTabValue) {
       fetchScheduleGamesByTeamId(teamTabValue);
+    }
+  }, [player, teamTabValue]);
+
+  useEffect(() => {
+    if (!player) return;
+
+    const fetchNotificationsByTeamId = async (tid) => {
+      try {
+        const data = await getNotificationsByTeamId(tid);
+        setTeamNotifications(data.notifications || data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message || "Failed to fetch notifications");
+      } finally {
+        setLoading(false); // Set loading false only once, after both API calls
+      }
+    };
+
+    if (teamTabValue) {
+      fetchNotificationsByTeamId(teamTabValue);
     }
   }, [player, teamTabValue]);
 
@@ -124,10 +146,10 @@ export default function MyTeamPage() {
                 <Typography variant="h4" component="h2" gutterBottom>
                   Notifications
                 </Typography>
-                {player.team.notifications &&
-                player.team.notifications.length > 0 ? (
+                {teamNotifications &&
+                teamNotifications.length > 0 ? (
                   <NotificationsRow
-                    notifications={temp_team_info.notifications}
+                    notifications={teamNotifications}
                   />
                 ) : (
                   <NoDataCard text="No notifications to show." />

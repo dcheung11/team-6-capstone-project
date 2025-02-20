@@ -5,8 +5,13 @@ const Schema = mongoose.Schema;
 const notificationSchema = new Schema({
     type: {
         type: String,
-        enum: ['reschedule request', 'update', 'other'],
+        enum: ['reschedule request', 'update', 'team invite', 'other'],
         required: true
+    },
+    rescheduleRequestId: {
+        type: Schema.Types.ObjectId,
+        ref: 'RescheduleRequest',
+        required: false
     },
     message: {
         type: String,
