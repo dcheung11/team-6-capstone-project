@@ -49,10 +49,7 @@ const deleteSchedule = async (req, res) => {
 const generateSchedule = async (req, res) => {
   try {
     console.log("Starting schedule generation...");
-    // console.log("req.body: ", req.body);
     const { seasonId } = req.body;
-
-    console.log("seasonId: ", seasonId);
 
     if (!seasonId) return res.status(400).json({ error: "Season ID required" });
 
@@ -61,8 +58,6 @@ const generateSchedule = async (req, res) => {
       .populate("divisions")
       .populate("schedule");
 
-    // console.log("season: ", season);
-
     // Find or create season-level schedule
     let schedule = season.schedule;
 
@@ -70,6 +65,7 @@ const generateSchedule = async (req, res) => {
       // If a schedule already exists, delete the old games and the schedule - prevents duplicates
       const oldSchedule = await Schedule.findById(season.schedule);
       if (oldSchedule) {
+        console.log(`Deleting old schedule: ${oldSchedule._id}...`);
         // Delete all games associated with the old schedule first
         await Promise.all(
           oldSchedule.games.map(async (gameId) => {
@@ -88,6 +84,7 @@ const generateSchedule = async (req, res) => {
         oldSchedule.games = [];
         await oldSchedule.save(); // Save the schedule with an empty games array
         schedule = await Schedule.findById(season.schedule);
+        console.log(`Deleted old schedule: ${oldSchedule._id}`);
       }
     } else {
       // No existing schedule, so create a new one
@@ -96,23 +93,30 @@ const generateSchedule = async (req, res) => {
 
       season.schedule = schedule._id;
       await season.save();
-      // console.log("New season schedule created: ", season);
     }
 
     // Generate global gameslots once
     if (schedule.gameSlots.length === 0) {
       await generateGameSlots(schedule, season.startDate, season.endDate);
     }
-
+    console.log("Starting pairings generation");
     // Process each division
+    const allDivisionPairings = [];
     for (const divisionId of season.divisions) {
       const division = await Division.findById(divisionId).populate("teams");
       if (!division || division.teams.length < 2) continue;
 
       const teams = division.teams;
       const pairings = generateDivisionPairings(teams);
-      await assignDivisionGames(pairings, schedule, division);
+      allDivisionPairings.push({
+        division,
+        pairings: [...pairings],
+      });
     }
+    console.log("Starting games assignment...");
+    await assignDivisionGames(allDivisionPairings, schedule, season);
+    console.log("Finished games assignment.");
+
     await season.save();
 
     console.log("Schedule generation complete!");
@@ -120,14 +124,6 @@ const generateSchedule = async (req, res) => {
       message: "Schedule generated successfully",
       schedule: schedule,
     });
-    console.log("Fully generated schedule: \n");
-    //print every game in the schedule
-    // Deleted this for now - its not required because the games will be populated in the get request
-    // for (let i = 0; i < schedule.games.length; i++) {
-    //   let game = await Game.findById(schedule.games[i]).populate(
-    //     "date time field"
-    //   );
-    // }
   } catch (error) {
     console.error("Error generating schedule:", error);
     res.status(500).json({ error: "Failed to generate schedule" });
@@ -159,23 +155,6 @@ const generateGameSlots = async (schedule, startDate, endDate) => {
   }
   await schedule.save();
 };
-
-// const generateDivisionPairings = (teams) => {
-//   const pairings = [];
-//   const n = teams.length;
-//   const matchupsPerOpponent = Math.ceil(20 / (n - 1));
-
-//   // Generate all possible pairs
-//   for (let i = 0; i < n; i++) {
-//     for (let j = i + 1; j < n; j++) {
-//       // Add pair multiple times to reach required games
-//       for (let k = 0; k < matchupsPerOpponent; k++) {
-//         pairings.push([teams[i], teams[j]]);
-//       }
-//     }
-//   }
-//   return pairings;
-// };
 
 // New generateDivisionPairings function that generates pairings in a round-robin fashion
 // this shuffles the order of games and improves the runtime as well
@@ -216,64 +195,168 @@ const generateDivisionPairings = (teams) => {
   return pairings;
 };
 
-const assignDivisionGames = async (pairings, schedule, division) => {
+// Interleaves pairings from all divisions to ensure a distribution of games and not games sequentilly played by division
+const interleavePairings = (allDivisionPairings) => {
+  const allPairings = [];
+
+  // Find the maximum number of pairings across all divisions
+  const maxPairings = Math.max(
+    ...allDivisionPairings.map((dp) => dp.pairings.length)
+  );
+
+  // Iterate through each index and interleave pairings
+  for (let i = 0; i < maxPairings; i++) {
+    allDivisionPairings.forEach(({ division, pairings }) => {
+      if (i < pairings.length) {
+        const [homeTeam, awayTeam] = pairings[i];
+        allPairings.push({ division, homeTeam, awayTeam });
+      }
+    });
+  }
+  return allPairings;
+};
+
+// WIP - seems to work for demo season
+const calculateMaxGamesPerWeek = (startDate, endDate, totalGamesPerTeam) => {
+  const seasonDurationInDays = Math.ceil(
+    (endDate - startDate) / (1000 * 60 * 60 * 24)
+  );
+  const numberOfWeeks = Math.ceil(seasonDurationInDays / 7);
+  const maxGamesPerWeek = Math.floor(totalGamesPerTeam / numberOfWeeks);
+  return maxGamesPerWeek;
+};
+
+const getWeekNumber = (date, seasonStartDate) => {
+  const diffInDays = Math.floor(
+    (date - seasonStartDate) / (1000 * 60 * 60 * 24)
+  );
+  return Math.floor(diffInDays / 7) + 1; // Week 1, Week 2, etc.
+};
+
+// allDivisionPairs is an array of objects, each containing a division and its pairings
+const assignDivisionGames = async (allDivisionPairings, schedule, season) => {
   const availableSlots = await Gameslot.find({
     schedule: schedule._id,
     game: null,
   }).sort("date time");
 
+  // flatten all pairings into a single array, alternrating between divisions
+  const interleavedPairings = interleavePairings(allDivisionPairings);
+
   const teamAvailability = new Map();
-  for (const [homeTeam, awayTeam] of pairings) {
-    /* TODO: Implement the algorithm to assign games to available slots
-    This might be slow and also we need to space out games throughout the season
+  const teamWeeklyCounts = new Map(); // { teamId: { week1: 1, week2: 2, ... } }
+  const MAX_GAMES_PER_WEEK = calculateMaxGamesPerWeek(
+    season.startDate,
+    season.endDate,
+    20
+  );
 
-    Also, this currently does Division by Division, which means one division will 
-    be fully scheduled before moving to the next division - NOT GOOD. */
+  // Batch operations
+  const gamesToCreate = [];
+  const slotsToUpdate = [];
 
-    for (const slot of availableSlots) {
-      if (slot.game) continue;
+  for (const slot of availableSlots) {
+    if (interleavedPairings.length === 0) break; // Stop if no more pairings are left
+    const slotDate = slot.date.toISOString().split("T")[0];
+    const weekNumber = getWeekNumber(slot.date, season.startDate);
+    // Find the first valid pairing for this slot
+    const pairingIndex = interleavedPairings.findIndex(
+      ({ homeTeam, awayTeam }) => {
+        // Check weekly game limits
+        const homeTeamGamesThisWeek =
+          teamWeeklyCounts.get(homeTeam._id)?.[weekNumber] || 0;
+        const awayTeamGamesThisWeek =
+          teamWeeklyCounts.get(awayTeam._id)?.[weekNumber] || 0;
 
-      // Convert to comparable date string
-      const slotDate = slot.date.toISOString().split("T")[0];
+        if (
+          homeTeamGamesThisWeek >= MAX_GAMES_PER_WEEK &&
+          awayTeamGamesThisWeek >= MAX_GAMES_PER_WEEK
+        ) {
+          return false; 
+        }
 
-      // Check team availabilitya
-      const homeTeamBusy = teamAvailability.get(homeTeam._id)?.has(slotDate);
-      const awayTeamBusy = teamAvailability.get(awayTeam._id)?.has(slotDate);
+        // Check team availability
+        const homeTeamBusy = teamAvailability.get(homeTeam._id)?.has(slotDate);
+        const awayTeamBusy = teamAvailability.get(awayTeam._id)?.has(slotDate);
 
-      if (!homeTeamBusy && !awayTeamBusy) {
-        // Create game
-        const game = new Game({
-          date: slot.date,
-          time: slot.time,
-          field: slot.field,
-          homeTeam: homeTeam._id,
-          awayTeam: awayTeam._id,
-          division: division._id,
-          gameslot: slot._id,
-        });
-        await game.save();
-
-        // Update slot and schedule
-        slot.game = game._id;
-        await slot.save();
-        schedule.games.push(game._id);
-        division.games = division.games || [];
-        division.games.push(game._id);
-        await division.save();
-
-        // Update availability tracking
-        teamAvailability.set(
-          homeTeam._id,
-          (teamAvailability.get(homeTeam._id) || new Set()).add(slotDate)
-        );
-        teamAvailability.set(
-          awayTeam._id,
-          (teamAvailability.get(awayTeam._id) || new Set()).add(slotDate)
-        );
-        break;
+        return !homeTeamBusy && !awayTeamBusy;
       }
+    );
+
+    if (pairingIndex !== -1) {
+      // Assign the game to the slot
+      const { division, homeTeam, awayTeam } =
+        interleavedPairings[pairingIndex];
+
+      const game = new Game({
+        date: slot.date,
+        time: slot.time,
+        field: slot.field,
+        homeTeam: homeTeam._id,
+        awayTeam: awayTeam._id,
+        division: division._id,
+        gameslot: slot._id,
+      });
+      gamesToCreate.push(game);
+
+      slotsToUpdate.push({
+        _id: slot._id,
+        game: game._id,
+      });
+
+      // Update availability tracking
+      teamAvailability.set(
+        homeTeam._id,
+        (teamAvailability.get(homeTeam._id) || new Set()).add(slotDate)
+      );
+      teamAvailability.set(
+        awayTeam._id,
+        (teamAvailability.get(awayTeam._id) || new Set()).add(slotDate)
+      );
+
+      // Update games per week tracking
+      if (!teamWeeklyCounts.has(homeTeam._id))
+        teamWeeklyCounts.set(homeTeam._id, {});
+      if (!teamWeeklyCounts.has(awayTeam._id))
+        teamWeeklyCounts.set(awayTeam._id, {});
+      teamWeeklyCounts.get(homeTeam._id)[weekNumber] =
+        (teamWeeklyCounts.get(homeTeam._id)[weekNumber] || 0) + 1;
+      teamWeeklyCounts.get(awayTeam._id)[weekNumber] =
+        (teamWeeklyCounts.get(awayTeam._id)[weekNumber] || 0) + 1;
+
+      // Remove the assigned pairing from the list
+      interleavedPairings.splice(pairingIndex, 1);
     }
   }
+
+  // Batch operations (saves time to do all at the end)
+  const createdGames = await Game.insertMany(gamesToCreate);
+
+  const updateOperations = slotsToUpdate.map((slot) => ({
+    updateOne: {
+      filter: { _id: slot._id }, // Filter by slot ID
+      update: { $set: { game: slot.game } }, // Set the game field
+    },
+  }));
+  await Gameslot.bulkWrite(updateOperations);
+
+  schedule.games.push(...createdGames.map((g) => g._id));
+  await schedule.save();
+
+  for (const game of createdGames) {
+    const division = allDivisionPairings.find(
+      (dp) => dp.division._id === game.division
+    ).division;
+    division.games = division.games || [];
+    division.games.push(game._id);
+    await division.save();
+  }
+
+  // By iterating over allDivisionPairings, we can avoid scheduling division games sequentially
+  const sortedGames = await Game.find({ _id: { $in: schedule.games } }).sort(
+    "date time"
+  );
+  schedule.games = sortedGames.map((game) => game._id);
   await schedule.save();
 };
 const getScheduleBySeasonId = async (req, res, next) => {
