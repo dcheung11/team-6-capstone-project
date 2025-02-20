@@ -6,7 +6,6 @@ export default function NotificationsRow(props) {
   const navigate = useNavigate();
 
   const handleRescheduleClick = (notification) => {
-    console.log("notification from NotificationsRow.jsx: ", notification);
     navigate(`/notifications/${notification._id}/reschedule-requests/${notification.rescheduleRequestId}`);
   };
 

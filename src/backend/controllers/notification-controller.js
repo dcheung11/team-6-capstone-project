@@ -22,16 +22,12 @@ const createNotification = async (req, res) => {
 
 const getNotificationsByTeamId = async (req, res) => {
     try {
-        console.log("this ran");
         const team = await Team.findById(req.params.id).populate('notifications');
-        // console.log("team from notifications: ", team);
-        // console.log("req.params: ", req.params);
 
         if (!team) {
             return res.status(404).send();
         }
 
-        // console.log("team.notifications: ", team.notifications);
         res.send(team.notifications);
     } catch (error) {
         res.status(500).send(error);

@@ -9,8 +9,6 @@ export const getNotificationsByTeamId = async (teamId) => {
         "Content-Type": "application/json",
       },
     });
-    console.log("response to getNotificationsByTeamId: ", response);
-    console.log("Done");
 
     if (!response.ok) {
       throw new Error("Network response was not ok");

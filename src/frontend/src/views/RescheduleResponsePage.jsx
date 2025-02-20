@@ -7,7 +7,6 @@ import { acceptRescheduleRequest, declineRescheduleRequest } from "../api/resche
 
 export default function RescheduleRequestPage() {
   const { notificationId } = useParams();
-  console.log("useParams(): ", useParams());
   const navigate = useNavigate();
   const [notification, setNotification] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,10 +15,7 @@ export default function RescheduleRequestPage() {
   useEffect(() => {
     const fetchNotification = async () => {
       try {
-        console.log("notificationId: ", notificationId);
         const data = await getNotificationById(notificationId);
-        console.log("data: ", data);
-        console.log('over');
         setNotification(data);
       } catch (err) {
         setError(err.message);
@@ -33,11 +29,9 @@ export default function RescheduleRequestPage() {
   const handleResponse = async (accepted) => {
     try {
       if (accepted) {
-        console.log("dis ran");
         await acceptRescheduleRequest(notification.rescheduleRequestId);
-        console.log("dat ran");
       } else {
-        await declineRescheduleRequest(notificationId.rescheduleRequestId);
+        await declineRescheduleRequest(notification.rescheduleRequestId);
       }
       navigate(`/team/${notification.recipient}`); // Redirect back to team page
     } catch (err) {
