@@ -11,6 +11,7 @@ const announcementRoutes = require("./routes/announcements-routes");
 const scheduleRoutes = require("./routes/schedule-routes");
 const divisionRoutes = require("./routes/divisions-routes");
 const gamesRoutes = require("./routes/games-route");
+const rescheduleRoutes = require("./routes/reschedule-routes");
 
 const HttpError = require("./models/http-error");
 
@@ -28,6 +29,7 @@ app.use("/api/schedules", scheduleRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/divisions", divisionRoutes);
 app.use("/api/games", gamesRoutes);
+app.use("/api/rescheduleRequests", rescheduleRoutes);
 
 app.use((req, res, next) => {
   const error = new HttpError("Could not find this route.", 404);

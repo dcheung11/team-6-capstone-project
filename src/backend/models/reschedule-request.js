@@ -8,12 +8,17 @@ const RescheduleRequestSchema = new Schema(
       ref: 'Game',
       required: true,
     },
-    requestedBy: {
+    requestingTeam: {
       type: Schema.Types.ObjectId,
       ref: 'Team',
       required: true,
     },
-    requestedTimeSlot: {
+    recipientTeam: {
+      type: Schema.Types.ObjectId,
+      ref: 'Team',
+      required: true,
+    },
+    requestedGameslot: {
       type: Schema.Types.ObjectId,
       ref: 'GameSlot',
       required: true,
@@ -25,6 +30,7 @@ const RescheduleRequestSchema = new Schema(
     },
     requestDate: {
       type: Date,
+      default: Date.now,
     },
   },
   {
