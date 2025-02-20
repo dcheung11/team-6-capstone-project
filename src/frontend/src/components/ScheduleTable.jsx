@@ -126,7 +126,8 @@ export default function ScheduleTable(props) {
       header: "Action",
       accessor: (game) => {
         const isSubmitDisabled =
-          game.submitted || scores[game._id]?.submitted || scores[game._id]?.home === null || scores[game._id]?.away === null;
+          game.submitted || scores[game._id]?.submitted || scores[game._id]?.home === null || scores[game._id]?.away === null || scores[game._id]?.home === '' ||
+          scores[game._id]?.away === '';
         return (
           <Button
             variant="contained"
