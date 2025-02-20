@@ -24,7 +24,7 @@ const getNotificationsByTeamId = async (req, res) => {
     try {
         console.log("this ran");
         const team = await Team.findById(req.params.id).populate('notifications');
-        console.log("team from notifications: ", team);
+        // console.log("team from notifications: ", team);
         // console.log("req.params: ", req.params);
 
         if (!team) {

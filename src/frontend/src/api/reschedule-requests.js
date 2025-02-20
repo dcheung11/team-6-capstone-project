@@ -48,9 +48,9 @@ export const acceptRescheduleRequest = async (rescheduleRequestId) => {
   }
 };
 
-export const declineRescheduleRequest = async (requestId) => {
+export const declineRescheduleRequest = async (rescheduleRequestId) => {
   try {
-    const response = await fetch(`${API_URL}/${requestId}/decline`, {
+    const response = await fetch(`${API_URL}/${rescheduleRequestId}/decline`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

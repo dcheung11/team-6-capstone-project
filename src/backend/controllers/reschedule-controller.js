@@ -77,14 +77,16 @@ const acceptRequest = async (req, res) => {
     // Update the status of the reschedule request to accepted
     rescheduleRequest.status = "Accepted";
     await rescheduleRequest.save();
-    console.log('got here')
+    console.log('got here');
 
     // Update the game slots and game
     const game = await Game.findById(rescheduleRequest.game);
+    console.log("found game: ", game);
     const originalSlot = await Gameslot.findById(game.gameslot);
+    console.log("found originalslot: ", originalSlot);
     const requestedSlot = await Gameslot.findById(rescheduleRequest.requestedGameslot);
 
-    console.log('ASDIJASDOAJ')
+    console.log('ASDIJASDOAJ');
 
     await Gameslot.updateOne({ _id: originalSlot._id }, { game: null });
     await Gameslot.updateOne({ _id: requestedSlot._id }, { game: game._id });
@@ -113,10 +115,12 @@ const acceptRequest = async (req, res) => {
 
 const declineRequest = async (req, res) => {
   try {
-    const { requestId } = req.params;
+    const { rescheduleRequestId } = req.params;
+    console.log("reschedule-controller params received in decline: ", req.params);
 
     // Find the reschedule request
-    const rescheduleRequest = await RescheduleRequest.findById(requestId);
+    const rescheduleRequest = await RescheduleRequest.findById(rescheduleRequestId);
+    console.log("after awaiting finding: ", rescheduleRequest);
     if (!rescheduleRequest) {
       return res.status(404).json({ message: "Reschedule request not found" });
     }
@@ -124,6 +128,7 @@ const declineRequest = async (req, res) => {
     // Update the status of the reschedule request to declined
     rescheduleRequest.status = "declined";
     await rescheduleRequest.save();
+    console.log('got here');
 
     // Create a notification for the requesting team
     const notification = new Notification({
@@ -134,6 +139,8 @@ const declineRequest = async (req, res) => {
     });
 
     await notification.save();
+
+    console.log("reached");
 
     res.status(200).json({ message: "Reschedule request declined successfully" });
   } catch (error) {
