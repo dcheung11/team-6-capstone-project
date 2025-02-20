@@ -30,7 +30,7 @@ app.use("/api/schedules", scheduleRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/divisions", divisionRoutes);
 app.use("/api/games", gamesRoutes);
-app.use("/api/rescheduleRequests", rescheduleRoutes);
+app.use("/api/reschedule-requests", rescheduleRoutes);
 app.use("/api/notifications", notificationRoutes);
 
 app.use((req, res, next) => {

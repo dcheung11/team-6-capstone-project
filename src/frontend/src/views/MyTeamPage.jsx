@@ -77,7 +77,7 @@ export default function MyTeamPage() {
     const fetchNotificationsByTeamId = async (tid) => {
       try {
         const data = await getNotificationsByTeamId(tid);
-        setTeamNotifications(data.notificatioms || data);
+        setTeamNotifications(data.notifications || data);
         setLoading(false);
       } catch (err) {
         setError(err.message || "Failed to fetch notifications");
