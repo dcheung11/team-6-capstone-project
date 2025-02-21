@@ -42,7 +42,7 @@ const getOngoingSeasons = async (req, res, next) => {
         populate: {
           path: "games", // Populate the games array inside schedule
           populate: [
-            { path: "homeTeam" }, 
+            { path: "homeTeam" },
             { path: "awayTeam" },
             { path: "division" }, // Populate division inside games
           ],
@@ -85,73 +85,69 @@ const getArchivedSeasons = async (req, res, next) => {
 
 const createSeason = async (req, res, next) => {
   const errors = validationResult(req);
-  console.log(errors);
   if (!errors.isEmpty()) {
     return next(
       new HttpError("Invalid inputs passed, please check your data.", 422)
     );
   }
+
   const { name, startDate, endDate, allowedDivisions } = req.body;
 
-  let existingSeason;
   try {
-    existingSeason = await Season.findOne({ name: name });
-  } catch (err) {
-    const error = new HttpError(
-      "Creating failed, please try again later.",
-      500
-    );
-    return next(error);
-  }
+    // Check if a season with the same name exists
+    const existingSeason = await Season.findOne({ name: name });
+    if (existingSeason) {
+      return next(new HttpError("Season name already exists.", 422));
+    }
 
-  if (existingSeason) {
-    const error = new HttpError("Season name exists already.", 422);
-    return next(error);
-  }
-
-  const createdSeason = new Season({
-    name,
-    startDate,
-    endDate,
-    allowedDivisions: allowedDivisions || 4,
-    divisions: [],
-    status: "upcoming",
-  });
-
-  try {
-    await createdSeason.save();
-  } catch (err) {
-    const error = new HttpError("Create Season failed, please try again.", 500);
-    return next(error);
-  }
-
-  const divisionPromises = [];
-  for (let i = 1; i <= (allowedDivisions || 4); i++) {
-    const division = new Division({
-      name: `Division ${i}`,
-      seasonId: createdSeason._id,
-      teams: [], // Empty teams for now
+    // Check if the new season overlaps with any existing season
+    const overlappingSeason = await Season.findOne({
+      $or: [
+        { startDate: { $lte: endDate }, endDate: { $gte: startDate } }, // Overlapping condition
+      ],
     });
-    divisionPromises.push(division.save());
-  }
 
-  try {
+    if (overlappingSeason) {
+      return next(
+        new HttpError("A season already exists within this time range.", 422)
+      );
+    }
+
+    // Create new season
+    const createdSeason = new Season({
+      name,
+      startDate,
+      endDate,
+      allowedDivisions: allowedDivisions || 4,
+      divisions: [],
+      status: "upcoming",
+    });
+
+    await createdSeason.save();
+
+    // Create divisions
+    const divisionPromises = [];
+    for (let i = 1; i <= (allowedDivisions || 4); i++) {
+      const division = new Division({
+        name: `Division ${i}`,
+        seasonId: createdSeason._id,
+        teams: [],
+      });
+      divisionPromises.push(division.save());
+    }
+
     const divisions = await Promise.all(
       divisionPromises.map((p) => p.catch((err) => err))
     );
     createdSeason.divisions = divisions.map((division) => division._id);
-    await createdSeason.save(); // Update season with division IDs
-  } catch (err) {
-    const error = new HttpError(
-      "Creating divisions failed, please try again later.",
-      500
-    );
-    return next(error);
-  }
+    await createdSeason.save();
 
-  res.status(201).json({
-    seasonId: createdSeason.id,
-  });
+    res.status(201).json({ seasonId: createdSeason.id });
+  } catch (err) {
+    return next(
+      new HttpError("Something went wrong, please try again later.", 500)
+    );
+  }
 };
 
 const getAllSeasons = async (req, res, next) => {
