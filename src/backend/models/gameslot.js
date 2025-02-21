@@ -13,11 +13,6 @@ const GameSlotSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  schedule: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Schedule",
-    required: true,
-  },
   game: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Game",

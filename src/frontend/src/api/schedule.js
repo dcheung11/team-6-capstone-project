@@ -12,7 +12,6 @@ export const generateSchedule = async (seasonId) => {
         body: JSON.stringify({ seasonId }),
       }
     );
-    console.log("generate sched response:", response);
 
     if (!response.ok) {
       throw new Error("Failed to generate schedule");

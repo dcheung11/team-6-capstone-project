@@ -90,8 +90,7 @@ export default function TeamTable(props) {
     { label: "Preferred Times", accessor: (team) => team.preferredTimes },
     {
       label: "Blacklist Days",
-      accessor: (team) =>
-        team.blacklistDays.length > 0 ? team.blacklistDays.join(", ") : "None",
+      accessor: (team) => (team.blacklistDays ? team.blacklistDays : "None"),
     },
     {
       label: "Preferred Division",
@@ -153,7 +152,7 @@ export default function TeamTable(props) {
                   <IconButton
                     aria-label="delete"
                     size="small"
-                    onClick={() => handleIconClick(team.name)}
+                    onClick={() => handleIconClick(team.id)}
                   >
                     <DeleteIcon fontSize="small" />
                   </IconButton>
