@@ -3,8 +3,6 @@ import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import { formatDate } from "../utils/Formatting";
 
 export default function GamesRow(props) {
-  console.log(props.games);
-
   const getOpponent = (game) => {
     return game.homeTeam._id === props.teamId ? game.awayTeam : game.homeTeam;
   };

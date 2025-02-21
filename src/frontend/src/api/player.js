@@ -10,7 +10,6 @@ export async function signup(firstName, lastName, email, password) {
       body: JSON.stringify({ firstName, lastName, email, password }),
     });
 
-    console.log("Signup response:", response);
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Signup failed");
@@ -32,7 +31,6 @@ export async function allPlayers() {
       },
     });
 
-    console.log("All players response:", response);
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Fetching all players failed");
@@ -54,7 +52,6 @@ export async function getPlayerById(playerId) {
       },
     });
 
-    console.log("Get player by ID response:", response);
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Fetching player by ID failed");
@@ -77,7 +74,6 @@ export async function acceptInvite(playerId, teamId) {
       body: JSON.stringify(playerId, teamId), // Send both playerId and teamId
     });
 
-    console.log("Accept invite response:", response);
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Accept invite failed");
@@ -100,7 +96,6 @@ export async function sendInvite(playerId, teamId) {
       body: JSON.stringify(playerId, teamId), // Send both playerId and teamId
     });
 
-    console.log("Send invite response:", response);
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Send invite failed");

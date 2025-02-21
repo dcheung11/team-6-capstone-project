@@ -20,11 +20,13 @@ const assignDivisionGames = async (
   );
   const teamAvailability = new Map();
 
+  console.log('that ran');
   let interleavedPairings = interleavePairings(
     allDivisionPairings,
     totalWeeks,
     teams
   );
+  console.log("this ran");
   const MIN_ACCEPTABLE_SCORE = 0.5; // Threshold for acceptance
 
   // Batch operations
@@ -137,6 +139,8 @@ const generateDivisionPairings = (teams) => {
   const gamesPerTeamMap = new Map();
   const homeGamesCount = new Map();
   const totalGames = (gamesPerTeam * teams.length) / 2;
+
+  if (teams.length < 2) return [];
 
   // Initialize home count for each team
   teams.forEach((team) => (homeGamesCount[team] = 0));
@@ -259,6 +263,8 @@ const interleavePairings = (allDivisionPairings, totalWeeks, teams) => {
   const allPairings = [];
   const NUM_GAMES_PER_TEAM = 20;
 
+  console.log("allDivisionPairings: ", allDivisionPairings);
+
   // Helper function to calculate the number of 1-game and 2-game weeks for a team
   const calculateTeamWeeklyDistribution = (totalGames, totalWeeks) => {
     let highGames = Math.ceil(totalGames / totalWeeks);
@@ -276,6 +282,8 @@ const interleavePairings = (allDivisionPairings, totalWeeks, teams) => {
     const teamGamesPerWeek = new Map(); // { teamId: { week1: 1, week2: 2, ... } }
     const teamsThatPlayedInWeek = new Map(); // { week: [team1, team2, ...] }
     let availablePairings = [...pairings];
+    console.log("pairings: ", pairings.length);
+    console.log("availablePairings: ", availablePairings.length);
     console.log(availablePairings.length);
 
     // assign 1 game per team per week
@@ -307,8 +315,8 @@ const interleavePairings = (allDivisionPairings, totalWeeks, teams) => {
         availablePairings.shift();
       }
     }
-    console.log(teamGamesPerWeek);
-    console.log(availablePairings.length);
+    // console.log(teamGamesPerWeek);
+    // console.log(availablePairings.length);
 
     // Assign remaining pairings for the second iteration
     for (let week = 1; week <= totalWeeks; week++) {

@@ -33,7 +33,6 @@ const NavBar = () => {
         const data = await getPlayerById(pid);
         setPlayer(data.player);
         setTeamId(data.player.team.id);
-        console.log("Upcoming Seasons:", data);
       } catch (err) {
         setError(err.message || "Failed to fetch player");
       } finally {
@@ -50,7 +49,6 @@ const NavBar = () => {
   };
 
   const handleProfileClick = () => {
-    console.log("Profile clicked");
     navigate("/profile");
   };
   return (

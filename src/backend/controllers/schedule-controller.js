@@ -108,6 +108,12 @@ const generateSchedule = async (req, res) => {
       const teams = division.teams;
       allTeams = allTeams.concat(teams);
       const pairings = generateDivisionPairings(teams);
+
+      if (!pairings || pairings.length == 0) {
+        console.error("no pairings, division must have more than 1 team:", error);
+        continue;
+      }
+
       allDivisionPairings.push({
         division,
         pairings: [...pairings],

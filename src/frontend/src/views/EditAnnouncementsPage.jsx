@@ -14,7 +14,6 @@ export default function EditAnnouncementPage() {
     const fetchAnnouncement = async () => {
       try {
         const response = await getAnnouncementById(id);
-        console.log("Fetched Announcement:", response); // Debugging
         setAnnouncement(response.announcement); // Ensure we're accessing the correct key
       } catch (error) {
         console.error("Error fetching announcement:", error);

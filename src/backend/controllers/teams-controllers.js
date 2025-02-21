@@ -72,7 +72,7 @@ const registerTeam = async (req, res, next) => {
     blacklistDays: blacklistDays || "None",
   });
 
-  console.log(createdTeam);
+  // console.log(createdTeam);
 
   try {
     await createdTeam.save();
