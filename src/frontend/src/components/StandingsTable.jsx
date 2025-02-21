@@ -9,25 +9,29 @@ import {
   TableBody,
 } from "@mui/material";
 
-export default function StandingsTable(props) {
-  const standingColumns = ["Rank", "Team", "PTS", "W", "D", "L", "RS", "RA"];
-  const standingKeys = ["rank", "team", "p", "w", "d", "l", "rs", "ra"];
+export default function StandingsTable({ standings }) {
   return (
     <TableContainer component={Paper} sx={{ mb: 4 }}>
       <Table>
         <TableHead>
           <TableRow>
-            {standingColumns.map((column) => (
-              <TableCell>{column}</TableCell>
-            ))}
+            <TableCell>Rank</TableCell>
+            <TableCell>Team</TableCell>
+            <TableCell>PTS</TableCell>
+            <TableCell>W</TableCell>
+            <TableCell>D</TableCell>
+            <TableCell>L</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.standings.map((standingRow) => (
-            <TableRow key={standingRow.rank}>
-              {standingKeys.map((key) => (
-                <TableCell>{standingRow[key]}</TableCell>
-              ))}
+          {standings.map((standing, index) => (
+            <TableRow key={index}>
+              <TableCell>{standing.rank}</TableCell>
+              <TableCell>{standing.team?.teamName || "Unknown"}</TableCell>
+              <TableCell>{standing.wins * 2 + standing.draws}</TableCell>
+              <TableCell>{standing.wins}</TableCell>
+              <TableCell>{standing.draws}</TableCell>
+              <TableCell>{standing.losses}</TableCell>
             </TableRow>
           ))}
         </TableBody>
