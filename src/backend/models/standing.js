@@ -29,10 +29,25 @@ const StandingSchema = new mongoose.Schema(
             required: true,
             min: 0
         },
+        noshows: {
+          type: Number,
+          required: true,
+          min: 0
+        },
         draws: {
             type: Number,
             required: true,
             min: 0
+        },
+        rs: {
+          type: Number,
+          required: true,
+          min: 0
+        },
+        ra: {
+          type: Number,
+          required: true,
+          min: 0
         },
       },
     ],

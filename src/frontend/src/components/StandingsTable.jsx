@@ -10,28 +10,33 @@ import {
 } from "@mui/material";
 
 export default function StandingsTable({ standings }) {
+  const standingColumns = ["Rank", "Team", "PTS", "W", "D", "L", "RS", "RA", "Run Diff", "No Show Shame"];
+  const standingKeys = ["rank", "team.teamName", "p", "w", "d", "l", "rs", "ra", "differential", "noshows"];
+
   return (
     <TableContainer component={Paper} sx={{ mb: 4 }}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Rank</TableCell>
-            <TableCell>Team</TableCell>
-            <TableCell>PTS</TableCell>
-            <TableCell>W</TableCell>
-            <TableCell>D</TableCell>
-            <TableCell>L</TableCell>
+            {standingColumns.map((column, index) => (
+              <TableCell key={index}>{column}</TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {standings.map((standing, index) => (
-            <TableRow key={index}>
-              <TableCell>{standing.rank}</TableCell>
-              <TableCell>{standing.team?.teamName || "Unknown"}</TableCell>
-              <TableCell>{standing.wins * 2 + standing.draws}</TableCell>
-              <TableCell>{standing.wins}</TableCell>
-              <TableCell>{standing.draws}</TableCell>
-              <TableCell>{standing.losses}</TableCell>
+          {standings.map((standingRow, rowIndex) => (
+            <TableRow key={rowIndex}>
+              {standingKeys.map((key, colIndex) => (
+                <TableCell key={colIndex}>
+                  {key === "team.teamName"
+                    ? standingRow.team?.teamName || "Unknown" // handle missing team names
+                    : key === "differential"
+                    ? standingRow.differential > 0
+                      ? `+${standingRow.differential}` // add "+" for positive values
+                      : standingRow.differential // show as is for negative/zero
+                    : standingRow[key] ?? "N/A"}
+                </TableCell>
+              ))}
             </TableRow>
           ))}
         </TableBody>
