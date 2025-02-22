@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchStandings } from "../api/standings"; 
+import { getStandingsByDivision } from "../api/standings"; 
 import { getUpcomingSeasons } from "../api/season"; 
 import {
   Typography,
@@ -27,7 +27,7 @@ export default function StandingsPage() {
   // Fetch standings when division changes
   useEffect(() => {
     if (selectedDivision) {
-      fetchStandings(selectedDivision).then(setStandings);
+      getStandingsByDivision(selectedDivision).then(setStandings);
     }
   }, [selectedDivision]);
 

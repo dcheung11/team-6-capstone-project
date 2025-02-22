@@ -1,6 +1,6 @@
 const REACT_APP_API_BASE_URL = "http://localhost:3001/api";
 
-export const fetchStandings = async (divisionId) => {
+export const getStandingsByDivision = async (divisionId) => {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/standings/${divisionId}`);
 
