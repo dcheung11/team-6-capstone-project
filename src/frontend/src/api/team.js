@@ -2,7 +2,6 @@ const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // replace with your
 
 // body = { name, divisionId, captainId, roster, seasonId }
 export async function registerTeam(body) {
-  console.log(JSON.stringify(body));
   try {
     const response = await fetch(
       `${REACT_APP_API_BASE_URL}/teams/registerTeam`,
@@ -15,7 +14,6 @@ export async function registerTeam(body) {
       }
     );
 
-    console.log("registerTeam response:", response);
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "registerTeam failed");
@@ -41,7 +39,6 @@ export async function getTeamsById(ids) {
       }
     );
 
-    console.log("getTeamsByIds response:", response);
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Fetching getTeamsByIds failed");
@@ -63,7 +60,6 @@ export async function getTeams() {
       },
     });
 
-    console.log("getTeams response:", response);
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Fetching teams failed");

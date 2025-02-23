@@ -38,4 +38,6 @@ router.patch("/:sid/divisionTeams", seasonController.updateSeasonDivisionTeams);
 
 router.patch("/:sid/launch", seasonController.updateToOngoingSeason);
 
+router.patch("/:sid/removeTeam/:tid", seasonController.removeTeamFromSeason);
+
 module.exports = router;

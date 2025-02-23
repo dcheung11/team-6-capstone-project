@@ -15,7 +15,6 @@ export async function createSeason(
       body: JSON.stringify({ name, startDate, endDate, allowedDivisions }),
     });
 
-    console.log("Create Season response:", response);
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Signup failed");
@@ -38,7 +37,6 @@ export async function getOngoingSeasons() {
     });
 
     const data = await response.json();
-    console.log("Get Ongoing Seasons response:", data);
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Get ongoing seasons failed");
@@ -59,7 +57,7 @@ export async function getUpcomingSeasons() {
     });
 
     const data = await response.json();
-    console.log("Get Upcoming Seasons response:", data);
+
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Get upcoming seasons failed");
@@ -80,7 +78,6 @@ export async function getArchivedSeasons() {
     });
 
     const data = await response.json();
-    console.log("Get Archived Seasons response:", data);
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Get archived seasons failed");
@@ -101,7 +98,7 @@ export async function getAllSeasons() {
     });
 
     const data = await response.json();
-    console.log("Get All Seasons response:", data);
+
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Get all seasons failed");
@@ -121,7 +118,6 @@ export async function deleteSeason(id) {
       },
     });
 
-    console.log("Delete Season response:", response);
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Delete season failed");
@@ -144,7 +140,7 @@ export async function getSeasonById(id) {
     });
 
     const data = await response.json();
-    console.log("Get Season by ID response:", data);
+;
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Get season by ID failed");
@@ -168,7 +164,6 @@ export async function updateSeasonDivisionTeams(id, divisions) {
       }
     );
 
-    console.log("Update Season Division Teams response:", response);
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Update season division teams failed");
@@ -193,10 +188,33 @@ export async function launchSeason(seasonId) {
       }
     );
 
-    console.log("Launch Season response:", response);
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Launch season failed");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function removeTeamFromSeason(seasonId, teamId) {
+  try {
+    const response = await fetch(
+      `${REACT_APP_API_BASE_URL}/seasons/${seasonId}/removeTeam/${teamId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Remove team from season failed");
     }
 
     const data = await response.json();

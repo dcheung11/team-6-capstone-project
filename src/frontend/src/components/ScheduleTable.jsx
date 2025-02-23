@@ -10,7 +10,7 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-import { formatDate } from "../utils/Formatting";
+import { formatDate, getDayOfWeek } from "../utils/Formatting";
 import { updateScore } from "../api/game.js";
 
 export default function ScheduleTable(props) {
@@ -63,6 +63,10 @@ export default function ScheduleTable(props) {
 
   // Define columns
   const columns = [
+    {
+      header: "Day of Week",
+      accessor: (game) => getDayOfWeek(game.date),
+    },
     {
       header: "Date",
       accessor: (game) => formatDate(game.date),
