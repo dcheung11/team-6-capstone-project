@@ -19,20 +19,39 @@ const StandingSchema = new mongoose.Schema(
           required: true,
           min: 1,
         },
-        wins: {
-            type: Number,
-            required: true,
-            min: 0
+        p: {
+          type: Number,
+          required: true,
+          min: 0,
         },
-        losses: {
-            type: Number,
-            required: true,
-            min: 0
+        w: {
+          type: Number,
+          required: true,
+          min: 0,
         },
-        draws: {
-            type: Number,
-            required: true,
-            min: 0
+        l: {
+          type: Number,
+          required: true,
+          min: 0,
+        },
+        d: {
+          type: Number,
+          required: true,
+          min: 0,
+        },
+        rs: {
+          type: Number,
+          required: true,
+          min: 0,
+        },
+        ra: {
+          type: Number,
+          required: true,
+          min: 0,
+        },
+        differential: {
+          type: Number,
+          required: true, // no minimum here, allows negatives
         },
       },
     ],

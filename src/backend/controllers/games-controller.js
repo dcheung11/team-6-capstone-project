@@ -6,6 +6,7 @@ const Division = require("../models/division");
 const Player = require("../models/player");
 const Schedule = require("../models/schedule");
 const Game = require("../models/game");
+const { updateStandings } = require("./standings-controller")
 
 const updateScore = async (req, res, next) => {
   const { gameId, homeScore, awayScore } = req.params;
@@ -25,8 +26,19 @@ const updateScore = async (req, res, next) => {
       return next(new HttpError("Game not found", 404));
     }
 
+    // STANDINGS: updated score triggers update standings for the division
+    try {
+      console.log("Trying updateStandings");
+      await updateStandings(updatedGame.division);
+      
+    } catch (err) {
+      console.error("Error updating standings:", err);
+      return next(new HttpError("Failed to update standings", 500))
+    }
+    
     console.log("Updated game:", updatedGame);
     res.json({ message: "Score updated successfully", game: updatedGame });
+
   } catch (err) {
     console.error("Error updating score:", err);
     return next(new HttpError("Failed to update score", 500));
