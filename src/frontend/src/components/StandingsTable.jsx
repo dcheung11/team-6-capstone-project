@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 
 export default function StandingsTable({ standings }) {
-  const standingColumns = ["Rank", "Team", "PTS", "W", "D", "L", "RS", "RA", "Run Diff", "No Show Shame"];
-  const standingKeys = ["rank", "team.teamName", "p", "w", "d", "l", "rs", "ra", "differential", "noshows"];
+  const standingColumns = ["Rank", "Team", "PTS", "W", "D", "L", "RS", "RA", "Run Diff"];//, "No Show Shame"];
+  const standingKeys = ["rank", "team.teamName", "p", "w", "d", "l", "rs", "ra", "differential"];//, "noshows"];
 
   return (
     <TableContainer component={Paper} sx={{ mb: 4 }}>
