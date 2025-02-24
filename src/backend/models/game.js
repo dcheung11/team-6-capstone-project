@@ -18,6 +18,7 @@ const GameSchema = new mongoose.Schema({
     ref: "Division",
     required: true,
   },
+  submitted: { type: Boolean, default: false }, // Added submitted field
 });
 
 module.exports = mongoose.model("Game", GameSchema);
