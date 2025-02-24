@@ -26,8 +26,8 @@ const updateScore = async (req, res, next) => {
       return next(new HttpError("Game not found", 404));
     }
 
+    // STANDINGS: updated score triggers update standings for the division
     try {
-      // updated score triggers update standings for the division
       console.log("Trying updateStandings");
       await updateStandings(updatedGame.division);
       

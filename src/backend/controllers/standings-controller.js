@@ -19,7 +19,7 @@ const getStandingsByDivision = async (req, res, next) => {
     return next(new HttpError("No standings found for the selected division.", 404));
   }
 
-  res.json({ standings: standings.toObject({ getters: true }) }); // FIXED HERE
+  res.json({ standings: standings.toObject({ getters: true }) }); 
 };
 
 const updateStandings = async (divisionId) => {
@@ -75,7 +75,7 @@ const updateStandings = async (divisionId) => {
   }));
 
   rankingEntries.sort((a, b) => {
-    if (b.p !== a.p) return b.p - a.p; // FIXED HERE
+    if (b.p !== a.p) return b.p - a.p; 
     return b.differential - a.differential;
   });
 
