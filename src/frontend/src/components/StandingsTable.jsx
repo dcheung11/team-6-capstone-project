@@ -11,7 +11,7 @@ import {
 
 export default function StandingsTable({ standings }) {
   const standingColumns = ["Rank", "Team", "PTS", "W", "D", "L", "RS", "RA", "Run Diff"];//, "No Show Shame"];
-  const standingKeys = ["rank", "team.teamName", "p", "w", "d", "l", "rs", "ra", "differential"];//, "noshows"];
+  const standingKeys = ["rank", "team", "p", "w", "d", "l", "rs", "ra", "differential"];//, "noshows"];
 
   return (
     <TableContainer component={Paper} sx={{ mb: 4 }}>
@@ -28,8 +28,8 @@ export default function StandingsTable({ standings }) {
             <TableRow key={rowIndex}>
               {standingKeys.map((key, colIndex) => (
                 <TableCell key={colIndex}>
-                  {key === "team.teamName"
-                    ? standingRow.team?.teamName || "Unknown" // handle missing team names
+                  {key === "team"
+                    ? standingRow.team?.name || "Unknown" // handle missing team names
                     : key === "differential"
                     ? standingRow.differential > 0
                       ? `+${standingRow.differential}` // add "+" for positive values

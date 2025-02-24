@@ -9,8 +9,9 @@ const getStandingsByDivision = async (req, res, next) => {
   let standings;
   try {
     standings = await Standing.findOne({ division: divisionId })
-      .populate("rankings.team", "teamName")
+      .populate("rankings.team", "name")
       .sort({ "rankings.rank": 1 }); // ranked order
+    console.log(standings)
   } catch (err) {
     return next(new HttpError("Fetching standings failed, please try again.", 500));
   }
@@ -19,7 +20,7 @@ const getStandingsByDivision = async (req, res, next) => {
     return next(new HttpError("No standings found for the selected division.", 404));
   }
 
-  res.json({ standings: standings.toObject({ getters: true }) }); 
+  res.json({ standings: standings.toObject({ getters: true, virtuals: false }) }); // sumn to get rid of double IDs
 };
 
 const updateStandings = async (divisionId) => {
