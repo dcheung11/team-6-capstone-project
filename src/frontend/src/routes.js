@@ -13,6 +13,7 @@ import InfoPage from "./views/InfoPage";
 import SchedulePage from "./views/SchedulePage";
 import ScheduleView from "./views/ScheduleView";
 import RescheduleResponsePage from "./views/RescheduleResponsePage";
+import DocumentationPage from "./views/DocumentationPage";
 
 const routes = [
   { path: "/home", component: HomePage },
@@ -30,6 +31,7 @@ const routes = [
   { path: "/info", component: InfoPage },
   { path: "/schedule", component: ScheduleView },
   { path: "/notifications/:notificationId/reschedule-requests/:rescheduleRequestId", component: RescheduleResponsePage },
+  { path: "/documentation", component: DocumentationPage },
 ];
 
 export default routes;
