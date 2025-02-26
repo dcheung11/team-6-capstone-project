@@ -15,9 +15,8 @@ const StandingSchema = new mongoose.Schema(
           required: true,
         },
         rank: {
-          type: Number,
-          required: true,
-          min: 1,
+          type: mongoose.Schema.Types.Mixed,
+          default: "-",
         },
         p: {
           type: Number,

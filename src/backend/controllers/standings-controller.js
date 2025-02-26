@@ -2,6 +2,7 @@ const HttpError = require("../models/http-error");
 const Standing = require("../models/standing"); 
 const Game = require("../models/game");
 const mongoose = require("mongoose"); 
+const Team = require("../models/team");
 
 const getStandingsByDivision = async (req, res, next) => {
   const { divisionId } = req.params;
@@ -26,20 +27,42 @@ const getStandingsByDivision = async (req, res, next) => {
 const updateStandings = async (divisionId) => {
   console.log("updateStandings called with divisionId:", divisionId);
 
+  // include all teams even without played games
+  const teamsInDivision = await Team.find({ divisionId: divisionId });
+  //console.log(teamsInDivision);
+
+  const teamStats = {};
+  teamsInDivision.forEach((team) => {
+    teamStats[team._id.toString()] = {
+      team: team._id,
+      name: team.name, 
+      p: 0,
+      w: 0,
+      d: 0,
+      l: 0,
+      rs: 0,
+      ra: 0,
+      differential: 0
+    };
+  });
+
+  // update stats for games that have been played
   const games = await Game.find({
     division: divisionId,
     homeScore: { $ne: null },
     awayScore: { $ne: null }
   });
 
-  const teamStats = {};
-
   games.forEach((game) => {
     const homeId = game.homeTeam.toString();
     const awayId = game.awayTeam.toString();
 
-    if (!teamStats[homeId]) teamStats[homeId] = { p: 0, w: 0, l: 0, d: 0, rs: 0, ra: 0 };
-    if (!teamStats[awayId]) teamStats[awayId] = { p: 0, w: 0, l: 0, d: 0, rs: 0, ra: 0 };
+    if (!teamStats[homeId]) {
+      teamStats[homeId] = { team: homeId, p: 0, w: 0, d: 0, l: 0, rs: 0, ra: 0, differential: 0 };
+    }
+    if (!teamStats[awayId]) {
+      teamStats[awayId] = { team: awayId, p: 0, w: 0, d: 0, l: 0, rs: 0, ra: 0, differential: 0 };
+    }
 
     teamStats[homeId].rs += game.homeScore;
     teamStats[homeId].ra += game.awayScore;
@@ -62,10 +85,13 @@ const updateStandings = async (divisionId) => {
       teamStats[awayId].p += 1;
     }
   });
+  
+
+  // RANKING LOGIC
 
   const rankingEntries = Object.entries(teamStats).map(([teamId, stats]) => ({
     team: new mongoose.Types.ObjectId(teamId),
-    rank: 0,
+    rank: "-", // placeholder value until the team plays
     p: stats.p,
     w: stats.w,
     l: stats.l,
@@ -75,19 +101,25 @@ const updateStandings = async (divisionId) => {
     differential: stats.rs - stats.ra
   }));
 
-  rankingEntries.sort((a, b) => {
-    if (b.p !== a.p) return b.p - a.p; 
+  const rankedTeams = rankingEntries.filter((team) => team.p > 0 || team.l > 0);
+  
+  rankedTeams.sort((a, b) => {
+    if (b.p !== a.p) return b.p - a.p;
     return b.differential - a.differential;
   });
 
-  rankingEntries.forEach((entry, index) => {
+  // assign ranks to the ranked teams
+  rankedTeams.forEach((entry, index) => {
     entry.rank = index + 1;
   });
+
+  // now slap on unranked teams 
+  const finalRankings = [...rankedTeams, ...rankingEntries.filter((team) => team.rank === "-")];
 
   try {
     await Standing.findOneAndUpdate(
       { division: divisionId },
-      { rankings: rankingEntries },
+      { rankings: finalRankings },
       { upsert: true }
     );
     console.log("Updated standings");
