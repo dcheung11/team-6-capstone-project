@@ -57,6 +57,7 @@ export default function MyTeamPage() {
     const fetchScheduleGamesByTeamId = async (tid) => {
       try {
         const data = await getScheduleGamesByTeamId(tid);
+        console.log("MyTeam Page games of team: ", data);
         setTeamGames(data);
         setLoading(false);
       } catch (err) {
@@ -188,14 +189,6 @@ export default function MyTeamPage() {
                   />
                 ) : (
                   <NoDataCard text="No games to show." />
-                )}
-                <Typography variant="h4" component="h2" gutterBottom>
-                  Schedule
-                </Typography>
-                {teamGames && teamGames.games && teamGames.games.length > 0 ? (
-                  <ScheduleTable schedule={teamGames} />
-                ) : (
-                  <NoDataCard text="No schedule to show." />
                 )}
               </Box>
             </TabPanel>
