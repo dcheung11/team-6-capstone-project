@@ -4,6 +4,7 @@ const Team = require("../models/team");
 const Season = require("../models/season");
 const Division = require("../models/division");
 const Player = require("../models/player");
+const { updateStandings } = require("./standings-controller");
 
 const getTeams = async (req, res, next) => {
   let teams;
@@ -103,7 +104,18 @@ const registerTeam = async (req, res, next) => {
   captain.team = createdTeam._id;
   await captain.save();
 
+  // STANDINGS: new team needs to be added to standings
+  try {
+    console.log("Trying updateStandings");
+    await updateStandings(createdTeam.divisionId);
+    
+  } catch (err) {
+    console.error("Error updating standings:", err);
+    return next(new HttpError("Failed to update standings", 500))
+  }
+
   res.status(201).json({ team: createdTeam });
+
 };
 
 const getTeamsById = async (req, res, next) => {
