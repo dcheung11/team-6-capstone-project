@@ -162,6 +162,7 @@ export default function MyTeamPage() {
                   roster={player.team.roster}
                   captain={player.team.captainId}
                 />
+                {player.team.captainId.id === playerId && (
                 <Button
                   variant="contained"
                   size="small"
@@ -172,7 +173,7 @@ export default function MyTeamPage() {
                   onClick={() => navigate("/players")}
                 >
                   Invite Players
-                </Button>
+                </Button>)}
 
                 <Typography variant="h4" component="h2" gutterBottom>
                   Upcoming Games
@@ -185,6 +186,8 @@ export default function MyTeamPage() {
                       .filter((game) => new Date(game.date) >= new Date()) // Only future games
                       .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sort by closest date
                       .slice(0, 5)}
+                    captain={player.team.captainId.id} 
+                    player={playerId}
                   />
                 ) : (
                   <NoDataCard text="No games to show." />
@@ -193,7 +196,7 @@ export default function MyTeamPage() {
                   Schedule
                 </Typography>
                 {teamGames && teamGames.games && teamGames.games.length > 0 ? (
-                  <ScheduleTable schedule={teamGames} />
+                  <ScheduleTable schedule={teamGames} captain={player.team.captainId.id} player={playerId}/>
                 ) : (
                   <NoDataCard text="No schedule to show." />
                 )}

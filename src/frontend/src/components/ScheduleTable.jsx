@@ -130,6 +130,7 @@ export default function ScheduleTable(props) {
       header: "Action",
       accessor: (game) => {
         const isSubmitDisabled =
+          props.captain != props.player ||
           game.submitted || scores[game._id]?.submitted || scores[game._id]?.home === null || scores[game._id]?.away === null || scores[game._id]?.home === '' ||
           scores[game._id]?.away === '';
         return (
