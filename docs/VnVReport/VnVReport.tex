@@ -11,6 +11,7 @@
     urlcolor=blue
 }
 \usepackage[round]{natbib}
+\usepackage{longtable}
 
 \input{../Comments}
 \input{../Common}
@@ -28,12 +29,12 @@
 \section{Revision History}
 
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
-\midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
-\bottomrule
-\end{tabularx}
+  \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+  \midrule
+  March 1 & 1.0 & Created Document Structure and Outline. Filled out most test cases and appendix reflection. \\
+  Date 2 & 1.1 & Notes\\
+  \bottomrule
+  \end{tabularx}
 
 ~\newpage
 
@@ -47,6 +48,24 @@ Date 2 & 1.1 & Notes\\
   T & Test\\
   \bottomrule
 \end{tabular}\\
+
+\subsection{Symbolic Parameters}
+
+The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
+Their values are defined in this section for easy maintenance.
+\begin{longtable}{|l|l|l|p{5cm}|}
+    \hline
+    Parameter & Value & Unit & Description \\
+    \hline
+    \phantomsection\label{MIN_NAVTIME} \texttt{MIN\_NAVTIME} & 60 & s & The minimum time for testers to navigate to a main view \\
+    \hline
+    \phantomsection\label{MIN_TESTERS} \texttt{MIN\_TESTERS} & 5 & n/a & The minimum number of testers required for a system test \\
+    \hline
+    \phantomsection\label{AVG_TASK_TIME} \texttt{AVG\_TASK\_TIME} & 3 & min & The average task time for a task completion \\
+    \hline
+    \phantomsection\label{MAX_GAME_DIFF} \texttt{MAX\_GAME\_DIFF} & 2 & n/a & The maximum difference in total scheduled games between two teams \\
+    \hline
+\end{longtable}
 
 \wss{symbols, abbreviations or acronyms -- you can reference the SRS tables if needed}
 
@@ -66,19 +85,460 @@ This document ...
 
 \section{Functional Requirements Evaluation}
 
+\subsection{Manual Testing}
+
+\begin{enumerate}
+    \item \textbf{FR-1}
+          \begin{itemize}
+              \item Description: Testing login functionality with wrong credentials.
+              \item How Test Will Be Performed: Tester will attempt to log in with an invalid \texttt{UserID} and \texttt{Password}. Verify that all invalid logins are unsuccessful.
+              \item Requirements Covered: SRS Req \#1 (authentication).
+              \item Inputs: Invalid UserID and Password
+              \item Expected Output: Failed to login
+              \item Actual Output: Failed to login
+              \item Result: Pass
+          \end{itemize}
+
+    \item \textbf{FR-2}
+          \begin{itemize}
+              \item Description: Testing login functionality with correct credentials.
+              \item How Test Will Be Performed: Tester will log in with a valid \texttt{UserID} and \texttt{Password} for each \texttt{Role} (Player, Captain, Commissioner) and verify access to the platform after successful login under the correct account.
+              \item Requirements Covered: SRS Req \#1 (authentication).
+              \item Inputs: \texttt{UserID} and \texttt{Password} for valid commissioner, captain, and player accounts.
+              \item Expected Output: Successful login for valid credentials.
+              \item Actual Output: Successful login for valid credentials.
+              \item Result: Pass
+          \end{itemize}
+
+       \item \textbf{FR-3}
+          \begin{itemize}
+              \item Description: Attempting to create a duplicate team name
+              \item How Test Will be Performed: Tester will attempt to create a new team suing a duplicate \textt{TeamName}. Verify that the team is not added to the database.
+              \item Requirements Covered: SRS Req \#5 (team creation).
+              \item Inputs: Enter a \texttt{TeamName} that already exists in the database and a Division.
+              \item Expected Output: Unsuccessful creation of a team with a duplicate
+              \item Actual Output: Unsuccessful creation of a team with a duplicate
+              \item Result: Pass
+          \end{itemize}
+
+      \item \textbf{FR-4}  
+      \begin{itemize}
+          \item Description: Creating a new team with a unique name.
+          \item How Test Will Be Performed: Tester will attempt to create a new team using a unique \texttt{TeamName} and Division. Verify that the team is successfully added to the database.
+          \item Requirements Covered: SRS Req \#5 (team creation).
+          \item Inputs: Enter a unique \texttt{TeamName} and Division.
+          \item Expected Output: Successful team creation.
+          \item Actual Output: Successful team creation.
+          \item Result: Pass
+      \end{itemize}
+
+      \item \textbf{FR-5}  
+      \begin{itemize}
+          \item Description: Attempting to create multiple teams under one Captain.
+          \item How Test Will Be Performed: Tester will attempt to create a second team while logged in as a Captain who already has an existing team. Verify that the new team is not added to the database.
+          \item Requirements Covered: SRS Req \#5 (team creation).
+          \item Inputs: Enter a new \texttt{TeamName} and Division while already associated with an existing team.
+          \item Expected Output: Unsuccessful team creation. Error message displayed for multiple teams under one \texttt{CaptainID}.
+          \item Actual Output: Not Tested Yet.
+          \item Result: Not Tested Yet.
+      \end{itemize}
+
+      % \item \textbf{FR-6}  
+      % \begin{itemize}
+      %     \item Description: Player requesting to join a team.
+      %     \item How Test Will Be Performed: Tester will attempt to join a team while logged in as a Player without an existing team. Verify that the associated Captain receives the request (Refer to FR-7).
+      %     \item Requirements Covered: SRS Req \#6 (joining teams).
+      %     \item Inputs: Player requests to join \texttt{TeamName}.
+      %     \item Expected Output: Player’s request is sent to the team’s Captain.
+      %     \item Actual Output: Player’s request is sent to the team’s Captain.
+      %     \item Result: Pass
+      % \end{itemize}
+
+      % \item \textbf{FR-7}  
+      % \begin{itemize}
+      %     \item Description: Captain approving a player's join request.
+      %     \item How Test Will Be Performed: Tester will log in as a Captain with an existing team and approve a pending player's join request. Verify that the team updates accordingly: Roster is updated in the database, and the player gains access to team-specific information.
+      %     \item Requirements Covered: SRS Req \#6 (joining teams).
+      %     \item Inputs: Captain receives and approves the request.
+      %     \item Expected Output: \texttt{PlayerID} is added to the Roster of the team associated with \texttt{TeamName}.
+      %     \item Actual Output: \texttt{PlayerID} is added to the Roster of the team associated with \texttt{TeamName}.
+      %     \item Result: Pass
+      % \end{itemize}
+
+      \item \textbf{FR-7}  
+      \begin{itemize}
+          \item Description: Generating a season game schedule based on team availability and preferences.
+          \item How Test Will Be Performed: Load the database with team availability, divisional assignments, game count requirements, and available slots. Run the schedule generation process. Refer to TPERF-2 for performance testing of the generated schedule.
+          \item Requirements Covered: SRS Req \#7 (Schedule Automation).
+          \item Inputs:  
+              \begin{itemize}
+                  \item Team Availability: Preferences for game days and times.  
+                  \item Division Assignments: Each TeamID is assigned a division.  
+                  \item Game Count Requirement: Ensures each team has an equal number of games.  
+                  \item Available Slots: The availability of the event space.  
+              \end{itemize}
+          \item Expected Output: The system generates an appropriate season game schedule.
+          \item Actual Output: The system successfully generates a season game schedule.
+          \item Result: Pass
+      \end{itemize}
+
+    \item \textbf{FR-8}  
+      \begin{itemize}
+          \item Description: Captains submitting game results, which update the standings.
+          \item How Test Will Be Performed: Captain submits game scores (ScoreTeamA, ScoreTeamB). Verify that the report is reflected in the database and that standings update accordingly.
+          \item Requirements Covered: SRS Req \#12 (Reporting).
+          \item Inputs:  
+              \begin{itemize} 
+                  \item ScoreTeamA: Score for Team A.  
+                  \item ScoreTeamB: Score for Team B.  
+              \end{itemize}
+          \item Expected Output: Game report is updated, and standings reflect the new results.
+          \item Actual Output: Game report successfully updates, and standings are correctly modified.
+          \item Result: Pass
+      \end{itemize}
+
+      \item \textbf{FR-9}  
+      \begin{itemize}
+          \item Description: Captains submitting reschedule requests for approval by the Commissioner.
+          \item How Test Will Be Performed: Captain initiates a reschedule request for an open slot. Verify that the request is sent to the Commissioner for approval.
+          \item Requirements Covered: SRS Req \#8 (Rescheduling).
+          \item Inputs:  
+              \begin{itemize}
+                  \item ScheduleID: Identifier for the current schedule.  
+                  \item GameID: Identifier for the game being rescheduled.  
+                  \item SlotNumber: Open slot requested for rescheduling.  
+              \end{itemize}
+          \item Expected Output: Request is successfully sent to the Commissioner for review.
+          \item Actual Output: Not Tested Yet.
+          \item Result: Not Tested Yet.
+      \end{itemize}
+
+    \item \textbf{FR-10}  
+      \begin{itemize}
+          \item Description: Commissioner overriding a scheduled game (cancel or reschedule) or approving a reschedule request.
+          \item How Test Will Be Performed: Commissioner applies an override on an existing game. Verify that the schedule updates correctly (Schedule view, SlotNumber, and Available Slots). Confirm that notifications are sent to all affected team members.
+          \item Requirements Covered: SRS Req \#11 (Game Overrides).
+          \item Inputs:  
+              \begin{itemize}
+                  \item GameID: Identifier for the game being overridden.  
+                  \item Override Type: Cancel or reschedule.  
+                  \item New SlotNumber (if rescheduling): The newly assigned game slot.  
+              \end{itemize}
+          \item Expected Output: The override is reflected in the schedule, and all rostered team members receive notifications.
+          \item Actual Output: Not Tested Yet.
+          \item Result: Not Tested Yet.
+      \end{itemize}
+
+      \item \textbf{FR-11}  
+      \begin{itemize}
+          \item Description: Commissioner posts a league-wide announcement that should be visible across all platform views.
+          \item How Test Will Be Performed: Commissioner submits an announcement. Verify that the announcement is displayed to all users across the platform.
+          \item Requirements Covered: SRS Req \#9, \#10 (Announcements).
+          \item Inputs:  
+              \begin{itemize}
+                  \item Announcement Title: The subject of the announcement.
+                  \item Announcement Body: The message content.
+                  \item Visibility Scope: League-wide.
+              \end{itemize}
+          \item Expected Output: Announcement is displayed across all platform views and is accessible to all users.
+          \item Actual Output: Announcement successfully visible to all users.
+          \item Result: Pass
+      \end{itemize}
+\end{enumerate}
+
 \section{Nonfunctional Requirements Evaluation}
 
 \subsection{Usability}
+
+\subsubsection{Manual Testing}
+\begin{enumerate}
+\item \textbf{TUH-1}  
+      \begin{itemize}
+          \item Description: Evaluate ease of navigation for new users by measuring time taken to access key platform views.
+          \item How Test Will Be Performed: Conduct an observational usability study where participants navigate through login, announcements, standings, and schedule pages. Record navigation times and collect feedback through a post-task survey.
+          \item Requirements Covered: SRS Req \#11.1 (Usability - Navigation).
+          \item Inputs:  
+              \begin{itemize}
+                  \item Navigation Tasks: Tester navigates through login, announcements, standings, and schedule pages.
+                  \item Participants: \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} with no prior experience with the platform.
+              \end{itemize}
+          \item Expected Output: Participants successfully navigate to each view within \hyperref[MIN_NAVTIME]{\texttt{MIN\_NAVTIME}} minutes without prior experience or external assistance.
+          \item Actual Output: Participants completed navigation within the expected time.
+          \item Result: Pass
+      \end{itemize}
+
+    \item \textbf{TUH-2}  
+    \begin{itemize}
+        \item Description: Verify the platform displays date, time, and measurements according to Canadian localization standards.
+        \item How Test Will Be Performed: Verify date, time, and measurement units across the platform views. Ask usability testers to confirm that information formats are clear and match Canadian standards. Feedback survey included in Appendix.
+        \item Requirements Covered: SRS Req \#11.2 (Localization - Canadian Standards).
+        \item Inputs:  
+            \begin{itemize}
+                \item Date, Time, and Measurement Fields: Tester reviews the date, time, and metric system information across the platform.
+                \item Participants: Usability testers verify format clarity and standard compliance.
+            \end{itemize}
+        \item Expected Output: Platform displays date and time in Canadian format, uses the metric system, and all text is in Canadian English.
+        \item Actual Output: Not Tested Yet.
+        \item Result: Not Tested Yet.
+    \end{itemize}
+
+    \item \textbf{TUH-3}  
+    \begin{itemize}
+        \item Description: Evaluate the effectiveness of in-app learning support by measuring how quickly new users can complete tasks using the platform’s guidance tools.
+        \item How Test Will Be Performed: Conduct an observational usability study with \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} participants who have no prior experience with the platform. Record the time taken for each task completion. Following the tasks, participants will complete a survey (in Appendix) to provide feedback on task difficulty and provided guidance.
+        \item Requirements Covered: SRS Req \#11.3-11.4 (Usability - Task Completion and Learning Support).
+        \item Inputs:  
+            \begin{itemize}
+                \item Tasks: Tester performs login, creates a team, and requests a reschedule.
+                \item Participants: \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} with no prior experience with the platform.
+            \end{itemize}
+        \item Expected Output: Tester completes each task within an average of \hyperref[AVG_TASK_TIME]{\texttt{AVG\_TASK\_TIME}} minutes, utilizing in-app guidance (navigation instructions, tooltips, help documentation) to easily understand and complete tasks.
+        \item Actual Output: Tester completed each task within the expected time and used in-app help effectively.
+        \item Result: Pass
+    \end{itemize}
+\end{enumerate}
 		
 \subsection{Performance}
 
-\subsection{etc.}
+\subsubsection{Manual Testing}
+\begin{enumerate}
+    \item \textbf{TPERF-1}  
+        \begin{itemize}
+            \item Description: Verify the accuracy of the league standings calculations.
+            \item How Test Will Be Performed: Create test cases with predefined standings. Use an automated script to perform calculations and check results against expected outcomes, ensuring all calculations are accurate.
+            \item Requirements Covered: SRS Req \#12.1, 12.3 (Performance - Standings Calculation Accuracy).
+            \item Inputs:  
+                \begin{itemize}
+                    \item Sample Data: Predefined standings data for the league.
+                    \item Tester: Automated script performing the calculation checks.
+                \end{itemize}
+            \item Expected Output: The standings are calculated with 100% accuracy, as outlined in the functional requirements.
+            \item Actual Output: The standings were calculated with 100% accuracy.
+            \item Result: Pass
+        \end{itemize}
+
+\item \textbf{TPERF-2}  
+    \begin{itemize}
+        \item Description: Verify the accuracy and balance of the league schedule, ensuring that teams play within their division, with balanced game counts, and no conflicts.
+        \item How Test Will Be Performed: The platform is prepared with a sample dataset containing multiple teams and generates a schedule. The tester manually verifies the schedule, checking that each team is assigned games within the schedule, ensuring a balanced number of games, verifying divisional match-ups, and logging any conflicts.
+        \item Requirements Covered: SRS Req \#12.4 (Performance - Scheduling Accuracy and Optimization).
+        \item Inputs:  
+            \begin{itemize}
+                \item Sample Data: Teams and their preferences for scheduling.
+                \item Tester: Manually verifying the schedule.
+            \end{itemize}
+        \item Expected Output:  
+            \begin{itemize}
+                \item The displayed schedule shows that all teams have a balanced number of scheduled games, with no team having a game count differing by more than \hyperref[MAX_GAME_DIFF]{\texttt{MAX\_GAME\_DIFF}} games from any other team.
+                \item The displayed schedule shows that all teams play 100% of their games within their division.
+                \item The displayed schedule is conflict-free, considering time and location.
+                \item The displayed schedule is optimized based on matching team preferences.
+            \end{itemize}
+        \item Actual Output: Not Tested Yet.
+        \item Result: Not Tested Yet.
+    \end{itemize}
+
+ \item \textbf{TPERF-3}  
+    \begin{itemize}
+        \item Description: Verify that new login credentials are properly added and stored in the database.
+        \item How Test Will Be Performed: The tester manually adds a pair of new credentials and checks whether the information is stored correctly in the database.
+        \item Requirements Covered: SRS Req \#12.2 (Performance - Credential Storage).
+        \item Inputs:  
+            \begin{itemize}
+                \item New Login Credentials: A pair of new user credentials to be added to the system.
+                \item Tester: Manually verifying the database storage.
+            \end{itemize}
+        \item Expected Output: The credentials are stored in the database in the correct format.
+        \item Actual Output: The credentials were stored in the database in the correct format.
+        \item Result: Pass
+    \end{itemize}
+
+\item \textbf{TPERF-4}  
+    \begin{itemize}
+        \item Description: Verify that the platform handles invalid form submissions by highlighting errors and preventing submission until corrections are made.
+        \item How Test Will Be Performed: Testers will intentionally leave required fields blank, enter invalid data formats, and submit the form. Testers will verify that the fields with errors are highlighted visually and that informative error messages appear next to the problematic fields, indicating the nature of the errors. Testers will confirm that the information in the form is not submitted into the database until the errors are corrected and the form is resubmitted, showing a success message upon submission.
+        \item Requirements Covered: SRS Req \#12.4 (Performance - Form Validation and Error Handling).
+        \item Inputs:  
+            \begin{itemize}
+                \item Invalid Data: Required fields left blank, incorrect data formats (e.g., invalid email).
+                \item Tester: Manually interacting with the form and submitting.
+            \end{itemize}
+        \item Expected Output:  
+            \begin{itemize}
+                \item Fields with errors are highlighted visually.
+                \item Informative error messages appear next to the problematic fields.
+                \item Form submission is prevented until all errors are corrected.
+                \item A success message appears upon a successful resubmission after error correction.
+            \end{itemize}
+        \item Actual Output: Not Tested Yet.
+        \item Result: Not Tested Yet.
+    \end{itemize}
+
+\end{enumerate}
+
+\subsection{Operational and Environmental}
+\subsubsection{Manual Testing}
+\begin{enumerate}
+    \item \textbf{TOPE-1}  
+    \begin{itemize}
+        \item Description: Verify that the platform is fully accessible and functional across desktop, tablet, and smartphone devices.
+        \item How Test Will Be Performed: Perform manual testing of the platform features, responsiveness, and navigation on desktop, tablet, and smartphone. Ensure all features are accessible and function correctly on each device type.
+        \item Requirements Covered: SRS Req \#13.1 (Platform Compatibility - Multi-Device Accessibility).
+        \item Inputs:  
+            \begin{itemize}
+                \item Device Types: Desktop, tablet, and smartphone.
+                \item Tester: Manually interacting with the platform across all device types.
+            \end{itemize}
+        \item Expected Output: The platform is fully accessible and functional on all device types, with no loss of features or navigation issues.
+        \item Actual Output: Not Tested Yet.
+        \item Result: Not Tested Yet.
+    \end{itemize}
+
+    \item \textbf{TOPE-2}  
+    \begin{itemize}
+        \item Description: Verify that the platform is compatible and displays correctly across major browsers (Chrome, Firefox, Safari, and Edge).
+        \item How Test Will Be Performed: Testers manually access all features and views of the platform in each of the browsers (Chrome, Firefox, Safari, and Edge). Ensure that the platform displays correctly and functions as expected in each browser.
+        \item Requirements Covered: SRS Req \#13.2-13.3 (Browser Compatibility).
+        \item Inputs:  
+            \begin{itemize}
+                \item Browser Types: Chrome, Firefox, Safari, and Edge.
+                \item Tester: Manually interacting with the platform across each browser.
+            \end{itemize}
+        \item Expected Output: The platform displays correctly across all major browsers, with no visual or functional issues.
+        \item Actual Output: Not Tested Yet.
+        \item Result: Not Tested Yet.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Maintainability and Support}
+\subsubsection{Manual Testing}
+\begin{enumerate}
+    \item \textbf{TMS-1}  
+    \begin{itemize}
+        \item Description: Verify that users can contact support via email without any external assistance.
+        \item How Test Will Be Performed: A minimum number of testers (\hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}}) will be asked to reach support through email. Testers will document any difficulties encountered during the process.
+        \item Requirements Covered: SRS Req \#14.1, 14.2 (Support - Contact Mechanism).
+        \item Inputs:  
+            \begin{itemize}
+                \item Support Email: The email address to contact support.
+                \item Tester: Manually sending an email to the support team.
+            \end{itemize}
+        \item Expected Output: The support team receives the help request from the tester via email, with no external help required.
+        \item Actual Output: Not Tested Yet.
+        \item Result: Not Tested Yet.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Security}
+\subsubsection{Manual Testing}
+\begin{enumerate}
+    \item \textbf{TSEC-1}  
+    \begin{itemize}
+        \item Description: Verify that users with different roles (Player, Captain, Commissioner) have the appropriate level of access to platform features.
+        \item How Test Will Be Performed: Manually log in with a dummy user for each role (Administrator, Team Manager, Player, and Captain). Attempt to access various features and verify that the access levels match the defined role-based access control requirements.
+        \item Requirements Covered: SRS Req \#15.1, 15.2 (Security - Role-Based Access Control).
+        \item Inputs:  
+            \begin{itemize}
+                \item User Roles: Administrator, Team Manager, Player, and Captain.
+                \item Tester: Manually logging in with each role and testing access to platform features.
+            \end{itemize}
+        \item Expected Output:  
+            \begin{itemize}
+                \item The Player role has restricted access, with only basic features (e.g., viewing schedule, joining teams).
+                \item The Captain role has access to additional team management features.
+                \item The Commissioner has access to all administrative features.
+            \end{itemize}
+        \item Actual Output: Not Tested Yet.
+        \item Result: Not Tested Yet.
+    \end{itemize}
+
+    % \item \textbf{TSEC-2}  
+    % \begin{itemize}
+    %     \item Description: Verify that the platform prevents submission of invalid data and displays appropriate error messages.
+    %     \item How Test Will Be Performed: Enter invalid data into the respective forms (e.g., team roster with missing player names, invalid team or game information) and submit. Observe the system's responses to ensure that appropriate validation messages are displayed and that no invalid data is submitted or saved to the database.
+    %     \item Requirements Covered: SRS Req \#15.1, 15.2 (Security - Data Validation and Error Handling).
+    %     \item Inputs:  
+    %         \begin{itemize}
+    %             \item Invalid Data: Examples include missing player names, incorrect team or game information.
+    %             \item Tester: Manually entering invalid data into the forms and submitting.
+    %         \end{itemize}
+    %     \item Expected Output: The system should display helpful error messages and prevent the submission of invalid data, ensuring that no incorrect data is saved to the database.
+    %     \item Actual Output: The system correctly prevented data submission for invalid inputs and displayed error messages.
+    %     \item Result: Pass
+    % \end{itemize}
+\end{enumerate}
+
+\subsection{Cultural}
+\subsubsection{Manual Testing}
+\begin{enumerate}
+    \item \textbf{TCU-1}  
+    \begin{itemize}
+        \item Description: Verify that all text is displayed in Canadian English and the time is shown in the correct Hamilton, Ontario, Canada time zone (EST).
+        \item How Test Will Be Performed: Manually inspect the platform's content, ensuring that all text is displayed in Canadian English and that date/time formats reflect the Hamilton, Ontario time zone (EST).
+        \item Requirements Covered: SRS Req \#16.1 (Content - Localization and Time Zone).
+        \item Inputs:  
+            \begin{itemize}
+                \item Platform Content: Text, date, and time information.
+                \item Tester: Manually inspecting the platform for correctness in language and time zone.
+            \end{itemize}
+        \item Expected Output: All text is displayed in Canadian English, and time is correctly displayed in EST (Hamilton, Ontario).
+        \item Actual Output: The platform displayed all content in Canadian English, with the correct time zone.
+        \item Result: Pass
+    \end{itemize}
+
+\end{enumerate}
+
+\subsection{Compliance}
+\subsubsection{Manual Testing}
+\begin{enumerate}
+    \item \textbf{TC-1}  
+    \begin{itemize}
+        \item Description: Verify that a user can delete their account and associated personal data, and receive confirmation of deletion.
+        \item How Test Will Be Performed: Manually delete a dummy user account and verify that all associated personal data (e.g., email, phone number) is removed from the database and platform. Log any unexpected time elapsed to ensure the deletion process is secure and compliant with expected time frames.
+        \item Requirements Covered: SRS Req \#17.1 (Functional - Data Deletion and Compliance).
+        \item Inputs:  
+            \begin{itemize}
+                \item User Account: Dummy account with personal data (email, phone number).
+                \item Tester: Initiating the account deletion request.
+            \end{itemize}
+        \item Expected Output: All personal data associated with the account is removed from the database and platform, and the user receives confirmation of successful deletion.
+        \item Actual Output: Not Tested Yet.
+        \item Result: Not Tested Yet.
+    \end{itemize}
+
+    \item \textbf{TC-2}  
+    \begin{itemize}
+        \item Description: Verify that the platform adheres to W3C web standards, including readable fonts, accessible colors, and clear navigation.
+        \item How Test Will Be Performed: Manually inspect the platform's interface to ensure compliance with W3C web standards, focusing on font readability, color contrast, and navigation clarity.
+        \item Requirements Covered: SRS Req \#17.2 (Functional - Web Standards Compliance).
+        \item Inputs:  
+            \begin{itemize}
+                \item Platform Interface: The visual elements of the platform, including text, colors, and navigation.
+                \item Tester: Manually inspecting the platform against W3C standards.
+            \end{itemize}
+        \item Expected Output: The platform meets W3C standards for font readability, accessible color contrasts, and clear navigation.
+        \item Actual Output: The platform adheres to the W3C web standards.
+        \item Result: Pass
+    \end{itemize}
+
+\end{enumerate}
 	
 \section{Comparison to Existing Implementation}	
 
-This section will not be appropriate for every project.
+Existing Implementation: \href{https://www.gsasoftball.ca/}{GSA Softball Website}
+
+    \begin{itemize}
+        \item \textbf{User Experience:} Our platform provides a more intuitive and streamlined navigation experience, with easy-to-find features like schedules, team management, and announcements.
+        \item \textbf{Design and Aesthetics:} Our site boasts a modern, responsive design that adapts seamlessly across devices, offering a clean and visually appealing interface.
+        \item \textbf{Functionality:} We provide advanced features such as live score updates, team rosters, and user-specific dashboards, which are absent or less efficient on the existing site.
+        % \item \textbf{Performance:} Our site is optimized for faster load times and smoother interactions, enhancing the overall user experience.
+        \item \textbf{Accessibility:} We prioritize accessibility, ensuring that the site is usable for individuals with disabilities, with features like screen reader compatibility and improved color contrast.
+         \item \textbf{Team Page View:} Unlike the old website, our website allows users to view their team information on a "my team" page, which allows for easy access to useful information.
+         \item \textbf{Game Scores:} Unlike the old website, the user had to manually fill out a game form and send it to the commissioner. Our new implementation allows captains to fill out the scores quickly and submit in less than a couple seconds.
+    \end{itemize}
 
 \section{Unit Testing}
+N/A
 
 \section{Changes Due to Testing}
 
@@ -87,7 +547,43 @@ the supervisor (when one exists) shaped the final product.  In particular
 the feedback from the Rev 0 demo to the supervisor (or to potential users) 
 should be highlighted.}
 
+During testing, some test cases were scrapped due to changes in the platform's implementation. Initially, we had the following test case for player team requests:\\
+
+   \textbf{FR-6}  
+      \begin{itemize}
+          \item Description: Player requesting to join a team.
+          \item How Test Will Be Performed: Tester will attempt to join a team while logged in as a Player without an existing team. Verify that the associated Captain receives the request (Refer to FR-7).
+          \item Requirements Covered: SRS Req \#6 (joining teams).
+          \item Inputs: Player requests to join \texttt{TeamName}.
+          \item Expected Output: Player’s request is sent to the team’s Captain.
+          \item Actual Output: Not Tested Yet.
+          \item Result: Not Tested Yet.
+      \end{itemize}
+
+However, after further meetings with our supervisor, we revised the implementation to allow only team captains to invite players. As a result, the functionality to request joining a team was removed to prevent spamming of join requests, and this test case was no longer valid. \\
+
+
+While performing other test cases, we identified improvements that prompted changes to the platform and test cases. For example, the following test case was modified:\\
+
+ \textbf{FR-8}  
+      \begin{itemize}
+          \item Description: Captains submitting game results, which update the standings.
+          \item How Test Will Be Performed: Captain submits game result and game scores (Win/Lose/Tie, ScoreTeamA, ScoreTeamB). Verify that the report is reflected in the database and that standings update accordingly.
+          \item Requirements Covered: SRS Req \#12 (Reporting).
+          \item Inputs:  
+              \begin{itemize} 
+                  \item ScoreTeamA: Score for Team A.  
+                  \item ScoreTeamB: Score for Team B.  
+              \end{itemize}
+          \item Expected Output: Game report is updated, and standings reflect the new results.
+          \item Actual Output: Game report successfully updates, and standings are correctly modified.
+          \item Result: Pass
+      \end{itemize}
+
+Upon review, we decided to simplify the process by removing the need for captains to manually submit the result (Win/Lose/Tie). Instead, we implemented backend logic to automatically calculate the game result based on the scores, enhancing the user experience.
+
 \section{Automated Testing}
+N/A
 		
 \section{Trace to Requirements}
 		
@@ -107,11 +603,20 @@ graduate attribute of Reflection.
 \input{../Reflection.tex}
 
 \begin{enumerate}
-  \item What went well while writing this deliverable? 
+  \item What went well while writing this deliverable?
+  
+  The process of gathering and documenting test cases went smoothly, particularly due to the VnV Plan that we created previously to look back onto and the effective communication with the team. The detailed structure for each test case was already there, so we just had to follow our original plan and that really helped streamline the writing process.
+  
   \item What pain points did you experience during this deliverable, and how
     did you resolve them?
+    
+    One challenge we had was adapting to the requirements from our supervisor, which led to the adjustments in the test cases throughout development. We resolved this by maintaining flexibility in our code approach and updating our test plans to adjust for those implementation changes. Overall, there weren't too many issues that were a pain to deal with.
+     
   \item Which parts of this document stemmed from speaking to your client(s) or
   a proxy (e.g. your peers)? Which ones were not, and why?
+  
+  As mentioned before, the changes to test cases came directly from adapting to the requirements from our supervisor over the course of many meetings. One good example is FR-6 in our original VnV Plan, which was the player's ability to request to join a team. Our supervisor thought it would be annoying for captains to see many team invites, as players could just constantly request to join all the teams. Therefore, he asked us to remove the functionality completely to only allow captains to invite players they wanted. Some other parts of the documents were changed purely by our own thoughts and opinions, such as removing the need for captains to input game results (Win/Lose/Tie) in FR-8. We decided that it was a good change to improve the user experience, and speed up the process for captains to submit scores.
+  
   \item In what ways was the Verification and Validation (VnV) Plan different
   from the activities that were actually conducted for VnV?  If there were
   differences, what changes required the modification in the plan?  Why did
@@ -120,6 +625,11 @@ graduate attribute of Reflection.
   predict a feasible amount of effort and the right tasks needed to build the
   evidence that demonstrates the required quality?  (It is expected that most
   teams will have had to deviate from their original VnV Plan.)
+  
+  We have already discussed the modifications in the plan in the previous questions above, so we won't bother discussing it again in this section. Our VnV Plan originally had automated testing, but we had to deviate from that due to the superiority of manual testing for this website. It was extremely easy to test features, such as adding players to a team and verifying by looking at the database manually. Automated testing would be considered a waste of time, especially since we've fallen a bit behind on our progress.
+
+  The rest of our VnV Plan did not have to change, so there weren't many differences. Our team was able to clearly predict the right tasks to build the evidence that demonstrated the required quality because we have tremendous experience with sports platforms, participating in sports all our lives. Ever since coming to McMaster, we have regularly used McMaster IMLeagues to play intramurals, and we understand what makes a sports platform perform well from the users perspective. We also have experience with full-stack web development from our previous co-ops and internships, and we are familiar with building a big project from scratch. Testing was often regularly done before pushing our products to production.
+  
 \end{enumerate}
 
 \end{document}
