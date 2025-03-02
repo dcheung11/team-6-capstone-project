@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const HttpError = require("../models/http-error");
 const Player = require("../models/player");
 const Team = require("../models/team");
+const mongoose = require("mongoose");
 
 const getPlayers = async (req, res, next) => {
   let players;
@@ -238,9 +239,38 @@ const sendInvite = async (req, res, next) => {
   });
 };
 
+const updatePlayerInfo = async (req, res, next) => {
+  const { pid } = req.params;
+  const updates = req.body;
+
+  try {
+    // Convert pid to ObjectId
+    if (!mongoose.Types.ObjectId.isValid(pid)) {
+      return next(new HttpError("Invalid player ID.", 400));
+    }
+
+    const player = await Player.findById(pid);
+    if (!player) {
+      return next(new HttpError("Player not found.", 404));
+    }
+
+    Object.keys(updates).forEach((key) => {
+      player[key] = updates[key]; // Apply updates dynamically
+    });
+
+    await player.save();
+
+    res.status(200).json({ message: "Player updated successfully", player });
+  } catch (err) {
+    return next(new HttpError("Updating player failed, please try again.", 500));
+  }
+};
+
+
 exports.getPlayers = getPlayers;
 exports.signup = signup;
 exports.login = login;
 exports.getPlayerById = getPlayerById;
 exports.acceptInvite = acceptInvite;
 exports.sendInvite = sendInvite;
+exports.updatePlayerInfo = updatePlayerInfo;

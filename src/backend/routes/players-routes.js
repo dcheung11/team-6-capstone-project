@@ -26,4 +26,6 @@ router.post("/acceptinvite", playersController.acceptInvite);
 
 router.post("/sendinvite", playersController.sendInvite);
 
+router.patch("/:pid", playersController.updatePlayerInfo);
+
 module.exports = router;
