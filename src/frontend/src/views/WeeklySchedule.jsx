@@ -122,7 +122,7 @@ export const WeeklySchedule = () => {
           const dateKey = getLocalISODate(new Date(slot.date));
           const slotString = `${slot.time} | ${slot.field}`;
           if (!acc[dateKey]) acc[dateKey] = [];
-          acc[dateKey].push(slotString);
+          acc[dateKey].push({ id: slot._id, slotString: slotString });
           return acc;
         }, {});
 
@@ -251,6 +251,7 @@ export const WeeklySchedule = () => {
             selectedDate={selectedDate}
             selectedMatch={selectedMatch}
             availableTimeslots={availableGameslots}
+            player={player}
             onClose={() => setShowModal(false)}
           />
         ) : (

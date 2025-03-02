@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { createRescheduleRequest } from "../api/reschedule-requests";
 
 // Utility functions
 function getLocalISODate(date) {
@@ -35,17 +36,18 @@ function getPopupWeekRange(date) {
   return `${startStr} - ${endStr}`;
 }
 
-export const ReschedulePopup = ({ selectedDate, selectedMatch, availableTimeslots, onClose }) => {
-  console.log("selectedDate: ", selectedDate);
-  console.log("selectedMatch: ", selectedMatch);
+export const ReschedulePopup = ({ selectedDate, selectedMatch, availableTimeslots, player, onClose }) => {
+  console.log("date of game to be rescheduled: ", selectedDate);
+  console.log("selected match to be requested: ", selectedMatch);
   const [popupDate, setPopupDate] = useState(new Date(selectedDate));
-  console.log("popupDate: ", popupDate);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const timeslotData = availableTimeslots || [];
+  const currentPlayer = player;
 
   const popupWeekDates = getPopupWeekDates(popupDate);
   const popupWeekRange = getPopupWeekRange(popupDate);
+  const [newSlot, setNewSlot] = useState(null);
 
 
   // Fetch available slots from backend
@@ -57,9 +59,27 @@ export const ReschedulePopup = ({ selectedDate, selectedMatch, availableTimeslot
     setPopupDate(newDate);
   };
 
-  const handleSubmit = () => {
-    alert(`Rescheduled: ${selectedMatch} on ${selectedDate}`);
+  const handleSubmit = async () => {
+    // create reschedule request and send notification
+    // to selectedGame.homeTeam === myteam.id ? selectedGame.awayTeam : selectedGame.homeTeam
+    const oppTeam = selectedMatch.homeTeam._id === currentPlayer?.team?._id ? selectedMatch.awayTeam : selectedMatch.homeTeam;
+    console.log("oppTeam: ", oppTeam);
+    const rescheduleReqResponse = await createRescheduleRequest({
+      gameId: selectedMatch._id,
+      requestingTeamId: currentPlayer.team._id,
+      recipientTeamId: oppTeam._id,
+      requestedGameslotId: newSlot
+    }) || {};
+
+    console.log("rescheduleReqResponse: ", rescheduleReqResponse);
+
+    alert(`Reschedule request sent to ${oppTeam?.name}`);
     onClose();
+  };
+
+  const handleSelectSlot = (slotId) => {
+    setNewSlot(slotId);
+    console.log("new timeslot selected (ID): ", newSlot);
   };
 
   return (
@@ -93,8 +113,8 @@ export const ReschedulePopup = ({ selectedDate, selectedMatch, availableTimeslot
                 <h4 style={styles.dayTitle}>{dayObj.day} {dayObj.date}</h4>
                   {slots.length > 0 ? (
                     slots.map((slot, idx) => (
-                      <button key={idx} style={styles.slotButton}>
-                        {slot}
+                      <button key={idx} style={styles.slotButton} onClick={() => handleSelectSlot(slot.id)}>
+                        {slot.slotString}
                       </button>
                     ))
                   ) : (

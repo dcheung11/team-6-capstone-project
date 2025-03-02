@@ -6,7 +6,7 @@ const RescheduleRequest = require("../models/reschedule-request");
 
 const createRequest = async (req, res) => {
   try {
-    const { gameId, newGameSlotId, requestingTeamId } = req.body;
+    const { gameId, requestingTeamId, recipientTeamId, requestedGameslotId } = req.body;
 
     // Find the game to be rescheduled
     const game = await Game.findById(gameId);
@@ -17,41 +17,50 @@ const createRequest = async (req, res) => {
     // Check if the new game slot is available
     // this shouldn't even happen since unavailable game slots
     // shouldn't even appear in reschedule menu
-    const isSlotAvailable = await Game.findOne({ gameslot: newGameSlotId });
-    if (isSlotAvailable) {
+    const isSlotAvailable = await Game.findOne({ gameslot: requestedGameslotId });
+    console.log("isSlotAvailable: ", isSlotAvailable);
+    if (isSlotAvailable !== null) {
       return res
-        .status(400)
-        .json({ message: "New game slot is not available" });
+      .status(400)
+      .json({ message: "New game slot is not available" });
     }
 
     // Find the recipient team
-    const otherTeamId = game.teams.find(
-      (teamId) => teamId !== requestingTeamId
-    );
-    const otherTeam = await Team.findById(otherTeamId);
-    if (!otherTeam) {
+    const recipientTeam = await Team.findById(recipientTeamId);
+    console.log("recipientTeam: ", recipientTeam);
+    if (!recipientTeam) {
       return res.status(404).json({ message: "Other team not found" });
     }
 
-    const newGameSlot = Gameslot.findById(newGameSlotId);
-    const requestingTeam = Team.findById(requestingTeamId);
+    const newGameSlot = await Gameslot.findById(requestedGameslotId);
+    const requestingTeam = await Team.findById(requestingTeamId);
 
     // create reschedule request
     const rescheduleRequest = new RescheduleRequest({
-      game: gameId,
-      requestingTeam: requestingTeamId,
-      recipientTeam: otherTeamId,
-      requestedGameslot: newGameSlotId,
+      gameId: gameId,
+      requestingTeamId: requestingTeamId,
+      recipientTeamId: recipientTeamId,
+      requestedGameslotId: requestedGameslotId,
     });
 
     await rescheduleRequest.save();
 
+    const date = new Date(newGameSlot.date);
+    const formattedDate = date.toLocaleString('en-US', { 
+      timeZone: 'America/New_York', 
+      month: 'short', 
+      day: '2-digit', 
+      year: 'numeric', 
+      hour: '2-digit', 
+      minute: '2-digit', 
+      hour12: false 
+    });
     // Create a notification for the other team
     const notification = new Notification({
       type: "reschedule request",
       sender: requestingTeamId,
-      recipient: otherTeamId,
-      message: `Team ${requestingTeam.name} has requested to reschedule the game to ${newGameSlot.date}. Please approve or reject the request.`,
+      recipient: recipientTeamId,
+      message: `Team ${requestingTeam.name} has requested to reschedule the game to ${formattedDate}. On ${newGameSlot.field}. Please approve or reject the request.`,
     });
 
     await notification.save();
@@ -95,8 +104,8 @@ const acceptRequest = async (req, res) => {
     // Create a notification for the requesting team
     const notification = new Notification({
       type: "update",
-      sender: rescheduleRequest.recipientTeam,
-      recipient: rescheduleRequest.requestingTeam,
+      sender: rescheduleRequest.recipientTeamId,
+      recipient: rescheduleRequest.requestingTeamId,
       message: `Your reschedule request has been accepted.`,
     });
 
