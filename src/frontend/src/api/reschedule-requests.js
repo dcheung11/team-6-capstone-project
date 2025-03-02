@@ -13,6 +13,26 @@ export const getRescheduleRequests = async () => {
   }
 };
 
+export const getAvailableGameslots = async () => {
+  try {
+    console.log("ASDHASODJIOASDIOAHSDOASHDIOHAS");
+    const response = await fetch(`${API_URL}/available-gameslots`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+    }});
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching available game slots:", error);
+    throw error;
+  }
+};
+
 export const createRescheduleRequest = async (requestData) => {
   try {
     const response = await fetch(`${API_URL}/create`, {

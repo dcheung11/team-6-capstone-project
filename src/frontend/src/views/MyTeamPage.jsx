@@ -57,7 +57,6 @@ export default function MyTeamPage() {
     const fetchScheduleGamesByTeamId = async (tid) => {
       try {
         const data = await getScheduleGamesByTeamId(tid);
-        console.log("MyTeam Page games of team: ", data);
         setTeamGames(data);
         setLoading(false);
       } catch (err) {
