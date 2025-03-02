@@ -7,7 +7,7 @@ const PlayerSchema = new mongoose.Schema({
   password: { type: String, required: true },
   waiverStatus: { type: Boolean, default: false },
   team: { type: mongoose.Schema.Types.ObjectId, ref: "Team" },
-  role: { type: String, default: "player" },
+  role: { type: String, enum: ["player", "captain", "commissioner"], default: "player" },
   invites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Team" }],
 });
 

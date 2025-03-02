@@ -3,11 +3,9 @@ import { createRescheduleRequest } from "../api/reschedule-requests";
 
 // Utility functions
 function getLocalISODate(date) {
-  // console.log("date: ", date);
   date.setHours(12, 0, 0, 0);
   const offset = date.getTimezoneOffset();
   const localDate = new Date(date.getTime() - offset * 60 * 1000);
-  // console.log("localDate: ", localDate);
   return localDate.toISOString().split("T")[0];
 }
 
@@ -37,8 +35,6 @@ function getPopupWeekRange(date) {
 }
 
 export const ReschedulePopup = ({ selectedDate, selectedMatch, availableTimeslots, player, onClose }) => {
-  console.log("date of game to be rescheduled: ", selectedDate);
-  console.log("selected match to be requested: ", selectedMatch);
   const [popupDate, setPopupDate] = useState(new Date(selectedDate));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -55,23 +51,18 @@ export const ReschedulePopup = ({ selectedDate, selectedMatch, availableTimeslot
   const handleWeekNav = (direction) => {
     let newDate = new Date(popupDate);
     newDate.setDate(newDate.getDate() + (direction === "next" ? 7 : -7));
-    console.log("handleWeekNav is running");
     setPopupDate(newDate);
   };
 
   const handleSubmit = async () => {
-    // create reschedule request and send notification
-    // to selectedGame.homeTeam === myteam.id ? selectedGame.awayTeam : selectedGame.homeTeam
+    // create reschedule request
     const oppTeam = selectedMatch.homeTeam._id === currentPlayer?.team?._id ? selectedMatch.awayTeam : selectedMatch.homeTeam;
-    console.log("oppTeam: ", oppTeam);
-    const rescheduleReqResponse = await createRescheduleRequest({
+    await createRescheduleRequest({
       gameId: selectedMatch._id,
       requestingTeamId: currentPlayer.team._id,
       recipientTeamId: oppTeam._id,
       requestedGameslotId: newSlot
-    }) || {};
-
-    console.log("rescheduleReqResponse: ", rescheduleReqResponse);
+    });
 
     alert(`Reschedule request sent to ${oppTeam?.name}`);
     onClose();

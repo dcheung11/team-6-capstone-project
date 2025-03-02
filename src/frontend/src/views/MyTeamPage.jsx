@@ -181,6 +181,7 @@ export default function MyTeamPage() {
                   // adjust to display schedule games when its available
                   <GamesRow
                     teamId={player.team.id}
+                    player = {player}
                     games={teamGames.games
                       .filter((game) => new Date(game.date) >= new Date()) // Only future games
                       .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sort by closest date

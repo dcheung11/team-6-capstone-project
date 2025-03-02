@@ -5,16 +5,6 @@ import { getPlayerById } from "../api/player";
 import { getScheduleGamesByTeamId } from "../api/team";
 import { getAvailableGameslots } from "../api/reschedule-requests";
 
-// Dummy match data for the weekly schedule
-const matchData = {
-  "2025-02-23": "Crimson Coyotes vs Blue Blazers (7:00)",
-  "2025-02-24": "Onyx Owls vs Amber Falcons (6:30)",
-  "2025-02-25": "Bronze Bears vs Red Rockets (6:00)",
-  "2025-02-26": "Magenta Marauders vs Ivory Irons (7:00)",
-  "2025-02-27": "Golden Griffins vs Thunderbolts (8:00)",
-  "2025-02-28": "Emerald Eagles vs Iron Ibis (5:30)",
-  "2025-02-29": "Silver Sharks vs Crimson Coyotes (7:30)",
-};
 
 // Fix the "day ahead" issue by normalizing date/time
 function getLocalISODate(date) {
@@ -35,8 +25,6 @@ export const WeeklySchedule = () => {
   const [playerId, setPlayerId] = useState(auth.playerId);
   const [player, setPlayer] = useState(null);
   const [teamGames, setTeamGames] = useState([]);
-  const [showReschedule, setShowReschedule] = useState(false);
-  const [selectedGame, setSelectedGame] = useState(null);
   const [availableGameslots, setAvailableGameslots] = useState({});
 
   useEffect(() => {
@@ -58,42 +46,21 @@ export const WeeklySchedule = () => {
   useEffect(() => {
     const fetchTeamGames = async () => {
       if (!player?.team?.id) {
-        // console.log('this ran: ', player);
         return;
       }
-      
-      // console.log('that ran', player.team);
+
       try {
         setLoading(true);
         const data = await getScheduleGamesByTeamId(player.team.id);
-        // console.log("data: ", data);
         const weekDates = getWeekDates(currentDate);
-        // console.log("weekDates: ", weekDates);
 
         const filteredGames = data.games.filter(game => {
           let gameDate = new Date(game.date);
           gameDate = getLocalISODate(gameDate);
-          // console.log("gamedate: ", gameDate);
           return gameDate >= weekDates[0].fullDate && gameDate <= weekDates[6].fullDate
         });
 
-        // data.games.forEach(game => {
-        //   let gameDate = new Date(game.date);
-        //   gameDate = getLocalISODate(gameDate);
-        //   console.log("gamedate: ", gameDate);
-        //   console.log('first day of current week  weekDates[0].fullDate: ', weekDates[0].fullDate );
-        //   console.log("gameDate >= weekDates[0] ? ", gameDate >= weekDates[0].fullDate);
-        //   console.log("gameDate <= weekDates[6] ? ", gameDate <= weekDates[6].fullDate);
-
-        //   if (gameDate >= weekDates[0].fullDate && gameDate <= weekDates[6].fullDate) {
-        //     console.log("hi");
-        //   }
-        // });
-
-
-        console.log("filteredGames", filteredGames);
         setTeamGames(filteredGames);
-        console.log("team games in effect: ", teamGames);
       } catch (err) {
         setError(err.message || "Failed to fetch team schedule");
       } finally {
@@ -108,14 +75,8 @@ export const WeeklySchedule = () => {
     const fetchGameslots = async () => {
       setLoading(true);
       setError(null);
-      console.log("this is running");
       try {
         const response = await getAvailableGameslots();
-        console.log("available gameslot response: ", response.slice(0,5));
-        // if (!response.ok) throw new Error("Failed to fetch timeslots.");
-        // const data = await response.json();
-
-        console.log("available gameslot data: ", response.length);
 
         // Transform data into { "YYYY-MM-DD": ["Time | Field"] } format
         const formattedData = response.reduce((acc, slot) => {
@@ -126,9 +87,7 @@ export const WeeklySchedule = () => {
           return acc;
         }, {});
 
-        console.log("formattedData: ", formattedData);
         setAvailableGameslots(formattedData);
-        // console.log("availableGameslots in effect: ", availableGameslots);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -140,10 +99,10 @@ export const WeeklySchedule = () => {
   }, []);
 
   const handleNavigation = (direction) => {
+    setLoading(true);
     const newDate = new Date(currentDate);
     newDate.setDate(newDate.getDate() + (direction === "next" ? 7 : -7));
     setCurrentDate(newDate);
-    // console.log('new date has time? ', newDate);
   };
 
   // Creates array Sunday-Saturday
@@ -197,52 +156,64 @@ export const WeeklySchedule = () => {
         <button style={styles.navButton} onClick={() => handleNavigation("prev")}>
           Prev
         </button>
-        <h2 style={styles.title}>{weekRange}</h2>
+        <h2 style={styles.title}>
+          {loading ? "Loading..." : getWeekRange(currentDate)}
+        </h2>
         <button style={styles.navButton} onClick={() => handleNavigation("next")}>
           Next
         </button>
       </div>
 
-      {/* Weekly Schedule Grid */}
-      <div style={styles.calendar}>
-        {weekDates.map((wdate, index) => {
-          // Find the game that matches this week date
-          const match = teamGames.find(game => {
-            const gameDate = new Date(game.date);
-            const gameFullDate = getLocalISODate(gameDate);
-            return gameFullDate === wdate.fullDate;
-          });
+      {/* loading overlay */}
+      {loading && (
+        <div style={styles.loadingOverlay}>
+          <div style={styles.spinner}></div>
+          <p>Loading games...</p>
+        </div>
+      )}
 
-          return (
-            <div key={index} style={styles.calendarCard}>
-              <h4 style={styles.calendarDay}>{wdate.day}</h4>
-              <p style={styles.calendarDate}>{wdate.date}</p>
-              
-              {match ? (
-                <>
-                  <p style={styles.eventText}>
-                    {match.homeTeam.name} vs {match.awayTeam.name}
-                  </p>
-                  <p style={styles.gameTime}>
-                    {new Date(match.date).toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })}
-                  </p>
-                  <button
-                    style={styles.rescheduleButton}
-                    onClick={() => handleRescheduleClick(wdate.fullDate, match)}
-                  >
-                    Reschedule
-                  </button>
-                </>
-              ) : (
-                <p style={styles.eventText}>No Matches</p>
-              )}
-            </div>
-          );
-        })}
-      </div>
+      {/* Weekly Schedule Grid */}
+      {!loading &&
+        <div style={styles.calendar}>
+          {weekDates.map((wdate, index) => {
+            // Find the game that matches this week date
+            const match = teamGames.find(game => {
+              const gameDate = new Date(game.date);
+              const gameFullDate = getLocalISODate(gameDate);
+              return gameFullDate === wdate.fullDate;
+            });
+
+            return (
+              <div key={index} style={styles.calendarCard}>
+                <h4 style={styles.calendarDay}>{wdate.day}</h4>
+                <p style={styles.calendarDate}>{wdate.date}</p>
+                
+                {match ? (
+                  <>
+                    <p style={styles.eventText}>
+                      {match.homeTeam.name} vs {match.awayTeam.name}
+                    </p>
+                    <p style={styles.gameTime}>
+                      {new Date(match.date).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </p>
+                    <button
+                      style={styles.rescheduleButton}
+                      onClick={() => handleRescheduleClick(wdate.fullDate, match)}
+                    >
+                      Reschedule
+                    </button>
+                  </>
+                ) : (
+                  <p style={styles.eventText}>No Matches</p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      }
 
       {showModal && (
         Object.keys(availableGameslots).length > 0 ? (
@@ -262,17 +233,6 @@ export const WeeklySchedule = () => {
           </div>
         )
       )}
-
-      {/* Reschedule Modal
-      {console.log("availableGameslots: ", availableGameslots.length)}
-      {showModal && (
-        <ReschedulePopup
-          selectedDate={selectedDate}
-          selectedMatch={selectedMatch}
-          availableTimeslots ={availableGameslots}
-          onClose={() => setShowModal(false)}
-        />
-      )} */}
     </div>
   );
 };
@@ -341,20 +301,21 @@ const styles = {
     cursor: "pointer",
   },
   loadingOverlay: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.8)", // Darker overlay for contrast
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 9999,
-    color: "#FFC72C", // Gold text
-    fontSize: "20px",
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-    flexDirection: "column", // Stack spinner and text
-    gap: "15px",
-  },
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  backgroundColor: "rgba(255, 255, 255, 0.9)",
+  padding: "20px",
+  borderRadius: "10px",
+  textAlign: "center",
+  fontWeight: "bold",
+  color: "#7A003C",
+  display: "flex",          // Added for centering
+  flexDirection: "column",  // Stack spinner & text
+  alignItems: "center",     // Center horizontally
+  justifyContent: "center", // Center vertically
+  gap: "10px",              // Space between spinner & text
+},
+  spinner: { width: "30px", height: "30px", border: "4px solid #FFC72C", borderTop: "4px solid transparent", borderRadius: "50%", animation: "spin 1s linear infinite" },
 };

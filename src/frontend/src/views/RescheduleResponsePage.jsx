@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Typography, Container, Button, Stack, Box, CircularProgress } from "@mui/material";
 import NavBar from "../components/NavBar";
-import { getNotificationById } from "../api/notification";
+import { getNotificationById, updateNotification } from "../api/notification";
 import { acceptRescheduleRequest, declineRescheduleRequest } from "../api/reschedule-requests";
 
 export default function RescheduleRequestPage() {
@@ -28,6 +28,7 @@ export default function RescheduleRequestPage() {
 
   const handleResponse = async (accepted) => {
     try {
+      await updateNotification(notificationId);
       if (accepted) {
         await acceptRescheduleRequest(notification.rescheduleRequestId);
       } else {

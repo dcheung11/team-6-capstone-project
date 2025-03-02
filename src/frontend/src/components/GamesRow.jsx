@@ -18,19 +18,20 @@ export default function GamesRow(props) {
             <Typography variant="body2" color="text.secondary">
               {game.field} - {game.time}
             </Typography>
-            <Button
-              variant="contained"
-              size="small"
-              sx={{
-                mt: 2,
-                bgcolor: "#800020",
-                "&:hover": {
-                  bgcolor: "#600018",
-                },
-              }}
-            >
+            { props.player.role === "captain" &&
+              (<Button
+                variant="contained"
+                size="small"
+                sx={{
+                  mt: 2,
+                  bgcolor: "#800020",
+                  "&:hover": {
+                    bgcolor: "#600018",
+                  },
+                }}
+              >
               Reschedule
-            </Button>
+            </Button>)}
           </CardContent>
         </Card>
       ))}

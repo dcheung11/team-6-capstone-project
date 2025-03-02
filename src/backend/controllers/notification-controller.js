@@ -66,25 +66,8 @@ const updateNotification = async (req, res) => {
       return res.status(404).send();
     }
 
-    // Update the status to 'read' if the user clicks on the notification
     notification.status = "read";
     await notification.save();
-
-    // Schedule deletion after 24 hours
-    setTimeout(async () => {
-      const notificationToDelete = await Notification.findByIdAndDelete(
-        req.params.id
-      );
-      if (notificationToDelete) {
-        const team = await Team.findById(notificationToDelete.recipient);
-        if (team) {
-          team.notifications = team.notifications.filter(
-            (notifId) => notifId.toString() !== req.params.id
-          );
-          await team.save();
-        }
-      }
-    }, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
 
     res.send(notification);
   } catch (error) {

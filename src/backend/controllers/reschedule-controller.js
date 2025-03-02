@@ -83,14 +83,12 @@ const acceptRequest = async (req, res) => {
     }
 
     // Update the status of the reschedule request to accepted
-    rescheduleRequest.status = "Accepted";
-    await rescheduleRequest.save();
-    
+    await RescheduleRequest.updateOne({ _id: rescheduleRequestId }, { status: "Accepted" });
 
     // Update the game slots and game
-    const game = await Game.findById(rescheduleRequest.game);
+    const game = await Game.findById(rescheduleRequest.gameId);
     const originalSlot = await Gameslot.findById(game.gameslot);
-    const requestedSlot = await Gameslot.findById(rescheduleRequest.requestedGameslot);
+    const requestedSlot = await Gameslot.findById(rescheduleRequest.requestedGameslotId);
 
     await Gameslot.updateOne({ _id: originalSlot._id }, { game: null });
     await Gameslot.updateOne({ _id: requestedSlot._id }, { game: game._id });
@@ -128,10 +126,8 @@ const declineRequest = async (req, res) => {
     }
 
     // Update the status of the reschedule request to declined
-    rescheduleRequest.status = "Declined";
     try {
-      await rescheduleRequest.save();
-      
+      await RescheduleRequest.updateOne({ _id: rescheduleRequestId }, { status: "Declined" });
     } catch (error) {
       console.error("Error saving reschedule request while declining: ", error);
       return res.status(500).json({ message: "Error saving reschedule request", error });
@@ -140,13 +136,12 @@ const declineRequest = async (req, res) => {
     // Create a notification for the requesting team
     const notification = new Notification({
       type: "update",
-      sender: rescheduleRequest.recipientTeam,
-      recipient: rescheduleRequest.requestingTeam,
+      sender: rescheduleRequest.recipientTeamId,
+      recipient: rescheduleRequest.requestingTeamId,
       message: `Your reschedule request has been declined.`,
     });
 
     await notification.save();
-
     
     res.status(200).json({ message: "Reschedule request declined successfully" });
   } catch (error) {
@@ -175,16 +170,16 @@ const getAvailableGameslots = async (req, res) => {
 
 const deleteRequest = async (req, res) => {
     try {
-      const { requestId } = req.params;
+      const { rescheduleRequestId } = req.params;
 
       // Find the reschedule request
-      const rescheduleRequest = await RescheduleRequest.findById(requestId);
+      const rescheduleRequest = await RescheduleRequest.findById(rescheduleRequestId);
       if (!rescheduleRequest) {
         return res.status(404).json({ message: "Reschedule request not found" });
       }
 
       // Delete the reschedule request
-      await RescheduleRequest.deleteOne({ _id: requestId });
+      await RescheduleRequest.deleteOne({ _id: rescheduleRequestId });
 
       res.status(200).json({ message: "Reschedule request deleted successfully" });
   } catch (error) {
@@ -194,10 +189,10 @@ const deleteRequest = async (req, res) => {
 
 const getRequestById = async (req, res) => {
     try {
-        const { requestId } = req.params;
+        const { rescheduleRequestId } = req.params;
 
         // Find the reschedule request
-        const rescheduleRequest = await RescheduleRequest.findById(requestId);
+        const rescheduleRequest = await RescheduleRequest.findById(rescheduleRequestId);
         if (!rescheduleRequest) {
           return res.status(404).json({ message: "Reschedule request not found" });
         }

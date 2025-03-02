@@ -73,14 +73,13 @@ export const createNotification = async (notificationData) => {
 };
 
 // Update an existing notification
-export const updateNotification = async (id, notificationData) => {
+export const updateNotification = async (id) => {
   try {
     const response = await fetch(`${API_URL}/${id}/update`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-      },
-      body: JSON.stringify(notificationData),
+      }
     });
     if (!response.ok) {
       throw new Error("Network response was not ok");
