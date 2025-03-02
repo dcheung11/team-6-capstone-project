@@ -79,7 +79,6 @@ export const ReschedulePopup = ({ selectedDate, selectedMatch, availableTimeslot
 
   const handleSelectSlot = (slotId) => {
     setNewSlot(slotId);
-    console.log("new timeslot selected (ID): ", newSlot);
   };
 
   return (
@@ -103,17 +102,19 @@ export const ReschedulePopup = ({ selectedDate, selectedMatch, availableTimeslot
 
         {/* Timeslot Grid */}
         <div style={styles.timeslotGrid}>
-          {/* {console.log("popupWeekDates: ", popupWeekDates)} */}
           {popupWeekDates.map((dayObj, i) => {
-            const slots = timeslotData[dayObj.fullDate] || []; // get timeslot.date === dayObj.fullDate from each date in popup
-            // console.log("timeslotData: ", timeslotData);
-            // console.log("slots for this day: ", dayObj.fullDate," : ", slots);
+            const slots = timeslotData[dayObj.fullDate] || [];
+
             return (
               <div key={i} style={styles.dayCard}>
                 <h4 style={styles.dayTitle}>{dayObj.day} {dayObj.date}</h4>
                   {slots.length > 0 ? (
                     slots.map((slot, idx) => (
-                      <button key={idx} style={styles.slotButton} onClick={() => handleSelectSlot(slot.id)}>
+                      <button key={idx} style={{
+                        ...styles.slotButton,
+                        backgroundColor: newSlot === slot.id ? "#7A003C" : "white",
+                        color: newSlot === slot.id ? "white" : "#7A003C",
+                      }} onClick={() => handleSelectSlot(slot.id)}>
                         {slot.slotString}
                       </button>
                     ))
