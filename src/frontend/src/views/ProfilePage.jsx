@@ -3,6 +3,7 @@ import NavBar from "../components/NavBar";
 import { getPlayerById } from "../api/player";
 import { useAuth } from "../hooks/AuthProvider";
 import { acceptInvite } from "../api/player";
+import { updatePlayerInfo } from "../api/player";
 
 import {
   Box,
@@ -16,6 +17,7 @@ import {
   ListItemText,
   ListItemAvatar,
   Button,
+  MenuItem,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import EditIcon from "@mui/icons-material/Edit";
@@ -36,7 +38,7 @@ export default function ProfilePage() {
   const [player, setPlayer] = useState({
     firstName: "",
     lastName: "",
-    gender: "",
+    gender: "other",
     phoneNumber: "",
     email: "",
     username: "",
@@ -59,12 +61,26 @@ export default function ProfilePage() {
   // track edit mode with boolean
   const [editMode, setEditMode] = useState(false);
 
-  const handleEditClick = () => {
-    // TODO: Possibly open a dialog or switch text fields from read-only to editable
-    // Toggle edit mode
-    console.log("Edit button clicked");
+  const handleEditClick = async () => {
+    if (editMode) {
+      try {
+        console.log("Auth PlayerID:", auth.playerId);
+        console.log("Saving player data to DB:", player);
+        await updatePlayerInfo(auth.playerId, player); // Send update request
+        console.log("Player info successfully updated!");
+      } catch (err) {
+        console.error("Failed to update player info", err);
+      }
+    }
     setEditMode((prev) => !prev);
-  };
+  };  
+
+  const handleChange = (e) => {
+    setPlayer((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };  
 
   const handleAcceptInvite = (teamId) => {
 
@@ -149,7 +165,9 @@ export default function ProfilePage() {
                   <TextField
                     fullWidth
                     placeholder="First Name"
+                    name="firtName"
                     value={player.firstName}
+                    onChange={handleChange}
                     // If NOT editMode, we set readOnly
                     InputProps={{ readOnly: !editMode }}
                     // Remove hover outlines when not in edit mode
@@ -170,7 +188,9 @@ export default function ProfilePage() {
                   <TextField
                     fullWidth
                     placeholder="Last Name"
+                    name="lastName"
                     value={player.lastName}
+                    onChange={handleChange}
                     // If NOT editMode, we set readOnly
                     InputProps={{ readOnly: !editMode }}
                     // Remove hover outlines when not in edit mode
@@ -185,13 +205,14 @@ export default function ProfilePage() {
                   />
                 </Grid>
 
+                
                 <Grid item xs={12} md={6}>
-                  <Typography variant="subtitle2" sx={{ mb: 1 }}>
-                    Gender
-                  </Typography>
+                  <Typography variant="subtitle2" sx={{ mb: 1 }}>Email</Typography>
                   <TextField
                     fullWidth
-                    placeholder="Gender"
+                    name="email"
+                    value={player.email}
+                    onChange={handleChange}
                     InputProps={{ readOnly: !editMode }}
                     sx={{
                       ...(!editMode && {
@@ -209,8 +230,10 @@ export default function ProfilePage() {
                   </Typography>
                   <TextField
                     fullWidth
+                    name="phoneNumber"
                     placeholder="Phone Number"
                     value={player.phoneNumber}
+                    onChange={handleChange}
                     InputProps={{ readOnly: !editMode }}
                     sx={{
                       ...(!editMode && {
@@ -221,6 +244,31 @@ export default function ProfilePage() {
                       }),
                     }}
                   />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                    Gender
+                  </Typography>
+                  <TextField
+                    name="gender"
+                    select
+                    fullWidth
+                    value={player.gender || "other"} // Ensure it always has a value
+                    onChange={handleChange}
+                    InputProps={{ readOnly: !editMode }}
+                    sx={{
+                      ...(!editMode && {
+                        "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                          { borderColor: "#ccc" },
+                        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                          { borderColor: "#ccc" },
+                      }),
+                    }}
+                  >
+                    <MenuItem value="male">Male</MenuItem>
+                    <MenuItem value="female">Female</MenuItem>
+                    <MenuItem value="other">NA/Other</MenuItem>
+                  </TextField>
                 </Grid>
               </Grid>
             </Box>

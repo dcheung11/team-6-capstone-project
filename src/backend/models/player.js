@@ -5,6 +5,8 @@ const PlayerSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  phoneNumber: { type: String, default: "" }, // Added phone number
+  gender: { type: String, enum: ["male", "female", "other"], default: "other" }, // Added gender
   waiverStatus: { type: Boolean, default: false },
   team: { type: mongoose.Schema.Types.ObjectId, ref: "Team" },
   role: { type: String, default: "player" },
