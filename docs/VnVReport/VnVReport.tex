@@ -32,22 +32,36 @@
   \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
   \midrule
   March 1 & 1.0 & Created Document Structure and Outline. Filled out most test cases and appendix reflection. \\
-  Date 2 & 1.1 & Notes\\
+  March 8 & 1.1 & Unit Test report\\
   \bottomrule
   \end{tabularx}
 
 ~\newpage
 
-\section{Symbols, Abbreviations and Acronyms}
+\section{Symbols, Abbreviations, and Acronyms}
 
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{l l} 
-  \toprule		
-  \textbf{symbol} & \textbf{description}\\
-  \midrule 
-  T & Test\\
-  \bottomrule
+\begin{tabular}{l l}
+    \toprule
+    \textbf{symbol} & \textbf{description}                                                  \\
+    \midrule
+    T               & Test                                                                  \\
+    UT              & Unit Test                                                             \\
+    RBAC            & Role-Based Access Control. Used for defining user permissions         \\
+    UI              & User Interface                                                        \\
+    JWT             & JSON Web Token. A compact way to transmit info securely               \\
+    GSA             & Graduate Students' Association. The association overseeing the league \\
+    SRS             & Software Requirements Specification                                   \\
+    MIS             & Module Interface Specification                                        \\
+    DD              & Design Document                                                       \\
+    VnV             & Verification and Validation                                           \\
+    CI              & Continuous Integration                                                \\
+    API             & Application Programming Interface. Defines how software components interact \\
+    CRUD            & Create, Read, Update, Delete. Basic operations for managing data      \\
+    DB              & Database. A system for storing and managing data                      \\
+    \bottomrule
 \end{tabular}\\
+
 
 \subsection{Symbolic Parameters}
 
@@ -113,7 +127,7 @@ This document ...
        \item \textbf{FR-3}
           \begin{itemize}
               \item Description: Attempting to create a duplicate team name
-              \item How Test Will be Performed: Tester will attempt to create a new team suing a duplicate \textt{TeamName}. Verify that the team is not added to the database.
+              \item How Test Will be Performed: Tester will attempt to create a new team suing a duplicate \texttt{TeamName}. Verify that the team is not added to the database.
               \item Requirements Covered: SRS Req \#5 (team creation).
               \item Inputs: Enter a \texttt{TeamName} that already exists in the database and a Division.
               \item Expected Output: Unsuccessful creation of a team with a duplicate
@@ -538,7 +552,99 @@ Existing Implementation: \href{https://www.gsasoftball.ca/}{GSA Softball Website
     \end{itemize}
 
 \section{Unit Testing}
-N/A
+
+\subsection{Current Backend Unit Testing}
+
+Our current backend unit testing aligns closely with our VnV Plan for unit testing. We opted to start by unit testing the backend models in order to ensure that the foundational components of our platform are reliable and follow our requirements so that we can build more complex features with confidence.
+
+Some tests were added since the VnVPlan was created and some tests were removed and are to be tested in integration testing.
+
+Our backend unit testing is conducted using Jest and executed via npm test in the backend directory. The test files are located in the backend/test folder. These unit tests focus on verifying the fundamental functionality of our backend models, ensuring they behave as expected when interacting with MongoDB.
+
+We began with backend testing because any issues caused by front-end components would be reflected in the backend models. By starting with the backend, we can ensure that the core functionality of our platform is reliable and that we can build more complex features with confidence.
+
+\subsubsection{Player Model}
+
+\begin{enumerate}
+    \item{\textbf{test-player-creation}\\}
+        \textbf{Path:} backend/test/models/playerTests.test.js\\
+        \textbf{Description:} Verify that the player model can be created with valid input and default fields are set correctly.\\
+        \textbf{Result:} Pass
+
+    \item{\textbf{test-player-uniqueness}\\}
+        \textbf{Path:} backend/test/models/playerTests.test.js\\
+        \textbf{Description:} Verify that the player model enforces uniqueness for the email field.\\
+        \textbf{Result:} Pass
+\end{enumerate}
+\subsubsection{Team Model}
+\begin{enumerate}
+    \item{\textbf{test-team-creation}\\}
+        \textbf{Path:} backend/test/models/teamTests.test.js\\
+        \textbf{Description:} Verify that the team model can be created with valid input, and default fields are set correctly.\\
+        \textbf{Result:} Pass
+
+    \item{\textbf{test-team-invalid-fields}\\}
+        \textbf{Path:} backend/test/models/teamTests.test.js\\
+        \textbf{Description:} Verify that attempting to create a team with missing or invalid fields fails validation.\\
+        \textbf{Result:} Pass
+\end{enumerate}
+
+\textbf{Note:} Team uniqueness (VnVPlan test-team-uniqueness) will be verified as part of integration testing rather than unit testing.
+\subsubsection{Game Model}
+\begin{enumerate}
+    \item{\textbf{test-game-creation}\\}
+        \textbf{Path:} backend/test/models/gameTests.test.js\\
+        \textbf{Description:} Verify that a Game can be created with valid input and default fields are set correctly (scores defaults to 0).\\
+        \textbf{Result:} Pass
+\end{enumerate}
+
+\subsubsection{Gameslot Model}
+\begin{enumerate}
+    \item{\textbf{test-gameslot-creation}\\}
+        \textbf{Path:} backend/test/models/gameslotTests.test.js\\
+        \textbf{Description:} Verify that a game slot can be created with valid input, ensuring all required fields are properly stored.\\
+        \textbf{Result:} Pass
+
+    \item{\textbf{test-gameslot-uniqueness}\\}
+        \textbf{Path:} backend/test/models/gameslotTests.test.js\\
+        \textbf{Description:} Verify that a game slot enforces uniqueness based on date, time, and field to prevent duplicate entries.\\
+        \textbf{Result:} Pass
+\end{enumerate}
+
+\subsubsection{Schedule Model}
+\begin{enumerate}
+    \item{\textbf{test-schedule-creation}\\}
+        \textbf{Path:} backend/test/models/scheduleTests.test.js\\
+        \textbf{Description:} Verify that a schedule can be created with the required fields, including \texttt{seasonId}, \texttt{gameSlots}, and \texttt{games}.\\
+        \textbf{Result:} Pass
+
+    \item{\textbf{test-schedule-timestamps}\\}
+        \textbf{Path:} backend/test/models/scheduleTests.test.js\\
+        \textbf{Description:} Verify that a schedule model includes automatically generated timestamps (\texttt{createdAt} and \texttt{updatedAt}).\\
+        \textbf{Result:} Pass
+\end{enumerate}
+
+\textbf{Note:} More in depth schedule testing is required and will be done in integration or manually testing.
+
+\subsection{Current Frontend Unit Testing}
+
+At present, unit testing for the frontend remains incomplete. It was not included in the VnVPlan but our team realized that having basic unit tests for the Frontend interactions is critical. This will be a priority for moving forward.
+
+Our team is in the process of creating frontend unit tests for basic test displays, interactions, and components. We are using Jest, Babel, and React Testing Library to conduct these tests. The test files are located in the src/frontend/test directory.
+
+\subsubsection{Login Page}
+
+\begin{enumerate}
+    \item{\textbf{test-login-form}\\}
+        \textbf{Path:} src/frontend/test/login.test.js\\
+        \textbf{Description:} Verify that the login form renders correctly and accepts user input.\\
+        \textbf{Result:} Not Tested Yet
+
+    \item{\textbf{test-login-page-render}\\}
+        \textbf{Path:} src/frontend/test/login.test.js\\
+        \textbf{Description:} Verify that the login page is rendering correctly by checking for text and input fields.\\
+        \textbf{Result:} Not Tested Yet
+\end{enumerate}
 
 \section{Changes Due to Testing}
 
