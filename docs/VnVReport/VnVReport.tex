@@ -1,5 +1,7 @@
 \documentclass[12pt, titlepage]{article}
 
+\usepackage{graphicx} % Required for resizing the table
+
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
@@ -824,6 +826,23 @@ More details are found in the Unit Testing section above and the FR Evaluation s
 
 \section{Code Coverage Metrics}
 
+\subsection{Method}
+
+The test coverage was generated using Jest, ensuring thorough validation of our codebase.
+
+\subsection{Analysis}
+The results indicate a good overall coverage, garnering great confidence in our foundational models.
+Some errors are causing the controllers to have some bugs when detecting coverage, and we are working on extending and fixing our system tests. We made up for the lower coverage by extensively manually testing the controllers and ensuring they work as expected.
+
+\subsection{Next Steps}
+As we continue to improve our controller tests, we will focus on writing more integration tests to ensure complete coverage. For now, we are confident in the overall stability of the system, thanks to the solid foundation provided by our model and acceptance tests.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{coverage.png}
+    \caption{Jest Code Coverage Metrics}
+    \label{fig:coverage}
+\end{figure}
 
 \bibliographystyle{plainnat}
 \bibliography{../../refs/References}
