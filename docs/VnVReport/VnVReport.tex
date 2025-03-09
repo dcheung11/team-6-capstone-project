@@ -1,5 +1,7 @@
 \documentclass[12pt, titlepage]{article}
 
+\usepackage{graphicx} % Required for resizing the table
+
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
@@ -33,6 +35,7 @@
   \midrule
   March 1 & 1.0 & Created Document Structure and Outline. Filled out most test cases and appendix reflection. \\
   March 8 & 1.1 & Unit Test report\\
+  March 8 & 1.2 & Add more Unit Tests, System Tests, Reflection\\
   \bottomrule
   \end{tabularx}
 
@@ -80,8 +83,6 @@ Their values are defined in this section for easy maintenance.
     \phantomsection\label{MAX_GAME_DIFF} \texttt{MAX\_GAME\_DIFF} & 2 & n/a & The maximum difference in total scheduled games between two teams \\
     \hline
 \end{longtable}
-
-\wss{symbols, abbreviations or acronyms -- you can reference the SRS tables if needed}
 
 \newpage
 
@@ -258,6 +259,48 @@ This document ...
           \item Actual Output: Announcement successfully visible to all users.
           \item Result: Pass
       \end{itemize}
+\end{enumerate}
+
+\subsection{System Testing}
+\begin{enumerate}
+    \item \textbf{FR-1}
+    \begin{itemize}
+        \item \textbf{Description:} Test login functionality with valid credentials.
+        \item \textbf{Test Method:} Automated test using \texttt{playerControllers.test.js} to create a player account and log in with valid credentials for each \texttt{Role} (Player, Captain, Commissioner).
+        \item \textbf{Expected Result:} Successful login for each role and access to platform functionalities.
+        \item \textbf{Result:} Pass
+    \end{itemize}
+
+    \item \textbf{FR-2}
+        \begin{itemize}
+            \item Description: Testing login functionality with correct credentials.
+            \item How Test Will Be Performed: A backend script in `playerControllers.test.js' will create a Player account with a \texttt{UserID} and \texttt{Password}. The tester will log in with a valid \texttt{UserID} and \texttt{Password} for each \texttt{Role} (Player, Captain, Commissioner) and verify access to the platform after successful login under the correct account. Test data will be created in the database and cleaned up after the test.
+            \item Requirements Covered: SRS Req \#1 (authentication).
+            \item Result: Pass
+        \end{itemize}
+
+        \item \textbf{FR-3}
+        \begin{itemize}
+            \item \textbf{Description:} Create a new team with a unique name.
+            \item \textbf{Test Method:} Automated test using \texttt{teamControllers.test.js} to input a unique \texttt{TeamName} and Division, and create a team.
+            \item \textbf{Expected Result:} The team should be successfully added to the database.
+            \item \textbf{Result:} Pass
+        \end{itemize}
+
+    \item \textbf{FR-4}  
+    \begin{itemize}
+        \item \textbf{Description:} Create a new team with an existing name.
+        \item \textbf{Test Method:} Automated test using \texttt{teamControllers.test.js} to input an exisiting \texttt{TeamName} and Division, and create a team.
+        \item \textbf{Expected Result:} The team should be successfully added to the database.
+        \item \textbf{Result:} Fail
+    \end{itemize}
+    \item \textbf{FR-5}  
+    \begin{itemize}
+        \item \textbf{Description:} Test system behavior when attempting to create multiple teams under a single Captain.
+        \item \textbf{Test Method:} Automated test using \texttt{teamControllers.test.js} to create multiple teams under one Captain and verify error handling.
+        \item \textbf{Expected Result:} The second team should not be created, and an error message should appear.
+        \item \textbf{Result:} Fail 
+    \end{itemize}
 \end{enumerate}
 
 \section{Nonfunctional Requirements Evaluation}
@@ -563,6 +606,8 @@ Our backend unit testing is conducted using Jest and executed via npm test in th
 
 We began with backend testing because any issues caused by front-end components would be reflected in the backend models. By starting with the backend, we can ensure that the core functionality of our platform is reliable and that we can build more complex features with confidence.
 
+Tests for Season, Reschedule Request, Announcements are WIP and some of their tests are documented below, but were not part of the VnVPlan.
+
 \subsubsection{Player Model}
 
 \begin{enumerate}
@@ -624,6 +669,85 @@ We began with backend testing because any issues caused by front-end components 
         \textbf{Result:} Pass
 \end{enumerate}
 
+\subsubsection{Reschedule Request Model}
+    \begin{enumerate}\item{\textbf{test-reschedule-request-missing-required-fields}\\}
+        \textbf{Path:} backend/test/models/rescheduleRequestTests.test.js\\
+        \textbf{Description:} Verify that missing required fields such as \texttt{game}, \texttt{requestingTeam}, \texttt{recipientTeam}, or \texttt{requestedGameslot} result in validation errors.\\
+        \textbf{Result:} Pass
+
+    \item{\textbf{test-reschedule-request-default-status}\\}
+        \textbf{Path:} backend/test/models/rescheduleRequestTests.test.js\\
+        \textbf{Description:} Verify that the \texttt{status} field defaults to \texttt{Pending} when no status is provided.\\
+        \textbf{Result:} Pass
+
+    \item{\textbf{test-reschedule-request-valid-status}\\}
+        \textbf{Path:} backend/test/models/rescheduleRequestTests.test.js\\
+        \textbf{Description:} Verify that the \texttt{status} field accepts valid values, including \texttt{Accepted}, \texttt{Pending}, and \texttt{Declined}.\\
+        \textbf{Result:} Pass
+
+    \item{\textbf{test-reschedule-request-invalid-status}\\}
+        \textbf{Path:} backend/test/models/rescheduleRequestTests.test.js\\
+        \textbf{Description:} Verify that invalid values for the \texttt{status} field, such as \texttt{InvalidStatus}, throw a validation error.\\
+        \textbf{Result:} Pass
+
+    \item{\textbf{test-reschedule-request-timestamps}\\}
+        \textbf{Path:} backend/test/models/rescheduleRequestTests.test.js\\
+        \textbf{Description:} Verify that the \texttt{createdAt} and \texttt{updatedAt} fields are automatically set by the Mongoose schema when a reschedule request is created.\\
+        \textbf{Result:} Pass
+\end{enumerate}
+
+\subsubsection{Announcement Model}
+\begin{enumerate}
+        \item{\textbf{test-announcement-missing-required-fields}\\}
+        \textbf{Path:} backend/test/models/announcementTests.test.js\\
+        \textbf{Description:} Verify that missing required fields such as \texttt{title} or \texttt{content} result in validation errors.\\
+        \textbf{Result:} Pass
+
+    \item{\textbf{test-announcement-content-validation}\\}
+        \textbf{Path:} backend/test/models/announcementTests.test.js\\
+        \textbf{Description:} Verify that the \texttt{content} field is required and cannot be empty.\\
+        \textbf{Result:} Pass
+
+    \item{\textbf{test-announcement-timestamps}\\}
+        \textbf{Path:} backend/test/models/announcementTests.test.js\\
+        \textbf{Description:} Verify that the \texttt{createdAt} field is automatically set when an announcement is created.\\
+        \textbf{Result:} Pass
+\end{enumerate}
+
+\subsubsection{Season Model}
+\begin{enumerate}
+    \item{\textbf{test-season-unique-name}\\}
+    \textbf{Path:} backend/test/models/seasonTests.test.js\\
+    \textbf{Description:} Verify that the \texttt{name} field is unique, ensuring no two seasons can have the same name.\\
+    \textbf{Result:} Pass
+
+    \item{\textbf{test-season-default-allowedDivisions}\\}
+        \textbf{Path:} backend/test/models/seasonTests.test.js\\
+        \textbf{Description:} Verify that the \texttt{allowedDivisions} field defaults to \texttt{4} when not provided.\\
+        \textbf{Result:} Pass
+
+    \item{\textbf{test-season-missing-required-fields}\\}
+        \textbf{Path:} backend/test/models/seasonTests.test.js\\
+        \textbf{Description:} Verify that missing required fields such as \texttt{name}, \texttt{startDate}, or \texttt{endDate} result in validation errors.\\
+        \textbf{Result:} Pass
+
+    \item{\textbf{test-season-status-enum}\\}
+        \textbf{Path:} backend/test/models/seasonTests.test.js\\
+        \textbf{Description:} Verify that the \texttt{status} field accepts only valid values (\texttt{upcoming}, \texttt{ongoing}, \texttt{archived}) and rejects any invalid status.\\
+        \textbf{Result:} Pass
+
+    \item{\textbf{test-season-registeredTeams-unique}\\}
+        \textbf{Path:} backend/test/models/seasonTests.test.js\\
+        \textbf{Description:} Verify that the \texttt{registeredTeams} array enforces uniqueness for each team, ensuring no duplicate teams are registered for a season.\\
+        \textbf{Result:} Pass
+
+    \item{\textbf{test-season-timestamps}\\}
+        \textbf{Path:} backend/test/models/seasonTests.test.js\\
+        \textbf{Description:} Verify that \texttt{createdAt} and \texttt{updatedAt} timestamps are automatically set when a season is created.\\
+        \textbf{Result:} Pass
+
+\end{enumerate}
+
 \textbf{Note:} More in depth schedule testing is required and will be done in integration or manually testing.
 
 \subsection{Current Frontend Unit Testing}
@@ -648,10 +772,7 @@ Our team is in the process of creating frontend unit tests for basic test displa
 
 \section{Changes Due to Testing}
 
-\wss{This section should highlight how feedback from the users and from 
-the supervisor (when one exists) shaped the final product.  In particular 
-the feedback from the Rev 0 demo to the supervisor (or to potential users) 
-should be highlighted.}
+
 
 During testing, some test cases were scrapped due to changes in the platform's implementation. Initially, we had the following test case for player team requests:\\
 
@@ -689,13 +810,34 @@ While performing other test cases, we identified improvements that prompted chan
 Upon review, we decided to simplify the process by removing the need for captains to manually submit the result (Win/Lose/Tie). Instead, we implemented backend logic to automatically calculate the game result based on the scores, enhancing the user experience.
 
 \section{Automated Testing}
-N/A
-		
+
+Our automated testing is conducted using Jest and React Testing Library for the frontend and Jest for the backend. 
+We have not yet set up CI for our automated testing, but we plan to do so in the near future.
+Our unit tests and system tests are scripts to be run run locally using the command \texttt{npm test} in the respective directories.
+More details are found in the Unit Testing section above and the FR Evaluation section.	
 \section{Trace to Requirements}
 		
 \section{Trace to Modules}		
 
 \section{Code Coverage Metrics}
+
+\subsection{Method}
+
+The test coverage was generated using Jest, ensuring thorough validation of our codebase.
+
+\subsection{Analysis}
+The results indicate a good overall coverage, garnering great confidence in our foundational models.
+Some errors are causing the controllers to have some bugs when detecting coverage, and we are working on extending and fixing our system tests. We made up for the lower coverage by extensively manually testing the controllers and ensuring they work as expected.
+
+\subsection{Next Steps}
+As we continue to improve our controller tests, we will focus on writing more integration tests to ensure complete coverage. For now, we are confident in the overall stability of the system, thanks to the solid foundation provided by our model and acceptance tests.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{coverage.png}
+    \caption{Jest Code Coverage Metrics}
+    \label{fig:coverage}
+\end{figure}
 
 \bibliographystyle{plainnat}
 \bibliography{../../refs/References}
@@ -732,7 +874,9 @@ graduate attribute of Reflection.
   evidence that demonstrates the required quality?  (It is expected that most
   teams will have had to deviate from their original VnV Plan.)
   
-  We have already discussed the modifications in the plan in the previous questions above, so we won't bother discussing it again in this section. Our VnV Plan originally had automated testing, but we had to deviate from that due to the superiority of manual testing for this website. It was extremely easy to test features, such as adding players to a team and verifying by looking at the database manually. Automated testing would be considered a waste of time, especially since we've fallen a bit behind on our progress.
+  We have already discussed the modifications in the plan in the previous questions above, so we won't bother discussing it again in this section. Our VnV Plan originally had automated testing, but we had to deviate from that due to the superiority of manual testing for this website. It was extremely easy to test features, such as adding players to a team and verifying by looking at the database manually. 
+  
+  We've set the basis up of automated testing using Jest and connected CI to it, but it is not entirely complete at this deliverable checkpoint. Further, the unit testing plan was slightly different from the actual activities conducted for VnV. We've removed a few unit tests that were decided to be better tested manually or in system tests, and added some unit tests that we deemed necessary for the foundation of our application.
 
   The rest of our VnV Plan did not have to change, so there weren't many differences. Our team was able to clearly predict the right tasks to build the evidence that demonstrated the required quality because we have tremendous experience with sports platforms, participating in sports all our lives. Ever since coming to McMaster, we have regularly used McMaster IMLeagues to play intramurals, and we understand what makes a sports platform perform well from the users perspective. We also have experience with full-stack web development from our previous co-ops and internships, and we are familiar with building a big project from scratch. Testing was often regularly done before pushing our products to production.
   

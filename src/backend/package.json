@@ -7,7 +7,18 @@
     "test": "jest --roots test"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "backend/**/*.js",
+      "backend/**/*.ts"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "json"
+    ]
   },
   "keywords": [],
   "author": "",

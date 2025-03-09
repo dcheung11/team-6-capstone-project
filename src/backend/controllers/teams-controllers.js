@@ -45,11 +45,16 @@ const registerTeam = async (req, res, next) => {
 
   let existingTeam;
   try {
-    existingTeam = await Team.findOne({
-      name: name,
-      divisionId: divisionId,
-      seasonId: seasonId,
-    });
+    const existingTeam = await Team.findOne({ captainId, seasonId });
+    if (existingTeam) {
+      return next(new HttpError("Captains can only manage one team per season.", 403));
+    }
+
+    const duplicateTeam = await Team.findOne({ name, divisionId, seasonId });
+    if (duplicateTeam) {
+      return next(new HttpError("Team name already exists in this division and season.", 422));
+    }
+
   } catch (err) {
     const error = new HttpError(
       "1 Creating team failed, please try again.",

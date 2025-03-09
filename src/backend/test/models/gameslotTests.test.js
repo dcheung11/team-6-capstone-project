@@ -16,9 +16,10 @@ afterAll(async () => {
 });
 
 describe("GameSlot Model", () => {
+  const date = new Date('2025-03-06T23:21:32.947Z');
   it("should create a game slot with required fields", () => {
     const gameSlot = new GameSlot({
-      date: new Date(),
+      date: date,
       time: "5:30 PM",
       field: "Field 1",
     });
