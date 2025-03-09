@@ -14,6 +14,7 @@
 }
 \usepackage[round]{natbib}
 \usepackage{longtable}
+\usepackage{array}
 
 \input{../Comments}
 \input{../Common}
@@ -307,6 +308,166 @@ This document ...
 \section{Nonfunctional Requirements Evaluation}
 
 \subsection{Usability}
+
+\subsubsection{Usability Survey Results}
+
+Table \ref{tab:usabilitySurvey} summarizes the responses of \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} participants (Response IDs 0--4) to our usability questionnaire. Each row corresponds to one survey question.
+
+\setlength{\tabcolsep}{6pt}      % Horizontal padding
+\renewcommand{\arraystretch}{1.2}% Vertical row spacing
+
+\begin{longtable}{|p{0.25\textwidth}|
+                  p{0.11\textwidth}|
+                  p{0.11\textwidth}|
+                  p{0.11\textwidth}|
+                  p{0.11\textwidth}|
+                  p{0.11\textwidth}|}
+\caption{Usability Survey Questions and Responses (Updated Data)}
+\label{tab:usabilitySurvey}\\
+
+\hline
+\textbf{Question} & \textbf{Resp.\ 0} & \textbf{Resp.\ 1} & \textbf{Resp.\ 2} & \textbf{Resp.\ 3} & \textbf{Resp.\ 4}\\
+\hline
+\endfirsthead
+
+\multicolumn{6}{r}{\bfseries Table \thetable\ (continued)}\\
+\hline
+\textbf{Question} & \textbf{Resp.\ 0} & \textbf{Resp.\ 1} & \textbf{Resp.\ 2} & \textbf{Resp.\ 3} & \textbf{Resp.\ 4}\\
+\hline
+\endhead
+
+\hline
+\multicolumn{6}{r}{\textit{Continued on next page}}\\
+\hline
+\endfoot
+
+\hline
+\endlastfoot
+
+%------------------------------------------------------------------------------------
+% Q1
+How easy was it to learn how to use the platform?
+& 5
+& 4
+& 5
+& 5
+& 5 \\ \hline
+
+% Q2
+How confident do you feel using the platform without assistance after your initial experience?
+& 5
+& 5
+& 5
+& 5
+& 5 \\ \hline
+
+% Q3
+How intuitive do you find the navigation of the platform?
+& 5
+& 5
+& 5
+& 5
+& 5 \\ \hline
+
+% Q4
+How long did it take you to navigate all the views? (Approx.\ in minutes)
+& 3
+& 5
+& 2
+& 2
+& 3 \\ \hline
+
+% Q5
+How easy was it to complete basic tasks (login, create team, request reschedule)?
+& 4
+& 4
+& 5
+& 5
+& 5 \\ \hline
+
+% Q6
+Did you encounter any errors or issues while using the platform? If so, please describe them.
+& \textit{(none)}
+& \parbox[t]{0.11\textwidth}{\raggedright Invalid email accepted.  Misspelled \texttt{@gmail.com} and it still allowed it.}
+& \textit{(none)}
+& \parbox[t]{0.11\textwidth}{\raggedright NA}
+& \textit{(none)} \\ \hline
+
+% Q7
+How helpful were the in-app help resources in learning how to use the platform?
+& 5
+& 5
+& 3
+& 5
+& 5 \\ \hline
+
+% Q8
+Please share any suggestions for improving the in-app help resources.
+& 4
+& \textit{(none)}
+& \parbox[t]{0.11\textwidth}{\raggedright i didn't use them}
+& \parbox[t]{0.11\textwidth}{\raggedright NA}
+& \textit{(none)} \\ \hline
+
+% Q9
+Did the platform's interface appear modern, intuitive, and visually consistent across all views?
+& \parbox[t]{0.11\textwidth}{\raggedright the use of yellow randomly appears only in a couple pages}
+& 4
+& 5
+& 5
+& 5 \\ \hline
+
+% Q10
+Did you observe any remarkable inconsistencies in the visual interface when navigating (login, team mgmt, schedule)?
+& \parbox[t]{0.11\textwidth}{\raggedright the use of yellow randomly appears only in a couple pages}
+& \textit{(none)}
+& \textit{(none)}
+& \parbox[t]{0.11\textwidth}{\raggedright NA}
+& \parbox[t]{0.11\textwidth}{\raggedright maybe some fonts} \\ \hline
+
+% Q11
+How accessible do you find the platform in terms of visual design (color contrast, text size, font)?
+& 4
+& 5
+& 5
+& 5
+& 5 \\ \hline
+
+% Q12
+Do you have any suggestions for improving the accessibility of the platform?
+& \parbox[t]{0.11\textwidth}{\raggedright yellow might be hard for some people to see}
+& \textit{(none)}
+& \parbox[t]{0.11\textwidth}{\raggedright maybe bigger fonts in some places}
+& \parbox[t]{0.11\textwidth}{\raggedright NA}
+& \\textit{(none)} \\ \hline
+
+% Q13
+Based on the Canadian formatting standards provided, do you believe the platform adheres to these conventions?
+& Yes
+& Yes
+& Yes
+& Yes
+& Yes \\ \hline
+
+% Q14
+If you noticed any deviations from Canadian formatting standards, please describe them.
+& \textit{(none)}
+& \textit{(none)}
+& \textit{(none)}
+& \parbox[t]{0.11\textwidth}{\raggedright NA}
+& \parbox[t]{0.11\textwidth}{\raggedright i didn't notice} \\ \hline
+
+% Q15
+Would you like to provide any additional comments on your experience?
+& \textit{(none)}
+& \parbox[t]{0.11\textwidth}{\raggedright I like overall that the colours adhere to McMaster}
+& \parbox[t]{0.11\textwidth}{\raggedright super easy to use}
+& \parbox[t]{0.11\textwidth}{\raggedright NA}
+& \parbox[t]{0.11\textwidth}{\raggedright i like it a lot} \\ \hline
+
+\end{longtable}
+
+
 
 \subsubsection{Manual Testing}
 \begin{enumerate}
