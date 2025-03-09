@@ -36,6 +36,7 @@
   March 1 & 1.0 & Created Document Structure and Outline. Filled out most test cases and appendix reflection. \\
   March 8 & 1.1 & Unit Test report\\
   March 8 & 1.2 & Add more Unit Tests, System Tests, Reflection\\
+  March 8 & 1.3 & Add test-requirement traceability\\
   \bottomrule
   \end{tabularx}
 
@@ -815,7 +816,89 @@ Our automated testing is conducted using Jest and React Testing Library for the 
 We have not yet set up CI for our automated testing, but we plan to do so in the near future.
 Our unit tests and system tests are scripts to be run run locally using the command \texttt{npm test} in the respective directories.
 More details are found in the Unit Testing section above and the FR Evaluation section.	
+
+\newpage
+
 \section{Trace to Requirements}
+
+\setcounter{table}{0}
+\begin{longtable}{|p{0.30\textwidth}|p{0.25\textwidth}|p{0.40\textwidth}|}
+    \caption{Traceability Matrix of Tests to Requirements}\\ \hline
+    \textbf{Test Case} & \textbf{Requirement ID} & \textbf{Description} \\ \hline
+    \endfirsthead
+    \multicolumn{3}{c}%
+    {{\bfseries Table -- Continued}} \\ \hline
+    \textbf{Test Case} & \textbf{Requirement ID} & \textbf{Description} \\ \hline
+    \endhead
+    \hline \multicolumn{3}{r}{{Continued on next page}} \\ \hline
+    \endfoot
+    \hline
+    \endlastfoot
+    
+    \textbf{Player Controller Tests} & & \\ \hline
+    Signup -- should create a new player & FR-1 & Verifies that a new player is created with valid data and returns a playerId, email, and token. \\ \hline
+    Login -- should authenticate an existing player & FR-1 & Validates that an existing player can log in with correct credentials and receives a token and playerId. \\ \hline
+    Login -- should fail with invalid credentials & FR-1 & Ensures that login fails with an incorrect password, returning a 403 error and an appropriate message. \\ \hline
+    
+    \textbf{Team Controller Tests} & & \\ \hline
+    Prevent multiple teams per captain & FR-5 & Checks that a captain cannot create more than one team in the same season, returning a 403 error if attempted. \\ \hline
+    Prevent creating a team with a duplicate name (same captain) & FR-5 & Verifies that attempting to create a team with an existing name results in a 400 error. \\ \hline
+    Prevent creating a team with a duplicate name (different captain) & FR-5 & Ensures that duplicate team names are rejected even when a different captain is involved. \\ \hline
+    
+    \textbf{Announcements Model Tests} & & \\ \hline
+    Create an announcement with required fields & FR-10 & Confirms that an announcement is created with a title, content, and an automatically set createdAt timestamp. \\ \hline
+    Throw error if title is missing & FR-10 & Ensures that the announcement model requires a title and throws a validation error when missing. \\ \hline
+    Throw error if content is missing & FR-10 & Ensures that the announcement model requires content and throws a validation error when missing. \\ \hline
+    Set createdAt to current date by default & FR-10 & Validates that the createdAt field is automatically set upon creation. \\ \hline
+    Allow announcements with non-empty content & FR-10 & Checks that an announcement with non-empty content passes model validation. \\ \hline
+    
+    \textbf{GameSlot Model Tests} & & \\ \hline
+    Create a game slot with required fields & FR-7 & Verifies that a game slot is created with a valid date, time, and field. \\ \hline
+    Allow game field to be optional & FR-7 & Ensures that a game slot can be created without an associated game. \\ \hline
+    Enforce uniqueness of date, time, and field & FR-7 & Confirms that duplicate game slots (same date, time, field) are not allowed. \\ \hline
+    
+    \textbf{Game Model Tests} & & \\ \hline
+    Create a game with required fields & FR-7 & Verifies that a game is created with all necessary fields (date, time, field, teams, etc.). \\ \hline
+    Default homeScore and awayScore to null & FR-7 & Checks that when a game is created, its scores default to null if not provided. \\ \hline
+    
+    \textbf{Player Model Tests} & & \\ \hline
+    Create a player with required fields & FR-1 & Ensures that a player is created with all required attributes (first name, last name, email, password). \\ \hline
+    Default gender to ``other'' & FR-1 & Verifies that the gender field defaults to ``other'' if not specified. \\ \hline
+    Default waiverStatus to false & FR-1 & Confirms that a new player's waiverStatus is set to false by default. \\ \hline
+    Throw error for missing required fields (e.g., password) & FR-1 & Checks that omitting a required field (like password) results in a validation error. \\ \hline
+    Throw error for duplicate email & FR-1 & Verifies that creating a player with an email already in use is rejected. \\ \hline
+    
+    \textbf{Reschedule Request Model Tests} & & \\ \hline
+    Create a reschedule request with required fields & FR-8 & Validates that a reschedule request is created with all required fields and defaults its status to ``Pending''. \\ \hline
+    Throw error if game is missing & FR-8 & Ensures that a reschedule request without a game field throws a validation error. \\ \hline
+    Throw error if requestingTeam is missing & FR-8 & Ensures that a missing requestingTeam field causes a validation error. \\ \hline
+    Throw error if recipientTeam is missing & FR-8 & Confirms that omitting the recipientTeam field results in a validation error. \\ \hline
+    Throw error if requestedGameslot is missing & FR-8 & Verifies that a missing requestedGameslot field triggers a validation error. \\ \hline
+    Default status to ``Pending'' & FR-8 & Confirms that new reschedule requests default to a status of ``Pending''. \\ \hline
+    Accept valid status and reject invalid status & FR-8 & Checks that only acceptable status values (e.g., ``Accepted'') are allowed and invalid ones are rejected. \\ \hline
+    Set createdAt to current date by default & FR-8 & Validates that the createdAt timestamp is automatically set for reschedule requests. \\ \hline
+    
+    \textbf{Schedule Model Tests} & & \\ \hline
+    Create a schedule with required fields & FR-7 & Ensures that a schedule is created with a seasonId, gameSlots, and games array. \\ \hline
+    Have timestamps createdAt and updatedAt & FR-7 & Verifies that schedule documents automatically include createdAt and updatedAt timestamps. \\ \hline
+    
+    \textbf{Season Model Tests} & & \\ \hline
+    Create a season with required fields & FR-7 & Validates that a season is created with required fields (name, startDate, endDate, allowedDivisions, status). \\ \hline
+    Default allowedDivisions to 4 & FR-7 & Checks that the allowedDivisions field defaults to 4 when not explicitly set. \\ \hline
+    Default status to ``upcoming'' & FR-7 & Verifies that the season status defaults to ``upcoming'' if not specified. \\ \hline
+    Throw error for invalid status & FR-7 & Confirms that an invalid status value triggers a validation error. \\ \hline
+    Accept empty divisions array & FR-7 & Ensures that a season can be created even when the divisions array is empty. \\ \hline
+    
+    \textbf{Team Model Tests} & & \\ \hline
+    Create a team with required fields & FR-5 & Verifies that a team is created with required fields (name, divisionId, captainId, seasonId). \\ \hline
+    Default wins, losses, and draws to 0 & FR-5 & Confirms that a team's wins, losses, and draws default to 0. \\ \hline
+    Set preferredTimes to ``Balanced'' by default & FR-5 & Checks that the preferredTimes field defaults to ``Balanced'' if not specified. \\ \hline
+    Throw error for invalid preferredTimes & FR-5 & Ensures that invalid values for preferredTimes are rejected. \\ \hline
+    Accept empty blacklistDays array & FR-5 & Verifies that an empty blacklistDays array is accepted. \\ \hline
+    Throw error for invalid blacklistDays value & FR-5 & Confirms that invalid values in blacklistDays trigger a validation error. \\ \hline
+    
+\end{longtable}
+    
 		
 \section{Trace to Modules}		
 
@@ -833,9 +916,9 @@ Some errors are causing the controllers to have some bugs when detecting coverag
 As we continue to improve our controller tests, we will focus on writing more integration tests to ensure complete coverage. For now, we are confident in the overall stability of the system, thanks to the solid foundation provided by our model and acceptance tests.
 
 \begin{figure}[htbp]
+    \caption{Jest Code Coverage Metrics}
     \centering
     \includegraphics[width=\textwidth]{coverage.png}
-    \caption{Jest Code Coverage Metrics}
     \label{fig:coverage}
 \end{figure}
 
