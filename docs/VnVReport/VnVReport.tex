@@ -15,6 +15,7 @@
 \usepackage[round]{natbib}
 \usepackage{longtable}
 \usepackage{array}
+\usepackage{float}
 
 \input{../Comments}
 \input{../Common}
@@ -76,7 +77,7 @@ Their values are defined in this section for easy maintenance.
     \hline
     Parameter & Value & Unit & Description \\
     \hline
-    \phantomsection\label{MIN_NAVTIME} \texttt{MIN\_NAVTIME} & 60 & s & The minimum time for testers to navigate to a main view \\
+    \phantomsection\label{MAX_NAVTIME} \texttt{MAX\_NAVTIME} & 60 & s & The maximimum time acceptable for testers to navigate to a main view \\
     \hline
     \phantomsection\label{MIN_TESTERS} \texttt{MIN\_TESTERS} & 5 & n/a & The minimum number of testers required for a system test \\
     \hline
@@ -311,10 +312,7 @@ This document ...
 
 \subsubsection{Usability Survey Results}
 
-Table \ref{tab:usabilitySurvey} summarizes the responses of \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} participants (Response IDs 0--4) to our usability questionnaire. Each row corresponds to one survey question.
-
-\setlength{\tabcolsep}{6pt}      % Horizontal padding
-\renewcommand{\arraystretch}{1.2}% Vertical row spacing
+Table \ref{tab:usabilitySurvey} summarizes the responses of \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} participants (Response IDs 0--4) to our usability questionnaire. The particiapants had no prior experience with the product. Each row corresponds to one survey question.
 
 \begin{longtable}{|p{0.25\textwidth}|
                   p{0.11\textwidth}|
@@ -481,8 +479,14 @@ Would you like to provide any additional comments on your experience?
                   \item Navigation Tasks: Tester navigates through login, announcements, standings, and schedule pages.
                   \item Participants: \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} with no prior experience with the platform.
               \end{itemize}
-          \item Expected Output: Participants successfully navigate to each view within \hyperref[MIN_NAVTIME]{\texttt{MIN\_NAVTIME}} minutes without prior experience or external assistance.
+          \item Expected Output: Participants successfully navigate to each view within \hyperref[MAX_NAVTIME]{\texttt{MAX\_NAVTIME}} without prior experience or external assistance.
           \item Actual Output: Participants completed navigation within the expected time.
+          \begin{figure}[h!]
+            \centering
+            \includegraphics[width=1\textwidth]{navtime_results.png}
+            \caption{Survey results showing participants' average navigation times.}
+            \label{fig:navtime}
+          \end{figure}
           \item Result: Pass
       \end{itemize}
 
@@ -513,6 +517,12 @@ Would you like to provide any additional comments on your experience?
             \end{itemize}
         \item Expected Output: Tester completes each task within an average of \hyperref[AVG_TASK_TIME]{\texttt{AVG\_TASK\_TIME}} minutes, utilizing in-app guidance (navigation instructions, tooltips, help documentation) to easily understand and complete tasks.
         \item Actual Output: Tester completed each task within the expected time and used in-app help effectively.
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1\textwidth]{avg_task_results.png}
+            \caption{Survey results showing participants' average task completion times.}
+            \label{fig:navtime}
+        \end{figure}
         \item Result: Pass
     \end{itemize}
 \end{enumerate}
