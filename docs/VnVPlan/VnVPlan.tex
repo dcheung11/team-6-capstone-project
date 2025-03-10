@@ -38,30 +38,14 @@
     \bottomrule
 \end{tabularx}
 
-~\\
-\wss{The intention of the VnV plan is to increase confidence in the software.
-    However, this does not mean listing every verification and validation technique
-    that has ever been devised.  The VnV plan should also be a \textbf{feasible}
-    plan. Execution of the plan should be possible with the time and team available.
-    If the full plan cannot be completed during the time available, it can either be
-    modified to ``fake it'', or a better solution is to add a section describing
-    what work has been completed and what work is still planned for the future.}
-
-\wss{The VnV plan is typically started after the requirements stage, but before
-    the design stage.  This means that the sections related to unit testing cannot
-    initially be completed.  The sections will be filled in after the design stage
-    is complete.  the final version of the VnV plan should have all sections filled
-    in.}
 
 \newpage
 
 \tableofcontents
 
 \listoftables
-\wss{Remove this section if it isn't needed}
 
-\listoffigures
-\wss{Remove this section if it isn't needed}
+% \listoffigures
 
 \newpage
 
@@ -994,7 +978,8 @@ This section includes tests for league-wide announcements and commissioner game 
 
 \subsection{Traceability Between Test Cases and Requirements}
 Note : Requirement IDs are from SRS
-\begin{center}
+\begin{table}
+	\centering
     \begin{tabular}{ |c|c|c| }
         \hline
         \textbf{Requirement ID } & \textbf{Test Case ID(s)}        & \textbf{Description of Coverage}           \\ \hline
@@ -1010,7 +995,8 @@ Note : Requirement IDs are from SRS
         NFR-13.2                 & Compliance-W3CStandards         & \makecell{Confirms adherence to web        \\ standards (W3C).} \\ \hline
         % \label{table:traceability_matrix}
     \end{tabular}
-\end{center}
+	\caption{Traceability Between Test Cases and Requirements}
+\end{table}
 For more, refer to requirements in SRS Document ()
 
 \section{Unit Test Description}
@@ -1160,7 +1146,45 @@ Testing the Player model ensures that the basic structure and validation rules f
 
 \subsection{Traceability Between Test Cases and Modules}
 
-\wss{Provide evidence that all of the modules have been considered.}
+\subsubsection*{Test Case Mapping to Modules}
+
+The following table outlines the relationship between the test cases and the respective modules:
+
+\begin{table}
+	\centering
+    \begin{tabular}{ |c|c|c| }
+        \hline
+        \textbf{Test Case ID} & \textbf{Module Under Test} & \textbf{Description of Test Case}           \\ \hline
+        TC-01 & User Interface (M1) & \makecell{Tests login functionality \\ with valid and invalid credentials.} \\ \hline
+        TC-02 & Authentication (M2) & \makecell{Validate login, logout, and \\role-based access control (RBAC)\\ functionalities.} \\ \hline
+        TC-03 & Team Management (M3) & \makecell{Ensure proper team creation,\\ joining, and waiver processes.} \\ \hline
+        TC-04 & Game Management (M4) & \makecell{Validate game creation, score\\ updating, and game status\\ tracking.} \\ \hline
+        TC-05 & Announcements (M5) & \makecell{Check announcement creation,\\ delivery, and retrieval for users.} \\ \hline
+        TC-06 & Standings (M6) & \makecell{Validate standings calculations\\ and rankings update mechanisms.} \\ \hline
+        TC-07 & Scheduling (M7) & \makecell{Ensure game scheduling adheres\\ to team preferences and constraints.} \\ \hline
+        TC-08 & Waiver Module (M8) & \makecell{Verify waiver access, completion,\\ and validation processes.} \\ \hline
+        TC-09 & PlayerT Module (M9) & \makecell{Test individual player data\\ handling and integration with teams.} \\ \hline
+        TC-10 & Notification Module (M12) & \makecell{Ensure notifications are sent\\ and received correctly by users.} \\ \hline
+		TC-11 & Backend Module (M13) & \makecell{Verify API calls, data storage\\ integrity, and security compliance.} \\ \hline
+		TC-12 & Scheduling Algorithm (M14) & \makecell{Validate scheduling logic to\\ ensure optimal game assignments.} \\ \hline
+		TC-13 & Reschedule Request Module (M19) & \makecell{Test the rescheduling feature,\\ ensuring proper slot selection\\ and game updates.} \\ \hline
+    \end{tabular}
+	\caption{Traceability between Test Cases and Modules}
+\end{table}
+
+\subsubsection*{Coverage of Anticipated Changes}
+
+The following anticipated changes (AC) are covered by corresponding test cases:
+
+\begin{itemize}
+    \item \textbf{AC1:} Enhanced Authentication Features $\rightarrow$ TC-02 (Authentication Module Testing)
+    \item \textbf{AC2:} Session Management Updates $\rightarrow$ TC-02 (Authentication Module, Token Handling)
+    \item \textbf{AC3:} Database Schema Adjustments $\rightarrow$ TC-11 (Backend Module, Data Integrity)
+    \item \textbf{AC4:} User Interface (UI) Enhancements $\rightarrow$ TC-01 (UI Testing for Compatibility and Responsiveness)
+    \item \textbf{AC5:} Integration of New Scheduling Algorithms $\rightarrow$ TC-12 (Scheduling Algorithm, Game Assignments)
+    \item \textbf{AC6:} Data Security and Privacy Updates $\rightarrow$ TC-11 (Backend Module, API Security Testing)
+    \item \textbf{AC7:} Improved Notification System $\rightarrow$ TC-10 (Notification Delivery and Response)
+\end{itemize}
 
 \bibliographystyle{plainnat}
 
@@ -1189,6 +1213,7 @@ Their values are defined in this section for easy maintenance.
     \hline
     \texttt{MAX\_GAME\_DIFF}\label{MAX_GAME_DIFF} & 2     & n/a  & the maximum difference of total scheduled games between two teams \\
     \hline
+	\caption{Symbolic Parameters}
 \end{longtable}
 
 \subsection{Usability Survey Questions}
@@ -1217,8 +1242,6 @@ Their values are defined in this section for easy maintenance.
 
 \newpage{}
 \section*{Appendix --- Reflection}
-
-\wss{This section is not required for CAS 741}
 
 The information in this section will be used to evaluate the team members on the
 graduate attribute of Lifelong Learning.

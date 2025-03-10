@@ -4,6 +4,7 @@
 
 \usepackage{booktabs}
 \usepackage{tabularx}
+\usepackage{makecell}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks,
@@ -1083,7 +1084,49 @@ More details are found in the Unit Testing section above and the FR Evaluation s
 \end{longtable}
     
 		
-\section{Trace to Modules}		
+\section{Trace to Modules}
+
+\subsection*{Traceability Matrix of Test Cases to Modules.}
+
+\begin{center}
+    \begin{tabular}{ |c|c|c|c| }
+        \hline
+        \makecell{\textbf{Module} \\ \textbf{ID}} & \textbf{Module Name} & \makecell{\textbf{Related Test} \\ \textbf{Cases}} & \textbf{Verification Method} \\ \hline
+        M1 & User Interface (UI) & \makecell{TC-01\\ TC-06\\ TC-07\\ TC-08} & \makecell{Manual Testing,\\ Usability Testing} \\ \hline
+        M2 & Authentication & \makecell{TC-02\\ TC-11} & \makecell{Unit Testing, System Testing} \\ \hline
+		M3 & Team Management & \makecell{TC-03\\ TC-09\\ TC-12} & \makecell{Unit Testing, System Testing} \\ \hline
+		M4 & Game Management & \makecell{TC-04\\ TC-10\\ TC-13} & \makecell{System Testing, Integration Testing} \\ \hline
+		M5 & Announcements & \makecell{TC-05} & \makecell{Manual Testing, Functional Testing} \\ \hline
+		M6 & Standings & \makecell{TC-06\\ TC-14} & \makecell{System Testing, Integration Testing} \\ \hline
+		M7 & Scheduling & \makecell{TC-07\\ TC-12} & \makecell{System Testing, Performance Testing} \\ \hline
+		M8 & Waiver Module & \makecell{TC-08\\ TC-09} & \makecell{Unit Testing, Functional Testing} \\ \hline
+		M9 & Player Module & \makecell{TC-09\\ TC-10} & \makecell{Unit Testing, Integration Testing} \\ \hline
+		M10 & Notification Module  & \makecell{TC-10} & \makecell{Functional Testing, Manual Testing} \\ \hline
+		M11 & Backend API & \makecell{TC-11\\ TC-12\\ TC-13} & \makecell{Unit Testing, Integration Testing} \\ \hline
+		M12 & Scheduling Algorithm & \makecell{TC-12\\ TC-14} & \makecell{System Testing, Performance Testing} \\ \hline
+		M13 & \makecell{Reschedule Request\\ Module} & \makecell{TC-13\\ TC-15} & \makecell{Functional Testing, System Testing} \\ \hline
+		
+    \end{tabular}
+\end{center}
+
+\subsection*{Description of Modules and Their Validation}
+
+\begin{itemize}
+    \item \textbf{User Interface (M1):} This module ensures proper rendering and responsiveness of UI components. It is validated through manual usability testing and front-end unit tests.
+    \item \textbf{Authentication (M2):} Handles user authentication, login/logout functionality, and security measures such as RBAC. Tested via unit tests and system authentication tests.
+    \item \textbf{Team Management (M3):} Manages the creation, joining, and management of teams. Verified using unit tests and system tests.
+    \item \textbf{Game Management (M4):} Allows game scheduling, score reporting, and result tracking. Validated through system tests and integration tests.
+    \item \textbf{Announcements (M5):} Ensures that administrators can post and manage announcements across the platform. Verified through functional and manual testing.
+    \item \textbf{Standings (M6):} Manages ranking calculations and updates based on reported game results. Tested via system and integration tests.
+    \item \textbf{Scheduling (M7):} Handles automated game scheduling based on team preferences and available slots. Verified through system and performance testing.
+    \item \textbf{Waiver Module (M8):} Manages player waivers, ensuring compliance with participation requirements. Validated via functional and unit testing.
+    \item \textbf{Player Module (M9):} Stores and manages player information, including team assignments and personal details. Verified through unit and integration tests.
+    \item \textbf{Notification Module (M10):} Sends system notifications regarding schedule updates, game changes, and announcements. Validated through manual and functional tests.
+    \item \textbf{Backend API (M11):} Ensures smooth communication between the frontend and backend systems. Verified through unit and integration tests.
+    \item \textbf{Scheduling Algorithm (M12):} Implements the logic for fair and balanced scheduling of games. Validated through system and performance testing.
+    \item \textbf{Reschedule Request Module (M13):} Manages captain-initiated reschedule requests and commissioner approvals. Verified through functional and system testing.
+\end{itemize}
+
 
 \section{Code Coverage Metrics}
 
