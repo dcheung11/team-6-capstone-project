@@ -33,14 +33,14 @@ export const SeasonsCard = (props) => {
                 {season.description}
               </Typography>
               <Box sx={{ mt: 2 }}>
-                <Typography variant="body2" color="text.secondary">
-                  <strong>Start Date:</strong>{" "}
-                  {new Date(season.startDate).toLocaleDateString()}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  <strong>End Date:</strong>{" "}
-                  {new Date(season.endDate).toLocaleDateString()}
-                </Typography>
+              <Typography variant="body2" color="text.secondary">
+                <strong>Start Date:</strong>{" "}
+                {new Date(season.startDate).toLocaleDateString("en-CA")}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                <strong>End Date:</strong>{" "}
+                {new Date(season.endDate).toLocaleDateString("en-CA")}
+              </Typography>
                 <Typography variant="body2" color="text.secondary">
                   <strong>Teams Registered:</strong>{" "}
                   {season.registeredTeams.length}

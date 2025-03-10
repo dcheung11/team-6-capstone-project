@@ -14,6 +14,8 @@
 }
 \usepackage[round]{natbib}
 \usepackage{longtable}
+\usepackage{array}
+\usepackage{float}
 
 \input{../Comments}
 \input{../Common}
@@ -75,7 +77,7 @@ Their values are defined in this section for easy maintenance.
     \hline
     Parameter & Value & Unit & Description \\
     \hline
-    \phantomsection\label{MIN_NAVTIME} \texttt{MIN\_NAVTIME} & 60 & s & The minimum time for testers to navigate to a main view \\
+    \phantomsection\label{MAX_NAVTIME} \texttt{MAX\_NAVTIME} & 60 & s & The maximimum time acceptable for testers to navigate to a main view \\
     \hline
     \phantomsection\label{MIN_TESTERS} \texttt{MIN\_TESTERS} & 5 & n/a & The minimum number of testers required for a system test \\
     \hline
@@ -308,6 +310,175 @@ This document ...
 
 \subsection{Usability}
 
+\subsubsection{Usability Survey Results}
+
+As part of our usability evaluation, we conducted a survey with participants who tested the platform for the first time. Testers were asked to complete key tasks such as signing up, logging in, creating a team, requesting reschedules, and navigating the interface. After completing these tasks, they provided feedback via a post-task survey.\\
+
+The full survey can be accessed at:  
+\href{https://docs.google.com/forms/d/e/1FAIpQLSeJ6XQhV2XkQ3CwSQN0GmwiXQIoUg9fHRQ2i7hpc-1skot2jQ/viewform}{Google Forms Usability Survey}.\\
+
+
+Table \ref{tab:usabilitySurvey} summarizes the responses of \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} participants (Response IDs 0--4) to our usability questionnaire. Each row corresponds to one survey question.
+
+\begin{longtable}{|p{0.25\textwidth}|
+    >{\raggedright\arraybackslash}p{0.11\textwidth}|
+    >{\raggedright\arraybackslash}p{0.14\textwidth}|
+    >{\raggedright\arraybackslash}p{0.11\textwidth}|
+    >{\raggedright\arraybackslash}p{0.11\textwidth}|
+    >{\raggedright\arraybackslash}p{0.11\textwidth}|}
+\caption{Usability Survey Questions and Responses (Updated Data)}
+\label{tab:usabilitySurvey}\\
+
+\hline
+\textbf{Question} & \textbf{Resp.\ 0} & \textbf{Resp.\ 1} & \textbf{Resp.\ 2} & \textbf{Resp.\ 3} & \textbf{Resp.\ 4}\\
+\hline
+\endfirsthead
+
+\multicolumn{6}{r}{\bfseries Table \thetable\ (continued)}\\
+\hline
+\textbf{Question} & \textbf{Resp.\ 0} & \textbf{Resp.\ 1} & \textbf{Resp.\ 2} & \textbf{Resp.\ 3} & \textbf{Resp.\ 4}\\
+\hline
+\endhead
+
+\hline
+\multicolumn{6}{r}{\textit{Continued on next page}}\\
+\hline
+\endfoot
+
+\hline
+\endlastfoot
+
+%------------------------------------------------------------------------------------
+% Q1
+How easy was it to learn how to use the platform?
+& 5
+& 4
+& 5
+& 5
+& 5 \\ \hline
+
+% Q2
+How confident do you feel using the platform without assistance after your initial experience?
+& 5
+& 5
+& 5
+& 5
+& 5 \\ \hline
+
+% Q3
+How intuitive do you find the navigation of the platform?
+& 5
+& 5
+& 5
+& 5
+& 5 \\ \hline
+
+% Q4
+How long did it take you to navigate all the views? (Approx.\ in minutes)
+& 3
+& 5
+& 2
+& 2
+& 3 \\ \hline
+
+% Q5
+How easy was it to complete basic tasks (login, create team, request reschedule)?
+& 4
+& 4
+& 5
+& 5
+& 5 \\ \hline
+
+% Q6
+Did you encounter any errors or issues while using the platform? If so, please describe them.
+& \parbox[t]{0.11\textwidth}{\raggedright \textit{(none)}}
+& \parbox[t]{0.11\textwidth}{\raggedright Invalid email accepted.  Misspelled @gmail.com and it still allowed it.}
+& \parbox[t]{0.11\textwidth}{\raggedright \textit{(none)}}
+& \parbox[t]{0.11\textwidth}{\raggedright NA}
+& \parbox[t]{0.11\textwidth}{\raggedright \textit{(none)}} \\ \hline
+
+% Q7
+How helpful were the in-app help resources in learning how to use the platform?
+& 5
+& 5
+& 3
+& 5
+& 5 \\ \hline
+
+% Q8
+Please share any suggestions for improving the in-app help resources.
+& 4
+& \parbox[t]{0.11\textwidth}{\raggedright \textit{(none)}}
+& \parbox[t]{0.11\textwidth}{\raggedright i didn't need them}
+& \parbox[t]{0.11\textwidth}{\raggedright NA}
+& \textit{(none)} \\ \hline
+
+% Q9
+Did the platform's interface appear modern, intuitive, and visually consistent across all views?
+& \parbox[t]{0.11\textwidth}{\raggedright the use of yellow randomly appears only in a couple pages}
+& 4
+& 5
+& 5
+& 5 \\ \hline
+
+% Q10
+Did you observe any remarkable inconsistencies in the visual interface when navigating (login, team mgmt, schedule)?
+& \parbox[t]{0.11\textwidth}{\raggedright the use of yellow randomly appears only in a couple pages}
+& \parbox[t]{0.11\textwidth}{\raggedright \textit{(none)}}
+& \parbox[t]{0.11\textwidth}{\raggedright \textit{(none)}}
+& \parbox[t]{0.11\textwidth}{\raggedright NA}
+& \parbox[t]{0.11\textwidth}{\raggedright maybe some fonts} \\ \hline
+
+% Q11
+How accessible do you find the platform in terms of visual design (color contrast, text size, font)?
+& 4
+& 5
+& 5
+& 5
+& 5 \\ \hline
+
+% Q12
+Do you have any suggestions for improving the accessibility of the platform?
+& \parbox[t]{0.11\textwidth}{\raggedright yellow might be hard for some people to see}
+& \parbox[t]{0.11\textwidth}{\raggedright \textit{(none)}}
+& \parbox[t]{0.11\textwidth}{\raggedright maybe bigger fonts in some places}
+& \parbox[t]{0.11\textwidth}{\raggedright NA}
+& \parbox[t]{0.11\textwidth}{\raggedright \textit{(none)}} \\ \hline
+
+% Q13
+Based on the Canadian formatting standards provided, do you believe the platform adheres to these conventions?
+& Yes
+& Yes
+& Yes
+& Yes
+& Yes \\ \hline
+
+% Q14
+If you noticed any deviations from Canadian formatting standards, please describe them.
+& \parbox[t]{0.11\textwidth}{\raggedright \textit{(none)}}
+& \parbox[t]{0.11\textwidth}{\raggedright \textit{(none)}}
+& \parbox[t]{0.11\textwidth}{\raggedright \textit{(none)}}
+& \parbox[t]{0.11\textwidth}{\raggedright NA}
+& \parbox[t]{0.11\textwidth}{\raggedright i didn't notice} \\ \hline
+
+% Q15
+Would you like to provide any additional comments on your experience?
+& \parbox[t]{0.11\textwidth}{\raggedright \textit{(none)}}
+& \parbox[t]{0.11\textwidth}{\raggedright I like overall that the colours adhere to McMaster}
+& \parbox[t]{0.11\textwidth}{\raggedright super easy to use}
+& \parbox[t]{0.11\textwidth}{\raggedright NA}
+& \parbox[t]{0.11\textwidth}{\raggedright i like it a lot} \\ \hline
+
+\end{longtable}
+
+The usability survey results indicate that the platform is highly intuitive and easy for new users to learn and navigate. The responses were overwhelmingly positive, with all participants successfully completing tasks such as signing up, logging in, and exploring key sections of the site. Navigation times were within the expected range, and testers generally found the interface modern, visually consistent, and user-friendly.
+
+One minor concern was that a participant rated the in-app help resources lower than others. However, this response likely reflects the fact that the help resources were unnecessary rather than inadequate, which is ultimately a positive outcome. Another issue noted was an invalid email being accepted during sign-up. While this can be corrected in the edit profile feature, the team will consider implementing stricter validation on the registration page to prevent similar cases.
+
+Overall, the results confirm that the platform meets usability expectations and is on track for successful deployment, with only minor refinements needed for edge cases.
+
+
+
 \subsubsection{Manual Testing}
 \begin{enumerate}
 \item \textbf{TUH-1}  
@@ -320,8 +491,14 @@ This document ...
                   \item Navigation Tasks: Tester navigates through login, announcements, standings, and schedule pages.
                   \item Participants: \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} with no prior experience with the platform.
               \end{itemize}
-          \item Expected Output: Participants successfully navigate to each view within \hyperref[MIN_NAVTIME]{\texttt{MIN\_NAVTIME}} minutes without prior experience or external assistance.
+          \item Expected Output: Participants successfully navigate to each view within \hyperref[MAX_NAVTIME]{\texttt{MAX\_NAVTIME}} without prior experience or external assistance.
           \item Actual Output: Participants completed navigation within the expected time.
+          \begin{figure}[h!]
+            \centering
+            \includegraphics[width=1\textwidth]{navtime_results.png}
+            \caption{Survey results showing participants' average navigation times.}
+            \label{fig:navtime}
+          \end{figure}
           \item Result: Pass
       \end{itemize}
 
@@ -352,6 +529,12 @@ This document ...
             \end{itemize}
         \item Expected Output: Tester completes each task within an average of \hyperref[AVG_TASK_TIME]{\texttt{AVG\_TASK\_TIME}} minutes, utilizing in-app guidance (navigation instructions, tooltips, help documentation) to easily understand and complete tasks.
         \item Actual Output: Tester completed each task within the expected time and used in-app help effectively.
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1\textwidth]{avg_task_results.png}
+            \caption{Survey results showing participants' average task completion times.}
+            \label{fig:navtime}
+        \end{figure}
         \item Result: Pass
     \end{itemize}
 \end{enumerate}
