@@ -10,11 +10,22 @@ router.get("/", playersController.getPlayers);
 router.post(
   "/signup",
   [
-    check("name").not().isEmpty(),
+    check("firstName").not().isEmpty(),
+    check("lastName").not().isEmpty(),
     check("email").normalizeEmail().isEmail(),
     check("password").isLength({ min: 6 }), // revisit
   ],
   playersController.signup
 );
+
+router.post("/login", playersController.login);
+
+router.get("/:pid", playersController.getPlayerById);
+
+router.post("/acceptinvite", playersController.acceptInvite);
+
+router.post("/sendinvite", playersController.sendInvite);
+
+router.patch("/:pid", playersController.updatePlayerInfo);
 
 module.exports = router;

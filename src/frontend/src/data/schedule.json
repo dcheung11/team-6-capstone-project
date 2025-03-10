@@ -1,0 +1,84 @@
+{
+  "games": [
+    {
+      "game_id": 1,
+      "game_slot": 1,
+      "team1": { "name": "Team 1" },
+      "team2": { "name": "Team 2" },
+      "date": "2023-10-01",
+      "field": 1,
+      "time": "5:00 PM",
+      "division": { "name": "A" }
+    },
+    {
+      "game_id": 2,
+      "game_slot": 2,
+      "team1": { "name": "Team 3" },
+      "team2": { "name": "Team 4" },
+      "date": "2023-10-01",
+      "field": 2,
+      "time": "6:30 PM",
+      "division": { "name": "B" }
+    },
+    {
+      "game_id": 3,
+      "game_slot": 3,
+      "team1": { "name": "Team 5" },
+      "team2": { "name": "Team 6" },
+      "date": "2023-10-01",
+      "field": 3,
+      "time": "8:00 PM",
+      "division": { "name": "C" }
+    },
+    {
+      "game_id": 4,
+      "game_slot": 4,
+      "team1": { "name": "Team 7" },
+      "team2": { "name": "Team 8" },
+      "date": "2023-10-01",
+      "field": 1,
+      "time": "9:30 PM",
+      "division": { "name": "D" }
+    },
+    {
+      "game_id": 5,
+      "game_slot": 5,
+      "team1": { "name": "Team 9" },
+      "team2": { "name": "Team 10" },
+      "date": "2023-10-08",
+      "field": 2,
+      "time": "5:00 PM",
+      "division": { "name": "A" }
+    },
+    {
+      "game_id": 6,
+      "game_slot": 6,
+      "team1": { "name": "Team 11" },
+      "team2": { "name": "Team 12" },
+      "date": "2023-10-08",
+      "field": 3,
+      "time": "6:30 PM",
+      "division": { "name": "B" }
+    },
+    {
+      "game_id": 7,
+      "game_slot": 7,
+      "team1": { "name": "Team 13" },
+      "team2": { "name": "Team 14" },
+      "date": "2023-10-08",
+      "field": 1,
+      "time": "8:00 PM",
+      "division": { "name": "C" }
+    },
+    {
+      "game_id": 8,
+      "game_slot": 8,
+      "team1": { "name": "Team 15" },
+      "team2": { "name": "Team 16" },
+      "date": "2023-10-08",
+      "field": 2,
+      "time": "9:30 PM",
+      "division": { "name": "D" }
+    }
+  ]
+}
