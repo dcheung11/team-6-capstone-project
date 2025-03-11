@@ -171,11 +171,14 @@ const acceptInvite = async (req, res, next) => {
     }
 
     // Find the team by ID
-    team = await Team.findById(teamId); // Assuming you have a Team model
+    team = await Team.findById(teamId);
     if (!team) {
       const error = new HttpError("Could not find the team for the provided id.", 404);
       return next(error);
     }
+
+    // check if player is alread on the team
+    if (player.teams.includes(teamId))
 
     // Assign the team to the player
     player.team = team._id; // Set the player's team to the selected team
