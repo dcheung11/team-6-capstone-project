@@ -32,35 +32,20 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
     \toprule {\bf Date} & {\bf Version} & {\bf Notes}      \\
     \midrule
+    Mar 7, 2025 1      & 2.0           & Unit Tests \\
     Oct 30, 2024 1      & 1.0           & 4.2 and Appendix \\
 
     \bottomrule
 \end{tabularx}
 
-~\\
-\wss{The intention of the VnV plan is to increase confidence in the software.
-    However, this does not mean listing every verification and validation technique
-    that has ever been devised.  The VnV plan should also be a \textbf{feasible}
-    plan. Execution of the plan should be possible with the time and team available.
-    If the full plan cannot be completed during the time available, it can either be
-    modified to ``fake it'', or a better solution is to add a section describing
-    what work has been completed and what work is still planned for the future.}
-
-\wss{The VnV plan is typically started after the requirements stage, but before
-    the design stage.  This means that the sections related to unit testing cannot
-    initially be completed.  The sections will be filled in after the design stage
-    is complete.  the final version of the VnV plan should have all sections filled
-    in.}
 
 \newpage
 
 \tableofcontents
 
 \listoftables
-\wss{Remove this section if it isn't needed}
 
-\listoffigures
-\wss{Remove this section if it isn't needed}
+% \listoffigures
 
 \newpage
 
@@ -993,7 +978,8 @@ This section includes tests for league-wide announcements and commissioner game 
 
 \subsection{Traceability Between Test Cases and Requirements}
 Note : Requirement IDs are from SRS
-\begin{center}
+\begin{table}
+	\centering
     \begin{tabular}{ |c|c|c| }
         \hline
         \textbf{Requirement ID } & \textbf{Test Case ID(s)}        & \textbf{Description of Coverage}           \\ \hline
@@ -1009,133 +995,196 @@ Note : Requirement IDs are from SRS
         NFR-13.2                 & Compliance-W3CStandards         & \makecell{Confirms adherence to web        \\ standards (W3C).} \\ \hline
         % \label{table:traceability_matrix}
     \end{tabular}
-\end{center}
+	\caption{Traceability Between Test Cases and Requirements}
+\end{table}
 For more, refer to requirements in SRS Document ()
 
 \section{Unit Test Description}
 
-\wss{This section should not be filled in until after the MIS (detailed design
-    document) has been completed.}
-
-\wss{Reference your MIS (detailed design document) and explain your overall
-    philosophy for test case selection.}
-
-\wss{To save space and time, it may be an option to provide less detail in this section.
-    For the unit tests you can potentially layout your testing strategy here.  That is, you
-    can explain how tests will be selected for each module.  For instance, your test building
-    approach could be test cases for each access program, including one test for normal behaviour
-    and as many tests as needed for edge cases.  Rather than create the details of the input
-    and output here, you could point to the unit testing code.  For this to work, you code
-    needs to be well-documented, with meaningful names for all of the tests.}
-
 \subsection{Unit Testing Scope}
 
-\wss{What modules are outside of the scope.  If there are modules that are
-    developed by someone else, then you would say here if you aren't planning on
-    verifying them.  There may also be modules that are part of your software, but
-    have a lower priority for verification than others.  If this is the case,
-    explain your rationale for the ranking of module importance.}
+The primary focus of unit testing in this project is on verifying the correctness of the basic backend models. These unit tests ensure that the fundamental data structures and validation rules within our system function correctly before integrating them into higher-level functionalities. Since more complex interactions, (scheduling, game assignments, authentication flows) will be tested through system and integration tests, unit tests will focus on the core behavior of the database models.
 
-\subsection{Tests for Functional Requirements}
+Thus, our unit test structure will focus on the main classes used in our application and we allow Functional and Non-Functional rquirements to be tested in other methods (Manual, System, Integration)
 
-\wss{Most of the verification will be through automated unit testing.  If
-    appropriate specific modules can be verified by a non-testing based
-    technique.  That can also be documented in this section.}
+We focus on the primary models in our system: \texttt{Player, Team, Game, Schedule, Gameslot}. While we would ideally hope for all models to be covered, the primary focus is on the models that are most critical to the system's functionality and this method will allow us to complete the most critical tests within our time constraints. 
 
-\subsubsection{Module 1}
+\subsection{Tests for Models/Classes}
 
-\wss{Include a blurb here to explain why the subsections below cover the module.
-    References to the MIS would be good.  You will want tests from a black box
-    perspective and from a white box perspective.  Explain to the reader how the
-    tests were selected.}
+\subsubsection{Player Model}
+
+Testing the Player model ensures that the basic structure and validation rules for player accounts are functioning correctly and allows confidence in more complex features involving players, including team creation, team joining, etc.
 
 \begin{enumerate}
 
-    \item{test-id1\\}
+    \item{test-player-creation\\}
 
-          Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-              be automatic}
+    Type: Functional, Dynamic, Automatic
 
-          Initial State:
+    Initial State: Database is empty or contains other player records.
 
-          Input:
+    Input: A valid player object with required fields (e.g., name, email, team ID).
 
-          Output: \wss{The expected result for the given inputs}
+    Output: The player is successfully created in the database with a unique ID.
 
-          Test Case Derivation: \wss{Justify the expected value given in the Output field}
+    Test Case Derivation: Ensures the basic creation functionality of the Player model works and the database correctly stores new players.
 
-          How test will be performed:
+    How test will be performed: Insert a player object into the database and verify that the player exists by querying the database.
 
-    \item{test-id2\\}
+\item{test-player-uniqueness\\}
 
-          Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-              be automatic}
+    Type: Functional, Dynamic, Automatic
 
-          Initial State:
+    Initial State: A player with the same email already exists in the database.
 
-          Input:
+    Input: A new player object with the same email.
 
-          Output: \wss{The expected result for the given inputs}
+    Output: The database rejects the creation due to a uniqueness constraint violation.
 
-          Test Case Derivation: \wss{Justify the expected value given in the Output field}
+    Test Case Derivation: Ensures that email uniqueness is enforced at the database level.
 
-          How test will be performed:
-
-    \item{...\\}
+    How test will be performed: Attempt to insert a duplicate player and expect an error response.
 
 \end{enumerate}
 
-\subsubsection{Module 2}
 
-...
-
-\subsection{Tests for Nonfunctional Requirements}
-
-\wss{If there is a module that needs to be independently assessed for
-    performance, those test cases can go here.  In some projects, planning for
-    nonfunctional tests of units will not be that relevant.}
-
-\wss{These tests may involve collecting performance data from previously
-    mentioned functional tests.}
-
-\subsubsection{Module ?}
+\subsubsection{Team Model}
 
 \begin{enumerate}
 
-    \item{test-id1\\}
+    \item{test-team-creation\\}
 
-          Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-              be automatic}
+    Type: Functional, Dynamic, Automatic
 
-          Initial State:
+    Initial State: Database is empty or contains other teams.
 
-          Input/Condition:
+    Input: A valid team object with required fields (e.g., name, division, captain ID).
 
-          Output/Result:
+    Output: The team is successfully created in the database with a unique ID.
 
-          How test will be performed:
+    Test Case Derivation: Ensures teams can be properly created and stored.
 
-    \item{test-id2\\}
+    How test will be performed: Insert a team object into the database and verify its existence.
 
-          Type: Functional, Dynamic, Manual, Static etc.
+\item{test-team-uniqueness\\}
 
-          Initial State:
+    Type: Functional, Dynamic, Automatic
 
-          Input:
+    Initial State: A team with the same name already exists in the database.
 
-          Output:
+    Input: A new team object with the same name.
 
-          How test will be performed:
+    Output: The database rejects the creation due to a uniqueness constraint violation.
+
+    Test Case Derivation: Ensures that team names are unique within the system.
+
+    How test will be performed: Attempt to insert a duplicate team and expect an error response.
 
 \end{enumerate}
 
-\subsubsection{Module ?}
+...\subsubsection{Game Model}
+
+\begin{enumerate}
+
+    \item{test-game-creation\\}
+
+    Type: Functional, Dynamic, Automatic
+
+    Initial State: Database is empty or contains other games.
+
+    Input: A valid game object with required fields (e.g., date, time, field, teams).
+
+    Output: The game is successfully created in the database.
+
+    Test Case Derivation: Ensures games can be properly created and stored.
+
+    How test will be performed: Insert a game object and verify its existence in the database.
+
+\end{enumerate}
+
+\subsubsection{Gameslot Model}
+
+\begin{enumerate}
+
+    \item{test-gameslot-uniqueness\\}
+
+    Type: Functional, Dynamic, Automatic
+
+    Initial State: A game slot with the same date, time, and field already exists.
+
+    Input: A new game slot with identical attributes.
+
+    Output: The database rejects the creation due to a uniqueness constraint violation.
+
+    Test Case Derivation: Ensures that game slots cannot have duplicate entries.
+
+    How test will be performed: Attempt to insert a duplicate game slot and expect an error.
+\end{enumerate}
+
+\subsubsection{Schedule Model}
+
+\begin{enumerate}
+
+
+\item{test-schedule-creation\\}
+
+      Type: Functional, Dynamic, Automatic
+
+      Initial State: Database is empty or contains other schedule entries.
+
+      Input: A valid schedule object with required fields (e.g., season ID, team ID, game slots).
+
+      Output: The schedule is successfully created and stored.
+
+      Test Case Derivation: Ensures schedules can be generated and stored properly.
+
+      How test will be performed: Insert a schedule object and query the database for validation.
+\end{enumerate}
+
 
 ...
 
 \subsection{Traceability Between Test Cases and Modules}
 
-\wss{Provide evidence that all of the modules have been considered.}
+\subsubsection*{Test Case Mapping to Modules}
+
+The following table outlines the relationship between the test cases and the respective modules:
+
+\begin{table}
+	\centering
+    \begin{tabular}{ |c|c|c| }
+        \hline
+        \textbf{Test Case ID} & \textbf{Module Under Test} & \textbf{Description of Test Case}           \\ \hline
+        TC-01 & User Interface (M1) & \makecell{Tests login functionality \\ with valid and invalid credentials.} \\ \hline
+        TC-02 & Authentication (M2) & \makecell{Validate login, logout, and \\role-based access control (RBAC)\\ functionalities.} \\ \hline
+        TC-03 & Team Management (M3) & \makecell{Ensure proper team creation,\\ joining, and waiver processes.} \\ \hline
+        TC-04 & Game Management (M4) & \makecell{Validate game creation, score\\ updating, and game status\\ tracking.} \\ \hline
+        TC-05 & Announcements (M5) & \makecell{Check announcement creation,\\ delivery, and retrieval for users.} \\ \hline
+        TC-06 & Standings (M6) & \makecell{Validate standings calculations\\ and rankings update mechanisms.} \\ \hline
+        TC-07 & Scheduling (M7) & \makecell{Ensure game scheduling adheres\\ to team preferences and constraints.} \\ \hline
+        TC-08 & Waiver Module (M8) & \makecell{Verify waiver access, completion,\\ and validation processes.} \\ \hline
+        TC-09 & PlayerT Module (M9) & \makecell{Test individual player data\\ handling and integration with teams.} \\ \hline
+        TC-10 & Notification Module (M12) & \makecell{Ensure notifications are sent\\ and received correctly by users.} \\ \hline
+		TC-11 & Backend Module (M13) & \makecell{Verify API calls, data storage\\ integrity, and security compliance.} \\ \hline
+		TC-12 & Scheduling Algorithm (M14) & \makecell{Validate scheduling logic to\\ ensure optimal game assignments.} \\ \hline
+		TC-13 & Reschedule Request Module (M19) & \makecell{Test the rescheduling feature,\\ ensuring proper slot selection\\ and game updates.} \\ \hline
+    \end{tabular}
+	\caption{Traceability between Test Cases and Modules}
+\end{table}
+
+\subsubsection*{Coverage of Anticipated Changes}
+
+The following anticipated changes (AC) are covered by corresponding test cases:
+
+\begin{itemize}
+    \item \textbf{AC1:} Enhanced Authentication Features $\rightarrow$ TC-02 (Authentication Module Testing)
+    \item \textbf{AC2:} Session Management Updates $\rightarrow$ TC-02 (Authentication Module, Token Handling)
+    \item \textbf{AC3:} Database Schema Adjustments $\rightarrow$ TC-11 (Backend Module, Data Integrity)
+    \item \textbf{AC4:} User Interface (UI) Enhancements $\rightarrow$ TC-01 (UI Testing for Compatibility and Responsiveness)
+    \item \textbf{AC5:} Integration of New Scheduling Algorithms $\rightarrow$ TC-12 (Scheduling Algorithm, Game Assignments)
+    \item \textbf{AC6:} Data Security and Privacy Updates $\rightarrow$ TC-11 (Backend Module, API Security Testing)
+    \item \textbf{AC7:} Improved Notification System $\rightarrow$ TC-10 (Notification Delivery and Response)
+\end{itemize}
 
 \bibliographystyle{plainnat}
 
@@ -1164,6 +1213,7 @@ Their values are defined in this section for easy maintenance.
     \hline
     \texttt{MAX\_GAME\_DIFF}\label{MAX_GAME_DIFF} & 2     & n/a  & the maximum difference of total scheduled games between two teams \\
     \hline
+	\caption{Symbolic Parameters}
 \end{longtable}
 
 \subsection{Usability Survey Questions}
@@ -1192,8 +1242,6 @@ Their values are defined in this section for easy maintenance.
 
 \newpage{}
 \section*{Appendix --- Reflection}
-
-\wss{This section is not required for CAS 741}
 
 The information in this section will be used to evaluate the team members on the
 graduate attribute of Lifelong Learning.

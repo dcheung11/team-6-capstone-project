@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getStandingsByDivision } from "../api/standings"; 
-import { getUpcomingSeasons } from "../api/season"; 
+import { getOngoingSeasons } from "../api/season"; 
 import {
   Typography,
   Container,
@@ -33,7 +33,7 @@ export default function StandingsPage() {
 
   const fetchSeasons = async () => {
     try {
-      const data = await getUpcomingSeasons();
+      const data = await getOngoingSeasons();
       setSeasons(data.seasons);
   
       // Set default season and divisions

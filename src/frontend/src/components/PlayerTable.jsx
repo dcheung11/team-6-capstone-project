@@ -34,6 +34,9 @@ export default function PlayerTable(props) {
     fetchPlayerById(playerId);
   }, []);
 
+  // multiple team logic
+  // console.log(user?.team?.captainId?.id, user?.id)
+
   // Fetch player details by player ID
   const fetchPlayerById = async (pid) => {
     let data;
@@ -103,7 +106,7 @@ export default function PlayerTable(props) {
               <TableCell>{player.firstName} {player.lastName}</TableCell>
               <TableCell>{player.team ? player.team : ""}</TableCell>
               <TableCell>
-                {console.log(player.firstName, player.invites, user.team._id)}
+                {/* {console.log(player.firstName, player.invites, user.team._id)} */}
                 {!player.team ? (
                     !player.invites?.includes(user.team._id) ? (
                       <Button

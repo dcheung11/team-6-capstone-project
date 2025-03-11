@@ -107,3 +107,23 @@ export async function sendInvite(playerId, teamId) {
     throw error;
   }
 }
+
+export const updatePlayerInfo = async (playerId, updatedData) => {
+  try {
+    const response = await fetch(`${REACT_APP_API_BASE_URL}/players/${playerId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to update player: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating player:", error);
+    throw error;
+  }
+};
+

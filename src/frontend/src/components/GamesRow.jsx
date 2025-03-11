@@ -18,6 +18,7 @@ export default function GamesRow(props) {
             <Typography variant="body2" color="text.secondary">
               {game.field} - {game.time}
             </Typography>
+
             { props.player.role === "captain" &&
               (<Button
                 variant="contained"
@@ -29,7 +30,8 @@ export default function GamesRow(props) {
                     bgcolor: "#600018",
                   },
                 }}
-              >
+                disabled={props.captain !== props.player} // Disable the button if homeScore or awayScore is null
+            >
               Reschedule
             </Button>)}
           </CardContent>
