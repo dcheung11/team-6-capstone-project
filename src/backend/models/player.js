@@ -8,7 +8,7 @@ const PlayerSchema = new mongoose.Schema({
   phoneNumber: { type: String, default: "" }, // Added phone number
   gender: { type: String, enum: ["male", "female", "other"], default: "other" }, // Added gender
   waiverStatus: { type: Boolean, default: false },
-  team: { type: mongoose.Schema.Types.ObjectId, ref: "Team" },
+  teams: [{ type: mongoose.Schema.Types.ObjectId, ref: "Team" }],
   role: { type: String, default: "player" },
   invites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Team" }],
 });
