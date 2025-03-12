@@ -141,15 +141,9 @@ const getScheduleBySeasonId = async (req, res, next) => {
 
   let schedule;
   try {
-    schedule = await Schedule.findOne({ seasonId: seasonId }).populate({
-      path: "games",
-      populate: [
-        { path: "homeTeam" },
-        { path: "awayTeam" },
-        { path: "division" },
-      ],
-    });
+    schedule = await Schedule.findOne({ seasonId: seasonId }).populate("games");
   } catch (err) {
+    console.log(err);
     const error = new HttpError(
       "Fetching schedule failed, please try again later.",
       500
