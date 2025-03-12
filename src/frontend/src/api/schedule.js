@@ -34,7 +34,6 @@ export const getScheduleBySeasonId = async (seasonId) => {
         },
       }
     );
-    console.log("response", response);
 
     if (!response.ok) {
       throw new Error("Failed to get schedule");
