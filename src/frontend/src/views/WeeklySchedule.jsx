@@ -177,7 +177,8 @@ export const WeeklySchedule = () => {
           {weekDates.map((wdate, index) => {
             // Find the game that matches this week date
             const match = teamGames.find(game => {
-              const gameFullDate = formatDate(game.date);
+              // const gameFullDate = formatDate(game.date);
+              const gameFullDate = getLocalISODate(new Date(game.date));
               return gameFullDate === wdate.fullDate;
             });
 
