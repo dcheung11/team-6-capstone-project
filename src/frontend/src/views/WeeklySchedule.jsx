@@ -4,7 +4,7 @@ import { useAuth } from "../hooks/AuthProvider";
 import { getPlayerById } from "../api/player";
 import { getScheduleGamesByTeamId } from "../api/team";
 import { getAvailableGameslots } from "../api/reschedule-requests";
-
+import { formatDate } from "../utils/Formatting";
 
 // Fix the "day ahead" issue by normalizing date/time
 function getLocalISODate(date) {
@@ -55,8 +55,7 @@ export const WeeklySchedule = () => {
         const weekDates = getWeekDates(currentDate);
 
         const filteredGames = data.games.filter(game => {
-          let gameDate = new Date(game.date);
-          gameDate = getLocalISODate(gameDate);
+          let gameDate = formatDate(game.date);
           return gameDate >= weekDates[0].fullDate && gameDate <= weekDates[6].fullDate
         });
 
@@ -178,8 +177,7 @@ export const WeeklySchedule = () => {
           {weekDates.map((wdate, index) => {
             // Find the game that matches this week date
             const match = teamGames.find(game => {
-              const gameDate = new Date(game.date);
-              const gameFullDate = getLocalISODate(gameDate);
+              const gameFullDate = formatDate(game.date);
               return gameFullDate === wdate.fullDate;
             });
 
@@ -194,10 +192,10 @@ export const WeeklySchedule = () => {
                       {match.homeTeam.name} vs {match.awayTeam.name}
                     </p>
                     <p style={styles.gameTime}>
-                      {new Date(match.date).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
+                      {match.time}
+                    </p>
+                    <p style={styles.gameField}>
+                      {match.field}
                     </p>
                     <button
                       style={styles.rescheduleButton}
