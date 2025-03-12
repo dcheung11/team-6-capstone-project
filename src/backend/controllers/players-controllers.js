@@ -181,7 +181,7 @@ const acceptInvite = async (req, res, next) => {
     if (player.teams.includes(teamId))
 
     // Assign the team to the player
-    player.team = team._id; // Set the player's team to the selected team
+    player.teams.push(team._id); // Set the player's team to the selected team
 
     player.invites.pull(team._id); // This will remove the team ID from the player's invites array
 
