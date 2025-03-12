@@ -197,12 +197,13 @@ export const WeeklySchedule = () => {
                     <p style={styles.gameField}>
                       {match.field}
                     </p>
-                    <button
+                    {/* TODO: captainId is populated so this syntax is a bit gross */}
+                    {player.team.captainId.id === player._id ? (<button
                       style={styles.rescheduleButton}
                       onClick={() => handleRescheduleClick(wdate.fullDate, match)}
                     >
                       Reschedule
-                    </button>
+                    </button>) : null}
                   </>
                 ) : (
                   <p style={styles.eventText}>No Matches</p>
