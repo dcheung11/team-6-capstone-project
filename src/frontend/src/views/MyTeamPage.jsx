@@ -41,6 +41,11 @@ export default function MyTeamPage() {
         setLoading(true);
         const data = await getPlayerById(pid);
         setPlayer(data.player);
+
+        if (data.player.teams.length > 0) { // if a player is on multiple teams 
+          setTeamTabValue(teamId || data.player.teams[0].id); // deafault to first team
+        }
+
       } catch (err) {
         setError(err.message || "Failed to fetch player");
       } finally {
@@ -101,107 +106,111 @@ export default function MyTeamPage() {
         </Typography>
         {loading ? (
           <LoadingOverlay loading={loading} />
-        ) : player && player.team ? (
+        ) : player && player.teams ? (
           <TabContext value={teamTabValue}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <TabList onChange={handleChange}>
-                <Tab label={player.team.name} value={player.team.id} />
-              </TabList>
+            <TabList onChange={handleChange}>
+              {player.teams.map((team) => (
+                <Tab key={team.id} label={team.name} value={team.id} />
+              ))}
+            </TabList>
             </Box>
-            <TabPanel value={player.team.id}>
-              <Box>
-                <Typography variant="h4" component="h1" gutterBottom>
-                  <span style={{ color: "#7A003C", fontWeight: "bold" }}>
-                    {player.team.name}
-                  </span>
-                  {player.team.captainId.id === playerId && (
-                    <span
-                      style={{
-                        color: "gray",
-                        fontWeight: "normal",
-                        fontSize: "0.8em",
-                      }}
-                    >
-                      {" "}
-                      (captain)
+            {player.teams.map((team) => (
+              <TabPanel key={team.id} value={team.id}>
+                <Box>
+                  <Typography variant="h4" component="h1" gutterBottom>
+                    <span style={{ color: "#7A003C", fontWeight: "bold" }}>
+                      {team.name}
                     </span>
+                    {team.captainId.id === playerId && (
+                      <span
+                        style={{
+                          color: "gray",
+                          fontWeight: "normal",
+                          fontSize: "0.8em",
+                        }}
+                      >
+                        {" "}
+                        (captain)
+                      </span>
+                    )}
+                  </Typography>
+                  <Stack
+                    direction="row"
+                    spacing={4}
+                    marginBottom={2}
+                    alignItems="center"
+                  >
+                    <Typography variant="h6" component="h2">
+                      {team.seasonId.name}: {team.divisionId.name}
+                    </Typography>
+                    <Typography variant="h6" component="h2">
+                      Record (W/D/L): {team.wins}-{team.draws}-
+                      {team.losses}
+                    </Typography>
+                  </Stack>
+
+                  {/* For captain view */}
+                  <Typography variant="h4" component="h2" gutterBottom>
+                    Notifications
+                  </Typography>
+                  {teamNotifications &&
+                  teamNotifications.length > 0 ? (
+                    <NotificationsRow
+                      notifications={teamNotifications}
+                    />
+                  ) : (
+                    <NoDataCard text="No notifications to show." />
                   )}
-                </Typography>
-                <Stack
-                  direction="row"
-                  spacing={4}
-                  marginBottom={2}
-                  alignItems="center"
-                >
-                  <Typography variant="h6" component="h2">
-                    {player.team.seasonId.name}: {player.team.divisionId.name}
+
+                  <Typography variant="h4" component="h2" gutterBottom>
+                    Roster
                   </Typography>
-                  <Typography variant="h6" component="h2">
-                    Record (W/D/L): {player.team.wins}-{player.team.draws}-
-                    {player.team.losses}
+                  <RosterTable
+                    roster={team.roster}
+                    captain={team.captainId}
+                  />
+                  {team.captainId.id === playerId && (
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{
+                      bgcolor: "#800020",
+                      mb: 2,
+                    }}
+                    onClick={() => navigate("/players")}
+                  >
+                    Invite Players
+                  </Button>)}
+
+                  <Typography variant="h4" component="h2" gutterBottom>
+                    Upcoming Games
                   </Typography>
-                </Stack>
-
-                {/* For captain view */}
-                <Typography variant="h4" component="h2" gutterBottom>
-                  Notifications
-                </Typography>
-                {teamNotifications &&
-                teamNotifications.length > 0 ? (
-                  <NotificationsRow
-                    notifications={teamNotifications}
-                  />
-                ) : (
-                  <NoDataCard text="No notifications to show." />
-                )}
-
-                <Typography variant="h4" component="h2" gutterBottom>
-                  Roster
-                </Typography>
-                <RosterTable
-                  roster={player.team.roster}
-                  captain={player.team.captainId}
-                />
-                {player.team.captainId.id === playerId && (
-                <Button
-                  variant="contained"
-                  size="small"
-                  sx={{
-                    bgcolor: "#800020",
-                    mb: 2,
-                  }}
-                  onClick={() => navigate("/players")}
-                >
-                  Invite Players
-                </Button>)}
-
-                <Typography variant="h4" component="h2" gutterBottom>
-                  Upcoming Games
-                </Typography>
-                {teamGames && teamGames.games && teamGames.games.length > 0 ? (
-                  // adjust to display schedule games when its available
-                  <GamesRow
-                    teamId={player.team.id}
-                    games={teamGames.games
-                      .filter((game) => new Date(game.date) >= new Date()) // Only future games
-                      .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sort by closest date
-                      .slice(0, 5)}
-                    captain={player.team.captainId.id} 
-                    player={playerId}
-                  />
-                ) : (
-                  <NoDataCard text="No games to show." />
-                )}
-                <Typography variant="h4" component="h2" gutterBottom>
-                  Schedule
-                </Typography>
-                {teamGames && teamGames.games && teamGames.games.length > 0 ? (
-                  <ScheduleTable schedule={teamGames} captain={player.team.captainId.id} player={playerId}/>
-                ) : (
-                  <NoDataCard text="No schedule to show." />
-                )}
-              </Box>
-            </TabPanel>
+                  {teamGames && teamGames.games && teamGames.games.length > 0 ? (
+                    // adjust to display schedule games when its available
+                    <GamesRow
+                      teamId={team.id}
+                      games={teamGames.games
+                        .filter((game) => new Date(game.date) >= new Date()) // Only future games
+                        .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sort by closest date
+                        .slice(0, 5)}
+                      captain={team.captainId.id} 
+                      player={playerId}
+                    />
+                  ) : (
+                    <NoDataCard text="No games to show." />
+                  )}
+                  <Typography variant="h4" component="h2" gutterBottom>
+                    Schedule
+                  </Typography>
+                  {teamGames && teamGames.games && teamGames.games.length > 0 ? (
+                    <ScheduleTable schedule={teamGames} captain={team.captainId.id} player={playerId}/>
+                  ) : (
+                    <NoDataCard text="No schedule to show." />
+                  )}
+                </Box>
+              </TabPanel>
+            ))}
           </TabContext>
         ) : (
           <NoDataCard text="No teams to show. Join or create a team to see team information." />

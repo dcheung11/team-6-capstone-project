@@ -106,7 +106,8 @@ const registerTeam = async (req, res, next) => {
   }
 
   // Update captain's team
-  captain.team = createdTeam._id;
+  captain.teams.push(createdTeam._id);
+  console.log("adding team: ", createdTeam._id, "to player: ", captainId)
   await captain.save();
 
   // STANDINGS: new team needs to be added to standings
