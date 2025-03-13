@@ -20,13 +20,11 @@ const assignDivisionGames = async (
   );
   const teamAvailability = new Map();
 
-  console.log('that ran');
   let interleavedPairings = interleavePairings(
     allDivisionPairings,
     totalWeeks,
     teams
   );
-  console.log("this ran");
   const MIN_ACCEPTABLE_SCORE = 0.5; // Threshold for acceptance
 
   // Batch operations
@@ -197,67 +195,6 @@ const generateDivisionPairings = (teams) => {
 };
 
 // Interleaves pairings from all divisions to ensure a distribution of games and not games sequentilly played by division
-// const interleavePairings = (allDivisionPairings, totalWeeks) => {
-//   //   const allPairings = [];
-
-//   //   // Find the maximum number of pairings across all divisions
-//   //   const maxPairings = Math.max(
-//   //     ...allDivisionPairings.map((dp) => dp.pairings.length)
-//   //   );
-
-//   //   // Iterate through each index and interleave pairings
-//   //   for (let i = 0; i < maxPairings; i++) {
-//   //     allDivisionPairings.forEach(({ division, pairings }) => {
-//   //       if (i < pairings.length) {
-//   //         const [homeTeam, awayTeam] = pairings[i];
-//   //         allPairings.push({ division, homeTeam, awayTeam });
-//   //       }
-//   //     });
-//   //   }
-//   //   return allPairings;
-
-//   const allPairings = [];
-//   const teamWeeklyCounts = new Map(); // { teamId: { week1: 1, week2: 2, ... } }
-//   const teamTotalGames = new Map(); // { teamId: totalGamesPlayed }
-
-//   for (let week = 1; week <= totalWeeks; week++) {
-//     allDivisionPairings.forEach(({ division, pairings }) => {
-//       pairings.forEach(([homeTeam, awayTeam]) => {
-//         const homeTeamGamesThisWeek =
-//           teamWeeklyCounts.get(homeTeam._id)?.[week] || 0;
-//         const awayTeamGamesThisWeek =
-//           teamWeeklyCounts.get(awayTeam._id)?.[week] || 0;
-
-//         // Ensure neither team has already played 2 games this week
-//         if (homeTeamGamesThisWeek < 2 && awayTeamGamesThisWeek < 2) {
-//           allPairings.push({ division, homeTeam, awayTeam, week });
-
-//           // Update team weekly counts
-//           if (!teamWeeklyCounts.has(homeTeam._id))
-//             teamWeeklyCounts.set(homeTeam._id, {});
-//           if (!teamWeeklyCounts.has(awayTeam._id))
-//             teamWeeklyCounts.set(awayTeam._id, {});
-//           teamWeeklyCounts.get(homeTeam._id)[week] =
-//             (teamWeeklyCounts.get(homeTeam._id)[week] || 0) + 1;
-//           teamWeeklyCounts.get(awayTeam._id)[week] =
-//             (teamWeeklyCounts.get(awayTeam._id)[week] || 0) + 1;
-
-//           // Update total games played
-//           teamTotalGames.set(
-//             homeTeam._id,
-//             (teamTotalGames.get(homeTeam._id) || 0) + 1
-//           );
-//           teamTotalGames.set(
-//             awayTeam._id,
-//             (teamTotalGames.get(awayTeam._id) || 0) + 1
-//           );
-//         }
-//       });
-//     });
-//   }
-
-//   return allPairings;
-// };
 
 const interleavePairings = (allDivisionPairings, totalWeeks, teams) => {
   const allPairings = [];
@@ -315,8 +252,6 @@ const interleavePairings = (allDivisionPairings, totalWeeks, teams) => {
         availablePairings.shift();
       }
     }
-    // console.log(teamGamesPerWeek);
-    // console.log(availablePairings.length);
 
     // Assign remaining pairings for the second iteration
     for (let week = 1; week <= totalWeeks; week++) {
@@ -384,7 +319,7 @@ const generateGameSlots = async (startDate, endDate) => {
   let currentDate = new Date(start);
 
   while (currentDate <= end) {
-    if (currentDate.getDay() >= 1 && currentDate.getDay() <= 5) {
+    if (currentDate.getDay() >= 0 && currentDate.getDay() <= 4) {
       validDates.push(new Date(currentDate));
     }
     currentDate.setDate(currentDate.getDate() + 1);
@@ -447,7 +382,9 @@ const getTimeScore = (time, preferredTime) => {
 };
 
 const isBlacklisted = (date, blacklistedDays) => {
-  const day = new Date(date).toLocaleDateString("en-US", { weekday: "long" });
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const dayIndex = new Date(date).getUTCDay(); // Use UTC-based day index
+  const day = days[dayIndex];
   return blacklistedDays.includes(day);
 };
 
