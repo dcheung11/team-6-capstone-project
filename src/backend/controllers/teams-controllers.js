@@ -57,7 +57,7 @@ const registerTeam = async (req, res, next) => {
 
   } catch (err) {
     const error = new HttpError(
-      "1 Creating team failed, please try again.",
+      "Creating team failed, please try again.",
       500
     );
     return next(error);
