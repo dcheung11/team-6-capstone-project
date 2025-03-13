@@ -79,7 +79,7 @@ export const WeeklySchedule = () => {
 
         // Transform data into { "YYYY-MM-DD": ["Time | Field"] } format
         const formattedData = response.reduce((acc, slot) => {
-          const dateKey = getLocalISODate(new Date(slot.date));
+          const dateKey = formatDate(new Date(slot.date));
           const slotString = `${slot.time} | ${slot.field}`;
           if (!acc[dateKey]) acc[dateKey] = [];
           acc[dateKey].push({ id: slot._id, slotString: slotString });
@@ -111,7 +111,7 @@ export const WeeklySchedule = () => {
     return [...Array(7)].map((_, i) => {
       let dayDate = new Date(startOfWeek);
       dayDate.setDate(startOfWeek.getDate() + i);
-      const fullDate = getLocalISODate(dayDate);
+      const fullDate = formatDate(dayDate);
       return {
         day: dayDate.toLocaleDateString("en-US", { weekday: "long" }),
         date: dayDate.toLocaleDateString("en-US", { day: "numeric", month: "short" }),
@@ -178,7 +178,7 @@ export const WeeklySchedule = () => {
             // Find the game that matches this week date
             const match = teamGames.find(game => {
               // const gameFullDate = formatDate(game.date);
-              const gameFullDate = getLocalISODate(new Date(game.date));
+              const gameFullDate = formatDate(new Date(game.date));
               return gameFullDate === wdate.fullDate;
             });
 
@@ -190,7 +190,7 @@ export const WeeklySchedule = () => {
                 {match ? (
                   <>
                     <p style={styles.eventText}>
-                      {match.homeTeam.name} vs {match.awayTeam.name}
+                      {match.awayTeam.name} @ {match.homeTeam.name}
                     </p>
                     <p style={styles.gameTime}>
                       {match.time}

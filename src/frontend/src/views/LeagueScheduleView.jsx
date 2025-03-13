@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../hooks/AuthProvider";
 import { getPlayerById } from "../api/player";
 import { getScheduleBySeasonId } from "../api/schedule";
+import { formatDate } from "../utils/Formatting";
 
 // Helper to normalize a date to local ISO (YYYY-MM-DD)
 const getLocalISODate = (date) => {
@@ -76,7 +77,7 @@ export const LeagueSchedule = () => {
     }
     // Each day as local ISO date string
     for (let d = 1; d <= totalDays; d++) {
-      daysArray.push(getLocalISODate(new Date(date.getFullYear(), date.getMonth(), d)));
+      daysArray.push(formatDate(new Date(date.getFullYear(), date.getMonth(), d)));
     }
     return daysArray;
   };
@@ -87,12 +88,12 @@ export const LeagueSchedule = () => {
   const getMatchesForDay = (dayISO) => {
     if (!dayISO) return null;
     const matches = seasonGames.filter(
-      (game) => getLocalISODate(new Date(game.date)) === dayISO
+      (game) => formatDate(new Date(game.date)) === dayISO
     );
     if (matches.length === 0) return null;
     return matches.map((match, idx) => (
       <div key={idx} style={styles.matchText}>
-        {match.homeTeam.name} vs {match.awayTeam.name} ({match.time} | {match.field})
+        {match.awayTeam.name} @ {match.homeTeam.name} ({match.time} | {match.field})
       </div>
     ));
   };

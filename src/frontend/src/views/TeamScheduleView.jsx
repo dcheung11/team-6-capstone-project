@@ -87,7 +87,7 @@ export const TeamSchedule = () => {
     }
     // Add each day as an ISO date string
     for (let d = 1; d <= totalDays; d++) {
-      daysArray.push(getLocalISODate(new Date(date.getFullYear(), date.getMonth(), d)));
+      daysArray.push(formatDate(new Date(date.getFullYear(), date.getMonth(), d)));
     }
     return daysArray;
   };
@@ -101,7 +101,7 @@ export const TeamSchedule = () => {
     if (matches.length === 0) return null;
     return matches.map((match, idx) => (
       <div key={idx} style={styles.matchText}>
-        {match.homeTeam.name} vs {match.awayTeam.name} {match.time} | {match.field}
+        {match.awayTeam.name} @ {match.homeTeam.name} {match.time} | {match.field}
       </div>
     ));
   };
