@@ -15,14 +15,20 @@ const NavBar = () => {
   const [error, setError] = useState(null);
   const [playerId, setPlayerId] = useState(auth.playerId);
   const [player, setPlayer] = useState(null);
-  const [teamId, setTeamId] = useState("");
+  const [teams, setTeams] = useState([]); // Store multiple teams
+  const [selectedTeamId, setSelectedTeamId] = useState(""); // Store selected team
+  
 
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
       try {
         const data = await getPlayerById(pid);
         setPlayer(data.player);
-        setTeamId(data.player.team.id);
+        setTeams(data.player.teams || []); // Handle multiple teams
+        // Default to the first team if multiple exist
+        if (data.player.teams.length > 0) {
+          setSelectedTeamId(data.player.teams[0].id);
+        }
       } catch (err) {
         setError(err.message || "Failed to fetch player");
       } finally {
@@ -36,6 +42,11 @@ const NavBar = () => {
   const handleIconClick = (event) => {
     setOpen(!open);
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleTeamChange = (teamId) => {
+    setSelectedTeamId(teamId);
+    navigate(`/team/${teamId}`);
   };
 
   const handleProfileClick = () => {
@@ -64,9 +75,21 @@ const NavBar = () => {
             <Button color="inherit" href="/announcements">
               Announcements
             </Button>
-            <Button color="inherit" href={`/team/${teamId}`}>
+
+            {/* for multi teams */}
+            <Button
+              color="inherit"
+              onClick={() => {
+                if (teams.length === 1) {
+                  navigate(`/team/${teams[0].id}`); // ✅ Navigate to the only team
+                } else {
+                  navigate("/team"); // ✅ Go to a general team selection page
+                }
+              }}
+            >
               My Team
             </Button>
+
             <Button color="inherit" href="/schedule">
               Schedule
             </Button>

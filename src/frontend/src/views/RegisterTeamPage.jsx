@@ -16,6 +16,7 @@ import { getPlayerById } from "../api/player";
 import { useNavigate, useParams } from "react-router-dom";
 import { getSeasonById } from "../api/season";
 import { getDivisionsById } from "../api/division";
+import { Snackbar, Alert } from "@mui/material"; // Import Snackbar & Alert
 
 export default function RegisterTeamPage() {
   const { id: seasonId } = useParams();
@@ -31,6 +32,9 @@ export default function RegisterTeamPage() {
   const [playerId, setPlayerId] = useState(auth.playerId);
   const [player, setPlayer] = useState(null);
   const [season, setSeason] = useState(null);
+
+  const [errorMessage, setErrorMessage] = useState(""); // Store error message
+  const [snackbarOpen, setSnackbarOpen] = useState(false); // Snackbar visibility
 
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
@@ -77,7 +81,7 @@ export default function RegisterTeamPage() {
     setBlacklistDay(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const requestBody = {
       name: teamName,
@@ -89,12 +93,14 @@ export default function RegisterTeamPage() {
       blacklistDays: blacklistDay,
     };
     try {
-      registerTeam(requestBody);
+      await registerTeam(requestBody);
       navigate("/home");
     } catch (err) {
-      setError(err.message || "Failed to register team");
+      setErrorMessage(err.message || "Failed to register team"); // Set error message
+      setSnackbarOpen(true); // Show snackbar
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -190,6 +196,29 @@ export default function RegisterTeamPage() {
           </Button>
         </form>
       </Container>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={2000} // Auto closes after 4 seconds
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") {
+            setSnackbarOpen(false); // Prevents click-away from stopping auto-close
+          }
+        }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }} 
+        sx={{ // position the message in visible spot
+          position: "absolute",
+          top: "50%", 
+          left: "50%", 
+          transform: "translate(-50%, -50%)", 
+        }}
+      >
+        <Alert onClose={() => setSnackbarOpen(false)} severity="error" >
+          {errorMessage}
+        </Alert>
+      </Snackbar>
+
+
     </div>
   );
 }

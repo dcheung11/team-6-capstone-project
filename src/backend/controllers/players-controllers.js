@@ -53,7 +53,7 @@ const signup = async (req, res, next) => {
     email,
     password: hashedPassword,
     waiverStatus: false,
-    team: null,
+    teams: [],
     role: role || "player",
   });
 
@@ -131,7 +131,7 @@ const getPlayerById = async (req, res, next) => {
   try {
     player = await Player.findById(playerId)
       .populate({
-        path: "team",
+        path: "teams",
         populate: [
           { path: "roster" }, // Populate roster with player details
           { path: "captainId" }, // Populate captain details
@@ -171,24 +171,29 @@ const acceptInvite = async (req, res, next) => {
     }
 
     // Find the team by ID
-    team = await Team.findById(teamId); // Assuming you have a Team model
+    team = await Team.findById(teamId);
     if (!team) {
       const error = new HttpError("Could not find the team for the provided id.", 404);
       return next(error);
     }
 
-    // Assign the team to the player
-    player.team = team._id; // Set the player's team to the selected team
+    // check if player is already on the team before adding
+    if (!player.teams.includes(teamId)){
+      player.teams.push(team._id)
+    }
 
     player.invites.pull(team._id); // This will remove the team ID from the player's invites array
 
     // Save the updated player document
     await player.save();
 
-    // Optionally, add the player to the team's roster
-    team.roster.push(player._id);
+    // add the player to the team's roster
+    if (!team.roster.includes(player._id)) {
+      team.roster.push(player._id);
+    }
     await team.save();
-  } catch (err) {
+
+    } catch (err) {
     const error = new HttpError("Accepting the invite failed, please try again later.", 500);
     return next(error);
   }
@@ -224,9 +229,10 @@ const sendInvite = async (req, res, next) => {
       const error = new HttpError("Could not find the team for the provided id.", 404);
       return next(error);
     }
-
-    player.invites.push(team._id); // Add the team ID to the player's invites array
-    await player.save(); // Save the player document
+    if (!player.invites.includes(team._id)) {
+      player.invites.push(team._id); // Add the team ID to the player's invites array
+      await player.save(); // Save the player document
+    }
   } catch (err) {
     const error = new HttpError("Inviting the player failed, please try again later.", 500);
     return next(error);

@@ -42,7 +42,7 @@ export default function ProfilePage() {
     phoneNumber: "",
     email: "",
     username: "",
-    team: { id: "", name: "" }, // team object with id and name
+    teams: [], // multi team list
     invites: [], // Safe access
   });
 
@@ -50,7 +50,10 @@ export default function ProfilePage() {
     const fetchPlayerById = async (pid) => {
       try {
         const data = await getPlayerById(pid);
-        setPlayer(data.player);
+        setPlayer({
+          ...data.player,
+          teams: data.player.teams || [], // multiple teams are stored
+        });
       } catch (err) {
         console.error(err);
       }
@@ -280,20 +283,24 @@ export default function ProfilePage() {
                   My Teams
                 </Typography>
                 <List>
-                  {player && player.team && (
-                    <ListItem>
+                {player.teams.length > 0 ? (
+                  player.teams.map((team) => (
+                    <ListItem key={team.id}>
                       <ListItemAvatar>
                         <Avatar
-                          src={player.team.name}
-                          alt={player.team.name}
+                          src={team.name}
+                          alt={team.name}
                           sx={{ width: 35, height: 35, bgcolor: "#7A003C" }}
                         >
-                          {player.team.name.charAt(0)}
+                          {team.name.charAt(0)}
                         </Avatar>
                       </ListItemAvatar>
-                      <ListItemText primary={player.team.name} />
+                      <ListItemText primary={team.name} />
                     </ListItem>
-                  )}
+                  ))
+                ) : (
+                  <Typography>No teams joined yet</Typography> // Show message if no teams
+                )}
                 </List>
               </Grid>
               <Grid item xs={12} md={6}>

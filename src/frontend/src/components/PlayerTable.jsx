@@ -54,7 +54,7 @@ export default function PlayerTable(props) {
       const enrichedPlayers = await Promise.all(
         props.players.map(async (player) => {
           const playerData = await fetchPlayerById(player.id); // Fetch player details
-          return { ...player, team: playerData.player?.team?.name || null }; // Enrich player data with team name
+          return { ...player, teams: playerData.player?.teams || [] }; // Enrich player data with team name
         })
       );
       setPlayersWithTeams(enrichedPlayers); // Set enriched players data
@@ -68,10 +68,10 @@ export default function PlayerTable(props) {
   }, [props.players]);
 
   //Function to handle inviting a player to a team
-  const handleInvite = (invitee) => {
+  const handleInvite = (invitee, teamId) => {
     const requestBody = {
       playerId: invitee,
-      teamId: user.team.id,
+      teamId: teamId,
     };
     try {
       sendInvite(requestBody);
@@ -82,9 +82,12 @@ export default function PlayerTable(props) {
     // Immediately update the state after sending the invite
     setPlayersWithTeams((prevPlayers) =>
       prevPlayers.map((player) =>
-        player.id === invitee
-          ? { ...player, invites: [...(player.invites || []), user.team._id] } // Add user.team._id to invites
-          : player
+      player.id === invitee
+      ? { 
+          ...player, 
+          invites: [...(player.invites || []), teamId]  // Associate invite with the correct team
+        }
+      : player
       )
     );
   }
@@ -107,35 +110,28 @@ export default function PlayerTable(props) {
               <TableCell>{player.team ? player.team : ""}</TableCell>
               <TableCell>
                 {/* {console.log(player.firstName, player.invites, user.team._id)} */}
-                {!player.team ? (
-                    !player.invites?.includes(user.team._id) ? (
-                      <Button
-                        variant="contained"
-                        sx={{
-                          backgroundColor: "#7A003C",
-                          color: "white",
-                          "&:hover": { backgroundColor: "#5A002C" },
-                        }}
-                        onClick={() => handleInvite(player.id)}
-                      >
-                        Invite to Team
-                      </Button>
-                    ) : (
-                      <Button
-                      variant="contained"
-                      sx={{
-                        backgroundColor: "#FDBF57",
-                        color: "#7A003C",
-                        // "&:hover": { backgroundColor: "#7A003C" }, // No hover change
-                        pointerEvents: "none", // Prevent clicking
-                        opacity: 1, // Keep original color
-                      }}
-                    >
-                      Invite Sent
-                    </Button>
-                    )
-                  ) : null
-                }
+                {user.teams.length > 0 && (
+                  user.teams.map((team) => (
+                    !player.teams.some(t => t.id === team.id) ? ( // Check if player is already on the team
+                      !player.invites?.includes(team.id) ? ( // Check if invite was already sent
+                        <Button 
+                          variant="contained"
+                          sx={{ backgroundColor: "#7A003C", color: "white", "&:hover": { backgroundColor: "#5A002C" }}}
+                          onClick={() => handleInvite(player.id, team.id)}
+                        >
+                          Invite to {team.name}
+                        </Button>
+                      ) : (
+                        <Button 
+                          variant="contained"
+                          sx={{ backgroundColor: "#FDBF57", color: "#7A003C", pointerEvents: "none", opacity: 1 }} // prevent clicking and keep og colour
+                        >
+                          Invite Sent to {team.name}
+                        </Button>
+                      )
+                    ) : null
+                  ))
+                )}
               </TableCell>
             </TableRow>
           ))}
