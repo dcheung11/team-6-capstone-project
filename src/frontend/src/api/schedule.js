@@ -44,3 +44,4 @@ export const getScheduleBySeasonId = async (seasonId) => {
     throw error;
   }
 };
+

@@ -1,16 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReschedulePopup from "./ReschedulePopup";
-
-// Dummy match data for the weekly schedule
-const matchData = {
-  "2025-02-23": "Crimson Coyotes vs Blue Blazers (7:00)",
-  "2025-02-24": "Onyx Owls vs Amber Falcons (6:30)",
-  "2025-02-25": "Bronze Bears vs Red Rockets (6:00)",
-  "2025-02-26": "Magenta Marauders vs Ivory Irons (7:00)",
-  "2025-02-27": "Golden Griffins vs Thunderbolts (8:00)",
-  "2025-02-28": "Emerald Eagles vs Iron Ibis (5:30)",
-  "2025-02-29": "Silver Sharks vs Crimson Coyotes (7:30)",
-};
+import { useAuth } from "../hooks/AuthProvider";
+import { getPlayerById } from "../api/player";
+import { getScheduleGamesByTeamId } from "../api/team";
+import { getAvailableGameslots } from "../api/reschedule-requests";
+import { formatDate } from "../utils/Formatting";
 
 // Fix the "day ahead" issue by normalizing date/time
 function getLocalISODate(date) {
@@ -21,12 +15,90 @@ function getLocalISODate(date) {
 }
 
 export const WeeklySchedule = () => {
-  const [currentDate, setCurrentDate] = useState(new Date("2025-02-23"));
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedMatch, setSelectedMatch] = useState("");
+  const auth = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [playerId, setPlayerId] = useState(auth.playerId);
+  const [player, setPlayer] = useState(null);
+  const [teamGames, setTeamGames] = useState([]);
+  const [availableGameslots, setAvailableGameslots] = useState({});
+
+  useEffect(() => {
+    const fetchPlayerById = async (pid) => {
+      try {
+        setLoading(true);
+        const data = await getPlayerById(pid);
+        setPlayer(data.player);
+      } catch (err) {
+        setError(err.message || "Failed to fetch player");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlayerById(playerId);
+  }, []);
+
+  useEffect(() => {
+    const fetchTeamGames = async () => {
+      if (!player?.team?.id) {
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const data = await getScheduleGamesByTeamId(player.team.id);
+        const weekDates = getWeekDates(currentDate);
+
+        const filteredGames = data.games.filter(game => {
+          let gameDate = formatDate(game.date);
+          return gameDate >= weekDates[0].fullDate && gameDate <= weekDates[6].fullDate
+        });
+
+        setTeamGames(filteredGames);
+      } catch (err) {
+        setError(err.message || "Failed to fetch team schedule");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeamGames();
+  }, [player, currentDate]);
+
+  useEffect(() => {
+    const fetchGameslots = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await getAvailableGameslots();
+
+        // Transform data into { "YYYY-MM-DD": ["Time | Field"] } format
+        const formattedData = response.reduce((acc, slot) => {
+          const dateKey = formatDate(new Date(slot.date));
+          const slotString = `${slot.time} | ${slot.field}`;
+          if (!acc[dateKey]) acc[dateKey] = [];
+          acc[dateKey].push({ id: slot._id, slotString: slotString });
+          return acc;
+        }, {});
+
+        setAvailableGameslots(formattedData);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGameslots();
+  }, []);
 
   const handleNavigation = (direction) => {
+    setLoading(true);
     const newDate = new Date(currentDate);
     newDate.setDate(newDate.getDate() + (direction === "next" ? 7 : -7));
     setCurrentDate(newDate);
@@ -39,7 +111,7 @@ export const WeeklySchedule = () => {
     return [...Array(7)].map((_, i) => {
       let dayDate = new Date(startOfWeek);
       dayDate.setDate(startOfWeek.getDate() + i);
-      const fullDate = getLocalISODate(dayDate);
+      const fullDate = formatDate(dayDate);
       return {
         day: dayDate.toLocaleDateString("en-US", { weekday: "long" }),
         date: dayDate.toLocaleDateString("en-US", { day: "numeric", month: "short" }),
@@ -83,41 +155,83 @@ export const WeeklySchedule = () => {
         <button style={styles.navButton} onClick={() => handleNavigation("prev")}>
           Prev
         </button>
-        <h2 style={styles.title}>{weekRange}</h2>
+        <h2 style={styles.title}>
+          {loading ? "Loading..." : getWeekRange(currentDate)}
+        </h2>
         <button style={styles.navButton} onClick={() => handleNavigation("next")}>
           Next
         </button>
       </div>
 
-      {/* Weekly Schedule Grid */}
-      <div style={styles.calendar}>
-        {weekDates.map((date, index) => {
-          const match = matchData[date.fullDate];
-          return (
-            <div key={index} style={styles.calendarCard}>
-              <h4 style={styles.calendarDay}>{date.day}</h4>
-              <p style={styles.calendarDate}>{date.date}</p>
-              <p style={styles.eventText}>{match || "No Matches"}</p>
-              {match && (
-                <button
-                  style={styles.rescheduleButton}
-                  onClick={() => handleRescheduleClick(date.fullDate, match)}
-                >
-                  Reschedule
-                </button>
-              )}
-            </div>
-          );
-        })}
-      </div>
+      {/* loading overlay */}
+      {loading && (
+        <div style={styles.loadingOverlay}>
+          <div style={styles.spinner}></div>
+          <p>Loading games...</p>
+        </div>
+      )}
 
-      {/* Reschedule Modal */}
+      {/* Weekly Schedule Grid */}
+      {!loading &&
+        <div style={styles.calendar}>
+          {weekDates.map((wdate, index) => {
+            // Find the game that matches this week date
+            const match = teamGames.find(game => {
+              // const gameFullDate = formatDate(game.date);
+              const gameFullDate = formatDate(new Date(game.date));
+              return gameFullDate === wdate.fullDate;
+            });
+
+            return (
+              <div key={index} style={styles.calendarCard}>
+                <h4 style={styles.calendarDay}>{wdate.day}</h4>
+                <p style={styles.calendarDate}>{wdate.date}</p>
+                
+                {match ? (
+                  <>
+                    <p style={styles.eventText}>
+                      {match.awayTeam.name} @ {match.homeTeam.name}
+                    </p>
+                    <p style={styles.gameTime}>
+                      {match.time}
+                    </p>
+                    <p style={styles.gameField}>
+                      {match.field}
+                    </p>
+                    {/* TODO: captainId is populated so this syntax is a bit gross */}
+                    {player.team.captainId.id === player._id ? (<button
+                      style={styles.rescheduleButton}
+                      onClick={() => handleRescheduleClick(wdate.fullDate, match)}
+                    >
+                      Reschedule
+                    </button>) : null}
+                  </>
+                ) : (
+                  <p style={styles.eventText}>No Matches</p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      }
+
       {showModal && (
-        <ReschedulePopup
-          selectedDate={selectedDate}
-          selectedMatch={selectedMatch}
-          onClose={() => setShowModal(false)}
-        />
+        Object.keys(availableGameslots).length > 0 ? (
+          // Show popup ONLY when data exists
+          <ReschedulePopup
+            selectedDate={selectedDate}
+            selectedMatch={selectedMatch}
+            availableTimeslots={availableGameslots}
+            player={player}
+            onClose={() => setShowModal(false)}
+          />
+        ) : (
+          // Show loading ONLY while data is empty
+          <div style={styles.loadingOverlay}>
+            <div style={styles.spinner}></div>
+            <p>Loading available timeslots...</p>
+          </div>
+        )
       )}
     </div>
   );
@@ -172,7 +286,7 @@ const styles = {
     color: "#4F4F4F",
   },
   eventText: {
-    fontSize: "12px",
+    fontSize: "14px",
     color: "#7A003C",
     fontWeight: "bold",
     marginBottom: "10px",
@@ -186,4 +300,22 @@ const styles = {
     fontWeight: "bold",
     cursor: "pointer",
   },
+  loadingOverlay: {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  backgroundColor: "rgba(255, 255, 255, 0.9)",
+  padding: "20px",
+  borderRadius: "10px",
+  textAlign: "center",
+  fontWeight: "bold",
+  color: "#7A003C",
+  display: "flex",          // Added for centering
+  flexDirection: "column",  // Stack spinner & text
+  alignItems: "center",     // Center horizontally
+  justifyContent: "center", // Center vertically
+  gap: "10px",              // Space between spinner & text
+},
+  spinner: { width: "30px", height: "30px", border: "4px solid #FFC72C", borderTop: "4px solid transparent", borderRadius: "50%", animation: "spin 1s linear infinite" },
 };

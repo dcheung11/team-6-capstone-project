@@ -6,6 +6,9 @@ const router = express.Router();
 // Route to get all reschedule requests
 router.get('/', rescheduleController.getAllRequests);
 
+// Route to get available game slots
+router.get('/available-gameslots', rescheduleController.getAvailableGameslots);
+
 // Route to get a specific reschedule request by ID
 router.get('/:id', rescheduleController.getRequestById);
 

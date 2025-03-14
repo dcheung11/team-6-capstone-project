@@ -1,23 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { createRescheduleRequest } from "../api/reschedule-requests";
 
-// Timeslot data mapped by local ISO date
-const timeslotData = {
-  "2025-02-23": ["5:30 PM | Field 1", "9:30 PM | Field 3"],
-  "2025-02-24": ["7:00 PM | Field 2"],
-  "2025-02-25": ["5:00 PM | Field 1", "9:30 PM | Field 3"],
-  "2025-02-26": ["5:30 PM | Field 1", "7:30 PM | Field 3"],
-  "2025-02-27": ["6:00 PM | Field 2"],
-  "2025-02-28": ["5:30 PM | Field 1"],
-  "2025-02-29": ["8:00 PM | Field 3"],
-
-  "2025-03-01": ["6:00 PM | Field 2", "8:00 PM | Field 4"],
-  "2025-03-02": ["5:30 PM | Field 1", "7:30 PM | Field 3"],
-  "2025-03-03": ["6:30 PM | Field 1", "9:30 PM | Field 2"],
-  "2025-03-04": ["6:00 PM | Field 2", "8:00 PM | Field 3"],
-  "2025-03-05": ["5:00 PM | Field 1", "7:00 PM | Field 3"],
-  // etc...
-};
-
+// Utility functions
 function getLocalISODate(date) {
   date.setHours(12, 0, 0, 0);
   const offset = date.getTimezoneOffset();
@@ -25,7 +9,6 @@ function getLocalISODate(date) {
   return localDate.toISOString().split("T")[0];
 }
 
-// Return Sunday-Saturday array for the popup
 function getPopupWeekDates(currentDate) {
   let startOfWeek = new Date(currentDate);
   startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay()); // Sunday
@@ -51,11 +34,19 @@ function getPopupWeekRange(date) {
   return `${startStr} - ${endStr}`;
 }
 
-export const ReschedulePopup = ({ selectedDate, selectedMatch, onClose }) => {
-  // Start the popup week on the original date
+export const ReschedulePopup = ({ selectedDate, selectedMatch, availableTimeslots, player, onClose }) => {
   const [popupDate, setPopupDate] = useState(new Date(selectedDate));
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const timeslotData = availableTimeslots || [];
+  const currentPlayer = player;
+
   const popupWeekDates = getPopupWeekDates(popupDate);
   const popupWeekRange = getPopupWeekRange(popupDate);
+  const [newSlot, setNewSlot] = useState(null);
+
+
+  // Fetch available slots from backend
 
   const handleWeekNav = (direction) => {
     let newDate = new Date(popupDate);
@@ -63,43 +54,64 @@ export const ReschedulePopup = ({ selectedDate, selectedMatch, onClose }) => {
     setPopupDate(newDate);
   };
 
-  const handleSubmit = () => {
-    alert(`Rescheduled: ${selectedMatch} on ${selectedDate}`);
+  const handleSubmit = async () => {
+    // create reschedule request
+    const oppTeam = selectedMatch.homeTeam._id === currentPlayer?.team?._id ? selectedMatch.awayTeam : selectedMatch.homeTeam;
+    await createRescheduleRequest({
+      gameId: selectedMatch._id,
+      requestingTeamId: currentPlayer.team._id,
+      recipientTeamId: oppTeam._id,
+      requestedGameslotId: newSlot
+    });
+
+    alert(`Reschedule request sent to ${oppTeam?.name}`);
     onClose();
+  };
+
+  const handleSelectSlot = (slotId) => {
+    setNewSlot(slotId);
   };
 
   return (
     <div style={styles.overlay}>
       <div style={styles.modal}>
         <h3 style={styles.title}>Reschedule Slots</h3>
-        <p style={styles.selectedMatch}>Game: {selectedMatch}</p>
+        {/* TODO: game slots never available on mondays for some reason */}
+        <p style={styles.selectedMatch}>Game: vs {selectedMatch.awayTeam.name}</p>
         <p style={styles.selectedDate}>Original Date: {selectedDate}</p>
 
-        {/* Popup Week Range Nav */}
+        {/* Week Navigation */}
         <div style={styles.weekNav}>
           <button style={styles.navButton} onClick={() => handleWeekNav("prev")}>Prev</button>
           <span style={styles.navText}>{popupWeekRange}</span>
           <button style={styles.navButton} onClick={() => handleWeekNav("next")}>Next</button>
         </div>
 
-        {/* Timeslot Grid with actual dates */}
+        {/* Loading/Error */}
+        {loading && <p>Loading available slots...</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
+        {/* Timeslot Grid */}
         <div style={styles.timeslotGrid}>
           {popupWeekDates.map((dayObj, i) => {
             const slots = timeslotData[dayObj.fullDate] || [];
+
             return (
               <div key={i} style={styles.dayCard}>
-                <h4 style={styles.dayTitle}>
-                  {dayObj.day} {dayObj.date}
-                </h4>
-                {slots.length > 0 ? (
-                  slots.map((slot, idx) => (
-                    <button key={idx} style={styles.slotButton}>
-                      {slot}
-                    </button>
-                  ))
-                ) : (
-                  <p style={styles.noTimeslotsText}>No timeslots available</p>
-                )}
+                <h4 style={styles.dayTitle}>{dayObj.day} {dayObj.date}</h4>
+                  {slots.length > 0 ? (
+                    slots.map((slot, idx) => (
+                      <button key={idx} style={{
+                        ...styles.slotButton,
+                        backgroundColor: newSlot === slot.id ? "#7A003C" : "white",
+                        color: newSlot === slot.id ? "white" : "#7A003C",
+                      }} onClick={() => handleSelectSlot(slot.id)}>
+                        {slot.slotString}
+                      </button>
+                    ))
+                  ) : (
+                    <p style={styles.noTimeslotsText}>No timeslots available</p>
+                  )}
               </div>
             );
           })}
@@ -117,7 +129,6 @@ export const ReschedulePopup = ({ selectedDate, selectedMatch, onClose }) => {
 
 export default ReschedulePopup;
 
-// Styles
 const styles = {
   overlay: {
     position: "fixed",

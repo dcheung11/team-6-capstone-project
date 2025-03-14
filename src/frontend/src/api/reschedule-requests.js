@@ -13,6 +13,25 @@ export const getRescheduleRequests = async () => {
   }
 };
 
+export const getAvailableGameslots = async () => {
+  try {
+    const response = await fetch(`${API_URL}/available-gameslots`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+    }});
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching available game slots:", error);
+    throw error;
+  }
+};
+
 export const createRescheduleRequest = async (requestData) => {
   try {
     const response = await fetch(`${API_URL}/create`, {
@@ -22,9 +41,12 @@ export const createRescheduleRequest = async (requestData) => {
       },
       body: JSON.stringify(requestData),
     });
+    
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      const error = await response.json();
+      throw new Error(error.message || "Reschedule request creation failed");
     }
+
     return await response.json();
   } catch (error) {
     console.error("Error creating reschedule request:", error);

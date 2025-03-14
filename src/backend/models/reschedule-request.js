@@ -3,22 +3,22 @@ const Schema = mongoose.Schema;
 
 const RescheduleRequestSchema = new Schema(
   {
-    game: {
+    gameId: {
       type: Schema.Types.ObjectId,
       ref: 'Game',
       required: true,
     },
-    requestingTeam: {
+    requestingTeamId: {
       type: Schema.Types.ObjectId,
       ref: 'Team',
       required: true,
     },
-    recipientTeam: {
+    recipientTeamId: {
       type: Schema.Types.ObjectId,
       ref: 'Team',
       required: true,
     },
-    requestedGameslot: {
+    requestedGameslotId: {
       type: Schema.Types.ObjectId,
       ref: 'GameSlot',
       required: true,

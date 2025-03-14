@@ -3,17 +3,17 @@ const controller = require('../controllers/notification-controller');
 
 const router = express.Router();
 
-// Get all notifications for a team
-router.get('/team/:id', controller.getNotificationsByTeamId);
-
 // Get all notifications
 router.get('/all', controller.getAllNotifications);
 
-// Get a single notification by ID
-router.get('/:id', controller.getNotificationById);
-
 // Create a new notification
 router.post('/create', controller.createNotification);
+
+// Get all notifications for a team
+router.get('/team/:id', controller.getNotificationsByTeamId);
+
+// Get a single notification by ID
+router.get('/:id', controller.getNotificationById);
 
 // Update a notification by ID
 router.put('/:id/update', controller.updateNotification);

@@ -150,6 +150,7 @@ const getScheduleBySeasonId = async (req, res, next) => {
       ],
     });
   } catch (err) {
+    console.log(err);
     const error = new HttpError(
       "Fetching schedule failed, please try again later.",
       500

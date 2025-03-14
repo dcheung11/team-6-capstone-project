@@ -19,20 +19,21 @@ export default function GamesRow(props) {
               {game.field} - {game.time}
             </Typography>
 
-            <Button
-              variant="contained"
-              size="small"
-              sx={{
-                mt: 2,
-                bgcolor: "#800020",
-                "&:hover": {
-                  bgcolor: "#600018",
-                },
-              }}
-              disabled={props.captain != props.player} // Disable the button if homeScore or awayScore is null
+            { props.player.role === "captain" &&
+              (<Button
+                variant="contained"
+                size="small"
+                sx={{
+                  mt: 2,
+                  bgcolor: "#800020",
+                  "&:hover": {
+                    bgcolor: "#600018",
+                  },
+                }}
+                disabled={props.captain !== props.player} // Disable the button if homeScore or awayScore is null
             >
               Reschedule
-            </Button>
+            </Button>)}
           </CardContent>
         </Card>
       ))}
