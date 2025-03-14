@@ -18,11 +18,11 @@ const RescheduleRequestSchema = new Schema(
       ref: 'Team',
       required: true,
     },
-    requestedGameslotId: {
+    requestedGameslotIds: [{
       type: Schema.Types.ObjectId,
       ref: 'GameSlot',
       required: true,
-    },
+    }],
     status: {
       type: String,
       enum: ['Pending', 'Accepted', 'Declined'],

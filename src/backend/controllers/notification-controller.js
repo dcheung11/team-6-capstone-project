@@ -36,7 +36,17 @@ const getNotificationsByTeamId = async (req, res) => {
 
 const getNotificationById = async (req, res) => {
     try {
-        const notification = await Notification.findById(req.params.id);
+        console.log("req.params ", req.params);
+        const notification = await Notification.findById(req.params.id)
+        .populate("recipient sender")
+        .populate({
+          path: "rescheduleRequestId",
+          populate: {
+            path: "gameId requestedGameslotIds",
+          }
+        });
+
+        console.log("notificationnnnnnnnn: ", notification);
 
         if (!notification) {
             return res.status(404).send();

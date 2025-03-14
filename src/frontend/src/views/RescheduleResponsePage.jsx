@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Typography, Container, Button, Stack, Box, CircularProgress } from "@mui/material";
+import { Typography, Container, Button, Stack, Box, CircularProgress, Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle, } from "@mui/material";
 import NavBar from "../components/NavBar";
 import { getNotificationById, updateNotification } from "../api/notification";
 import { acceptRescheduleRequest, declineRescheduleRequest } from "../api/reschedule-requests";
+import { formatDate, getDayOfWeek } from "../utils/Formatting";
 
 export default function RescheduleRequestPage() {
   const { notificationId } = useParams();
@@ -11,6 +16,8 @@ export default function RescheduleRequestPage() {
   const [notification, setNotification] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [confirmPopup, setConfirmPopup] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState(null);
 
   useEffect(() => {
     const fetchNotification = async () => {
@@ -26,19 +33,35 @@ export default function RescheduleRequestPage() {
     fetchNotification();
   }, [notificationId]);
 
-  const handleResponse = async (accepted) => {
+  // const handleResponse = async (accepted) => {
+  //   try {
+  //     // await updateNotification(notificationId);
+  //     if (accepted) {
+  //       await acceptRescheduleRequest(notification.rescheduleRequestId);
+  //     } else {
+  //       await declineRescheduleRequest(notification.rescheduleRequestId);
+  //     }
+  //     navigate(`/team/${notification.recipient}`); // Redirect back to team page
+  //   } catch (err) {
+  //     setError(err.message);
+  //   }
+  // };
+
+  const handleSelectedSlot = async (slot) => {
+    setSelectedSlot(slot);
+    setConfirmPopup(true);
+  }
+
+  const confirmSelection = async () => {
+    console.log("selectedSlot: ", selectedSlot);
     try {
-      await updateNotification(notificationId);
-      if (accepted) {
-        await acceptRescheduleRequest(notification.rescheduleRequestId);
-      } else {
-        await declineRescheduleRequest(notification.rescheduleRequestId);
-      }
-      navigate(`/team/${notification.recipient}`); // Redirect back to team page
+      console.log("notification.rescheduleRequestId: ", notification.rescheduleRequestId);
+      await acceptRescheduleRequest(notification.rescheduleRequestId._id, selectedSlot);
+      navigate(`/team/${notification.recipient._id}`); // Redirect back to team page
     } catch (err) {
       setError(err.message);
     }
-  };
+  }
 
   if (loading) return <CircularProgress />;
   if (error) return <Typography color="error">{error}</Typography>;
@@ -46,47 +69,62 @@ export default function RescheduleRequestPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <NavBar />
-      <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Container maxWidth="lg" sx={{ py: 4, textAlign: "center" }}>
         <Typography variant="h4" gutterBottom>
-          Reschedule Request
+          {notification.message}
         </Typography>
         
         {notification && (
-          <Box>
-            <Typography variant="body1" paragraph>
-              {notification.message}
-            </Typography>
-            
+          <Box>            
             <Typography variant="subtitle1" paragraph>
-              Original Date: {/*new Date(notification.rescheduleRequest.game.date).toLocaleString()*/}
-            </Typography>
-            
-            {/* TODO: change these dates to be actual reschedule dates */}
-            {/* TODO: gonna have to give reschedule requests property to team or notification model */}
-            <Typography variant="subtitle1" paragraph>
-              Proposed Date: { /* new Date(notification.rescheduleRequest.requestedGameslot.date).toLocaleString() */ }
+              Original Game Date: {(new Date(notification.rescheduleRequestId?.gameId?.date)).toLocaleDateString("en-US", { timeZone: "UTC", day: "numeric", month: "long" })} at {notification.rescheduleRequestId?.gameId?.time}, {notification.rescheduleRequestId?.gameId?.field}
             </Typography>
 
-            <Stack direction="row" spacing={2} sx={{ mt: 4 }}>
-              <Button
-                variant="contained"
-                color="success"
-                onClick={() => handleResponse(true)}
-              >
-                Accept Reschedule
-              </Button>
-              
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={() => handleResponse(false)}
-              >
-                Decline Reschedule
-              </Button>
-            </Stack>
+            <Typography variant="subtitle1" paragraph></Typography>
+            <Typography variant="subtitle1" paragraph>
+              Proposed Dates (select one): 
+                <Stack spacing={1} sx={{ mt: 4, alignItems: "center" }}>
+                  { notification.rescheduleRequestId?.requestedGameslotIds?.map((slot) => (
+                 <Button 
+                    key={slot._id} 
+                    variant="outlined" 
+                    sx={{ 
+                      color: "#7A003C", 
+                      borderColor: "#7A003C",
+                      '&:hover': {
+                        backgroundColor: "#f2e1e8",
+                        borderColor: "#7A003C"
+                      }
+                    }}
+                    onClick={() => {
+                      handleSelectedSlot(slot);
+                    }}
+                  >
+                    {formatDate(slot.date)} at {slot.time}, {slot.field}
+                  </Button>
+                  ))}
+                </Stack>
+            </Typography>
           </Box>
         )}
       </Container>
+      {/* Delete Confirmation Popup */}
+      <Dialog open={confirmPopup} onClose={() => setConfirmPopup(false)}>
+        <DialogTitle>Confirm Date</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure this is the date you want to select?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setConfirmPopup(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={confirmSelection} color="error">
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
