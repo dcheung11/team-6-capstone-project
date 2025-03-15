@@ -8,6 +8,7 @@ const GameSchema = new mongoose.Schema({
   awayTeam: { type: mongoose.Schema.Types.ObjectId, ref: "Team", required: true },
   homeScore: { type: Number, default: null },
   awayScore: { type: Number, default: null },
+  defaultLossTeam: { type: mongoose.Schema.Types.ObjectId, ref: "Team", default: null }, // store who lost by default, if any
   gameslot: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Gameslot",
