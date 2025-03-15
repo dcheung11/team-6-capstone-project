@@ -42,7 +42,8 @@ const updateStandings = async (divisionId) => {
       l: 0,
       rs: 0,
       ra: 0,
-      differential: 0
+      differential: 0,
+      dl: 0
     };
   });
 
@@ -56,12 +57,13 @@ const updateStandings = async (divisionId) => {
   games.forEach((game) => {
     const homeId = game.homeTeam.toString();
     const awayId = game.awayTeam.toString();
+    const defaultLossTeamId = game.defaultLossTeam ? game.defaultLossTeam.toString() : null;
 
     if (!teamStats[homeId]) {
-      teamStats[homeId] = { team: homeId, p: 0, w: 0, d: 0, l: 0, rs: 0, ra: 0, differential: 0 };
+      teamStats[homeId] = { team: homeId, p: 0, w: 0, d: 0, l: 0, rs: 0, ra: 0, differential: 0, dl: 0 };
     }
     if (!teamStats[awayId]) {
-      teamStats[awayId] = { team: awayId, p: 0, w: 0, d: 0, l: 0, rs: 0, ra: 0, differential: 0 };
+      teamStats[awayId] = { team: awayId, p: 0, w: 0, d: 0, l: 0, rs: 0, ra: 0, differential: 0, dl: 0 };
     }
 
     teamStats[homeId].rs += game.homeScore;
@@ -84,13 +86,18 @@ const updateStandings = async (divisionId) => {
       teamStats[homeId].p += 1;
       teamStats[awayId].p += 1;
     }
+    
+    if (defaultLossTeamId && teamStats[defaultLossTeamId]) {
+      teamStats[defaultLossTeamId].dl += 1;
+    }    
+
   });
   
 
   // RANKING LOGIC
 
   const rankingEntries = Object.entries(teamStats).map(([teamId, stats]) => ({
-    team: new mongoose.Types.ObjectId(teamId),
+    team: teamId,
     rank: "-", // placeholder value until the team plays
     p: stats.p,
     w: stats.w,
@@ -98,7 +105,8 @@ const updateStandings = async (divisionId) => {
     d: stats.d,
     rs: stats.rs,
     ra: stats.ra,
-    differential: stats.rs - stats.ra
+    differential: stats.rs - stats.ra,
+    dl: stats.dl,
   }));
 
   const rankedTeams = rankingEntries.filter((team) => team.p > 0 || team.l > 0);

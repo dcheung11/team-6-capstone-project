@@ -52,6 +52,11 @@ const StandingSchema = new mongoose.Schema(
           type: Number,
           required: true, // no minimum here, allows negatives
         },
+        dl: {
+          type: Number,
+          required: true,
+          min: 0,
+        },
       },
     ],
   },
