@@ -9,19 +9,28 @@ function getLocalISODate(date) {
   return localDate.toISOString().split("T")[0];
 }
 
-function getPopupWeekDates(currentDate) {
-  let startOfWeek = new Date(currentDate);
-  startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay()); // Sunday
-  return [...Array(7)].map((_, i) => {
-    let dayDate = new Date(startOfWeek);
-    dayDate.setDate(startOfWeek.getDate() + i);
+const getPopupWeekDates = (date) => {
+  let monday = new Date(date);
+  const day = monday.getDay();
+  if (day === 0) {
+    // If Sunday, jump to Monday
+    monday.setDate(monday.getDate() + 1);
+  } else {
+    // Otherwise, back up to Monday
+    monday.setDate(monday.getDate() - (day - 1));
+  }
+  // Return 5 days (Monday to Friday)
+  return [...Array(5)].map((_, i) => {
+    let dayDate = new Date(monday);
+    dayDate.setDate(monday.getDate() + i);
+    const fullDate = getLocalISODate(dayDate);
     return {
       day: dayDate.toLocaleDateString("en-US", { weekday: "long" }),
       date: dayDate.toLocaleDateString("en-US", { day: "numeric", month: "short" }),
-      fullDate: getLocalISODate(dayDate),
+      fullDate,
     };
   });
-}
+};
 
 function getPopupWeekRange(date) {
   let startOfWeek = new Date(date);
@@ -83,7 +92,7 @@ export const ReschedulePopup = ({ selectedDate, selectedMatch, availableTimeslot
       <div style={styles.modal}>
         <h3 style={styles.title}>Reschedule Slots</h3>
         <p style={styles.selectedMatch}>Game: vs {oppTeam.name}</p>
-        <p style={styles.selectedDate}>Original Date: {selectedDate}</p>
+        <p style={styles.selectedDate}>Original Date: {selectedDate}, {selectedMatch.time}, {selectedMatch.field}</p>
 
         {/* Week Navigation */}
         <div style={styles.weekNav}>
@@ -154,7 +163,7 @@ const styles = {
     backgroundColor: "#FFFFFF",
     borderRadius: "8px",
     width: "90%",
-    maxWidth: "800px",
+    maxWidth: "1000px",
     padding: "20px",
     textAlign: "center",
     boxSizing: "border-box",
