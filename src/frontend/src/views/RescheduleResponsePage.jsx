@@ -86,8 +86,8 @@ export default function RescheduleRequestPage() {
           {notification.message}
         </Typography>
         
-        {notification && (
-          <Box>            
+        {notification && notification.rescheduleRequestId.status === 'Pending' ? (
+          <Box>
             <Typography variant="subtitle1" paragraph>
               Original Game Date: {(new Date(notification.rescheduleRequestId?.gameId?.date)).toLocaleDateString("en-US", { timeZone: "UTC", day: "numeric", month: "long" })} at {notification.rescheduleRequestId?.gameId?.time}, {notification.rescheduleRequestId?.gameId?.field}
             </Typography>
@@ -128,6 +128,10 @@ export default function RescheduleRequestPage() {
                 </Button>
             </Typography>
           </Box>
+        ) : (
+          <Typography variant="subtitle1" paragraph>
+            This reschedule request has already been {notification.rescheduleRequestId.status.toLowerCase()}.
+          </Typography>
         )}
       </Container>
       
