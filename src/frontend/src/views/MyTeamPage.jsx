@@ -144,11 +144,11 @@ export default function MyTeamPage() {
                 </Stack>
 
                 {/* For captain view */}
-                <Typography variant="h4" component="h2" gutterBottom>
+                {player.team.captainId.id === playerId && (<Typography variant="h4" component="h2" gutterBottom>
                   Notifications
-                </Typography>
+                </Typography>)}
                 {teamNotifications &&
-                teamNotifications.length > 0 ? (
+                teamNotifications.length > 0 && player.team.captainId.id === playerId ? (
                   <NotificationsRow
                     notifications={teamNotifications}
                   />
@@ -156,7 +156,7 @@ export default function MyTeamPage() {
                   <NoDataCard text="No notifications to show." />
                 )}
 
-                <Typography variant="h4" component="h2" gutterBottom>
+                <Typography variant="h4" component="h2" gutterBottom sx={{ mt: 4 }}>
                   Roster
                 </Typography>
                 <RosterTable
@@ -176,31 +176,16 @@ export default function MyTeamPage() {
                   Invite Players
                 </Button>)}
 
-                <Typography variant="h4" component="h2" gutterBottom>
-                  Upcoming Games
-                </Typography>
-                {teamGames && teamGames.games && teamGames.games.length > 0 ? (
-                  // adjust to display schedule games when its available
-                  <GamesRow
-                    teamId={player.team.id}
-                    games={teamGames.games
-                      .filter((game) => new Date(game.date) >= new Date()) // Only future games
-                      .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sort by closest date
-                      .slice(0, 5)}
-                    captain={player.team.captainId.id} 
-                    player={playerId}
-                  />
-                ) : (
-                  <NoDataCard text="No games to show." />
-                )}
-                <Typography variant="h4" component="h2" gutterBottom>
-                  Schedule
-                </Typography>
-                {teamGames && teamGames.games && teamGames.games.length > 0 ? (
-                  <ScheduleTable schedule={teamGames} captain={player.team.captainId.id} player={playerId}/>
-                ) : (
-                  <NoDataCard text="No schedule to show." />
-                )}
+                {player.team.captainId.id === playerId && (<Box>
+                  <Typography variant="h4" component="h2" gutterBottom sx={{ mt: 4 }}>
+                    Submit Game Scores
+                  </Typography>
+                  {teamGames && teamGames.games && teamGames.games.length > 0 ? (
+                    <ScheduleTable schedule={teamGames} captain={player.team.captainId.id} player={playerId}/>
+                  ) : (
+                    <NoDataCard text="No schedule to show." />
+                  )}
+                </Box>)}
               </Box>
             </TabPanel>
           </TabContext>
