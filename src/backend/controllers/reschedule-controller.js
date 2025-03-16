@@ -132,6 +132,11 @@ const acceptRequest = async (req, res) => {
 
     await notification.save();
 
+    // assign new notification to team.notifications array
+    const requestingTeam = await Team.findById(rescheduleRequest.requestingTeamId);
+    requestingTeam.notifications.push(notification._id);
+    await requestingTeam.save();
+
     console.log("reschedule request accepted successfully");
     res.status(200).json({ message: "Reschedule request accepted successfully" });
   } catch (error) {
@@ -166,6 +171,11 @@ const declineRequest = async (req, res) => {
     });
 
     await notification.save();
+
+    // assign new notification to team.notifications array
+    const requestingTeam = await Team.findById(rescheduleRequest.requestingTeamId);
+    requestingTeam.notifications.push(notification._id);
+    await requestingTeam.save();
     
     res.status(200).json({ message: "Reschedule request declined successfully" });
   } catch (error) {

@@ -71,12 +71,14 @@ const getAllNotifications = async (req, res) => {
 const updateNotification = async (req, res) => {
   try {
     const notification = await Notification.findById(req.params.id);
+    const newStatus = req.body.status;
+    console.log("newStatus: ", newStatus);
 
     if (!notification) {
       return res.status(404).send();
     }
 
-    notification.status = "read";
+    notification.status = newStatus;
     await notification.save();
 
     res.send(notification);

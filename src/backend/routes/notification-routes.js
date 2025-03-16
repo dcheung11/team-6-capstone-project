@@ -12,11 +12,11 @@ router.post('/create', controller.createNotification);
 // Get all notifications for a team
 router.get('/team/:id', controller.getNotificationsByTeamId);
 
-// Get a single notification by ID
-router.get('/:id', controller.getNotificationById);
-
 // Update a notification by ID
 router.put('/:id/update', controller.updateNotification);
+
+// Get a single notification by ID
+router.get('/:id', controller.getNotificationById);
 
 // Delete a notification by ID
 router.delete('/:id/delete', controller.deleteNotification);

@@ -17,6 +17,7 @@ export default function RescheduleRequestPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [confirmPopup, setConfirmPopup] = useState(false);
+  const [confirmDeclinePopup, setConfirmDeclinePopup] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
 
   useEffect(() => {
@@ -52,10 +53,21 @@ export default function RescheduleRequestPage() {
     setConfirmPopup(true);
   }
 
-  const confirmSelection = async () => {
-    console.log("selectedSlot: ", selectedSlot);
+  const handleDecline = async () => {
+    setConfirmDeclinePopup(true);
+  }
+
+  const confirmDecline = async () => {
     try {
-      console.log("notification.rescheduleRequestId: ", notification.rescheduleRequestId);
+      await declineRescheduleRequest(notification.rescheduleRequestId._id);
+      navigate(`/team/${notification.recipient._id}`); // Redirect back to team page
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  const confirmSelection = async () => {
+    try {
       await acceptRescheduleRequest(notification.rescheduleRequestId._id, selectedSlot);
       navigate(`/team/${notification.recipient._id}`); // Redirect back to team page
     } catch (err) {
@@ -104,11 +116,22 @@ export default function RescheduleRequestPage() {
                   </Button>
                   ))}
                 </Stack>
+                <Button variant="outlined" sx={{ color: "#7A003C", borderColor: "#7A003C", '&:hover': {
+                        backgroundColor: "#f2e1e8",
+                        borderColor: "#7A003C"
+                      }, mt: 2 }}
+                  onClick={() => {
+                    handleDecline();
+                  }}
+                >
+                  None of These Work
+                </Button>
             </Typography>
           </Box>
         )}
       </Container>
-      {/* Delete Confirmation Popup */}
+      
+      {/* confirm date popup */}
       <Dialog open={confirmPopup} onClose={() => setConfirmPopup(false)}>
         <DialogTitle>Confirm Date</DialogTitle>
         <DialogContent>
@@ -121,6 +144,24 @@ export default function RescheduleRequestPage() {
             Cancel
           </Button>
           <Button onClick={confirmSelection} color="error">
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* confirm decline popup */}
+      <Dialog open={confirmDeclinePopup} onClose={() => setConfirmDeclinePopup(false)}>
+        <DialogTitle>Confirm</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to decline all these dates?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setConfirmDeclinePopup(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={confirmDecline} color="error">
             Confirm
           </Button>
         </DialogActions>
