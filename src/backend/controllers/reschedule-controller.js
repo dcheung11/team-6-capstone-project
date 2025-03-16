@@ -24,7 +24,6 @@ const createRequest = async (req, res) => {
     // shouldn't even appear in reschedule menu
     for (const requestedGameslotId of requestedGameslotIds) {
       const isSlotAvailable = await Game.findOne({ gameslot: requestedGameslotId });
-      console.log("isSlotAvailable: ", isSlotAvailable);
       if (isSlotAvailable !== null) {
         return res
         .status(400)
@@ -34,16 +33,12 @@ const createRequest = async (req, res) => {
 
     // Find the recipient team
     const recipientTeam = await Team.findById(recipientTeamId);
-    console.log("recipientTeam: ", recipientTeam);
     if (!recipientTeam) {
       return res.status(404).json({ message: "Other team not found" });
     }
 
     const newGameSlots = await Gameslot.find({ _id: { $in: requestedGameslotIds } });
-    console.log("newGameSlot: ", newGameSlots);
-
     const requestingTeam = await Team.findById(requestingTeamId);
-    console.log("requestingTeam: ", requestingTeam);    
 
     // create reschedule request
     const rescheduleRequest = new RescheduleRequest({
@@ -54,19 +49,6 @@ const createRequest = async (req, res) => {
     });
 
     await rescheduleRequest.save();
-    console.log("reschedule Request created: ", rescheduleRequest);
-
-    // const date = formatDate(new Date(newGameSlot.date));
-    // console.log("date: ", date);
-    // const formattedDate = date.toLocaleString('en-US', { 
-    //   timeZone: 'America/New_York', 
-    //   month: 'short', 
-    //   day: '2-digit', 
-    //   year: 'numeric', 
-    //   hour: '2-digit', 
-    //   minute: '2-digit', 
-    //   hour12: false 
-    // });
 
     // Create a notification for the other team
     const notification = new Notification({
@@ -78,7 +60,6 @@ const createRequest = async (req, res) => {
     });
 
     await notification.save();
-    console.log("notification: ", notification);
 
     // push notification to team.notifications array
     recipientTeam.notifications.push(notification._id);
@@ -96,7 +77,6 @@ const acceptRequest = async (req, res) => {
   try {
     const { rescheduleRequestId } = req.params;
     const { newSlot } = req.body;
-    console.log("acceptRequest in reschedule-controller, rescheduleRequestId, newSlot: ", rescheduleRequestId, newSlot);
 
     // Find the reschedule request
     const rescheduleRequest = await RescheduleRequest.findById(rescheduleRequestId);
@@ -177,6 +157,7 @@ const declineRequest = async (req, res) => {
     requestingTeam.notifications.push(notification._id);
     await requestingTeam.save();
     
+    console.log("reschedule request declined successfully");
     res.status(200).json({ message: "Reschedule request declined successfully" });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });

@@ -12,7 +12,6 @@ const getStandingsByDivision = async (req, res, next) => {
     standings = await Standing.findOne({ division: divisionId })
       .populate("rankings.team", "name")
       .sort({ "rankings.rank": 1 }); // ranked order
-    console.log(standings)
   } catch (err) {
     return next(new HttpError("Fetching standings failed, please try again.", 500));
   }
@@ -25,8 +24,6 @@ const getStandingsByDivision = async (req, res, next) => {
 };
 
 const updateStandings = async (divisionId) => {
-  console.log("updateStandings called with divisionId:", divisionId);
-
   // include all teams even without played games
   const teamsInDivision = await Team.find({ divisionId: divisionId });
   //console.log(teamsInDivision);
@@ -122,7 +119,6 @@ const updateStandings = async (divisionId) => {
       { rankings: finalRankings },
       { upsert: true }
     );
-    console.log("Updated standings");
   } catch (err) {
     console.error("Failed to update standings:", err);
     throw new HttpError("Failed to update standings.", 500);

@@ -109,8 +109,6 @@ export const ReschedulePopup = ({ selectedDate, selectedMatch, availableTimeslot
         <div style={styles.timeslotGrid}>
           {popupWeekDates.map((dayObj, i) => {
             const slots = timeslotData[dayObj.fullDate] || [];
-            // console.log(timeslotData);
-            // NOTE: I think need to clear db of old gameslots bc some are on weekends
 
             return (
               <div key={i} style={styles.dayCard}>

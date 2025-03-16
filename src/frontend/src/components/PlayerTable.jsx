@@ -106,7 +106,6 @@ export default function PlayerTable(props) {
               <TableCell>{player.firstName} {player.lastName}</TableCell>
               <TableCell>{player.team ? player.team : ""}</TableCell>
               <TableCell>
-                {/* {console.log(player.firstName, player.invites, user.team._id)} */}
                 {!player.team ? (
                     !player.invites?.includes(user.team._id) ? (
                       <Button

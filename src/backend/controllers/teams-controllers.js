@@ -111,7 +111,6 @@ const registerTeam = async (req, res, next) => {
 
   // STANDINGS: new team needs to be added to standings
   try {
-    console.log("Trying updateStandings");
     await updateStandings(createdTeam.divisionId);
     
   } catch (err) {

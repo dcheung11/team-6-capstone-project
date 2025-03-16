@@ -28,8 +28,6 @@ export default function ScheduleTable(props) {
   }, [props.schedule]);
   
   const handleSubmitScore = async (gameId, homeScore, awayScore) => {
-    console.log(`Submit score for game with ID: ${gameId}`);
-    console.log(homeScore, awayScore);
     try {
       const result = await updateScore(gameId, homeScore, awayScore);
 
@@ -44,7 +42,6 @@ export default function ScheduleTable(props) {
         },
       }));
 
-      console.log("Score updated successfully:", result);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -58,7 +55,6 @@ export default function ScheduleTable(props) {
         [team]: value,
       },
     }));
-    console.log(scores)
   };
 
   // Define columns

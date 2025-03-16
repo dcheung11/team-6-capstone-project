@@ -62,7 +62,6 @@ export default function HomePage() {
         setLoading(true);
         const data = await getPlayerById(pid);
         setPlayer(data.player);
-        console.log(data.player);
       } catch (err) {
         setError(err.message || "Failed to fetch player");
       }

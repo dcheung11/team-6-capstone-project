@@ -56,7 +56,6 @@ export const createRescheduleRequest = async (requestData) => {
 
 export const acceptRescheduleRequest = async (rescheduleRequestId, newSlot) => {
   try {
-    console.log("newSlot: ", newSlot);
     const response = await fetch(`${API_URL}/${rescheduleRequestId}/accept`, {
       method: "PUT",
       headers: {
