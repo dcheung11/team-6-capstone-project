@@ -64,8 +64,6 @@ export default function ProfilePage() {
   const handleEditClick = async () => {
     if (editMode) {
       try {
-        console.log("Auth PlayerID:", auth.playerId);
-        console.log("Saving player data to DB:", player);
         await updatePlayerInfo(auth.playerId, player); // Send update request
         console.log("Player info successfully updated!");
       } catch (err) {

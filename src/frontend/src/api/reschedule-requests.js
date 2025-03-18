@@ -54,15 +54,18 @@ export const createRescheduleRequest = async (requestData) => {
   }
 };
 
-export const acceptRescheduleRequest = async (rescheduleRequestId) => {
+export const acceptRescheduleRequest = async (rescheduleRequestId, newSlot) => {
   try {
     const response = await fetch(`${API_URL}/${rescheduleRequestId}/accept`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({ newSlot }),
     });
+
     if (!response.ok) throw new Error("Failed to accept reschedule");
+
     return await response.json();
   } catch (error) {
     console.error("Error accepting reschedule:", error);

@@ -9,19 +9,28 @@ function getLocalISODate(date) {
   return localDate.toISOString().split("T")[0];
 }
 
-function getPopupWeekDates(currentDate) {
-  let startOfWeek = new Date(currentDate);
-  startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay()); // Sunday
-  return [...Array(7)].map((_, i) => {
-    let dayDate = new Date(startOfWeek);
-    dayDate.setDate(startOfWeek.getDate() + i);
+const getPopupWeekDates = (date) => {
+  let monday = new Date(date);
+  const day = monday.getDay();
+  if (day === 0) {
+    // If Sunday, jump to Monday
+    monday.setDate(monday.getDate() + 1);
+  } else {
+    // Otherwise, back up to Monday
+    monday.setDate(monday.getDate() - (day - 1));
+  }
+  // Return 5 days (Monday to Friday)
+  return [...Array(5)].map((_, i) => {
+    let dayDate = new Date(monday);
+    dayDate.setDate(monday.getDate() + i);
+    const fullDate = getLocalISODate(dayDate);
     return {
       day: dayDate.toLocaleDateString("en-US", { weekday: "long" }),
       date: dayDate.toLocaleDateString("en-US", { day: "numeric", month: "short" }),
-      fullDate: getLocalISODate(dayDate),
+      fullDate,
     };
   });
-}
+};
 
 function getPopupWeekRange(date) {
   let startOfWeek = new Date(date);
@@ -40,10 +49,11 @@ export const ReschedulePopup = ({ selectedDate, selectedMatch, availableTimeslot
   const [error, setError] = useState(null);
   const timeslotData = availableTimeslots || [];
   const currentPlayer = player;
+  const oppTeam = selectedMatch.homeTeam._id === currentPlayer?.team?._id ? selectedMatch.awayTeam : selectedMatch.homeTeam;
 
   const popupWeekDates = getPopupWeekDates(popupDate);
   const popupWeekRange = getPopupWeekRange(popupDate);
-  const [newSlot, setNewSlot] = useState(null);
+  const [newSlots, setNewSlots] = useState([]);
 
 
   // Fetch available slots from backend
@@ -56,12 +66,11 @@ export const ReschedulePopup = ({ selectedDate, selectedMatch, availableTimeslot
 
   const handleSubmit = async () => {
     // create reschedule request
-    const oppTeam = selectedMatch.homeTeam._id === currentPlayer?.team?._id ? selectedMatch.awayTeam : selectedMatch.homeTeam;
     await createRescheduleRequest({
       gameId: selectedMatch._id,
       requestingTeamId: currentPlayer.team._id,
       recipientTeamId: oppTeam._id,
-      requestedGameslotId: newSlot
+      requestedGameslotIds: newSlots
     });
 
     alert(`Reschedule request sent to ${oppTeam?.name}`);
@@ -69,16 +78,21 @@ export const ReschedulePopup = ({ selectedDate, selectedMatch, availableTimeslot
   };
 
   const handleSelectSlot = (slotId) => {
-    setNewSlot(slotId);
+    // add new slot to state if not already selected, else remove it
+    if (newSlots.includes(slotId)) {
+      setNewSlots(newSlots.filter((id) => id !== slotId));
+      return;
+    }
+
+    setNewSlots([...newSlots, slotId]);
   };
 
   return (
     <div style={styles.overlay}>
       <div style={styles.modal}>
         <h3 style={styles.title}>Reschedule Slots</h3>
-        {/* TODO: game slots never available on mondays for some reason */}
-        <p style={styles.selectedMatch}>Game: vs {selectedMatch.awayTeam.name}</p>
-        <p style={styles.selectedDate}>Original Date: {selectedDate}</p>
+        <p style={styles.selectedMatch}>Game: vs {oppTeam.name}</p>
+        <p style={styles.selectedDate}>Original Date: {selectedDate}, {selectedMatch.time}, {selectedMatch.field}</p>
 
         {/* Week Navigation */}
         <div style={styles.weekNav}>
@@ -103,8 +117,8 @@ export const ReschedulePopup = ({ selectedDate, selectedMatch, availableTimeslot
                     slots.map((slot, idx) => (
                       <button key={idx} style={{
                         ...styles.slotButton,
-                        backgroundColor: newSlot === slot.id ? "#7A003C" : "white",
-                        color: newSlot === slot.id ? "white" : "#7A003C",
+                        backgroundColor: newSlots.includes(slot.id) ? "#7A003C" : "white",
+                        color: newSlots.includes(slot.id) ? "white" : "#7A003C",
                       }} onClick={() => handleSelectSlot(slot.id)}>
                         {slot.slotString}
                       </button>
@@ -147,7 +161,7 @@ const styles = {
     backgroundColor: "#FFFFFF",
     borderRadius: "8px",
     width: "90%",
-    maxWidth: "800px",
+    maxWidth: "1000px",
     padding: "20px",
     textAlign: "center",
     boxSizing: "border-box",

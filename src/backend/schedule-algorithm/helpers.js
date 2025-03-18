@@ -200,8 +200,6 @@ const interleavePairings = (allDivisionPairings, totalWeeks, teams) => {
   const allPairings = [];
   const NUM_GAMES_PER_TEAM = 20;
 
-  console.log("allDivisionPairings: ", allDivisionPairings);
-
   // Helper function to calculate the number of 1-game and 2-game weeks for a team
   const calculateTeamWeeklyDistribution = (totalGames, totalWeeks) => {
     let highGames = Math.ceil(totalGames / totalWeeks);
@@ -219,9 +217,6 @@ const interleavePairings = (allDivisionPairings, totalWeeks, teams) => {
     const teamGamesPerWeek = new Map(); // { teamId: { week1: 1, week2: 2, ... } }
     const teamsThatPlayedInWeek = new Map(); // { week: [team1, team2, ...] }
     let availablePairings = [...pairings];
-    console.log("pairings: ", pairings.length);
-    console.log("availablePairings: ", availablePairings.length);
-    console.log(availablePairings.length);
 
     // assign 1 game per team per week
     for (let week = 1; week <= totalWeeks; week++) {
@@ -270,7 +265,6 @@ const interleavePairings = (allDivisionPairings, totalWeeks, teams) => {
         }
       }
     }
-    console.log(availablePairings.length);
     if (availablePairings.length != 0) {
       throw new Error("Something went wrong with week assignments");
     }
@@ -284,7 +278,7 @@ const interleavePairings = (allDivisionPairings, totalWeeks, teams) => {
         (sum, games) => sum + games,
         0
       );
-      console.log(totalGames);
+
       if (!(NUM_GAMES_PER_TEAM <= totalGames <= NUM_GAMES_PER_TEAM + 2)) {
         throw new Error("Team has incorrect total games");
       }

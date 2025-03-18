@@ -19,7 +19,7 @@ const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email, password }),
       });
       const res = await response.json();
-      console.log("Login response:", res);
+
       if (res.playerId) {
         setPlayerId(res.playerId);
         setToken(res.token);

@@ -35,7 +35,6 @@ const updateScore = async (req, res, next) => {
 
     // STANDINGS: updated score triggers update standings for the division
     try {
-      console.log("Trying updateStandings");
       await updateStandings(updatedGame.division);
       
     } catch (err) {
@@ -43,7 +42,6 @@ const updateScore = async (req, res, next) => {
       return next(new HttpError("Failed to update standings", 500))
     }
     
-    // console.log("Updated game:", updatedGame);
     res.json({ message: "Score updated successfully", game: updatedGame });
 
   } catch (err) {

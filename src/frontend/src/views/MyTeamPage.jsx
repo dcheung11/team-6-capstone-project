@@ -77,6 +77,7 @@ export default function MyTeamPage() {
     const fetchNotificationsByTeamId = async (tid) => {
       try {
         const data = await getNotificationsByTeamId(tid);
+        // this data doesn't populate rescheduleRequestIds
         setTeamNotifications(data.notifications || data);
         setLoading(false);
       } catch (err) {

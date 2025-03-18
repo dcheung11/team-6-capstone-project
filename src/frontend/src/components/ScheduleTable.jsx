@@ -52,7 +52,6 @@ export default function ScheduleTable(props) {
         },
       }));
 
-      console.log("Score updated successfully:", result);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -66,7 +65,6 @@ export default function ScheduleTable(props) {
         [team]: value,
       },
     }));
-    console.log(scores)
   };
 
   // Define columns
