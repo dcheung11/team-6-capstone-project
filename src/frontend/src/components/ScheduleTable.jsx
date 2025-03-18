@@ -21,7 +21,7 @@ import { updateScore } from "../api/game.js";
 export default function ScheduleTable(props) {
   const [scores, setScores] = useState({});
   const [defaultLossOptions, setDefaultLossOptions] = useState({});
-
+  const isCaptain = props.captain === props.player;
   // Update scores when the component is mounted or when props.schedule changes
   useEffect(() => {
     if (props.schedule && props.schedule.games) {
@@ -32,7 +32,7 @@ export default function ScheduleTable(props) {
       setScores(newScores);
     }
   }, [props.schedule]);
-  
+
   const handleSubmitScore = async (gameId, homeScore, awayScore, defaultLossTeam) => {
     console.log(`Submit score for game with ID: ${gameId}`);
     console.log(homeScore, awayScore);
@@ -40,8 +40,8 @@ export default function ScheduleTable(props) {
       console.log(`defaultLossTeam value: ${defaultLossTeam}`);
       const result = await updateScore(gameId, homeScore, awayScore, defaultLossTeam);
 
-       // Update the local state to reflect the 'submitted' status
-       setScores((prevScores) => ({
+      // Update the local state to reflect the 'submitted' status
+      setScores((prevScores) => ({
         ...prevScores,
         [gameId]: {
           ...prevScores[gameId],
@@ -87,7 +87,7 @@ export default function ScheduleTable(props) {
       accessor: (game) => {
         const gameId = game._id;
         const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;
-    
+
         return (
           <Checkbox
             checked={isDefaultLoss}
@@ -99,10 +99,10 @@ export default function ScheduleTable(props) {
                   ...prev[gameId],
                   isDefaultLoss: checked,
                   // If turning on default loss, pick whichever team you want or none
-                  team: checked ? prev[gameId]?.team || null : null
+                  team: checked ? prev[gameId]?.team || null : null,
                 },
               }));
-    
+
               // // If turning it on, also set default scores
               // if (checked) {
               //   // Suppose away lost by default: away=1, home=9
@@ -115,7 +115,8 @@ export default function ScheduleTable(props) {
               //     },
               //   }));
               // } else {
-                if (!checked) { // If user unchecked, reset to blank
+              if (!checked) {
+                // If user unchecked, reset to blank
                 setScores((prevScores) => ({
                   ...prevScores,
                   [gameId]: {
@@ -129,6 +130,7 @@ export default function ScheduleTable(props) {
           />
         );
       },
+      shouldShow: isCaptain || props.role === "commissioner",
     },
     {
       header: "Lost By?",
@@ -136,7 +138,7 @@ export default function ScheduleTable(props) {
         const gameId = game._id;
         const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;
         const selectedTeam = defaultLossOptions[gameId]?.team || null;
-    
+
         // Only enable if default loss is checked
         return (
           <FormControl component="fieldset" disabled={!isDefaultLoss}>
@@ -152,12 +154,12 @@ export default function ScheduleTable(props) {
               onChange={(e) => {
                 const teamVal = e.target.value; // "home" or "away"
                 const teamId = teamVal === "home" ? game.homeTeam._id : game.awayTeam._id; // Store actual ID
-                
+
                 setDefaultLossOptions((prev) => ({
                   ...prev,
                   [gameId]: {
                     ...prev[gameId],
-                    team: teamId
+                    team: teamId,
                   },
                 }));
 
@@ -169,7 +171,7 @@ export default function ScheduleTable(props) {
                     home: teamVal === "home" ? 1 : 9,
                     away: teamVal === "away" ? 1 : 9,
                   },
-                  }));
+                }));
               }}
             >
               <FormControlLabel value="home" control={<Radio />} label="Home" />
@@ -178,10 +180,14 @@ export default function ScheduleTable(props) {
           </FormControl>
         );
       },
-    },    
+      shouldShow: isCaptain || props.role === "commissioner",
+    },
     {
       header: "Home Score",
       accessor: (game) => {
+        if (!isCaptain & props.role !== "commissioner") {
+          return scores[game._id]?.home || game.homeScore;
+        }
         const homeScore = scores[game._id]?.home || game.homeScore;
         const isDisabled = scores[game._id]?.submitted || game.submitted; // Check if submitted
         const isDefaultLoss = defaultLossOptions[game._id]?.isDefaultLoss || false;
@@ -208,6 +214,9 @@ export default function ScheduleTable(props) {
     {
       header: "Away Score",
       accessor: (game) => {
+        if (!isCaptain & props.role !== "commissioner") {
+          return scores[game._id]?.away || game.awayScore;
+        }
         const awayScore = scores[game._id]?.away || game.awayScore;
         const isDisabled = scores[game._id]?.submitted || game.submitted;
         const isDefaultLoss = defaultLossOptions[game._id]?.isDefaultLoss || false;
@@ -236,8 +245,8 @@ export default function ScheduleTable(props) {
       accessor: (game) => {
         const isDefaultLoss = defaultLossOptions[game._id]?.isDefaultLoss || false;
         const defaultLossTeam = defaultLossOptions[game._id]?.isDefaultLoss
-      ? defaultLossOptions[game._id]?.team
-      : null;
+          ? defaultLossOptions[game._id]?.team
+          : null;
         const isSubmitDisabled =
           props.captain != props.player ||
           game.submitted || scores[game._id]?.submitted || scores[game._id]?.home === null || scores[game._id]?.away === null || scores[game._id]?.home === '' ||
@@ -260,8 +269,14 @@ export default function ScheduleTable(props) {
           </Button>
         );
       },
+      shouldShow: isCaptain || props.role === "commissioner",
     },
   ];
+
+  // Filter columns based on role or captain status
+  const visibleColumns = columns.filter(
+    (column) => column.shouldShow === undefined || column.shouldShow
+  );
 
   return props.schedule ? (
     <TableContainer component={Paper} sx={{ mb: 2, maxHeight: "50vh" }}>
@@ -269,7 +284,7 @@ export default function ScheduleTable(props) {
         <TableHead>
           <TableRow>
             {/* Map over columns for headers */}
-            {columns.map((column, index) => (
+            {visibleColumns.map((column, index) => (
               <TableCell key={index}>{column.header}</TableCell>
             ))}
           </TableRow>
@@ -279,7 +294,7 @@ export default function ScheduleTable(props) {
           {props.schedule.games && props.schedule.games.length > 0 ? (
             props.schedule.games.map((game, index) => (
               <TableRow key={index}>
-                {columns.map((column, colIndex) => (
+                {visibleColumns.map((column, colIndex) => (
                   <TableCell key={colIndex} sx={{ height: 12 }}>
                     {column.accessor(game)}
                   </TableCell>

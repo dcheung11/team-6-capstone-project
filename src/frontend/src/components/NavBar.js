@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { AppBar, Button, Toolbar, Box, IconButton, Container, Menu, MenuItem, Typography } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  Toolbar,
+  Box,
+  IconButton,
+  Container,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
 import { Person as PersonIcon } from "@mui/icons-material";
 import { useAuth } from "../hooks/AuthProvider";
 import { useNavigate } from "react-router";
@@ -42,7 +52,10 @@ const NavBar = () => {
     navigate("/profile");
   };
   return (
-    <AppBar position="static" style={{ backgroundColor: "#7A003C", height: 92 }}>
+    <AppBar
+      position="static"
+      style={{ backgroundColor: "#7A003C", height: 92 }}
+    >
       <Container style={{ marginTop: "14px" }}>
         <Toolbar disableGutters sx={{ height: 64 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 4 }}>
@@ -79,10 +92,17 @@ const NavBar = () => {
             <Button color="inherit" href="/documentation">
               FAQ
             </Button>
+            {player && player.role === "commissioner" && (
+              <Button color="inherit" href="/manage">
+                Manage
+              </Button>
+            )}
           </Box>
           <Box sx={{ ml: "auto" }}>
             <IconButton color="inherit" size="large" onClick={handleIconClick}>
-              <Typography sx={{ mr: 1 }}>{player ? `${player.firstName} ${player.lastName}` : ""}</Typography>
+              <Typography sx={{ mr: 1 }}>
+                {player ? `${player.firstName} ${player.lastName}` : ""}
+              </Typography>
               <PersonIcon />
             </IconButton>
             <Menu anchorEl={anchorEl} open={open} onClose={handleIconClick}>

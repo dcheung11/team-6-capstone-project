@@ -144,7 +144,8 @@ export default function MyTeamPage() {
                 </Stack>
 
                 {/* For captain view */}
-                {player.team.captainId.id === playerId && (<Typography variant="h4" component="h2" gutterBottom>
+                {(player.team.captainId.id === playerId ||
+                  player.role === "commissioner") && (<Typography variant="h4" component="h2" gutterBottom>
                   Notifications
                 </Typography>)}
                 {teamNotifications &&
@@ -164,17 +165,18 @@ export default function MyTeamPage() {
                   captain={player.team.captainId}
                 />
                 {player.team.captainId.id === playerId && (
-                <Button
-                  variant="contained"
-                  size="small"
-                  sx={{
-                    bgcolor: "#800020",
-                    mb: 2,
-                  }}
-                  onClick={() => navigate("/players")}
-                >
-                  Invite Players
-                </Button>)}
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{
+                      bgcolor: "#800020",
+                      mb: 2,
+                    }}
+                    onClick={() => navigate("/players")}
+                  >
+                    Invite Players
+                  </Button>
+                )}
 
                 {player.team.captainId.id === playerId && (<Box>
                   <Typography variant="h4" component="h2" gutterBottom sx={{ mt: 4 }}>
