@@ -36,7 +36,14 @@ const getNotificationsByTeamId = async (req, res) => {
 
 const getNotificationById = async (req, res) => {
     try {
-        const notification = await Notification.findById(req.params.id);
+        const notification = await Notification.findById(req.params.id)
+        .populate("recipient sender")
+        .populate({
+          path: "rescheduleRequestId",
+          populate: {
+            path: "gameId requestedGameslotIds",
+          }
+        });
 
         if (!notification) {
             return res.status(404).send();
@@ -61,12 +68,13 @@ const getAllNotifications = async (req, res) => {
 const updateNotification = async (req, res) => {
   try {
     const notification = await Notification.findById(req.params.id);
+    const newStatus = req.body.status;
 
     if (!notification) {
       return res.status(404).send();
     }
 
-    notification.status = "read";
+    notification.status = newStatus;
     await notification.save();
 
     res.send(notification);

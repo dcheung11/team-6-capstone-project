@@ -14,7 +14,7 @@ import {
   Button,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { deleteNotification } from "../api/notification.js";
+import { deleteNotification, updateNotificationStatus } from "../api/notification.js";
 
 export default function NotificationsRow({ notifications: initialNotifications }) {
   const navigate = useNavigate();
@@ -22,7 +22,13 @@ export default function NotificationsRow({ notifications: initialNotifications }
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState(null);
 
-  const handleRescheduleClick = (notification) => {
+  const handleRescheduleClick = async (notification) => {
+    await updateNotificationStatus(notification._id, 'read');
+    setNotifications((prevNotifications) =>
+      prevNotifications.map((n) =>
+      n._id === notification._id ? { ...n, status: 'read' } : n
+      )
+    );
     navigate(`/notifications/${notification._id}/reschedule-requests/${notification.rescheduleRequestId}`);
   };
 
@@ -52,6 +58,7 @@ export default function NotificationsRow({ notifications: initialNotifications }
                 transition: notification.type === "reschedule request" ? "transform 0.2s" : "none",
                 "&:hover": notification.type === "reschedule request" ? { transform: "translateY(-2px)", boxShadow: 3 } : {},
                 position: "relative",
+                backgroundColor: notification.status === "read" ? "lightgray" : "white", // Change color if read
               }}
               onClick={() => {
                 if (notification.type === "reschedule request") {
@@ -82,7 +89,7 @@ export default function NotificationsRow({ notifications: initialNotifications }
                 <Typography variant="body2">{notification?.message}</Typography>
 
                 {/* Reschedule Request Message */}
-                {notification.type === "reschedule request" && (
+                {notification.type === "reschedule request" && notification.status === 'unread' && (
                   <Typography variant="caption" color="text.secondary">
                     Click to respond
                   </Typography>

@@ -77,6 +77,7 @@ export default function MyTeamPage() {
     const fetchNotificationsByTeamId = async (tid) => {
       try {
         const data = await getNotificationsByTeamId(tid);
+        // this data doesn't populate rescheduleRequestIds
         setTeamNotifications(data.notifications || data);
         setLoading(false);
       } catch (err) {
@@ -144,20 +145,19 @@ export default function MyTeamPage() {
 
                 {/* For captain view */}
                 {(player.team.captainId.id === playerId ||
-                  player.role === "commissioner") && (
-                  <>
-                    <Typography variant="h4" component="h2" gutterBottom>
-                      Notifications
-                    </Typography>
-                    {teamNotifications && teamNotifications.length > 0 ? (
-                      <NotificationsRow notifications={teamNotifications} />
-                    ) : (
-                      <NoDataCard text="No notifications to show." />
-                    )}
-                  </>
+                  player.role === "commissioner") && (<Typography variant="h4" component="h2" gutterBottom>
+                  Notifications
+                </Typography>)}
+                {teamNotifications &&
+                teamNotifications.length > 0 && player.team.captainId.id === playerId ? (
+                  <NotificationsRow
+                    notifications={teamNotifications}
+                  />
+                ) : (
+                  <NoDataCard text="No notifications to show." />
                 )}
 
-                <Typography variant="h4" component="h2" gutterBottom>
+                <Typography variant="h4" component="h2" gutterBottom sx={{ mt: 4 }}>
                   Roster
                 </Typography>
                 <RosterTable
@@ -178,36 +178,16 @@ export default function MyTeamPage() {
                   </Button>
                 )}
 
-                <Typography variant="h4" component="h2" gutterBottom>
-                  Upcoming Games
-                </Typography>
-                {teamGames && teamGames.games && teamGames.games.length > 0 ? (
-                  // adjust to display schedule games when its available
-                  <GamesRow
-                    teamId={player.team.id}
-                    games={teamGames.games
-                      .filter((game) => new Date(game.date) >= new Date()) // Only future games
-                      .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sort by closest date
-                      .slice(0, 5)}
-                    captain={player.team.captainId.id}
-                    player={playerId}
-                  />
-                ) : (
-                  <NoDataCard text="No games to show." />
-                )}
-                <Typography variant="h4" component="h2" gutterBottom>
-                  Schedule
-                </Typography>
-                {teamGames && teamGames.games && teamGames.games.length > 0 ? (
-                  <ScheduleTable
-                    schedule={teamGames}
-                    captain={player.team.captainId.id}
-                    player={playerId}
-                    role={player.role}
-                  />
-                ) : (
-                  <NoDataCard text="No schedule to show." />
-                )}
+                {player.team.captainId.id === playerId && (<Box>
+                  <Typography variant="h4" component="h2" gutterBottom sx={{ mt: 4 }}>
+                    Submit Game Scores
+                  </Typography>
+                  {teamGames && teamGames.games && teamGames.games.length > 0 ? (
+                    <ScheduleTable schedule={teamGames} captain={player.team.captainId.id} player={playerId}/>
+                  ) : (
+                    <NoDataCard text="No schedule to show." />
+                  )}
+                </Box>)}
               </Box>
             </TabPanel>
           </TabContext>
