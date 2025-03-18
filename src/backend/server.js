@@ -19,6 +19,15 @@ const HttpError = require("./models/http-error");
 
 const app = express();
 
+const cron = require("node-cron");
+const updateSeasonStatuses = require("./scripts/updateSeasonStatuses");
+
+// Run every day at midnight
+cron.schedule("0 0 * * *", () => {
+  console.log("Running season update job...");
+  updateSeasonStatuses();
+});
+
 // Enable CORS for all origins
 app.use(cors());
 
