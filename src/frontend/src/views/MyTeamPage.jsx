@@ -143,16 +143,18 @@ export default function MyTeamPage() {
                 </Stack>
 
                 {/* For captain view */}
-                <Typography variant="h4" component="h2" gutterBottom>
-                  Notifications
-                </Typography>
-                {teamNotifications &&
-                teamNotifications.length > 0 ? (
-                  <NotificationsRow
-                    notifications={teamNotifications}
-                  />
-                ) : (
-                  <NoDataCard text="No notifications to show." />
+                {(player.team.captainId.id === playerId ||
+                  player.role === "commissioner") && (
+                  <>
+                    <Typography variant="h4" component="h2" gutterBottom>
+                      Notifications
+                    </Typography>
+                    {teamNotifications && teamNotifications.length > 0 ? (
+                      <NotificationsRow notifications={teamNotifications} />
+                    ) : (
+                      <NoDataCard text="No notifications to show." />
+                    )}
+                  </>
                 )}
 
                 <Typography variant="h4" component="h2" gutterBottom>
@@ -163,17 +165,18 @@ export default function MyTeamPage() {
                   captain={player.team.captainId}
                 />
                 {player.team.captainId.id === playerId && (
-                <Button
-                  variant="contained"
-                  size="small"
-                  sx={{
-                    bgcolor: "#800020",
-                    mb: 2,
-                  }}
-                  onClick={() => navigate("/players")}
-                >
-                  Invite Players
-                </Button>)}
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{
+                      bgcolor: "#800020",
+                      mb: 2,
+                    }}
+                    onClick={() => navigate("/players")}
+                  >
+                    Invite Players
+                  </Button>
+                )}
 
                 <Typography variant="h4" component="h2" gutterBottom>
                   Upcoming Games
@@ -186,7 +189,7 @@ export default function MyTeamPage() {
                       .filter((game) => new Date(game.date) >= new Date()) // Only future games
                       .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sort by closest date
                       .slice(0, 5)}
-                    captain={player.team.captainId.id} 
+                    captain={player.team.captainId.id}
                     player={playerId}
                   />
                 ) : (
@@ -196,7 +199,12 @@ export default function MyTeamPage() {
                   Schedule
                 </Typography>
                 {teamGames && teamGames.games && teamGames.games.length > 0 ? (
-                  <ScheduleTable schedule={teamGames} captain={player.team.captainId.id} player={playerId}/>
+                  <ScheduleTable
+                    schedule={teamGames}
+                    captain={player.team.captainId.id}
+                    player={playerId}
+                    role={player.role}
+                  />
                 ) : (
                   <NoDataCard text="No schedule to show." />
                 )}
