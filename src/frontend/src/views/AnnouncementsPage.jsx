@@ -5,12 +5,14 @@ import NavBar from "../components/NavBar";
 import { getAnnouncements } from "../api/announcements";
 import PastAnnouncementsSection from "../components/PastAnnouncements";
 import EditIcon from "@mui/icons-material/Edit";
+import { useAuth } from "../hooks/AuthProvider";
 
-export default function AnnouncementPage({ userRole = "commissioner" }) {
+export default function AnnouncementPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [announcements, setAnnouncements] = useState([]);
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchAnnouncements = async () => {
@@ -27,13 +29,14 @@ export default function AnnouncementPage({ userRole = "commissioner" }) {
     fetchAnnouncements();
   }, []);
 
+  const userRole = user?.role || "player"; // Default role if undefined
+
   // to exclude the selected announcement from past announcements
   // (if user has selected READ MORE from past announcement list)
   const pastAnnouncements = announcements.filter(
     (announcement) => announcement._id !== selectedAnnouncement._id
   );
   
-
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <NavBar />
