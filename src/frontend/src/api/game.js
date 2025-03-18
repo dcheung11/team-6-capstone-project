@@ -1,6 +1,6 @@
 const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // Backend port
 
-export async function updateScore(gameId, homeScore, awayScore) {
+export async function updateScore(gameId, homeScore, awayScore, defaultLossTeam) {
   console.log("updateScore", gameId, homeScore, awayScore);
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/games/update-score/${gameId}/${homeScore}/${awayScore}`, {
@@ -8,6 +8,7 @@ export async function updateScore(gameId, homeScore, awayScore) {
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({ defaultLossTeam }), // Send in request body
     });
 
     if (!response.ok) {
