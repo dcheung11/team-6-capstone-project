@@ -5,6 +5,7 @@ import { getScheduleBySeasonId } from "../api/schedule";
 import { getOngoingSeasons, getUpcomingSeasons } from "../api/season";
 import { formatDate } from "../utils/Formatting";
 import { Typography, Container, Box, Tab, Stack, Button } from "@mui/material";
+import { getAvailableGameslots } from "../api/reschedule-requests";
 
 // Helper to normalize a date to local ISO (YYYY-MM-DD)
 const getLocalISODate = (date) => {
@@ -22,27 +23,28 @@ export const CommissionerSchedule = () => {
   const auth = useAuth();
   const [player, setPlayer] = useState(null);
   const [seasonGames, setSeasonGames] = useState([]);
+  const [availableGameslots, setAvailableGameslots] = useState({});
 
   // Fetch player info
-  useEffect(() => {
-    const fetchPlayer = async () => {
-      try {
-        setLoading(true);
-        const data = await getPlayerById(auth.playerId);
-        setPlayer(data.player);
-      } catch (err) {
-        setError(err.message || "Failed to fetch player");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPlayer();
-  }, [auth.playerId]);
+    useEffect(() => {
+        const fetchPlayer = async () => {
+        try {
+            setLoading(true);
+            const data = await getPlayerById(auth.playerId);
+            setPlayer(data.player);
+        } catch (err) {
+            setError(err.message || "Failed to fetch player");
+        } finally {
+            setLoading(false);
+        }
+        };
+        fetchPlayer();
+    }, [auth.playerId]);
 
-  // Fetch season schedule (all games) using player's team seasonId
-  useEffect(() => {
+    // Fetch season schedule (all games) using player's team seasonId
+    useEffect(() => {
     const fetchSeasonGames = async () => {
-      try {
+        try {
         setLoading(true);
         let seasonData = await getOngoingSeasons();
         if (!seasonData) {
@@ -57,14 +59,42 @@ export const CommissionerSchedule = () => {
         else {
             setSeasonGames(seasonData.seasons[0].schedule.games);
         }
-      } catch (err) {
+        } catch (err) {
         setError(err.message || "Failed to fetch season schedule");
-      } finally {
+        } finally {
         setLoading(false);
-      }
+        }
     };
     fetchSeasonGames();
-  }, [player]);
+    }, [player]);
+
+    useEffect(() => {
+      const fetchGameslots = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            // this gets the available gameslots in this year
+            const response = await getAvailableGameslots();
+
+            // Transform data into { "YYYY-MM-DD": ["Time | Field"] } format
+            const formattedData = response.reduce((acc, slot) => {
+              const dateKey = formatDate(new Date(slot.date));
+              const slotString = `${slot.time} | ${slot.field}`;
+              if (!acc[dateKey]) acc[dateKey] = [];
+              acc[dateKey].push({ id: slot._id, slotString: slotString });
+              return acc;
+            }, {});
+
+            setAvailableGameslots(formattedData);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+      };
+
+      fetchGameslots();
+    }, []);
 
   // Navigation: change month
   const handleNavigation = (direction) => {
@@ -123,6 +153,41 @@ export const CommissionerSchedule = () => {
     ));
   };
 
+  const getSlotsForDay = (dayISO) => {
+    if (!dayISO) return null;
+
+    const slots = availableGameslots[formatDate(dayISO)] || [];
+    // console.log("availableGameslots", dayISO, slots);
+    if (slots.length > 0) {
+      // console.log("this ran", slots);
+      slots.push(...availableGameslots[formatDate(dayISO)]);
+    }
+    else {
+      return null;
+    }
+    
+    console.log("Slots: ", slots[0].slotString);
+
+    return slots.map((slot, idx) => (
+      <Button
+        key={idx}
+        variant="outlined"
+        sx={{
+          color: "#7A003C",
+          borderColor: "#7A003C",
+
+          margin: "5px 0",
+          '&:hover': {
+            backgroundColor: "#f2e1e8",
+            borderColor: "#7A003C"
+          }
+        }}
+      >
+       {slot.slotString}
+      </Button>
+    ));
+  };
+
   return (
     <div style={styles.container}>
       {/* Navigation Header */}
@@ -152,6 +217,7 @@ export const CommissionerSchedule = () => {
                 <div>
                   <div style={styles.dateText}>{new Date(dayISO).getUTCDate()}</div>
                   {getMatchesForDay(dayISO)}
+                  {getSlotsForDay(dayISO)}
                 </div>
               )}
             </div>
