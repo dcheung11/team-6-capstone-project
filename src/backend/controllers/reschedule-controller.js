@@ -3,6 +3,8 @@ const Team = require("../models/team");
 const Notification = require("../models/notification");
 const Gameslot = require("../models/gameslot");
 const RescheduleRequest = require("../models/reschedule-request");
+const Schedule = require("../models/schedule");
+const Season = require("../models/season");
 
 function formatDate(dateString) {
   const date = new Date(dateString);
@@ -183,6 +185,92 @@ const getAvailableGameslots = async (req, res) => {
   }
 };
 
+const swapSlots = async (req, res) => {
+  try {
+    const { slot1Id, slot2Id } = req.body;
+
+    // have to figure out if given objects are Gameslots or Games
+    const slot1 = await Gameslot.findById(slot1Id) || await Game.findById(slot1Id);
+    const slot2 = await Gameslot.findById(slot2Id) || await Game.findById(slot2Id);
+    console.log("before slot1:", slot1);
+    console.log("before slot2: ",slot2);
+
+    if (!slot1 || !slot2) {
+      return res.status(404).json({ message: "One or both slots not found" });
+    }
+
+    const isSlot1Gameslot = slot1 instanceof Gameslot;
+    const isSlot2Gameslot = slot2 instanceof Gameslot;
+
+    // 3 Cases
+    if (!isSlot1Gameslot && !isSlot2Gameslot) {
+      // Both slots are games – prepare update objects for each game
+      const game1Update = {
+        gameslot: slot2.gameslot,
+        date: slot2.date,
+        time: slot2.time,
+        field: slot2.field,
+      };
+
+      const game2Update = {
+        gameslot: slot1.gameslot,
+        date: slot1.date,
+        time: slot1.time,
+        field: slot1.field,
+      };
+
+      // Execute update operations directly on the database
+      await Game.updateOne({ _id: slot1._id }, game1Update);
+      await Game.updateOne({ _id: slot2._id }, game2Update);
+
+      // Update the Gameslot collection to reference the correct games
+      await Gameslot.updateOne({ _id: slot2.gameslot }, { game: slot1._id });
+      await Gameslot.updateOne({ _id: slot1.gameslot }, { game: slot2._id });
+    } else if (!isSlot1Gameslot && isSlot2Gameslot) {
+      // slot1 is a game, slot2 is a gameslot
+
+      await Gameslot.updateOne({ _id: slot1.gameslot }, { game: null })
+
+      await Game.updateOne(
+        { _id: slot1._id },
+        { 
+          gameslot: slot2._id,
+          date: slot2.date,
+          time: slot2.time,
+          field: slot2.field
+        }
+      );
+      await Gameslot.updateOne({ _id: slot2._id }, { game: slot1._id });
+    } else if (isSlot1Gameslot && !isSlot2Gameslot) {
+      //slot1 is a gameslot, slot2 is a game
+
+      await Gameslot.updateOne({ _id: slot2.gameslot }, { game: null })
+
+      await Game.updateOne(
+        { _id: slot2._id },
+        { 
+          gameslot: slot1._id,
+          date: slot1.date,
+          time: slot1.time,
+          field: slot1.field
+        }
+      );
+      await Gameslot.updateOne({ _id: slot1._id }, { game: slot2._id });
+    } else {
+      return res.status(400).json({ message: "Error swapping in controller" });
+    }
+
+    console.log("swap successful");
+    console.log("after slot1:", slot1);
+    console.log("after slot2: ",slot2);
+
+    res.status(200).json({ message: "Slots swapped successfully" });
+  } catch (error) {
+    console.log("errored in controller", error, "done");
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
 const deleteRequest = async (req, res) => {
     try {
       const { rescheduleRequestId } = req.params;
@@ -230,11 +318,12 @@ const getAllRequests = async (req, res) => {
 };
 
 module.exports = {
-    createRequest,
-    deleteRequest,
-    getRequestById,
-    getAllRequests,
-    acceptRequest,
-    declineRequest,
-    getAvailableGameslots
+  createRequest,
+  deleteRequest,
+  getRequestById,
+  getAllRequests,
+  acceptRequest,
+  declineRequest,
+  getAvailableGameslots,
+  swapSlots
 };

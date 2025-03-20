@@ -82,7 +82,7 @@ const ScheduleView = () => {
               <div style={{ ...styles.toggleContainer, textAlign: "center" }}>
                 <div>
                   <h1>League Schedule</h1>
-                  <p>Select Two Games to Swap</p>
+                  <p>Select two games/timeslots and click submit below to swap</p>
                 </div>
               </div>
             )}
