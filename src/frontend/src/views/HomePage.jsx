@@ -160,7 +160,7 @@ export default function HomePage() {
             </Grid>
           </Grid>
         </Container>
-        <Container maxWidth="lg" sx={{ pt: 2 }}>
+        <Container maxWidth="lg" sx={{ pt: 10 }}>
           {/* Seasons Section */}
           <Typography
             variant="h3"
@@ -195,7 +195,7 @@ export default function HomePage() {
             </AccordionDetails>
           </Accordion>
         </Container>
-        <Container maxWidth="lg" sx={{ pt: 2 }}>
+        {player && player.role !== "commissioner" && (<Container maxWidth="lg" sx={{ pt: 10 }}>
           <Typography
             variant="h3"
             sx={{
@@ -211,9 +211,9 @@ export default function HomePage() {
           ) : (
             <NotificationsRow teamInvites={player && player.invites} />
           )}
-        </Container>
+        </Container>)}
         {/* Announcements Section */}
-        <Box sx={{ py: 2 }}>
+        <Box sx={{ py: 10 }}>
           <Container maxWidth="lg">
             <Box
               sx={{

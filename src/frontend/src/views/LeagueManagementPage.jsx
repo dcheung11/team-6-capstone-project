@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Container,
@@ -41,7 +40,9 @@ const LeagueManagementPage = () => {
   // Component state values
   const [value, setValue] = useState("manage");
   const handleTabChange = (event, newValue) => {
+    setLoading(true);
     setValue(newValue);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -57,10 +58,13 @@ const LeagueManagementPage = () => {
 
     const fetchOngoingSeasons = async () => {
       try {
+        setLoading(true);
         const data = await getOngoingSeasons();
         setOngoingSeasons(data.seasons);
       } catch (err) {
         setError(err.message || "Failed to fetch ongoing seasons");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -103,12 +107,16 @@ const LeagueManagementPage = () => {
                 Create New Season
               </Typography>
               <CreateSeasonForm seasons={seasons} setSeasons={setSeasons} />
-              <SeasonsTable seasons={seasons} setSeasons={setSeasons} />
+              {seasons && seasons.length > 0 ? (
+                <SeasonsTable seasons={seasons} setSeasons={setSeasons} />
+              ) : (
+                <Typography>No seasons available</Typography>
+              )}
             </TabPanel>
             <TabPanel value="upcoming">
-              {!!upcomingSeasons &&
+              {upcomingSeasons && upcomingSeasons.length > 0 ? (
                 upcomingSeasons.map((season) => (
-                  <Accordion>
+                  <Accordion key={season.id}>
                     <AccordionSummary
                       expandIcon={<ArrowDropDownIcon />}
                       id="upcoming-header"
@@ -121,25 +129,25 @@ const LeagueManagementPage = () => {
                       <Typography>
                         Start Date: {formatDate(season.startDate)}
                       </Typography>
-
                       <Typography>
                         End Date: {formatDate(season.endDate)}
                       </Typography>
-
                       <TeamSchedulingComponent
-                        // registeredTeamsIds={season.registeredTeams}
                         season={season}
                         divisions={season.divisions}
                         registeredTeams={season.registeredTeams}
                       />
                     </AccordionDetails>
                   </Accordion>
-                ))}
+                ))
+              ) : (
+                <Typography>No upcoming seasons</Typography>
+              )}
             </TabPanel>
             <TabPanel value="ongoing">
-              {!!ongoingSeasons &&
+              {ongoingSeasons && ongoingSeasons.length > 0 ? (
                 ongoingSeasons.map((season) => (
-                  <Accordion>
+                  <Accordion key={season.id}>
                     <AccordionSummary
                       expandIcon={<ArrowDropDownIcon />}
                       id="ongoing-header"
@@ -152,8 +160,12 @@ const LeagueManagementPage = () => {
                       <ScheduleTable schedule={season.schedule} />
                     </AccordionDetails>
                   </Accordion>
-                ))}
+                ))
+              ) : (
+                <Typography>No ongoing seasons</Typography>
+              )}
             </TabPanel>
+
           </TabContext>
         </Box>
       </Container>
