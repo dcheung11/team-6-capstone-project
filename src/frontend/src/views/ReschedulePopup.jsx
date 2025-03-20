@@ -47,7 +47,7 @@ export const ReschedulePopup = ({ selectedDate, selectedMatch, availableTimeslot
   const [popupDate, setPopupDate] = useState(new Date(selectedDate));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const timeslotData = availableTimeslots || [];
+  const timeslotData = availableTimeslots || {};
   const currentPlayer = player;
   const oppTeam = selectedMatch.homeTeam._id === currentPlayer?.team?._id ? selectedMatch.awayTeam : selectedMatch.homeTeam;
 

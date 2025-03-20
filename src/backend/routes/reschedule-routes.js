@@ -12,6 +12,9 @@ router.get('/available-gameslots', rescheduleController.getAvailableGameslots);
 // Route to create a new reschedule request
 router.post('/create', rescheduleController.createRequest);
 
+// Route for commissioner to swap two games/slots
+router.put('/swap', rescheduleController.swapSlots);
+
 // Route to accept a reschedule request by ID
 router.put('/:rescheduleRequestId/accept', rescheduleController.acceptRequest);
 

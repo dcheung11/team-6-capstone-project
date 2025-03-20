@@ -1,5 +1,29 @@
 const API_URL = "http://localhost:3001/api/reschedule-requests";
 
+export const swapSlots = async (slot1Id, slot2Id) => {
+  try {
+    const response = await fetch(`${API_URL}/swap`, {
+      method: "PUT",
+      headers: {
+      "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ slot1Id, slot2Id }),
+    });
+
+    console.log("api response: ", response);
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Reschedule request creation failed");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error swapping slots:", error);
+    throw error;
+  }
+};
+
 export const getRescheduleRequests = async () => {
   try {
     const response = await fetch(API_URL);
