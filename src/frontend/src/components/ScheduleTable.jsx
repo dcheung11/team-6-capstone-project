@@ -23,15 +23,49 @@ export default function ScheduleTable(props) {
   const [defaultLossOptions, setDefaultLossOptions] = useState({});
   const isCaptain = props.captain === props.player;
   // Update scores when the component is mounted or when props.schedule changes
+  const [editMode, setEditMode] = useState({}); // track edit mode (per game)
+
   useEffect(() => {
     if (props.schedule && props.schedule.games) {
-      const newScores = props.schedule.games.reduce((acc, game) => {
-        acc[game._id] = { home: game.homeScore, away: game.awayScore };
-        return acc;
-      }, {});
+      const newScores = {};
+      const newDefaults = {};
+      const newEditMode = {};
+
+      props.schedule.games.forEach((game) => {
+        newScores[game._id] = { 
+          home: game.homeScore, 
+          away: game.awayScore, 
+          submitted: !!game.submitted, // if no value etc., sets to false. otherwise keeps bool vals the same
+        }; 
+      
+      if (game.defaultLossTeam) {
+        newDefaults[game._id] = {
+          isDefaultLoss: true,
+          team: game.defaultLossTeam.toString(), // store the team id as a string
+        };
+      } else {
+        newDefaults[game._id] = {
+          isDefaultLoss: false,
+          team: null,
+        };
+      }
+
+      newEditMode[game._id] = !game.submitted; // set edit mode (when editing scores AKA not submitted)
+      });
+
       setScores(newScores);
+      setDefaultLossOptions(newDefaults);
+      setEditMode(newEditMode);
     }
   }, [props.schedule]);
+
+  // toggle "edit mode" when user can edit the scores of a game
+  const toggleEditMode = (gameId) => {
+    setEditMode((prev) => ({
+      ...prev, 
+      [gameId]: !prev[gameId],
+    }));
+  };
 
   const handleSubmitScore = async (gameId, homeScore, awayScore, defaultLossTeam) => {
     console.log(`Submit score for game with ID: ${gameId}`);
@@ -39,6 +73,7 @@ export default function ScheduleTable(props) {
     try {
       console.log(`defaultLossTeam value: ${defaultLossTeam}`);
       const result = await updateScore(gameId, homeScore, awayScore, defaultLossTeam);
+      console.log("Score updated successfully:", result);
 
       // Update the local state to reflect the 'submitted' status
       setScores((prevScores) => ({
@@ -52,8 +87,13 @@ export default function ScheduleTable(props) {
         },
       }));
 
+      // Once submitted, read-only unless user hits "Edit Score"
+      setEditMode((prev) => ({
+        ...prev,
+        [gameId]: false,
+      }));
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error submitting score:", error);
     }
   };
 
@@ -86,11 +126,13 @@ export default function ScheduleTable(props) {
       header: "Default Loss?",
       accessor: (game) => {
         const gameId = game._id;
-        const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;
+        const { isDefaultLoss = false, team = null } = defaultLossOptions[gameId] || {};
+        const isEditting = editMode[gameId];
 
         return (
           <Checkbox
             checked={isDefaultLoss}
+            disabled={!isEditting}
             onChange={(e) => {
               const checked = e.target.checked;
               setDefaultLossOptions((prev) => ({
@@ -115,8 +157,7 @@ export default function ScheduleTable(props) {
               //     },
               //   }));
               // } else {
-              if (!checked) {
-                // If user unchecked, reset to blank
+              if (!checked) { // If user unchecked, reset to blank
                 setScores((prevScores) => ({
                   ...prevScores,
                   [gameId]: {
@@ -137,20 +178,20 @@ export default function ScheduleTable(props) {
       accessor: (game) => {
         const gameId = game._id;
         const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;
-        const selectedTeam = defaultLossOptions[gameId]?.team || null;
+        const isEditting = editMode[gameId];
+
+        // Convert stored ID to "home"/"away" for UI
+        const selectedTeamId = defaultLossOptions[gameId]?.team;
+        let radioVal = "";
+        if (selectedTeamId === game.homeTeam._id) radioVal = "home";
+        if (selectedTeamId === game.awayTeam._id) radioVal = "away";
 
         // Only enable if default loss is checked
         return (
-          <FormControl component="fieldset" disabled={!isDefaultLoss}>
+          <FormControl component="fieldset" disabled={!isEditting || !isDefaultLoss}>
             <RadioGroup
               row
-              value={
-                defaultLossOptions[gameId]?.team === game.homeTeam._id
-                  ? "home"
-                  : defaultLossOptions[gameId]?.team === game.awayTeam._id
-                  ? "away"
-                  : ""
-              } // Convert team ID back to "home" or "away"
+              value={radioVal} 
               onChange={(e) => {
                 const teamVal = e.target.value; // "home" or "away"
                 const teamId = teamVal === "home" ? game.homeTeam._id : game.awayTeam._id; // Store actual ID
@@ -185,16 +226,15 @@ export default function ScheduleTable(props) {
     {
       header: "Home Score",
       accessor: (game) => {
-        if (!isCaptain & props.role !== "commissioner") {
-          return scores[game._id]?.home || game.homeScore;
-        }
-        const homeScore = scores[game._id]?.home || game.homeScore;
-        const isDisabled = scores[game._id]?.submitted || game.submitted; // Check if submitted
-        const isDefaultLoss = defaultLossOptions[game._id]?.isDefaultLoss || false;
+        const gameId = game._id;
+        const isEditting = editMode[gameId];
+        const homeScore = scores[gameId]?.home ?? game.homeScore ?? "";
+        const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;      
+
         return (
           <TextField
             value={homeScore || ""}
-            onChange={(e) => handleScoreChange(game._id, "home", e.target.value)}
+            onChange={(e) => handleScoreChange(gameId, "home", e.target.value)}
             size="small"
             variant="outlined"
             type="number"
@@ -206,7 +246,7 @@ export default function ScheduleTable(props) {
               max: 99,
             }}
             sx={{ width: "60px" }} // Set the width for compact appearance
-            disabled={isDisabled || isDefaultLoss} // Disable if the score is submitted or default loss was checked
+            disabled={!isEditting || isDefaultLoss} // Disable if the score is submitted or default loss was checked
           />
         );
       },
@@ -214,16 +254,15 @@ export default function ScheduleTable(props) {
     {
       header: "Away Score",
       accessor: (game) => {
-        if (!isCaptain & props.role !== "commissioner") {
-          return scores[game._id]?.away || game.awayScore;
-        }
-        const awayScore = scores[game._id]?.away || game.awayScore;
-        const isDisabled = scores[game._id]?.submitted || game.submitted;
-        const isDefaultLoss = defaultLossOptions[game._id]?.isDefaultLoss || false;
+        const gameId = game._id;
+        const isEditting = editMode[gameId];
+        const awayScore = scores[gameId]?.away ?? game.awayScore ?? "";
+        const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;
+
         return (
           <TextField
             value={awayScore || ""}
-            onChange={(e) => handleScoreChange(game._id, "away", e.target.value)}
+            onChange={(e) => handleScoreChange(gameId, "away", e.target.value)}
             size="small"
             variant="outlined"
             type="number"
@@ -235,7 +274,7 @@ export default function ScheduleTable(props) {
               max: 99,
             }}
             sx={{ width: "60px" }} // Set the width for compact appearance
-            disabled={isDisabled || isDefaultLoss} // Disable if the score is submitted
+            disabled={!isEditting || isDefaultLoss} // Disable if the score is submitted
           />
         );
       },
@@ -243,14 +282,52 @@ export default function ScheduleTable(props) {
     {
       header: "Action",
       accessor: (game) => {
-        const isDefaultLoss = defaultLossOptions[game._id]?.isDefaultLoss || false;
-        const defaultLossTeam = defaultLossOptions[game._id]?.isDefaultLoss
-          ? defaultLossOptions[game._id]?.team
-          : null;
-        const isSubmitDisabled =
-          props.captain != props.player ||
-          game.submitted || scores[game._id]?.submitted || scores[game._id]?.home === null || scores[game._id]?.away === null || scores[game._id]?.home === '' ||
-          scores[game._id]?.away === '' || (isDefaultLoss && !defaultLossTeam);
+        const gameId = game._id;
+        const isEditting = editMode[gameId];
+        const buttonLabel = isEditting ? "Submit Score" : "Edit Score";
+
+        // Evaluate if the button is disabled
+        const getIsDisabled = () => {
+          if (!isCaptain && props.role !== "commissioner") {
+            return true; // no permission at all
+          }
+          if (!isEditting) {
+            // If not editing, let them click to "Edit Score" (unless no permission)
+            return false;
+          }
+          // if in edit mode, check for valid inputs
+          const home = scores[gameId]?.home;
+          const away = scores[gameId]?.away;
+          const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;
+          const defaultLossTeamId = defaultLossOptions[gameId]?.team;
+
+          if (isDefaultLoss) {
+            // must pick a team
+            if (!defaultLossTeamId) return true;
+          } else {
+            // must enter home & away
+            if (home === "" || home == null || away === "" || away == null) return true;
+            // optional: also check if it's a valid number >= 0
+            if (isNaN(home) || isNaN(away) || Number(home) < 0 || Number(away) < 0) return true;
+          }
+          return false;
+        };
+
+        const handleButtonClick = () => {
+          if (isEditting) {
+            // Submitting
+            const home = scores[gameId]?.home;
+            const away = scores[gameId]?.away;
+            const defaultLossTeam = defaultLossOptions[gameId]?.isDefaultLoss
+              ? defaultLossOptions[gameId]?.team
+              : null;
+            handleSubmitScore(gameId, home, away, defaultLossTeam);
+          } else {
+            // Switch to edit mode
+            toggleEditMode(gameId);
+          }
+        };       
+
         return (
           <Button
             variant="contained"
@@ -260,12 +337,10 @@ export default function ScheduleTable(props) {
               "&:hover": { backgroundColor: "#5A002C" },
             }}
             size="small"
-            onClick={() =>
-              handleSubmitScore(game._id, scores[game._id]?.home, scores[game._id]?.away, defaultLossTeam)
-            }
-            disabled={isSubmitDisabled} // Disable the button if homeScore or awayScore is null
+            onClick={handleButtonClick}
+            disabled={getIsDisabled()}
           >
-            Submit Score
+            {buttonLabel}
           </Button>
         );
       },
