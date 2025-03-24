@@ -229,8 +229,13 @@ export default function ScheduleTable(props) {
         const gameId = game._id;
         const isEditting = editMode[gameId];
         const homeScore = scores[gameId]?.home ?? game.homeScore ?? "";
-        const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;      
-
+        const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;    
+        
+        // If user is not a captain/commissioner, just show the score as text
+        if (!isCaptain && props.role !== "commissioner") {
+          return homeScore || "";
+        }
+        
         return (
           <TextField
             value={homeScore || ""}
@@ -258,6 +263,11 @@ export default function ScheduleTable(props) {
         const isEditting = editMode[gameId];
         const awayScore = scores[gameId]?.away ?? game.awayScore ?? "";
         const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;
+
+        // If user is not a captain/commissioner, just show the score as text
+        if (!isCaptain && props.role !== "commissioner") {
+          return awayScore || "";
+        }
 
         return (
           <TextField

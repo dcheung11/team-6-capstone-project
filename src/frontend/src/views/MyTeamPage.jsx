@@ -178,16 +178,21 @@ export default function MyTeamPage() {
                   </Button>
                 )}
 
-                {player.team.captainId.id === playerId && (<Box>
+                <Box>
                   <Typography variant="h4" component="h2" gutterBottom sx={{ mt: 4 }}>
-                    Submit Game Scores
+                    Team Schedule
                   </Typography>
                   {teamGames && teamGames.games && teamGames.games.length > 0 ? (
-                    <ScheduleTable schedule={teamGames} captain={player.team.captainId.id} player={playerId}/>
+                    <ScheduleTable 
+                      schedule={teamGames} 
+                      captain={player.team.captainId.id} 
+                      player={playerId}
+                      role={player.role}
+                    />
                   ) : (
                     <NoDataCard text="No schedule to show." />
                   )}
-                </Box>)}
+                </Box>
               </Box>
             </TabPanel>
           </TabContext>
