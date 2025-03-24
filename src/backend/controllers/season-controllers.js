@@ -330,6 +330,40 @@ const updateToOngoingSeason = async (req, res, next) => {
   res.status(200).json({ season: season.toObject({ getters: true }) });
 };
 
+const updateToArchivedSeason = async (req, res, next) => {
+  const seasonId = req.params.sid;
+
+  let season;
+  try {
+    season = await Season.findById(seasonId);
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not update season.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!season) {
+    const error = new HttpError("Could not find season for this id.", 404);
+    return next(error);
+  }
+
+  season.status = "archived";
+
+  try {
+    await season.save();
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not update season.",
+      500
+    );
+    return next(error);
+  }
+
+  res.status(200).json({ season: season.toObject({ getters: true }) });
+};
+
 const removeTeamFromSeason = async (req, res, next) => {
   const seasonId = req.params.sid;
   const teamId = req.params.tid;
@@ -376,4 +410,5 @@ exports.deleteSeason = deleteSeason;
 exports.getSeasonById = getSeasonById;
 exports.updateSeasonDivisionTeams = updateSeasonDivisionTeams;
 exports.updateToOngoingSeason = updateToOngoingSeason;
+exports.updateToArchivedSeason = updateToArchivedSeason;
 exports.removeTeamFromSeason = removeTeamFromSeason;

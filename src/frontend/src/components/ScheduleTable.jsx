@@ -14,6 +14,7 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
+  Typography,
 } from "@mui/material";
 import { formatDate, getDayOfWeek } from "../utils/Formatting";
 import { updateScore } from "../api/game.js";
@@ -130,7 +131,8 @@ export default function ScheduleTable(props) {
           />
         );
       },
-      shouldShow: isCaptain || props.role === "commissioner",
+      shouldShow:
+        isCaptain || (props.role === "commissioner" && !props.archived),
     },
     {
       header: "Lost By?",
@@ -180,12 +182,13 @@ export default function ScheduleTable(props) {
           </FormControl>
         );
       },
-      shouldShow: isCaptain || props.role === "commissioner",
+      shouldShow:
+        isCaptain || (props.role === "commissioner" && !props.archived),
     },
     {
       header: "Home Score",
       accessor: (game) => {
-        if (!isCaptain & props.role !== "commissioner") {
+        if (!isCaptain & (props.role !== "commissioner") || props.archived) {
           return scores[game._id]?.home || game.homeScore;
         }
         const homeScore = scores[game._id]?.home || game.homeScore;
@@ -194,7 +197,9 @@ export default function ScheduleTable(props) {
         return (
           <TextField
             value={homeScore || ""}
-            onChange={(e) => handleScoreChange(game._id, "home", e.target.value)}
+            onChange={(e) =>
+              handleScoreChange(game._id, "home", e.target.value)
+            }
             size="small"
             variant="outlined"
             type="number"
@@ -214,16 +219,19 @@ export default function ScheduleTable(props) {
     {
       header: "Away Score",
       accessor: (game) => {
-        if (!isCaptain & props.role !== "commissioner") {
+        if (!isCaptain & (props.role !== "commissioner") || props.archived) {
           return scores[game._id]?.away || game.awayScore;
         }
         const awayScore = scores[game._id]?.away || game.awayScore;
         const isDisabled = scores[game._id]?.submitted || game.submitted;
-        const isDefaultLoss = defaultLossOptions[game._id]?.isDefaultLoss || false;
+        const isDefaultLoss =
+          defaultLossOptions[game._id]?.isDefaultLoss || false;
         return (
           <TextField
             value={awayScore || ""}
-            onChange={(e) => handleScoreChange(game._id, "away", e.target.value)}
+            onChange={(e) =>
+              handleScoreChange(game._id, "away", e.target.value)
+            }
             size="small"
             variant="outlined"
             type="number"
@@ -243,14 +251,20 @@ export default function ScheduleTable(props) {
     {
       header: "Action",
       accessor: (game) => {
-        const isDefaultLoss = defaultLossOptions[game._id]?.isDefaultLoss || false;
+        const isDefaultLoss =
+          defaultLossOptions[game._id]?.isDefaultLoss || false;
         const defaultLossTeam = defaultLossOptions[game._id]?.isDefaultLoss
           ? defaultLossOptions[game._id]?.team
           : null;
         const isSubmitDisabled =
           props.captain != props.player ||
-          game.submitted || scores[game._id]?.submitted || scores[game._id]?.home === null || scores[game._id]?.away === null || scores[game._id]?.home === '' ||
-          scores[game._id]?.away === '' || (isDefaultLoss && !defaultLossTeam);
+          game.submitted ||
+          scores[game._id]?.submitted ||
+          scores[game._id]?.home === null ||
+          scores[game._id]?.away === null ||
+          scores[game._id]?.home === "" ||
+          scores[game._id]?.away === "" ||
+          (isDefaultLoss && !defaultLossTeam);
         return (
           <Button
             variant="contained"
@@ -261,7 +275,12 @@ export default function ScheduleTable(props) {
             }}
             size="small"
             onClick={() =>
-              handleSubmitScore(game._id, scores[game._id]?.home, scores[game._id]?.away, defaultLossTeam)
+              handleSubmitScore(
+                game._id,
+                scores[game._id]?.home,
+                scores[game._id]?.away,
+                defaultLossTeam
+              )
             }
             disabled={isSubmitDisabled} // Disable the button if homeScore or awayScore is null
           >
@@ -269,7 +288,8 @@ export default function ScheduleTable(props) {
           </Button>
         );
       },
-      shouldShow: isCaptain || props.role === "commissioner",
+      shouldShow:
+        isCaptain || (props.role === "commissioner" && !props.archived),
     },
   ];
 
@@ -312,6 +332,8 @@ export default function ScheduleTable(props) {
       </Table>
     </TableContainer>
   ) : (
-    <>No Schedule Table to Display</>
+    <Typography variant="h6" sx={{ mb: 2 }}>
+      No Schedule Available: email the commissioner if this is an unexpected error.
+    </Typography>
   );
 }
