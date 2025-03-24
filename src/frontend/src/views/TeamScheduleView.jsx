@@ -3,6 +3,8 @@ import { useAuth } from "../hooks/AuthProvider";
 import { getPlayerById } from "../api/player";
 import { getScheduleGamesByTeamId } from "../api/team";
 import { formatDate } from "../utils/Formatting";
+import ReschedulePopup from "./ReschedulePopup";
+import { getAvailableGameslots } from "../api/reschedule-requests";
 
 const getLocalISODate = (date) => {
   const d = new Date(date);
@@ -19,6 +21,10 @@ export const TeamSchedule = () => {
   const auth = useAuth();
   const [player, setPlayer] = useState(null);
   const [teamGames, setTeamGames] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedMatch, setSelectedMatch] = useState("");
+  const [availableGameslots, setAvailableGameslots] = useState({});
 
   // Fetch player info on mount
   useEffect(() => {
@@ -64,6 +70,30 @@ export const TeamSchedule = () => {
     fetchTeamGames();
   }, [player, currentMonth]);
 
+  // Add new useEffect for fetching available gameslots
+  useEffect(() => {
+    const fetchGameslots = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await getAvailableGameslots();
+        const formattedData = response.reduce((acc, slot) => {
+          const dateKey = formatDate(new Date(slot.date));
+          const slotString = `${slot.time} | ${slot.field}`;
+          if (!acc[dateKey]) acc[dateKey] = [];
+          acc[dateKey].push({ id: slot._id, slotString: slotString });
+          return acc;
+        }, {});
+        setAvailableGameslots(formattedData);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchGameslots();
+  }, []);
+
   // Navigation: change month
   const handleNavigation = (direction) => {
     let newDate = new Date(currentMonth);
@@ -94,14 +124,31 @@ export const TeamSchedule = () => {
 
   const monthDates = getMonthDates(currentMonth);
 
-  // For each day, get game(s) scheduled on that day.
+  // Add handler for reschedule clicks
+  const handleRescheduleClick = (dateKey, match) => {
+    setSelectedDate(dateKey);
+    setSelectedMatch(match);
+    setShowModal(true);
+  };
+
+  // Modify the getMatchesForDay function to include the reschedule button
   const getMatchesForDay = (dayISO) => {
     if (!dayISO) return null;
     const matches = teamGames.filter((game) => formatDate(game.date) === dayISO);
     if (matches.length === 0) return null;
     return matches.map((match, idx) => (
-      <div key={idx} style={styles.matchText}>
-        {match.awayTeam.name} @ {match.homeTeam.name} {match.time} | {match.field}
+      <div key={idx}>
+        <div style={styles.matchText}>
+          {match.awayTeam.name} @ {match.homeTeam.name} {match.time} | {match.field}
+        </div>
+        {player?.team?.captainId?.id === player._id && (
+          <button
+            style={styles.rescheduleButton}
+            onClick={() => handleRescheduleClick(dayISO, match)}
+          >
+            Reschedule
+          </button>
+        )}
       </div>
     ));
   };
@@ -141,6 +188,24 @@ export const TeamSchedule = () => {
             </div>
           ))}
         </div>
+      )}
+
+      {/* Add ReschedulePopup modal */}
+      {showModal && (
+        Object.keys(availableGameslots).length > 0 ? (
+          <ReschedulePopup
+            selectedDate={selectedDate}
+            selectedMatch={selectedMatch}
+            availableTimeslots={availableGameslots}
+            player={player}
+            onClose={() => setShowModal(false)}
+          />
+        ) : (
+          <div style={styles.loadingOverlay}>
+            <div style={styles.spinner}></div>
+            <p>Loading available timeslots...</p>
+          </div>
+        )
       )}
     </div>
   );
@@ -206,6 +271,42 @@ const styles = {
     color: "#7A003C",
     fontWeight: "bold",
     marginTop: "5px",
+  },
+  rescheduleButton: {
+    backgroundColor: "#FFC72C",
+    color: "#7A003C",
+    border: "none",
+    padding: "4px 8px",
+    borderRadius: "5px",
+    fontWeight: "bold",
+    cursor: "pointer",
+    fontSize: "11px",
+    marginTop: "5px",
+  },
+  loadingOverlay: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    padding: "20px",
+    borderRadius: "10px",
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "#7A003C",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "10px",
+  },
+  spinner: {
+    width: "30px",
+    height: "30px",
+    border: "4px solid #FFC72C",
+    borderTop: "4px solid transparent",
+    borderRadius: "50%",
+    animation: "spin 1s linear infinite"
   },
 };
 
