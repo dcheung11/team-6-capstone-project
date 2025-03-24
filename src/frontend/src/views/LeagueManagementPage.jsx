@@ -41,7 +41,12 @@ const LeagueManagementPage = () => {
   // Component state values
   const [value, setValue] = useState("manage");
   const handleTabChange = (event, newValue) => {
-    setValue(newValue);
+    setLoading(true);
+
+    setTimeout(() => {
+      setValue(newValue);
+      setLoading(false);
+    }, 50);
   };
 
   useEffect(() => {
