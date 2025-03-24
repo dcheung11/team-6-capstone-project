@@ -89,7 +89,20 @@ const updateStandings = async (divisionId) => {
     }    
 
   });
-  
+
+  // Update each team's record in the database
+  const updatePromises = Object.values(teamStats).map(stats => 
+    Team.findByIdAndUpdate(stats.team, {
+      $set: {
+        wins: stats.w,
+        draws: stats.d,
+        losses: stats.l
+      }
+    })
+  );
+
+  // Wait for all updates to complete
+  await Promise.all(updatePromises);
 
   // RANKING LOGIC
 
