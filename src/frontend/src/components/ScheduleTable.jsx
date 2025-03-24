@@ -231,8 +231,8 @@ export default function ScheduleTable(props) {
         const homeScore = scores[gameId]?.home ?? game.homeScore ?? "";
         const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;    
         
-        // If user is not a captain/commissioner, just show the score as text
-        if (!isCaptain && props.role !== "commissioner") {
+        // If user is not a captain/commissioner or if game is archived, just show the score as text
+        if ((!isCaptain && props.role !== "commissioner") || props.archived) {
           return homeScore || "";
         }
         
@@ -264,8 +264,8 @@ export default function ScheduleTable(props) {
         const awayScore = scores[gameId]?.away ?? game.awayScore ?? "";
         const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;
 
-        // If user is not a captain/commissioner, just show the score as text
-        if (!isCaptain && props.role !== "commissioner") {
+        // If user is not a captain/commissioner or if game is archived, just show the score as text
+        if ((!isCaptain && props.role !== "commissioner") || props.archived) {
           return awayScore || "";
         }
 

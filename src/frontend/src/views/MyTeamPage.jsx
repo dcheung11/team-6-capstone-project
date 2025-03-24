@@ -188,6 +188,7 @@ export default function MyTeamPage() {
                       captain={player.team.captainId.id} 
                       player={playerId}
                       role={player.role}
+                      archived={teamGames.archived}
                     />
                   ) : (
                     <NoDataCard text="No schedule to show." />
