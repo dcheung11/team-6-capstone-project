@@ -108,10 +108,11 @@ export const WeeklySchedule = () => {
   const getWeekDates = (date) => {
     let startOfWeek = new Date(date);
     startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+    
     return [...Array(7)].map((_, i) => {
       let dayDate = new Date(startOfWeek);
       dayDate.setDate(startOfWeek.getDate() + i);
-      const fullDate = formatDate(dayDate);
+      const fullDate = getLocalISODate(dayDate);
       return {
         day: dayDate.toLocaleDateString("en-US", { weekday: "long" }),
         date: dayDate.toLocaleDateString("en-US", { day: "numeric", month: "short" }),
@@ -156,7 +157,7 @@ export const WeeklySchedule = () => {
           Prev
         </button>
         <h2 style={styles.title}>
-          {loading ? "Loading..." : getWeekRange(currentDate)}
+          {getWeekRange(currentDate)}
         </h2>
         <button style={styles.navButton} onClick={() => handleNavigation("next")}>
           Next
@@ -177,9 +178,9 @@ export const WeeklySchedule = () => {
           {weekDates.map((wdate, index) => {
             // Find the game that matches this week date
             const match = teamGames.find(game => {
-              // const gameFullDate = formatDate(game.date);
-              const gameFullDate = formatDate(new Date(game.date));
-              return gameFullDate === wdate.fullDate;
+              const gameDate = new Date(game.date);
+              const gameDateStr = formatDate(gameDate);
+              return gameDateStr === wdate.fullDate;
             });
 
             return (

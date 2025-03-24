@@ -14,6 +14,7 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
+  Typography,
 } from "@mui/material";
 import { formatDate, getDayOfWeek } from "../utils/Formatting";
 import { updateScore } from "../api/game.js";
@@ -171,7 +172,8 @@ export default function ScheduleTable(props) {
           />
         );
       },
-      shouldShow: isCaptain || props.role === "commissioner",
+      shouldShow:
+        isCaptain || (props.role === "commissioner" && !props.archived),
     },
     {
       header: "Lost By?",
@@ -221,7 +223,8 @@ export default function ScheduleTable(props) {
           </FormControl>
         );
       },
-      shouldShow: isCaptain || props.role === "commissioner",
+      shouldShow:
+        isCaptain || (props.role === "commissioner" && !props.archived),
     },
     {
       header: "Home Score",
@@ -354,7 +357,8 @@ export default function ScheduleTable(props) {
           </Button>
         );
       },
-      shouldShow: isCaptain || props.role === "commissioner",
+      shouldShow:
+        isCaptain || (props.role === "commissioner" && !props.archived),
     },
   ];
 
@@ -397,6 +401,8 @@ export default function ScheduleTable(props) {
       </Table>
     </TableContainer>
   ) : (
-    <>No Schedule Table to Display</>
+    <Typography variant="h6" sx={{ mb: 2 }}>
+      No Schedule Available: email the commissioner if this is an unexpected error.
+    </Typography>
   );
 }
