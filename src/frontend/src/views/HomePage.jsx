@@ -23,6 +23,7 @@ import {
 import { getAnnouncements } from "../api/announcements";
 import { SeasonsCard } from "../components/SeasonsCard";
 import GSALogo from "../assets/GSALogo.png";
+import Softball_Poster from "../assets/Softball_Poster.png"
 import LoadingOverlay from "../components/LoadingOverlay";
 import { getPlayerById } from "../api/player";
 import { useAuth } from "../hooks/AuthProvider";
@@ -160,6 +161,20 @@ export default function HomePage() {
             </Grid>
           </Grid>
         </Container>
+		<Container align="center">
+			<Typography>
+			  <img
+                src={Softball_Poster}
+                alt="2025 Softball Poster"
+                style={{
+                  width: "650px",
+                  height: "auto",
+                  objectFit: "contain",
+                  paddingBottom: "3px",
+                }}
+              />
+			</Typography>
+		</Container>
         <Container maxWidth="lg" sx={{ pt: 2 }}>
           {/* Seasons Section */}
           <Typography
