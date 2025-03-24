@@ -204,7 +204,7 @@ export default function HomePage() {
               mt: 4,
             }}
           >
-            Invitations
+            Team Invitations
           </Typography>
           {player && player.invites && player.invites.length === 0 ? (
             <NoDataCard text="No invitations to show." />

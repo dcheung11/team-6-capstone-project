@@ -40,59 +40,48 @@ const ScheduleView = () => {
   }, [playerId]);
 
   if (loading || activeSchedule === null) {
-    return (
-      <div>
-        <NavBar />
-        <div style={styles.container}>Loading...</div>
-      </div>
-    );
+    return (null);
   }
 
   return (
     <div>
       <NavBar />
       <div style={styles.container}>
-        {error ? (
-          <div>{error}</div>
+        {/* Toggle Buttons for non-commissioners */}
+        {player.role !== "commissioner" ? (
+          <div style={styles.toggleContainer}>
+            <button
+              style={activeSchedule === "weekly" ? styles.activeToggle : styles.toggleButton}
+              onClick={() => setActiveSchedule("weekly")}
+            >
+              Weekly Schedule
+            </button>
+            <button
+              style={activeSchedule === "team" ? styles.activeToggle : styles.toggleButton}
+              onClick={() => setActiveSchedule("team")}
+            >
+              Team Schedule
+            </button>
+            <button
+              style={activeSchedule === "league" ? styles.activeToggle : styles.toggleButton}
+              onClick={() => setActiveSchedule("league")}
+            >
+              League Schedule
+            </button>
+          </div>
         ) : (
-          <>
-            {/* Toggle Buttons for non-commissioners */}
-            {player.role !== "commissioner" ? (
-              <div style={styles.toggleContainer}>
-                <button
-                  style={activeSchedule === "weekly" ? styles.activeToggle : styles.toggleButton}
-                  onClick={() => setActiveSchedule("weekly")}
-                >
-                  Weekly Schedule
-                </button>
-                <button
-                  style={activeSchedule === "team" ? styles.activeToggle : styles.toggleButton}
-                  onClick={() => setActiveSchedule("team")}
-                >
-                  Team Schedule
-                </button>
-                <button
-                  style={activeSchedule === "league" ? styles.activeToggle : styles.toggleButton}
-                  onClick={() => setActiveSchedule("league")}
-                >
-                  League Schedule
-                </button>
-              </div>
-            ) : (
-              <div style={{ ...styles.toggleContainer, textAlign: "center" }}>
-                <div>
-                  <h1>League Schedule</h1>
-                  <p>Select two games/timeslots and click submit below to swap</p>
-                </div>
-              </div>
-            )}
-          {/* Display the Selected Schedule */}
-          {activeSchedule === "weekly" && <WeeklySchedule />}
-          {activeSchedule === "team" && <TeamSchedule />}
-          {activeSchedule === "league" && <LeagueSchedule />}
-          {activeSchedule === "commissioner" && <CommissionerSchedule />}
-          </>
+          <div style={{ ...styles.toggleContainer, textAlign: "center" }}>
+            <div>
+              <h1>League Schedule</h1>
+              <p>Select two games/timeslots and click submit below to swap</p>
+            </div>
+          </div>
         )}
+        {/* Display the Selected Schedule */}
+        {activeSchedule === "weekly" && <WeeklySchedule />}
+        {activeSchedule === "team" && <TeamSchedule />}
+        {activeSchedule === "league" && <LeagueSchedule />}
+        {activeSchedule === "commissioner" && <CommissionerSchedule />}
       </div>
     </div>
   );
