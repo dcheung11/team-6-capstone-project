@@ -200,6 +200,30 @@ export async function launchSeason(seasonId) {
   }
 }
 
+export async function archiveSeason(seasonId) {
+  try {
+    const response = await fetch(
+      `${REACT_APP_API_BASE_URL}/seasons/${seasonId}/archive`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Launch season failed");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function removeTeamFromSeason(seasonId, teamId) {
   try {
     const response = await fetch(

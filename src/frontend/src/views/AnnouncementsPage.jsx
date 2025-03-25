@@ -6,13 +6,30 @@ import { getAnnouncements } from "../api/announcements";
 import PastAnnouncementsSection from "../components/PastAnnouncements";
 import EditIcon from "@mui/icons-material/Edit";
 import { useAuth } from "../hooks/AuthProvider";
+import { getPlayerById } from "../api/player";
 
 export default function AnnouncementPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [announcements, setAnnouncements] = useState([]);
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
-  const { user } = useAuth();
+
+  const auth = useAuth();
+  const [player, setPlayer] = useState(null);
+
+  useEffect(() => {
+    const fetchPlayer = async () => {
+      if (!auth.playerId) return;
+      try {
+        const data = await getPlayerById(auth.playerId);
+        setPlayer(data.player);
+      } catch (error) {
+        console.error("Error fetching player data:", error);
+      }
+    };
+
+    fetchPlayer();
+  }, [auth.playerId]);
 
   useEffect(() => {
     const fetchAnnouncements = async () => {
@@ -29,7 +46,7 @@ export default function AnnouncementPage() {
     fetchAnnouncements();
   }, []);
 
-  const userRole = user?.role || "player"; // Default role if undefined
+  const userRole = player?.role || "player"; // Default role if undefined
 
   // to exclude the selected announcement from past announcements
   // (if user has selected READ MORE from past announcement list)

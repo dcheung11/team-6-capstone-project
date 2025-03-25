@@ -16,6 +16,7 @@ import NoDataCard from "../components/NoDataCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { getScheduleGamesByTeamId } from "../api/team";
 import LoadingOverlay from "../components/LoadingOverlay";
+import ContactInfoTable from "../components/ContactInfoTable";
 
 export default function MyTeamPage() {
   const auth = useAuth();
@@ -32,7 +33,10 @@ export default function MyTeamPage() {
 
   const handleChange = (event, newValue) => {
     setTeamTabValue(newValue);
-    navigate(`/team/${newValue}`); // Update URL on tab change
+    // Only navigate if it's a team tab
+    if (newValue !== 'contacts') {
+      navigate(`/team/${newValue}`);
+    }
   };
 
   useEffect(() => {
@@ -52,7 +56,7 @@ export default function MyTeamPage() {
   }, []);
 
   useEffect(() => {
-    if (!player) return;
+    if (!player || teamTabValue === 'contacts') return;
 
     const fetchScheduleGamesByTeamId = async (tid) => {
       try {
@@ -72,7 +76,7 @@ export default function MyTeamPage() {
   }, [player, teamTabValue]);
 
   useEffect(() => {
-    if (!player) return;
+    if (!player || teamTabValue === 'contacts') return;
 
     const fetchNotificationsByTeamId = async (tid) => {
       try {
@@ -96,7 +100,6 @@ export default function MyTeamPage() {
     <div className="min-h-screen bg-gray-50">
       <NavBar />
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        {/* Maybe we add a tab for the teams a player is on, and it could be href to /team/:teamId ? */}
         <Typography variant="h4" component="h2" gutterBottom>
           Teams
         </Typography>
@@ -107,8 +110,13 @@ export default function MyTeamPage() {
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList onChange={handleChange}>
                 <Tab label={player.team.name} value={player.team.id} />
+                {(player.team.captainId.id === playerId || player.role === "commissioner") && (
+                  <Tab label="Captain Contacts" value="contacts" />
+                )}
               </TabList>
             </Box>
+            
+            {/* Team Panel */}
             <TabPanel value={player.team.id}>
               <Box>
                 <Typography variant="h4" component="h1" gutterBottom>
@@ -145,16 +153,17 @@ export default function MyTeamPage() {
 
                 {/* For captain view */}
                 {(player.team.captainId.id === playerId ||
-                  player.role === "commissioner") && (<Typography variant="h4" component="h2" gutterBottom>
-                  Notifications
-                </Typography>)}
-                {teamNotifications &&
-                teamNotifications.length > 0 && player.team.captainId.id === playerId ? (
-                  <NotificationsRow
-                    notifications={teamNotifications}
-                  />
-                ) : (
-                  <NoDataCard text="No notifications to show." />
+                  player.role === "commissioner") && (
+                  <>
+                    <Typography variant="h4" component="h2" gutterBottom>
+                      Notifications
+                    </Typography>
+                    {teamNotifications && teamNotifications.length > 0 ? (
+                      <NotificationsRow notifications={teamNotifications} />
+                    ) : (
+                      <NoDataCard text="No notifications to show." />
+                    )}
+                  </>
                 )}
 
                 <Typography variant="h4" component="h2" gutterBottom sx={{ mt: 4 }}>
@@ -178,18 +187,33 @@ export default function MyTeamPage() {
                   </Button>
                 )}
 
-                {player.team.captainId.id === playerId && (<Box>
-                  <Typography variant="h4" component="h2" gutterBottom sx={{ mt: 4 }}>
-                    Submit Game Scores
-                  </Typography>
-                  {teamGames && teamGames.games && teamGames.games.length > 0 ? (
-                    <ScheduleTable schedule={teamGames} captain={player.team.captainId.id} player={playerId}/>
-                  ) : (
-                    <NoDataCard text="No schedule to show." />
-                  )}
-                </Box>)}
+                <Typography variant="h4" component="h2" gutterBottom sx={{ mt: 4 }}>
+                  Team Schedule
+                </Typography>
+                {teamGames && teamGames.games && teamGames.games.length > 0 ? (
+                  <ScheduleTable 
+                    schedule={teamGames} 
+                    captain={player.team.captainId.id} 
+                    player={playerId}
+                    role={player.role}
+                    archived={teamGames.archived}
+                  />
+                ) : (
+                  <NoDataCard text="No schedule to show." />
+                )}
               </Box>
             </TabPanel>
+
+            {/* Contacts Panel */}
+            <TabPanel value="contacts">
+              <Box>
+                <Typography variant="h4" component="h2" gutterBottom>
+                  Captain Contact Information
+                </Typography>
+                <ContactInfoTable currentSeasonId={player?.team?.seasonId?._id || player?.team?.seasonId} />
+              </Box>
+            </TabPanel>
+
           </TabContext>
         ) : (
           <NoDataCard text="No teams to show. Join or create a team to see team information." />

@@ -7,14 +7,16 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Button,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import NavBar from "../components/NavBar";
-import teamsData from "../data/teams";
 import TeamSchedulingComponent from "../components/TeamSchedulingComponent";
 import {
+  archiveSeason,
   getAllSeasons,
+  getArchivedSeasons,
   getOngoingSeasons,
   getUpcomingSeasons,
 } from "../api/season";
@@ -26,11 +28,14 @@ import CreateSeasonForm from "../components/manage/CreateSeasonForm";
 import SeasonsTable from "../components/manage/SeasonsTable";
 import ScheduleTable from "../components/ScheduleTable";
 import LoadingOverlay from "../components/LoadingOverlay";
+import CommissionerContactInfo from "../components/manage/CommissionerContactInfo";
 
 const LeagueManagementPage = () => {
   // Season state values
   const [upcomingSeasons, setUpcomingSeasons] = useState(null);
   const [ongoingSeasons, setOngoingSeasons] = useState(null);
+  const [archivedSeasons, setArchivedSeasons] = useState(null);
+
   const [seasons, setSeasons] = useState(null);
 
   // API state values
@@ -41,8 +46,11 @@ const LeagueManagementPage = () => {
   const [value, setValue] = useState("manage");
   const handleTabChange = (event, newValue) => {
     setLoading(true);
-    setValue(newValue);
-    setLoading(false);
+
+    setTimeout(() => {
+      setValue(newValue);
+      setLoading(false);
+    }, 50);
   };
 
   useEffect(() => {
@@ -68,6 +76,26 @@ const LeagueManagementPage = () => {
       }
     };
 
+    const fetchArchivedSeasons = async () => {
+      try {
+        const data = await getArchivedSeasons();
+        setArchivedSeasons(data.seasons);
+      } catch (err) {
+        setError(err.message || "Failed to fetch ongoing seasons");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchArchivedSeasons = async () => {
+      try {
+        const data = await getArchivedSeasons();
+        setArchivedSeasons(data.seasons);
+      } catch (err) {
+        setError(err.message || "Failed to fetch ongoing seasons");
+      }
+    };
+
     const fetchSeasons = async () => {
       try {
         const data = await getAllSeasons();
@@ -81,8 +109,43 @@ const LeagueManagementPage = () => {
 
     fetchUpcomingSeasons();
     fetchOngoingSeasons();
+    fetchArchivedSeasons();
     fetchSeasons();
   }, []);
+
+  const handleArchiveSeason = async (seasonId) => {
+    try {
+      setLoading(true);
+      await archiveSeason(seasonId);
+      setLoading(false);
+      alert("Season archived successfully");
+    } catch (error) {
+      setLoading(false);
+      setError(error.message || "Failed to archive season");
+    }
+  };
+
+  const InfoText = ({
+    children,
+    italic = true,
+    bold = true,
+    size = "0.875rem",
+  }) => {
+    return (
+      <Typography
+        variant="body2"
+        gutterBottom
+        sx={{
+          fontStyle: italic ? "italic" : "normal",
+          fontWeight: bold ? "bold" : "normal",
+          fontSize: size,
+          mb: 2,
+        }}
+      >
+        {children}
+      </Typography>
+    );
+  };
 
   return (
     <>
@@ -100,9 +163,14 @@ const LeagueManagementPage = () => {
                 <Tab label="Manage Seasons" value="manage" />
                 <Tab label="Upcoming Seasons" value="upcoming" />
                 <Tab label="Ongoing Seasons" value="ongoing" />
+                <Tab label="Archived Seasons" value="archived" />
+                <Tab label="Contact Info" value="contacts" />
               </TabList>
             </Box>
             <TabPanel value="manage">
+              <InfoText>
+                Create new seasons and delete seasons that are no longer needed.
+              </InfoText>
               <Typography variant="h7" gutterBottom sx={{ mb: 2 }}>
                 Create New Season
               </Typography>
@@ -114,6 +182,10 @@ const LeagueManagementPage = () => {
               )}
             </TabPanel>
             <TabPanel value="upcoming">
+              <InfoText>
+                Manage and launch seasons that are currently open for
+                registration. Seasons will automatically launch on the start date.
+              </InfoText>
               {upcomingSeasons && upcomingSeasons.length > 0 ? (
                 upcomingSeasons.map((season) => (
                   <Accordion key={season.id}>
@@ -145,6 +217,11 @@ const LeagueManagementPage = () => {
               )}
             </TabPanel>
             <TabPanel value="ongoing">
+              <InfoText>
+                Input scores and view the schedules and results of ongoing
+                seasons. Seasons will be automatically archived after the end date.
+              </InfoText>
+
               {ongoingSeasons && ongoingSeasons.length > 0 ? (
                 ongoingSeasons.map((season) => (
                   <Accordion key={season.id}>
@@ -158,6 +235,13 @@ const LeagueManagementPage = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <ScheduleTable schedule={season.schedule} />
+                      <Button
+                      
+                        variant="contained"
+                        color="error"
+                        onClick={() => handleArchiveSeason(season.id)}                      >
+                        Archive Season
+                      </Button>
                     </AccordionDetails>
                   </Accordion>
                 ))
@@ -165,7 +249,30 @@ const LeagueManagementPage = () => {
                 <Typography>No ongoing seasons</Typography>
               )}
             </TabPanel>
-
+            <TabPanel value="archived">
+              <InfoText>
+                View schedules and results of past archived seasons.
+              </InfoText>
+              {!!archivedSeasons ?
+                (archivedSeasons.map((season) => (
+                    <Accordion>
+                      <AccordionSummary
+                        expandIcon={<ArrowDropDownIcon />}
+                        id="archived-header"
+                      >
+                        <Typography variant="h5" component="span">
+                          {season.name}
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <ScheduleTable schedule={season.schedule} archived />
+                      </AccordionDetails>
+                    </Accordion>
+                  ))
+                ) : (
+                  <Typography>No ongoing seasons</Typography>
+              )}
+            </TabPanel>
           </TabContext>
         </Box>
       </Container>
