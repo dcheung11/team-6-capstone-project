@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Alert, Box, Button, TextField, Typography } from "@mui/material";
 import { signup } from "../api/player";
 import { useAuth } from "../hooks/AuthProvider";
@@ -13,6 +13,7 @@ export default function LoginForm() {
   const [alertSeverity, setAlertSeverity] = useState(null);
   const [alertContent, setAlertContent] = useState("");
   const auth = useAuth();
+  const [waiverConfirmed, setWaiverConfirmed] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -157,6 +158,53 @@ export default function LoginForm() {
         </Box> */}
       </Box>
 
+      {!loginState && (
+        <>
+          <Typography
+            sx={{
+              fontSize: "0.875rem",
+              color: "text.secondary",
+              mb: 1
+            }}
+          >
+            Please complete the waiver form and confirm below:
+          </Typography>
+          <Box sx={{ width: '100%', height: '400px', border: '1px solid #ccc' }}>
+            <iframe 
+              width="100%"
+              height="100%"
+              src="https://forms.office.com/Pages/ResponsePage.aspx?id=B2M3RCm0rUKMJSjNSW9HchGPxkBSqu9MvUTc8JXTFOBUNTUwWktNM09BNEZLQTY4WDhRV1pXTjlINy4u&embed=true" 
+              frameBorder="0"
+              marginWidth="0"
+              marginHeight="0"
+              style={{ border: 'none', maxWidth:'100%', maxHeight:'100vh' }}
+              allowFullScreen
+              webkitallowfullscreen="true"
+              mozallowfullscreen="true"
+              msallowfullscreen="true"
+            />
+          </Box>
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: 1,
+            padding: '8px',
+            backgroundColor: '#f5f5f5',
+            borderRadius: '4px'
+          }}>
+            <input 
+              type="checkbox" 
+              id="waiver-confirm" 
+              checked={waiverConfirmed}
+              onChange={(e) => setWaiverConfirmed(e.target.checked)}
+            />
+            <Typography sx={{ fontSize: '0.875rem' }}>
+              I confirm that I have completed and submitted the waiver form
+            </Typography>
+          </Box>
+        </>
+      )}
+
       <Button
         variant="contained"
         sx={{
@@ -165,23 +213,39 @@ export default function LoginForm() {
           borderRadius: 2,
         }}
         onClick={handleSubmit}
+        disabled={!loginState && !waiverConfirmed}
       >
         {loginState ? "Login" : "Sign Up"}
       </Button>
       <Typography align="center" sx={{ color: "text.secondary" }}>
-        Toggle Login/Signup{" "}
+        {loginState
+          ? "Don't have an account? "
+          : "Already have an account? "}
         <Button
           type="text"
           underline="hover"
-          sx={{ color: "black" }}
+          sx={{ color: "black", textDecoration: "underline" }}
           onClick={(e) => {
             e.preventDefault();
             setLoginState(!loginState);
+            setWaiverConfirmed(false);
           }}
         >
           {loginState ? "Sign Up" : "Login"}
         </Button>
       </Typography>
+      
+      {!loginState && !waiverConfirmed && (
+        <Typography 
+          sx={{ 
+            color: 'error.main', 
+            fontSize: '0.875rem', 
+            textAlign: 'center' 
+          }}
+        >
+          Please complete the waiver form and check the confirmation box to enable sign up
+        </Typography>
+      )}
     </Box>
   );
 }
