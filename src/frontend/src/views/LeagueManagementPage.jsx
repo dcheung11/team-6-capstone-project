@@ -29,6 +29,7 @@ import CreateSeasonForm from "../components/manage/CreateSeasonForm";
 import SeasonsTable from "../components/manage/SeasonsTable";
 import ScheduleTable from "../components/ScheduleTable";
 import LoadingOverlay from "../components/LoadingOverlay";
+import CommissionerContactInfo from "../components/manage/CommissionerContactInfo";
 
 const LeagueManagementPage = () => {
   // Season state values
@@ -150,6 +151,7 @@ const LeagueManagementPage = () => {
                 <Tab label="Upcoming Seasons" value="upcoming" />
                 <Tab label="Ongoing Seasons" value="ongoing" />
                 <Tab label="Archived Seasons" value="archived" />
+                <Tab label="Contact Info" value="contacts" />
               </TabList>
             </Box>
             <TabPanel value="manage">
@@ -247,6 +249,12 @@ const LeagueManagementPage = () => {
                     </AccordionDetails>
                   </Accordion>
                 ))}
+            </TabPanel>
+            <TabPanel value="contacts">
+              <InfoText>
+                View contact information for team captains across all seasons.
+              </InfoText>
+              <CommissionerContactInfo seasons={seasons} />
             </TabPanel>
           </TabContext>
         </Box>

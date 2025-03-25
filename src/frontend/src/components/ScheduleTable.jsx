@@ -236,7 +236,7 @@ export default function ScheduleTable(props) {
         
         // If user is not a captain/commissioner or if game is archived, just show the score as text
         if ((!isCaptain && props.role !== "commissioner") || props.archived) {
-          return homeScore || "";
+          return homeScore || "-";
         }
         
         return (
@@ -269,7 +269,7 @@ export default function ScheduleTable(props) {
 
         // If user is not a captain/commissioner or if game is archived, just show the score as text
         if ((!isCaptain && props.role !== "commissioner") || props.archived) {
-          return awayScore || "";
+          return awayScore || "-";
         }
 
         return (
