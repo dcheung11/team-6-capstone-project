@@ -4,8 +4,10 @@ import { getPlayerById } from "../api/player";
 import { getScheduleBySeasonId } from "../api/schedule";
 import { getOngoingSeasons, getUpcomingSeasons } from "../api/season";
 import { formatDate } from "../utils/Formatting";
-import { Typography, Container, Box, Tab, Stack, Button } from "@mui/material";
+import { Typography, Container, Box, Tab, Stack, Button, Collapse, IconButton } from "@mui/material";
 import { getAvailableGameslots, swapSlots } from "../api/reschedule-requests";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 export const CommissionerSchedule = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -17,6 +19,7 @@ export const CommissionerSchedule = () => {
   const [availableGameslots, setAvailableGameslots] = useState({});
   const [slot1, setSlot1] = useState(null);
   const [slot2, setSlot2] = useState(null);
+  const [expandedDays, setExpandedDays] = useState({});
 
   // Fetch player info
     useEffect(() => {
@@ -221,6 +224,59 @@ export const CommissionerSchedule = () => {
     ));
   };
 
+  const handleDayToggle = (dayISO) => {
+    setExpandedDays(prev => ({
+      ...prev,
+      [dayISO]: !prev[dayISO]
+    }));
+  };
+
+  const getDayContent = (dayISO) => {
+    if (!dayISO) return null;
+    
+    const matches = getMatchesForDay(dayISO);
+    const slots = getSlotsForDay(dayISO);
+    const hasContent = (matches || slots);
+    
+    return (
+      <div>
+        <div style={styles.dateHeader}>
+          <span style={styles.dateText}>
+            {new Date(dayISO).getUTCDate()}
+          </span>
+        </div>
+        {hasContent && (
+          <Button
+            size="small"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDayToggle(dayISO);
+            }}
+            endIcon={expandedDays[dayISO] ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            sx={{
+              color: '#7A003C',
+              fontSize: '12px',
+              padding: '2px 8px',
+              textTransform: 'none',
+              '&:hover': {
+                backgroundColor: 'rgba(122, 0, 60, 0.1)',
+              }
+            }}
+          >
+            {expandedDays[dayISO] ? 'Hide slots' : 'View slots'}
+            {(matches || slots) ? ` (${(matches?.length || 0) + (slots?.length || 0)})` : ''}
+          </Button>
+        )}
+        <Collapse in={expandedDays[dayISO]} timeout="auto">
+          <div style={styles.contentContainer}>
+            {matches}
+            {slots}
+          </div>
+        </Collapse>
+      </div>
+    );
+  };
+
   return (
     <div style={styles.container}>
       {/* Navigation Header */}
@@ -245,14 +301,11 @@ export const CommissionerSchedule = () => {
             </div>
           ))}
           {monthDates.map((dayISO, idx) => (
-            <div key={idx} style={dayISO ? styles.calendarCell : styles.emptyCell}>
-              {dayISO && (
-                <div>
-                  <div style={styles.dateText}>{new Date(dayISO).getUTCDate()}</div>
-                  {getMatchesForDay(dayISO)}
-                  {getSlotsForDay(dayISO)}
-                </div>
-              )}
+            <div 
+              key={idx} 
+              style={dayISO ? styles.calendarCell : styles.emptyCell}
+            >
+              {dayISO && getDayContent(dayISO)}
             </div>
           ))}
         </div>
@@ -306,15 +359,30 @@ const styles = {
   },
   calendarCell: {
     border: "1px solid #7A003C",
-    padding: "10px",
+    padding: "5px",
     textAlign: "center",
     minHeight: "80px",
     position: "relative",
+    overflow: "hidden",
   },
   emptyCell: {
     border: "1px solid #D3D3D3",
     backgroundColor: "#E0E0E0",
     minHeight: "80px",
+  },
+  dateHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "2px 5px",
+  },
+  contentContainer: {
+    maxHeight: "200px",
+    overflowY: "auto",
+    padding: "5px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "2px",
   },
   dateText: {
     fontWeight: "bold",
