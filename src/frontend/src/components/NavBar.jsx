@@ -77,9 +77,11 @@ const NavBar = () => {
             <Button color="inherit" href="/announcements">
               Announcements
             </Button>
-            <Button color="inherit" href={`/team/${teamId}`}>
-              My Team
-            </Button>
+            {player && player.role !== "commissioner" && (
+              <Button color="inherit" href={`/team/${teamId}`}>
+                My Team
+              </Button>
+            )}
             <Button color="inherit" href="/schedule">
               Schedule
             </Button>
