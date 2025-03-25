@@ -78,21 +78,13 @@ const LeagueManagementPage = () => {
 
     const fetchArchivedSeasons = async () => {
       try {
+        setLoading(true);
         const data = await getArchivedSeasons();
         setArchivedSeasons(data.seasons);
       } catch (err) {
         setError(err.message || "Failed to fetch ongoing seasons");
       } finally {
         setLoading(false);
-      }
-    };
-
-    const fetchArchivedSeasons = async () => {
-      try {
-        const data = await getArchivedSeasons();
-        setArchivedSeasons(data.seasons);
-      } catch (err) {
-        setError(err.message || "Failed to fetch ongoing seasons");
       }
     };
 
