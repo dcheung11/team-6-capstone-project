@@ -15,10 +15,14 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteNotification, updateNotificationStatus } from "../api/notification.js";
+import { acceptInvite, getPlayerById } from "../api/player";
+import { useAuth } from "../hooks/AuthProvider";
 
-export default function NotificationsRow({ notifications: initialNotifications }) {
+export default function NotificationsRow({ notifications: initialNotifications, teamInvites }) {
   const navigate = useNavigate();
-  const [notifications, setNotifications] = useState(initialNotifications);
+  const auth = useAuth();
+  const [notifications, setNotifications] = useState(initialNotifications || []);
+  const [invites, setInvites] = useState(teamInvites || []);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState(null);
 
@@ -30,6 +34,31 @@ export default function NotificationsRow({ notifications: initialNotifications }
       )
     );
     navigate(`/notifications/${notification._id}/reschedule-requests/${notification.rescheduleRequestId}`);
+  };
+
+  const handleTeamInviteClick = async (teamId) => {
+    try {
+      const requestBody = {
+        playerId: auth.playerId,
+        teamId: teamId,
+      };
+
+      await acceptInvite(requestBody);
+      
+      // Update local state to remove the accepted invite
+      setInvites(prevInvites => 
+        prevInvites.filter(inv => inv.id !== teamId)
+      );
+
+      // Fetch updated player data to ensure the join is processed
+      await getPlayerById(auth.playerId);
+
+      // Navigate to waiver page with teamId
+      window.location.href = `/waiver?teamId=${teamId}`;
+      console.log("Team invite accepted");
+    } catch (err) {
+      console.log("Failed to accept team invite");
+    }
   };
 
   const handleDeleteClick = (notification) => {
@@ -48,7 +77,36 @@ export default function NotificationsRow({ notifications: initialNotifications }
   return (
     <>
       <Box sx={{ display: "flex", gap: 2, overflowX: "auto" }}>
-        {notifications?.length > 0 ? (
+        {teamInvites ? (
+          // Render team invites
+          invites.map((team, index) => (
+            <Card
+              key={index}
+              sx={{
+                minWidth: 300,
+                cursor: "pointer",
+                transition: "transform 0.2s",
+                "&:hover": { transform: "translateY(-2px)", boxShadow: 3 },
+                position: "relative",
+                mb: 2 // Add margin bottom to prevent cutoff
+              }}
+              onClick={() => handleTeamInviteClick(team.id)}
+            >
+              <CardContent sx={{ pb: 2 }}> {/* Add padding bottom to content */}
+                <Typography variant="h6" gutterBottom>
+                  Team Invite
+                </Typography>
+                <Typography variant="body2" sx={{ mb: 1 }}> {/* Add margin bottom */}
+                  Invitation to join team {team.name}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  Click to accept
+                </Typography>
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          // Render regular notifications
           notifications.map((notification, index) => (
             <Card
               key={index}
@@ -58,7 +116,7 @@ export default function NotificationsRow({ notifications: initialNotifications }
                 transition: notification.type === "reschedule request" ? "transform 0.2s" : "none",
                 "&:hover": notification.type === "reschedule request" ? { transform: "translateY(-2px)", boxShadow: 3 } : {},
                 position: "relative",
-                backgroundColor: notification.status === "read" ? "lightgray" : "white", // Change color if read
+                backgroundColor: notification.status === "read" ? "lightgray" : "white",
               }}
               onClick={() => {
                 if (notification.type === "reschedule request") {
@@ -67,12 +125,11 @@ export default function NotificationsRow({ notifications: initialNotifications }
               }}
             >
               <CardContent>
-                {/* Delete Button in Top Right */}
                 <Box sx={{ position: "absolute", top: 8, right: 8 }}>
                   <IconButton
                     size="small"
                     onClick={(e) => {
-                      e.stopPropagation(); // Prevent card click event
+                      e.stopPropagation();
                       handleDeleteClick(notification);
                     }}
                   >
@@ -80,22 +137,18 @@ export default function NotificationsRow({ notifications: initialNotifications }
                   </IconButton>
                 </Box>
 
-                {/* Notification Type */}
                 <Typography variant="h6" gutterBottom>
-                  {notification?.type || "None"}
+                  {notification.type || "None"}
                 </Typography>
 
-                {/* Notification Message */}
-                <Typography variant="body2">{notification?.message}</Typography>
+                <Typography variant="body2">{notification.message}</Typography>
 
-                {/* Reschedule Request Message */}
                 {notification.type === "reschedule request" && notification.status === 'unread' && (
                   <Typography variant="caption" color="text.secondary">
                     Click to respond
                   </Typography>
                 )}
 
-                {/* Status in Bottom Right */}
                 <Box sx={{ textAlign: "right", mt: 2 }}>
                   <Typography variant="caption" sx={{ color: "gray", fontSize: "12px" }}>
                     {notification.status}
@@ -104,14 +157,9 @@ export default function NotificationsRow({ notifications: initialNotifications }
               </CardContent>
             </Card>
           ))
-        ) : (
-          <Typography variant="body1" sx={{ color: "gray" }}>
-            No notifications available.
-          </Typography>
         )}
       </Box>
 
-      {/* Delete Confirmation Popup */}
       <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
         <DialogTitle>Clear Notification</DialogTitle>
         <DialogContent>
