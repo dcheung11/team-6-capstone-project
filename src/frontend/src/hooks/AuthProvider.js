@@ -27,6 +27,7 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem("site", res.token);
         localStorage.setItem("playerId", res.playerId);
         localStorage.setItem("email", res.email);
+        localStorage.setItem("role", res.role);
         navigate("/home");
         return;
       }
@@ -44,6 +45,7 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("site");
     localStorage.removeItem("playerId");
     localStorage.removeItem("email");
+    localStorage.removeItem("role");
     navigate("/");
   };
 

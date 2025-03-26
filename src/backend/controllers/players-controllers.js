@@ -121,6 +121,7 @@ const login = async (req, res, next) => {
     playerId: existingPlayer.id,
     email: existingPlayer.email,
     token: token,
+    role: existingPlayer.role,
   });
 };
 
