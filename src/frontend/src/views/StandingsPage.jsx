@@ -57,10 +57,9 @@ export default function StandingsPage() {
         }}
       >
         <Container sx={{ py: 4, flexGrow: 1 }}>
-          <Typography variant="h4" gutterBottom>
-            Standings
-          </Typography>
-
+        <Typography variant="h4" fontWeight="bold" gutterBottom >
+          Standings
+        </Typography>
           {/* Season & Division Selectors */}
           <Box>
             {/* Season Dropdown */}
