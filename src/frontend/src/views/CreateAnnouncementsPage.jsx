@@ -5,6 +5,14 @@ import NavBar from "../components/NavBar";
 import AnnouncementForm from "../components/AnnouncementForm";
 import { createAnnouncement } from "../api/announcements";
 
+// McMaster colors
+const MCMASTER_COLORS = {
+  maroon: '#7A003C',
+  grey: '#5E6A71',
+  gold: '#FDBF57',
+  lightGrey: '#F5F5F5',
+};
+
 export default function CreateAnnouncementPage() {
   const navigate = useNavigate();
 
@@ -18,13 +26,47 @@ export default function CreateAnnouncementPage() {
   };
 
   return (
-    <Box sx={{ bgcolor: "background.default", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <Box 
+      sx={{ 
+        bgcolor: MCMASTER_COLORS.lightGrey, 
+        minHeight: "100vh", 
+        display: "flex", 
+        flexDirection: "column" 
+      }}
+    >
       <NavBar />
       <Container
         maxWidth="lg"
-        sx={{ mt: 4, flexGrow: 1, display: "flex", flexDirection: "column", alignItems: "center" }}
+        sx={{ 
+          py: { xs: 4, md: 6 }, 
+          flexGrow: 1, 
+          display: "flex", 
+          flexDirection: "column", 
+          alignItems: "center" 
+        }}
       >
-        <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: "bold", mb: 4 }}>
+        <Typography 
+          variant="h4" 
+          align="center" 
+          gutterBottom 
+          sx={{ 
+            fontWeight: 900,
+            color: 'black',
+            mb: { xs: 3, md: 4 },
+            fontSize: { xs: '2.25rem', md: '2.5rem' },
+            position: 'relative',
+            '&::after': {
+              content: '""',
+              display: 'block',
+              width: '80px',
+              height: '4px',
+              bgcolor: MCMASTER_COLORS.gold,
+              mx: 'auto',
+              mt: 2,
+              borderRadius: '2px'
+            }
+          }}
+        >
           Create New Announcement
         </Typography>
         <AnnouncementForm onSubmit={handleCreate} />
