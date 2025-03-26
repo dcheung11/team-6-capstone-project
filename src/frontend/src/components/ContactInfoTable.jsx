@@ -150,37 +150,65 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-        {/* Season Dropdown */}
-        {allSeasons && (
-          <FormControl sx={{ minWidth: 200 }}>
-            <InputLabel id="season-select-label">Season</InputLabel>
-            <Select
-              labelId="season-select-label"
-              label="Season"
-              value={selectedSeason}
-              onChange={(e) => setSelectedSeason(e.target.value)}
-            >
-              {seasons.map((season) => (
-                <MenuItem key={season._id} value={season._id}>
-                  {season.name} {season.status === "archived" ? " (Archived)" : ""}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        )}
-
+      <Box sx={{ mb: 2 }}>
         {/* Division Dropdown */}
-        <FormControl sx={{ minWidth: 200 }}>
+        <FormControl 
+          sx={{ 
+            minWidth: 220,
+            '& .MuiOutlinedInput-root': {
+              '&:hover fieldset': {
+                borderColor: MCMASTER_COLORS.maroon,
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: MCMASTER_COLORS.maroon,
+              }
+            },
+            '& .MuiInputLabel-root.Mui-focused': {
+              color: MCMASTER_COLORS.maroon,
+            }
+          }}
+        >
           <InputLabel>Division</InputLabel>
           <Select
             value={selectedDivision}
             label="Division"
             onChange={(e) => setSelectedDivision(e.target.value)}
+            sx={{
+              backgroundColor: 'white',
+            }}
           >
-            <MenuItem value="all">All Divisions</MenuItem>
+            <MenuItem 
+              value="all"
+              sx={{
+                '&.Mui-selected': {
+                  backgroundColor: `${MCMASTER_COLORS.maroon}14`,
+                  '&:hover': {
+                    backgroundColor: `${MCMASTER_COLORS.maroon}20`,
+                  }
+                },
+                '&:hover': {
+                  backgroundColor: `${MCMASTER_COLORS.maroon}0A`,
+                }
+              }}
+            >
+              All Divisions
+            </MenuItem>
             {divisions.map((division) => (
-              <MenuItem key={division} value={division}>
+              <MenuItem 
+                key={division} 
+                value={division}
+                sx={{
+                  '&.Mui-selected': {
+                    backgroundColor: `${MCMASTER_COLORS.maroon}14`,
+                    '&:hover': {
+                      backgroundColor: `${MCMASTER_COLORS.maroon}20`,
+                    }
+                  },
+                  '&:hover': {
+                    backgroundColor: `${MCMASTER_COLORS.maroon}0A`,
+                  }
+                }}
+              >
                 {division}
               </MenuItem>
             ))}
@@ -188,10 +216,17 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
         </FormControl>
       </Box>
 
-      <TableContainer component={Paper}>
+      <TableContainer 
+        component={Paper}
+        sx={{
+          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+          border: '1px solid rgba(0,0,0,0.1)',
+          borderRadius: '8px',
+        }}
+      >
         <Table>
           <TableHead>
-            <TableRow>
+            <TableRow sx={{ backgroundColor: MCMASTER_COLORS.lightGrey }}>
               <TableCell><strong>Team Name</strong></TableCell>
               <TableCell><strong>Division</strong></TableCell>
               <TableCell><strong>Captain Name</strong></TableCell>
@@ -207,7 +242,14 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
                 : "No Captain";
 
               return (
-                <TableRow key={team._id}>
+                <TableRow 
+                  key={team._id}
+                  sx={{
+                    '&:nth-of-type(odd)': {
+                      backgroundColor: 'rgba(0, 0, 0, 0.02)',
+                    },
+                  }}
+                >
                   <TableCell>{team.name}</TableCell>
                   <TableCell>{team.divisionId.name}</TableCell>
                   <TableCell>{captainFullName}</TableCell>
