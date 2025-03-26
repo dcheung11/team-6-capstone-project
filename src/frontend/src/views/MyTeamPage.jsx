@@ -228,6 +228,7 @@ export default function MyTeamPage() {
                     size="small"
                     sx={{
                       bgcolor: "#800020",
+                      mt: 1,
                       mb: 2,
                     }}
                     onClick={() => navigate("/players")}
