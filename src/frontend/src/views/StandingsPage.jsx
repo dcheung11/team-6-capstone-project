@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getStandingsByDivision } from "../api/standings"; 
-import { getOngoingSeasons } from "../api/season"; 
+import { getAllSeasons } from "../api/season"; 
 import {
   Typography,
   Container,
@@ -33,13 +33,20 @@ export default function StandingsPage() {
 
   const fetchSeasons = async () => {
     try {
-      const data = await getOngoingSeasons();
-      setSeasons(data.seasons);
+      const data = await getAllSeasons();
+      
+      // Sort seasons: ongoing first, then archived
+      const sortedSeasons = data.seasons.sort((a, b) => {
+        if (a.archived === b.archived) return 0;
+        return a.archived ? 1 : -1;
+      });
+      
+      setSeasons(sortedSeasons);
   
       // Set default season and divisions
-      setSelectedSeason(data.seasons[0]._id);
-      setDivisions(data.seasons[0].divisions || []);
-      setSelectedDivision(data.seasons[0].divisions[0]?._id || "");
+      setSelectedSeason(sortedSeasons[0]._id);
+      setDivisions(sortedSeasons[0].divisions || []);
+      setSelectedDivision(sortedSeasons[0].divisions[0]?._id || "");
     } catch (error) {
       console.error("Error fetching seasons:", error);
     }
@@ -78,7 +85,7 @@ export default function StandingsPage() {
               >
                 {seasons.map((season) => (
                   <MenuItem key={season._id} value={season._id}>
-                    {season.name}
+                    {season.name}{season.status === "archived" ? " (Archived)" : ""}
                   </MenuItem>
                 ))}
               </Select>
