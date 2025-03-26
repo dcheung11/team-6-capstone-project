@@ -127,7 +127,7 @@ export default function StandingsPage() {
           </Typography>
           <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
             - W - Wins, D - Draws, L - Losses, PTS - Points, RS - Runs Scored,
-            RA - Runs Allowed.
+            RA - Runs Allowed, Run Diff - Run Differential.
           </Typography>
         </Container>
       </Box>
