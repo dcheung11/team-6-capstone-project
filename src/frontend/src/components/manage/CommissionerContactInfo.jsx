@@ -25,24 +25,7 @@ export default function CommissionerContactInfo({ seasons }) {
 
   return (
     <Box>
-      <FormControl sx={{ minWidth: 180, mb: 4 }}>
-        <InputLabel>Season</InputLabel>
-        <Select
-          value={selectedSeason}
-          label="Season"
-          onChange={(e) => setSelectedSeason(e.target.value)}
-        >
-          {seasons.map((season) => (
-            <MenuItem key={season._id} value={season._id}>
-              {season.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      {selectedSeason && (
-        <ContactInfoTable currentSeasonId={selectedSeason} />
-      )}
+      <ContactInfoTable currentSeasonId={selectedSeason} allSeasons={seasons} />
     </Box>
   );
 } 
