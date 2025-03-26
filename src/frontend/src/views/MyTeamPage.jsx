@@ -1,4 +1,12 @@
-import { Typography, Container, Box, Tab, Stack, Button } from "@mui/material";
+import {
+  Typography,
+  Container,
+  Box,
+  Tab,
+  Stack,
+  Button,
+  Divider,
+} from "@mui/material";
 import NavBar from "../components/NavBar";
 import RosterTable from "../components/RosterTable";
 import ScheduleTable from "../components/ScheduleTable";
@@ -34,7 +42,7 @@ export default function MyTeamPage() {
   const handleChange = (event, newValue) => {
     setTeamTabValue(newValue);
     // Only navigate if it's a team tab
-    if (newValue !== 'contacts') {
+    if (newValue !== "contacts") {
       navigate(`/team/${newValue}`);
     }
   };
@@ -56,7 +64,7 @@ export default function MyTeamPage() {
   }, []);
 
   useEffect(() => {
-    if (!player || teamTabValue === 'contacts') return;
+    if (!player || teamTabValue === "contacts") return;
 
     const fetchScheduleGamesByTeamId = async (tid) => {
       try {
@@ -76,7 +84,7 @@ export default function MyTeamPage() {
   }, [player, teamTabValue]);
 
   useEffect(() => {
-    if (!player || teamTabValue === 'contacts') return;
+    if (!player || teamTabValue === "contacts") return;
 
     const fetchNotificationsByTeamId = async (tid) => {
       try {
@@ -100,7 +108,7 @@ export default function MyTeamPage() {
     <div className="min-h-screen bg-gray-50">
       <NavBar />
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Typography variant="h4" component="h2" gutterBottom>
+        <Typography variant="h4" fontWeight="bold" >
           Teams
         </Typography>
         {loading ? (
@@ -110,12 +118,13 @@ export default function MyTeamPage() {
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList onChange={handleChange}>
                 <Tab label={player.team.name} value={player.team.id} />
-                {(player.team.captainId.id === playerId || player.role === "commissioner") && (
+                {(player.team.captainId.id === playerId ||
+                  player.role === "commissioner") && (
                   <Tab label="Captain Contacts" value="contacts" />
                 )}
               </TabList>
             </Box>
-            
+
             {/* Team Panel */}
             <TabPanel value={player.team.id}>
               <Box>
@@ -136,26 +145,58 @@ export default function MyTeamPage() {
                     </span>
                   )}
                 </Typography>
-                <Stack
-                  direction="row"
-                  spacing={4}
-                  marginBottom={2}
-                  alignItems="center"
-                >
-                  <Typography variant="h6" component="h2">
-                    {player.team.seasonId.name}: {player.team.divisionId.name}
-                  </Typography>
-                  <Typography variant="h6" component="h2">
-                    Record (W/D/L): {player.team.wins}-{player.team.draws}-
-                    {player.team.losses}
-                  </Typography>
+                <Stack direction="row" spacing={3} mb={2} alignItems="center">
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <Typography
+                      variant="h6"
+                      sx={{ fontWeight: "bold", color: "#495965" }}
+                    >
+                      Season:
+                    </Typography>
+                    <Typography variant="h6">
+                      {player.team.seasonId.name}
+                    </Typography>
+                  </Stack>
+
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <Typography
+                      variant="h6"
+                      sx={{ fontWeight: "bold", color: "#495965" }}
+                    >
+                      Division:
+                    </Typography>
+                    <Typography variant="h6">
+                      {player.team.divisionId.name}
+                    </Typography>
+                  </Stack>
+
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <Typography
+                      variant="h6"
+                      sx={{ fontWeight: "bold", color: "#495965" }}
+                    >
+                      Record (W/D/L):
+                    </Typography>
+                    <Typography variant="h6">
+                      {player.team.wins}-{player.team.draws}-
+                      {player.team.losses}
+                    </Typography>
+                  </Stack>
                 </Stack>
+                <Divider sx={{ my: 4 }} />
 
                 {/* For captain view */}
                 {(player.team.captainId.id === playerId ||
                   player.role === "commissioner") && (
                   <>
-                    <Typography variant="h4" component="h2" gutterBottom>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{
+                        fontSize: { xs: "2rem", md: "2rem" },
+                        fontWeight: 700,
+                        mb: 2,
+                      }}
+                    >
                       Notifications
                     </Typography>
                     {teamNotifications && teamNotifications.length > 0 ? (
@@ -163,10 +204,18 @@ export default function MyTeamPage() {
                     ) : (
                       <NoDataCard text="No notifications to show." />
                     )}
+                    <Divider sx={{ my: 4 }} />
                   </>
                 )}
 
-                <Typography variant="h4" component="h2" gutterBottom sx={{ mt: 4 }}>
+                <Typography
+                  variant="subtitle2"
+                  sx={{
+                    fontSize: { xs: "2rem", md: "2rem" },
+                    fontWeight: 700,
+                    mb: 2,
+                  }}
+                >
                   Roster
                 </Typography>
                 <RosterTable
@@ -179,6 +228,7 @@ export default function MyTeamPage() {
                     size="small"
                     sx={{
                       bgcolor: "#800020",
+                      mt: 1,
                       mb: 2,
                     }}
                     onClick={() => navigate("/players")}
@@ -186,14 +236,22 @@ export default function MyTeamPage() {
                     Invite Players
                   </Button>
                 )}
+                <Divider sx={{ my: 4 }} />
 
-                <Typography variant="h4" component="h2" gutterBottom sx={{ mt: 4 }}>
+                <Typography
+                  variant="subtitle2"
+                  sx={{
+                    fontSize: { xs: "2rem", md: "2rem" },
+                    fontWeight: 700,
+                    mb: 2,
+                  }}
+                >
                   Team Schedule
                 </Typography>
                 {teamGames && teamGames.games && teamGames.games.length > 0 ? (
-                  <ScheduleTable 
-                    schedule={teamGames} 
-                    captain={player.team.captainId.id} 
+                  <ScheduleTable
+                    schedule={teamGames}
+                    captain={player.team.captainId.id}
                     player={playerId}
                     role={player.role}
                     archived={teamGames.archived}
@@ -210,10 +268,13 @@ export default function MyTeamPage() {
                 <Typography variant="h4" component="h2" gutterBottom>
                   Captain Contact Information
                 </Typography>
-                <ContactInfoTable currentSeasonId={player?.team?.seasonId?._id || player?.team?.seasonId} />
+                <ContactInfoTable
+                  currentSeasonId={
+                    player?.team?.seasonId?._id || player?.team?.seasonId
+                  }
+                />
               </Box>
             </TabPanel>
-
           </TabContext>
         ) : (
           <NoDataCard text="No teams to show. Join or create a team to see team information." />
