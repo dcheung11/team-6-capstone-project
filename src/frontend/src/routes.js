@@ -14,6 +14,7 @@ import SchedulePage from "./views/SchedulePage";
 import ScheduleView from "./views/ScheduleView";
 import RescheduleResponsePage from "./views/RescheduleResponsePage";
 import DocumentationPage from "./views/DocumentationPage";
+import WaiverPage from "./views/WaiverPage";
 
 const routes = [
   { path: "/home", component: HomePage },
@@ -32,6 +33,7 @@ const routes = [
   { path: "/schedule", component: ScheduleView },
   { path: "/notifications/:notificationId/reschedule-requests/:rescheduleRequestId", component: RescheduleResponsePage },
   { path: "/documentation", component: DocumentationPage },
+  { path: "/waiver", component: WaiverPage },
 ];
 
 export default routes;

@@ -53,8 +53,8 @@ export default function NotificationsRow({ notifications: initialNotifications, 
       // Fetch updated player data to ensure the join is processed
       await getPlayerById(auth.playerId);
 
-      // Now navigate to the team page
-      window.location.href = `/team/${teamId}`;
+      // Navigate to waiver page with teamId
+      window.location.href = `/waiver?teamId=${teamId}`;
       console.log("Team invite accepted");
     } catch (err) {
       console.log("Failed to accept team invite");
@@ -88,14 +88,15 @@ export default function NotificationsRow({ notifications: initialNotifications, 
                 transition: "transform 0.2s",
                 "&:hover": { transform: "translateY(-2px)", boxShadow: 3 },
                 position: "relative",
+                mb: 2 // Add margin bottom to prevent cutoff
               }}
               onClick={() => handleTeamInviteClick(team.id)}
             >
-              <CardContent>
+              <CardContent sx={{ pb: 2 }}> {/* Add padding bottom to content */}
                 <Typography variant="h6" gutterBottom>
                   Team Invite
                 </Typography>
-                <Typography variant="body2">
+                <Typography variant="body2" sx={{ mb: 1 }}> {/* Add margin bottom */}
                   Invitation to join team {team.name}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
