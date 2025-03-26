@@ -12,14 +12,23 @@ import {
 } from "@mui/material";
 import { Person as PersonIcon } from "@mui/icons-material";
 import { useAuth } from "../hooks/AuthProvider";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { getPlayerById } from "../api/player";
+
+// McMaster colors
+const MCMASTER_COLORS = {
+  maroon: '#7A003C',
+  grey: '#5E6A71',
+  gold: '#FDBF57',
+  lightGrey: '#F5F5F5',
+};
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const auth = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -52,10 +61,15 @@ const NavBar = () => {
   const handleProfileClick = () => {
     navigate("/profile");
   };
+
+  const isCurrentPage = (path) => {
+    return location.pathname === path;
+  };
+
   return (
     <AppBar
       position="static"
-      style={{ backgroundColor: "#7A003C", height: 92 }}
+      style={{ backgroundColor: MCMASTER_COLORS.maroon, height: 92 }}
     >
       <Container style={{ marginTop: "14px" }}>
         <Toolbar disableGutters sx={{ height: 64 }}>
@@ -72,31 +86,103 @@ const NavBar = () => {
           </Box>
 
           <Box sx={{ display: "flex", gap: 3 }}>
-            <Button color="inherit" href="/home">
+            <Button 
+              color="inherit" 
+              href="/home"
+              sx={{ 
+                color: isCurrentPage('/home') ? MCMASTER_COLORS.gold : 'inherit',
+                '&:hover': {
+                  color: isCurrentPage('/home') ? MCMASTER_COLORS.gold : 'inherit',
+                }
+              }}
+            >
               Home
             </Button>
-            <Button color="inherit" href="/announcements">
+            <Button 
+              color="inherit" 
+              href="/announcements"
+              sx={{ 
+                color: isCurrentPage('/announcements') ? MCMASTER_COLORS.gold : 'inherit',
+                '&:hover': {
+                  color: isCurrentPage('/announcements') ? MCMASTER_COLORS.gold : 'inherit',
+                }
+              }}
+            >
               Announcements
             </Button>
             {role !== "commissioner" && (
-              <Button color="inherit" href={`/team/${teamId}`}>
+              <Button 
+              color="inherit" 
+              href={`/team/${teamId}`}
+              sx={{ 
+                color: isCurrentPage(`/team/${teamId}`) ? MCMASTER_COLORS.gold : 'inherit',
+                '&:hover': {
+                  color: isCurrentPage(`/team/${teamId}`) ? MCMASTER_COLORS.gold : 'inherit',
+                }
+              }}
+            >
                 My Team
               </Button>
             )}
-            <Button color="inherit" href="/schedule">
+            <Button 
+              color="inherit" 
+              href="/schedule"
+              sx={{ 
+                color: isCurrentPage('/schedule') ? MCMASTER_COLORS.gold : 'inherit',
+                '&:hover': {
+                  color: isCurrentPage('/schedule') ? MCMASTER_COLORS.gold : 'inherit',
+                }
+              }}
+            >
               Schedule
             </Button>
-            <Button color="inherit" href="/standings">
+            <Button 
+              color="inherit" 
+              href="/standings"
+              sx={{ 
+                color: isCurrentPage('/standings') ? MCMASTER_COLORS.gold : 'inherit',
+                '&:hover': {
+                  color: isCurrentPage('/standings') ? MCMASTER_COLORS.gold : 'inherit',
+                }
+              }}
+            >
               Standings
             </Button>
-            <Button color="inherit" href="/info">
+            <Button 
+              color="inherit" 
+              href="/info"
+              sx={{ 
+                color: isCurrentPage('/info') ? MCMASTER_COLORS.gold : 'inherit',
+                '&:hover': {
+                  color: isCurrentPage('/info') ? MCMASTER_COLORS.gold : 'inherit',
+                }
+              }}
+            >
               Useful Info
             </Button>
-            <Button color="inherit" href="/documentation">
+            <Button 
+              color="inherit" 
+              href="/documentation"
+              sx={{ 
+                color: isCurrentPage('/documentation') ? MCMASTER_COLORS.gold : 'inherit',
+                '&:hover': {
+                  color: isCurrentPage('/documentation') ? MCMASTER_COLORS.gold : 'inherit',
+                }
+              }}
+            >
               FAQ
             </Button>
             {role === "commissioner" && (
-              <Button color="inherit" href="/manage">
+              <Button 
+              color="inherit" 
+              href="/manage"
+              sx={{ 
+                color: isCurrentPage('/manage') ? MCMASTER_COLORS.gold : 'inherit',
+                '&:hover': {
+                  color: isCurrentPage('/manage') ? MCMASTER_COLORS.gold : 'inherit',
+                }
+              }}
+            >
                 Manage
               </Button>
             )}
