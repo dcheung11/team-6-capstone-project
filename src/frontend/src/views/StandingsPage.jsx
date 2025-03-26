@@ -35,10 +35,14 @@ export default function StandingsPage() {
     try {
       const data = await getAllSeasons();
       
-      // Sort seasons: ongoing first, then archived
+      // Sort seasons: first by status (ongoing first), then by start date (newest first)
       const sortedSeasons = data.seasons.sort((a, b) => {
-        if (a.archived === b.archived) return 0;
-        return a.archived ? 1 : -1;
+        // First sort by status
+        if (a.status !== b.status) {
+          return a.status === "archived" ? 1 : -1;
+        }
+        // Then sort by start date 
+        return new Date(b.startDate) - new Date(a.startDate);
       });
       
       setSeasons(sortedSeasons);
@@ -85,7 +89,7 @@ export default function StandingsPage() {
               >
                 {seasons.map((season) => (
                   <MenuItem key={season._id} value={season._id}>
-                    {season.name}{season.status === "archived" ? " (Archived)" : ""}
+                    {season.name} {season.status === "archived" ? " (Archived)" : ""}
                   </MenuItem>
                 ))}
               </Select>
