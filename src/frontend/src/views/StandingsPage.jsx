@@ -8,6 +8,7 @@ import {
   MenuItem,
   FormControl,
   Box,
+  InputLabel,
 } from "@mui/material";
 import NavBar from "../components/NavBar";
 import StandingsTable from "../components/StandingsTable";
@@ -64,7 +65,10 @@ export default function StandingsPage() {
           <Box>
             {/* Season Dropdown */}
             <FormControl sx={{ minWidth: 180, m: 2 }}>
+              <InputLabel id="season-select-label">Season</InputLabel>
               <Select
+                labelId="season-select-label"
+                label="Season"
                 value={selectedSeason}
                 onChange={(e) => {
                   const seasonId = e.target.value;
@@ -78,7 +82,7 @@ export default function StandingsPage() {
               >
                 {seasons.map((season) => (
                   <MenuItem key={season._id} value={season._id}>
-                    {season.name}
+                    {season.name} {season.status === "archived" ? " (Archived)" : ""}
                   </MenuItem>
                 ))}
               </Select>
@@ -86,7 +90,10 @@ export default function StandingsPage() {
 
             {/* Division Dropdown */}
             <FormControl sx={{ minWidth: 180, m: 2 }}>
+              <InputLabel id="division-select-label">Division</InputLabel>
               <Select
+                labelId="division-select-label"
+                label="Division"
                 value={selectedDivision}
                 onChange={(e) => setSelectedDivision(e.target.value)}
               >

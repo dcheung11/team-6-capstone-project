@@ -16,12 +16,22 @@ import {
 } from "@mui/material";
 import { getTeams } from "../api/team";
 
-export default function ContactInfoTable({ currentSeasonId }) {
+// McMaster colors
+const MCMASTER_COLORS = {
+  maroon: '#7A003C',
+  grey: '#5E6A71',
+  gold: '#FDBF57',
+  lightGrey: '#F5F5F5',
+};
+
+export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedDivision, setSelectedDivision] = useState('all');
   const [divisions, setDivisions] = useState([]);
+  const [seasons, setSeasons] = useState([]);
+  const [selectedSeason, setSelectedSeason] = useState(currentSeasonId);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,19 +73,59 @@ export default function ContactInfoTable({ currentSeasonId }) {
   }, [currentSeasonId]);
 
   if (loading) {
-    return <Typography>Loading Contact Info...</Typography>;
+    return (
+      <Box sx={{ 
+        minHeight: '1000px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: MCMASTER_COLORS.lightGrey
+      }}>
+        <Typography>Loading Contact Info...</Typography>
+      </Box>
+    );
   }
 
   if (error) {
-    return <Typography color="error">Error: {error}</Typography>;
+    return (
+      <Box sx={{ 
+        minHeight: '1000px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: MCMASTER_COLORS.lightGrey
+      }}>
+        <Typography color="error">Error: {error}</Typography>
+      </Box>
+    );
   }
 
   if (!currentSeasonId) {
-    return <Typography>Loading season information...</Typography>;
+    return (
+      <Box sx={{ 
+        minHeight: '1000px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: MCMASTER_COLORS.lightGrey
+      }}>
+        <Typography>Loading season information...</Typography>
+      </Box>
+    );
   }
 
   if (!teams || teams.length === 0) {
-    return <Typography>No team contact info available for the current season.</Typography>;
+    return (
+      <Box sx={{ 
+        minHeight: '1000px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: MCMASTER_COLORS.lightGrey
+      }}>
+        <Typography>No team contact info available for the current season.</Typography>
+      </Box>
+    );
   }
 
   const filteredTeams = selectedDivision === 'all' 
@@ -84,21 +134,45 @@ export default function ContactInfoTable({ currentSeasonId }) {
 
   return (
     <Box>
-      <FormControl sx={{ mb: 2, minWidth: 200 }}>
-        <InputLabel>Division</InputLabel>
-        <Select
-          value={selectedDivision}
-          label="Division"
-          onChange={(e) => setSelectedDivision(e.target.value)}
-        >
-          <MenuItem value="all">All Divisions</MenuItem>
-          {divisions.map((division) => (
-            <MenuItem key={division} value={division}>
-              {division}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+        {/* Season Dropdown */}
+        {allSeasons && (
+          <FormControl sx={{ minWidth: 200 }}>
+            <InputLabel id="season-select-label">Season</InputLabel>
+            <Select
+              labelId="season-select-label"
+              label="Season"
+              value={selectedSeason}
+              onChange={(e) => setSelectedSeason(e.target.value)}
+              sx={{ bgcolor: 'white' }}
+            >
+              {seasons.map((season) => (
+                <MenuItem key={season._id} value={season._id}>
+                  {season.name} {season.status === "archived" ? " (Archived)" : ""}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
+
+        {/* Division Dropdown */}
+        <FormControl sx={{ minWidth: 200 }}>
+          <InputLabel>Division</InputLabel>
+          <Select
+            value={selectedDivision}
+            label="Division"
+            onChange={(e) => setSelectedDivision(e.target.value)}
+            sx={{ bgcolor: 'white' }}
+          >
+            <MenuItem value="all">All Divisions</MenuItem>
+            {divisions.map((division) => (
+              <MenuItem key={division} value={division}>
+                {division}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
 
       <TableContainer component={Paper}>
         <Table>

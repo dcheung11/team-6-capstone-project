@@ -252,9 +252,20 @@ export default function ScheduleTable(props) {
               pattern: "[0-9]*",
               min: 0,
               max: 99,
+              style: { color: 'inherit' },
             }}
-            sx={{ width: "60px" }} // Set the width for compact appearance
-            disabled={!isEditting || isDefaultLoss} // Disable if the score is submitted or default loss was checked
+            sx={{ 
+              width: "60px",
+              "& .Mui-disabled": {
+                WebkitTextFillColor: 'inherit',
+                color: 'inherit',
+              },
+              "& .MuiInputBase-input.Mui-disabled": {
+                WebkitTextFillColor: 'inherit',
+                color: 'inherit',
+              }
+            }}
+            disabled={!isEditting || isDefaultLoss}
           />
         );
       },
@@ -285,9 +296,20 @@ export default function ScheduleTable(props) {
               pattern: "[0-9]*",
               min: 0,
               max: 99,
+              style: { color: 'inherit' },
             }}
-            sx={{ width: "60px" }} // Set the width for compact appearance
-            disabled={!isEditting || isDefaultLoss} // Disable if the score is submitted
+            sx={{ 
+              width: "60px",
+              "& .Mui-disabled": {
+                WebkitTextFillColor: 'inherit',
+                color: 'inherit',
+              },
+              "& .MuiInputBase-input.Mui-disabled": {
+                WebkitTextFillColor: 'inherit',
+                color: 'inherit',
+              }
+            }}
+            disabled={!isEditting || isDefaultLoss}
           />
         );
       },
