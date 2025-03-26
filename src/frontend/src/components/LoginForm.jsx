@@ -122,7 +122,7 @@ export default function LoginForm() {
           fullWidth
           id="email"
           placeholder="Type your e-mail"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value.toLowerCase())}
         />
       </Box>
 
@@ -158,7 +158,7 @@ export default function LoginForm() {
         </Box> */}
       </Box>
 
-      {!loginState && (
+      {/* {!loginState && (
         <>
           <Typography
             sx={{
@@ -203,7 +203,7 @@ export default function LoginForm() {
             </Typography>
           </Box>
         </>
-      )}
+      )} */}
 
       <Button
         variant="contained"
@@ -213,7 +213,7 @@ export default function LoginForm() {
           borderRadius: 2,
         }}
         onClick={handleSubmit}
-        disabled={!loginState && !waiverConfirmed}
+        // disabled={!loginState && !waiverConfirmed}
       >
         {loginState ? "Login" : "Sign Up"}
       </Button>
@@ -235,7 +235,7 @@ export default function LoginForm() {
         </Button>
       </Typography>
       
-      {!loginState && !waiverConfirmed && (
+      {/* {!loginState && !waiverConfirmed && (
         <Typography 
           sx={{ 
             color: 'error.main', 
@@ -245,7 +245,7 @@ export default function LoginForm() {
         >
           Please complete the waiver form and check the confirmation box to enable sign up
         </Typography>
-      )}
+      )} */}
     </Box>
   );
 }

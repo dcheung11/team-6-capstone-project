@@ -195,107 +195,92 @@ export default function HomePage() {
             </AccordionDetails>
           </Accordion>
         </Container>
-        <Container maxWidth="lg" sx={{ pt: 2 }}>
-          <Typography
-            variant="h3"
-            sx={{
-              fontSize: { xs: "2rem", md: "3rem" },
-              fontWeight: 700,
-              mt: 4,
-            }}
-          >
-            Team Invitations
-          </Typography>
-          {player && player.invites && player.invites.length === 0 ? (
-            <NoDataCard text="No invitations to show." />
-          ) : (
-            <NotificationsRow teamInvites={player && player.invites} />
-          )}
-        </Container>
-        {/* Announcements Section */}
-        <Box sx={{ py: 2 }}>
-          <Container maxWidth="lg">
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                mb: 4,
-              }}
-            >
-              <Typography
-                variant="h3"
+        <Container maxWidth="lg" sx={{ pt: 10 }}>
+          <Box sx={{ py: 2 }}>
+            <Container maxWidth="lg">
+              <Box
                 sx={{
-                  fontSize: { xs: "2rem", md: "3rem" },
-                  fontWeight: 700,
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  mb: 4,
                 }}
               >
-                Announcements
-              </Typography>
-            </Box>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontSize: { xs: "2rem", md: "3rem" },
+                    fontWeight: 700,
+                    mb: 2,
+                  }}
+                >
+                  Announcements
+                </Typography>
+              </Box>
 
-            <Grid container spacing={4}>
-              {announcements.length === 0 ? (
-                <Typography>No announcements available.</Typography>
-              ) : (
-                announcements.map((announcement) => (
-                  <Grid item xs={12} md={4} key={announcement._id}>
-                    <StyledCard>
-                      <CardContent
-                        sx={{
-                          flexGrow: 1,
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Typography
-                          gutterBottom
-                          variant="h4"
-                          component="h2"
+              <Grid container spacing={4}>
+                {announcements.length === 0 ? (
+                  <Typography>No announcements available.</Typography>
+                ) : (
+                  announcements.map((announcement) => (
+                    <Grid item xs={12} md={4} key={announcement._id}>
+                      <StyledCard>
+                        <CardContent
                           sx={{
-                            fontWeight: 700,
+                            flexGrow: 1,
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "space-between",
                           }}
                         >
-                          {announcement.title}
-                        </Typography>
-                        <Typography
-                          variant="body"
-                          color="text.secondary"
-                          sx={{ mb: 2 }}
-                        >
-                          {announcement.content.length > 100
-                            ? `${announcement.content.substring(0, 100)}...`
-                            : announcement.content}
-                        </Typography>
-                        <Button
-                          variant="contained"
-                          sx={{
-                            bgcolor: "common.black",
-                            color: "common.white",
-                            borderRadius: "50px",
-                            width: "fit-content",
-                            "&:hover": {
-                              bgcolor: "#7A003C",
-                              opacity: 0.9,
-                            },
-                          }}
-                          onClick={() =>
-                            navigate(`/announcements`, {
-                              state: { selectedAnnouncement: announcement },
-                            })
-                          }
-                        >
-                          Read More
-                        </Button>
-                      </CardContent>
-                    </StyledCard>
-                  </Grid>
-                ))
-              )}
-            </Grid>
-          </Container>
-        </Box>
+                          <Typography
+                            gutterBottom
+                            variant="h4"
+                            component="h2"
+                            sx={{
+                              fontWeight: 700,
+                            }}
+                          >
+                            {announcement.title}
+                          </Typography>
+                          <Typography
+                            variant="body"
+                            color="text.secondary"
+                            sx={{ mb: 2 }}
+                          >
+                            {announcement.content.length > 100
+                              ? `${announcement.content.substring(0, 100)}...`
+                              : announcement.content}
+                          </Typography>
+                          <Button
+                            variant="contained"
+                            sx={{
+                              bgcolor: "common.black",
+                              color: "common.white",
+                              borderRadius: "50px",
+                              width: "fit-content",
+                              "&:hover": {
+                                bgcolor: "#7A003C",
+                                opacity: 0.9,
+                              },
+                            }}
+                            onClick={() =>
+                              navigate(`/announcements`, {
+                                state: { selectedAnnouncement: announcement },
+                              })
+                            }
+                          >
+                            Read More
+                          </Button>
+                        </CardContent>
+                      </StyledCard>
+                    </Grid>
+                  ))
+                )}
+              </Grid>
+            </Container>
+          </Box>
+        </Container>
       </Box>
     </>
   );
