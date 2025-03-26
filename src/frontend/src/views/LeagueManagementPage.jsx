@@ -265,6 +265,12 @@ const LeagueManagementPage = () => {
                   <Typography>No ongoing seasons</Typography>
               )}
             </TabPanel>
+            <TabPanel value="contacts">
+              <InfoText>
+                View contact information for team captains across all seasons.
+              </InfoText>
+              <CommissionerContactInfo seasons={seasons} />
+            </TabPanel>
           </TabContext>
         </Box>
       </Container>
