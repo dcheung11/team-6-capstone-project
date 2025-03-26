@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getStandingsByDivision } from "../api/standings"; 
-import { getOngoingSeasons } from "../api/season"; 
+import { getAllSeasons } from "../api/season"; 
 import {
   Typography,
   Container,
@@ -34,13 +34,24 @@ export default function StandingsPage() {
 
   const fetchSeasons = async () => {
     try {
-      const data = await getOngoingSeasons();
-      setSeasons(data.seasons);
+      const data = await getAllSeasons();
+      
+      // Sort seasons: first by status (ongoing first), then by start date (newest first)
+      const sortedSeasons = data.seasons.sort((a, b) => {
+        // First sort by status
+        if (a.status !== b.status) {
+          return a.status === "archived" ? 1 : -1;
+        }
+        // Then sort by start date 
+        return new Date(b.startDate) - new Date(a.startDate);
+      });
+      
+      setSeasons(sortedSeasons);
   
       // Set default season and divisions
-      setSelectedSeason(data.seasons[0]._id);
-      setDivisions(data.seasons[0].divisions || []);
-      setSelectedDivision(data.seasons[0].divisions[0]?._id || "");
+      setSelectedSeason(sortedSeasons[0]._id);
+      setDivisions(sortedSeasons[0].divisions || []);
+      setSelectedDivision(sortedSeasons[0].divisions[0]?._id || "");
     } catch (error) {
       console.error("Error fetching seasons:", error);
     }
@@ -115,8 +126,8 @@ export default function StandingsPage() {
             draw, 0 points for a loss.
           </Typography>
           <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
-            - W - Wins, D - Draws, L - Losses, PTS - Points, RS - Runs Scored,
-            RA - Runs Allowed.
+            - PTS - Points, W - Wins, D - Draws, L - Losses, RS - Runs Scored,
+            RA - Runs Allowed, Run Diff - Run Differential.
           </Typography>
         </Container>
       </Box>

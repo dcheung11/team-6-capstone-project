@@ -14,7 +14,7 @@ import {
   MenuItem,
   Box
 } from "@mui/material";
-import { getTeams } from "../api/team";
+import { getTeams, getSeasons } from "../api/team";
 
 // McMaster colors
 const MCMASTER_COLORS = {
@@ -71,6 +71,22 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
     };
     fetchData();
   }, [currentSeasonId]);
+
+  // all seasons provided if we're in commissioner view 
+  useEffect(() => {
+    if (allSeasons) {
+      // Sort seasons: ongoing first, then archived, then by start date
+      const sortedSeasons = allSeasons.sort((a, b) => {
+        // First sort by status
+        if (a.status !== b.status) {
+          return a.status === "archived" ? 1 : -1;
+        }
+        // Then sort by start date
+        return new Date(b.startDate) - new Date(a.startDate);
+      });
+      setSeasons(sortedSeasons);
+    }
+  }, [allSeasons]);
 
   if (loading) {
     return (
@@ -144,7 +160,6 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
               label="Season"
               value={selectedSeason}
               onChange={(e) => setSelectedSeason(e.target.value)}
-              sx={{ bgcolor: 'white' }}
             >
               {seasons.map((season) => (
                 <MenuItem key={season._id} value={season._id}>
@@ -162,7 +177,6 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
             value={selectedDivision}
             label="Division"
             onChange={(e) => setSelectedDivision(e.target.value)}
-            sx={{ bgcolor: 'white' }}
           >
             <MenuItem value="all">All Divisions</MenuItem>
             {divisions.map((division) => (
