@@ -126,7 +126,7 @@ export default function StandingsPage() {
             draw, 0 points for a loss.
           </Typography>
           <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
-            - W - Wins, D - Draws, L - Losses, PTS - Points, RS - Runs Scored,
+            - PTS - Points, W - Wins, D - Draws, L - Losses, RS - Runs Scored,
             RA - Runs Allowed, Run Diff - Run Differential.
           </Typography>
         </Container>
