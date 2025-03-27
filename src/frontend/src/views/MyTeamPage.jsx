@@ -201,7 +201,8 @@ export default function MyTeamPage() {
                       p: 2,
                       bgcolor: 'white',
                       borderRadius: 1,
-                      boxShadow: 1,
+                      //boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                      border: '1px solid rgba(0,0,0,0.1)',
                       '& .stat-label': {
                         color: MCMASTER_COLOURS.grey,
                         fontWeight: "bold",
@@ -230,6 +231,8 @@ export default function MyTeamPage() {
                       </Typography>
                     </Stack>
                   </Stack>
+
+                  <Divider sx={{ my: 4 }} />
 
                   {/* For captain view */}
                   {(player.team.captainId.id === playerId ||
