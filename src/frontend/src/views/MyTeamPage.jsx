@@ -140,7 +140,7 @@ export default function MyTeamPage() {
         ) : player && player.team ? (
           <>
             <TabContext value={teamTabValue}>
-              {player.team.captainId.id === playerId && ( // Only show tabs for captains
+              {player.team?.captainId?.id === playerId && ( // Only show tabs for captains
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                   {/* AI Generated - Tablist styling */}
                   <TabList 
@@ -154,13 +154,13 @@ export default function MyTeamPage() {
                       }
                     }}
                   >
-                    <Tab label={player.team.name} value={player.team.id} />
+                    <Tab label={player?.team?.name} value={player?.team?.id} />
                     <Tab label="Captain Contacts" value="contacts" />
                   </TabList>
                 </Box>
               )}
 
-              <TabPanel value={player.team.id}>
+              <TabPanel value={player.team?.id}>
                 <Box>
                   <Typography 
                     variant="h4" 
@@ -175,8 +175,8 @@ export default function MyTeamPage() {
                       gap: 1
                     }}
                   >
-                    {player.team.name}
-                    {player.team.captainId.id === playerId && (
+                    {player.team?.name}
+                    {player.team?.captainId?.id === playerId && (
                       <Typography
                         component="span"
                         sx={{
@@ -215,12 +215,12 @@ export default function MyTeamPage() {
                   >
                     <Stack direction="row" spacing={1} alignItems="center">
                       <Typography className="stat-label">Season:</Typography>
-                      <Typography className="stat-value">{player.team.seasonId.name}</Typography>
+                      <Typography className="stat-value">{player.team?.seasonId?.name}</Typography>
                     </Stack>
 
                     <Stack direction="row" spacing={1} alignItems="center">
                       <Typography className="stat-label">Division:</Typography>
-                      <Typography className="stat-value">{player.team.divisionId.name}</Typography>
+                      <Typography className="stat-value">{player.team?.divisionId?.name}</Typography>
                     </Stack>
 
                     <Stack direction="row" spacing={1} alignItems="center">
