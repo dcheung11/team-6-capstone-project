@@ -287,10 +287,9 @@ export default function HomePage() {
               {/* Announcements Section */}
               <Box
                 sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  mb: 4,
+                  fontSize: { xs: "2rem", md: "3rem" },
+                  fontWeight: 700,
+                  mb: 2,
                 }}
               >
                 <Typography
