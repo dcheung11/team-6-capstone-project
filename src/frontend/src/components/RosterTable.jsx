@@ -7,12 +7,40 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
+
+// McMaster colours - AI generated
+const MCMASTER_COLOURS = {
+  maroon: '#7A003C',
+  grey: '#5E6A71',
+  gold: '#FDBF57',
+  lightGrey: '#F5F5F5',
+};
 
 export default function RosterTable(props) {
   return (
-    <TableContainer component={Paper} sx={{ mb: 2, maxHeight: "50vh" }}>
-      <Table>
+    // Styling for the roster table - AI assisted
+    <TableContainer 
+      component={Paper}
+      sx={{
+        boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+        border: '1px solid rgba(0,0,0,0.1)',
+        borderRadius: '8px',
+        mb: 2,
+        maxHeight: "50vh",
+        '& .MuiTableCell-root': {
+          px: 2,
+          py: 1.5,
+        },
+        '& .MuiTableCell-head': {
+          backgroundColor: MCMASTER_COLOURS.maroon,
+          color: 'white',
+          fontWeight: 600,
+        },
+      }}
+    >
+      <Table stickyHeader>
         <TableHead>
           <TableRow>
             <TableCell>Player</TableCell>
@@ -20,17 +48,41 @@ export default function RosterTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
+          {/* Styling for the table rows - AI generated */}
           {props.roster.map((player, index) => (
-            <TableRow key={index}>
-              {props.captain.id === player.id ? (
-                <TableCell>
-                  {player.firstName} {player.lastName} (Captain){" "}
-                </TableCell>
-              ) : (
-                <TableCell>
-                  {player.firstName} {player.lastName}
-                </TableCell>
-              )}
+            <TableRow 
+              key={index}
+              sx={{
+                '&:nth-of-type(odd)': {
+                  backgroundColor: `${MCMASTER_COLOURS.maroon}05`,
+                },
+                '&:hover': {
+                  backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
+                },
+              }}
+            >
+              <TableCell>
+                {props.captain.id === player.id ? (
+                  <Typography sx={{ 
+                    color: MCMASTER_COLOURS.maroon,
+                    fontWeight: 600,
+                  }}>
+                    {player.firstName} {player.lastName}
+                    <Typography 
+                      component="span" 
+                      sx={{ 
+                        ml: 0.5,
+                        color: MCMASTER_COLOURS.grey,
+                        fontStyle: 'italic',
+                      }}
+                    >
+                      (Captain)
+                    </Typography>
+                  </Typography>
+                ) : (
+                  `${player.firstName} ${player.lastName}`
+                )}
+              </TableCell>
               <TableCell>{player.email}</TableCell>
             </TableRow>
           ))}

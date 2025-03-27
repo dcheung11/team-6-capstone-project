@@ -96,6 +96,7 @@ export default function NotificationsRow({ notifications: initialNotifications, 
     const isClickable = notification?.type === "reschedule request" || isTeamInvite;
   
     return (
+       // Styling for the notification card (all sx values) - AI generated
       <Paper
         elevation={0}
         sx={{
@@ -108,7 +109,7 @@ export default function NotificationsRow({ notifications: initialNotifications, 
           border: `2px solid ${borderColor}`,
           borderRadius: 4,
           transition: 'all 0.2s ease-in-out',
-          // Hover effect only for clickable cards
+          // Hover effect only for clickable cards 
           ...(isClickable && {
             '&:hover': {
               boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
