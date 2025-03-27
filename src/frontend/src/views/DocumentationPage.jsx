@@ -21,6 +21,8 @@ import reschedule6 from "../assets/documentation/reschedule6.png"
 import reschedule7 from "../assets/documentation/reschedule7.png"
 import reschedule8 from "../assets/documentation/reschedule8.png"
 import reschedule9 from "../assets/documentation/reschedule9.png"
+import contacts1 from "../assets/documentation/contacts1.png"
+import contacts2 from "../assets/documentation/contacts2.png"
 
 export default function DocumentationPage() {
     return (
@@ -57,6 +59,9 @@ export default function DocumentationPage() {
         </li>
         <li>
             <a href="#respond-to-reschedule-requests" className="text-blue-600 hover:underline">Respond to Reschedule Requests</a>
+        </li>
+        <li>
+            <a href="#contact-information" className="text-blue-600 hover:underline">Contact Information</a>
         </li>
     </ul>
 </div>
@@ -240,6 +245,25 @@ export default function DocumentationPage() {
                         className="w-full mb-4" 
                         style={{ width: "51%", height: "auto", border: "4px solid black" }} 
                     />
+        
+        <hr style={{ border: "1px solid #000", margin: "20px 0" }} />
+
+<h5 id="contact-information" className="text-4xl font-bold mb-4">Contact Information</h5>
+    <p>The captain is able to view the contact information of the captains of other teams.</p>
+    <p>Navigate to the my team page.</p>
+            <img 
+                    src={contacts1} 
+                    alt="contacts1" 
+                    className="w-full mb-4" 
+                    style={{ width: "51%", height: "auto", border: "4px solid black" }} 
+                />
+    <p>Click "captain contacts". Here, you are able to access all contact information easily if ever needed.</p>
+        <img 
+                    src={contacts2} 
+                    alt="contacts2" 
+                    className="w-full mb-4" 
+                    style={{ width: "51%", height: "auto", border: "4px solid black" }} 
+                />
                     
             </Container>
         </div>
