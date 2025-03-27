@@ -205,6 +205,8 @@ export default function NotificationsRow({ notifications: initialNotifications, 
                 fontWeight: 400,
                 border: isRead ? `2px solid ${MCMASTER_COLOURS.grey}` : "none",
                 borderRadius: "12px",
+                position: "relative",
+                top: -12
               }}
             />
           </Stack>
