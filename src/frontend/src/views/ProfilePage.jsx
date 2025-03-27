@@ -130,7 +130,7 @@ export default function ProfilePage() {
                   <TextField
                     fullWidth
                     placeholder="First Name"
-                    name="firtName"
+                    name="firstName"
                     value={player.firstName}
                     onChange={handleChange}
                     // If NOT editMode, we set readOnly
@@ -200,6 +200,11 @@ export default function ProfilePage() {
                     value={player.phoneNumber}
                     onChange={handleChange}
                     InputProps={{ readOnly: !editMode }}
+                    inputProps={{
+                      maxLength: 10, // Limits to 9 characters
+                      pattern: "[0-9]*", // Ensures only numbers
+                    }}
+                    type="tel" // Ensures numeric keyboard on mobile
                     sx={{
                       ...(!editMode && {
                         "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":

@@ -1,7 +1,28 @@
 import React from "react";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
+import { useAuth } from "../hooks/AuthProvider";
+import { getPlayerById } from "../api/player";
+import { useState, useEffect } from "react";
 
 export const SeasonsCard = (props) => {
+  const auth = useAuth();
+  const [player, setPlayer] = useState(null);
+
+  useEffect(() => {
+    const fetchPlayerById = async (pid) => {
+      try {
+        const data = await getPlayerById(pid);
+        setPlayer(data.player);
+      } catch (err) {
+        console.log("Failed to fetch player");
+      }
+    };
+
+    if (auth.playerId) {
+      fetchPlayerById(auth.playerId);
+    }
+  }, [auth.playerId]);
+
   if (!props.seasons || props.seasons.length === 0) {
     return (
       <Box sx={{ mb: 2, width: "100%" }}>
@@ -46,7 +67,7 @@ export const SeasonsCard = (props) => {
                   {season.registeredTeams.length}
                 </Typography>
               </Box>
-              {season.status === "upcoming" && (
+              {season.status === "upcoming" && !player?.team && (
                 <Button
                   href={`/registerteam/${season.id}`}
                   variant="contained"
@@ -65,7 +86,11 @@ export const SeasonsCard = (props) => {
                 >
                   Register Team
                 </Button>
-                // Todo : if player is on the team, show Registered text instedad of button and maybe a link to the team.
+              )}
+              {season.status === "upcoming" && player?.team && (
+                <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+                  You are already registered on a team for this season.
+                </Typography>
               )}
             </CardContent>
           </Card>
