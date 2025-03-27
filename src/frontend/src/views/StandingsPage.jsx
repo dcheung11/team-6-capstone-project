@@ -198,19 +198,27 @@ export default function StandingsPage() {
               </FormControl>
             </Stack>
 
-            {/* Standings Table */}
-            <StandingsTable standings={standings} />
+          {/* Standings Table */}
+          {standings.length > 0 ? (
+            <Box>
+              <StandingsTable standings={standings} />
 
-            {/* Footnotes */}
-            <Stack spacing={1} sx={{ mt: 3 }}>
-              <Typography variant="body2" color={MCMASTER_COLOURS.grey}>
-                - Points are awarded as follows: 2 points for a win, 1 point for a draw, 0 points for a loss.
+              {/* Footnotes */}
+              <Typography variant="body2" color="textSecondary" sx={{ mt: 2 }}>
+                - Points are awarded as follows: 2 points for a win, 1 point for a
+                draw, 0 points for a loss.
               </Typography>
-              <Typography variant="body2" color={MCMASTER_COLOURS.grey}>
-                - PTS - Points, W - Wins, D - Draws, L - Losses, RS - Runs Scored, RA - Runs Allowed, Run Diff - Run Differential.
+              <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+                - PTS - Points, W - Wins, D - Draws, L - Losses, RS - Runs Scored,
+                RA - Runs Allowed, Run Diff - Run Differential.
               </Typography>
-            </Stack>
-          </Box>
+            </Box>
+            ) : (
+            <Typography variant="body1" color="textSecondary" sx={{ mt: 2 }} align='center'>
+              No teams in division
+            </Typography>
+          )}
+          </Box> 
         </Container>
       </Box>
     </div>

@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Container,
@@ -77,19 +76,25 @@ const LeagueManagementPage = () => {
 
     const fetchOngoingSeasons = async () => {
       try {
+        setLoading(true);
         const data = await getOngoingSeasons();
         setOngoingSeasons(data.seasons);
       } catch (err) {
         setError(err.message || "Failed to fetch ongoing seasons");
+      } finally {
+        setLoading(false);
       }
     };
 
     const fetchArchivedSeasons = async () => {
       try {
+        setLoading(true);
         const data = await getArchivedSeasons();
         setArchivedSeasons(data.seasons);
       } catch (err) {
         setError(err.message || "Failed to fetch ongoing seasons");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -215,7 +220,7 @@ const LeagueManagementPage = () => {
                 <Tab label="Contact Info" value="contacts" disabled={isTabLoading} />
               </TabList>
             </Box>
-
+            
             {/* Loading overlay component - AI generated */}
             <Box sx={{ position: 'relative' }}>
               {isTabLoading && (
@@ -249,10 +254,10 @@ const LeagueManagementPage = () => {
               )}
 
               <TabPanel value="manage" sx={{ p: { xs: 2, md: 3 } }}>
-                <InfoText>
-                  Create new seasons and delete seasons that are no longer needed.
-                </InfoText>
-                <Typography 
+              <InfoText>
+                Create new seasons and delete seasons that are no longer needed.
+              </InfoText>
+              <Typography 
                   variant="h6" 
                   sx={{ 
                     mb: 3,
@@ -260,18 +265,22 @@ const LeagueManagementPage = () => {
                     fontWeight: 600
                   }}
                 >
-                  Create New Season
-                </Typography>
-                <CreateSeasonForm seasons={seasons} setSeasons={setSeasons} />
+                Create New Season
+              </Typography>
+              <CreateSeasonForm seasons={seasons} setSeasons={setSeasons} />
+              {seasons && seasons.length > 0 ? (
                 <SeasonsTable seasons={seasons} setSeasons={setSeasons} />
-              </TabPanel>
-
-              <TabPanel value="upcoming" sx={{ p: { xs: 2, md: 3 } }}>
-                <InfoText>
-                  Manage and launch seasons that are currently open for registration. 
-                  Seasons will automatically launch on the start date.
-                </InfoText>
-                {!!upcomingSeasons && upcomingSeasons.map((season) => (
+              ) : (
+                <Typography>No seasons available</Typography>
+              )}
+            </TabPanel>
+            <TabPanel value="upcoming" sx={{ p: { xs: 2, md: 3 } }}>
+              <InfoText>
+                Manage and launch seasons that are currently open for
+                registration. Seasons will automatically launch on the start date.
+              </InfoText>
+              {upcomingSeasons && upcomingSeasons.length > 0 ? (
+                upcomingSeasons.map((season) => (
                   <Accordion 
                     key={season.id}
                     sx={{
@@ -319,7 +328,10 @@ const LeagueManagementPage = () => {
                       />
                     </AccordionDetails>
                   </Accordion>
-                ))}
+                ))
+              ) : (
+                <Typography>No upcoming seasons</Typography>
+              )}
               </TabPanel>
 
               <TabPanel value="ongoing" sx={{ p: { xs: 2, md: 3 } }}>
@@ -327,9 +339,10 @@ const LeagueManagementPage = () => {
                   Input scores and view the schedules and results of ongoing seasons. 
                   Seasons will be automatically archived after the end date.
                 </InfoText>
-                {!!ongoingSeasons && ongoingSeasons.map((season) => (
+                {ongoingSeasons && ongoingSeasons.length > 0 ? ( 
+                  ongoingSeasons.map((season) => (
                   <Accordion 
-                    key={season.id}
+                    key={season.id} 
                     sx={{
                       mb: 2,
                       boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
@@ -371,15 +384,19 @@ const LeagueManagementPage = () => {
                       </Button>
                     </AccordionDetails>
                   </Accordion>
-                ))}
+                ))
+              ) : (
+                <Typography>No ongoing seasons</Typography>
+              )}
               </TabPanel>
 
               <TabPanel value="archived" sx={{ p: { xs: 2, md: 3 } }}>
                 <InfoText>
                   View schedules and results of past archived seasons.
                 </InfoText>
-                {!!archivedSeasons && archivedSeasons.map((season) => (
-                  <Accordion 
+                {!!archivedSeasons ? 
+                (archivedSeasons.map((season) => (
+                    <Accordion 
                     key={season.id}
                     sx={{
                       mb: 2,
@@ -390,16 +407,16 @@ const LeagueManagementPage = () => {
                       }
                     }}
                   >
-                    <AccordionSummary
-                      expandIcon={<ArrowDropDownIcon />}
-                      sx={{
+                      <AccordionSummary
+                        expandIcon={<ArrowDropDownIcon />}
+                        sx={{
                         backgroundColor: 'rgba(122, 0, 60, 0.03)',
                         '&:hover': {
                           backgroundColor: 'rgba(122, 0, 60, 0.05)',
                         }
                       }}
-                    >
-                      <Typography 
+                      >
+                        <Typography 
                         variant="h6"
                         sx={{ 
                           color: MCMASTER_COLOURS.maroon,
@@ -407,14 +424,17 @@ const LeagueManagementPage = () => {
                           fontSize: '1.1rem'
                         }}
                       >
-                        {season.name}
-                      </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails sx={{ p: 3 }}>
-                      <ScheduleTable schedule={season.schedule} archived />
-                    </AccordionDetails>
-                  </Accordion>
-                ))}
+                          {season.name}
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails sx={{ p: 3 }}>
+                        <ScheduleTable schedule={season.schedule} archived />
+                      </AccordionDetails>
+                    </Accordion>
+                  ))
+                ) : (
+                  <Typography>No ongoing seasons</Typography>
+              )}
               </TabPanel>
 
               <TabPanel value="contacts" sx={{ p: { xs: 2, md: 3 } }}>
