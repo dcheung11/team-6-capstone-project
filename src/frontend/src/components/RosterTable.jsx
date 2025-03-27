@@ -43,8 +43,9 @@ export default function RosterTable(props) {
       <Table stickyHeader>
         <TableHead>
           <TableRow>
-            <TableCell>Player</TableCell>
-            <TableCell>Email</TableCell>
+            <TableCell sx={{ width: '40%' }}>Player</TableCell>
+            <TableCell sx={{ width: '30%' }}>Email</TableCell>
+            <TableCell sx={{ width: '30%' }}>Phone Number</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -80,6 +81,7 @@ export default function RosterTable(props) {
                 )}
               </TableCell>
               <TableCell>{player.email}</TableCell>
+              <TableCell>{player.phoneNumber}</TableCell>
             </TableRow>
           ))}
         </TableBody>
