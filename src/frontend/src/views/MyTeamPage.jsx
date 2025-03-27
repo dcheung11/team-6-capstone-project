@@ -199,9 +199,34 @@ export default function MyTeamPage() {
                     sx={{ 
                       p: 2,
                       bgcolor: 'white',
-                      borderRadius: 1,
-                      //boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-                      border: '1px solid rgba(0,0,0,0.1)',
+                      // borderRadius: 1,
+                      // //boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                      // border: '1px solid rgba(0,0,0,0.1)',
+                      p: { md: 3 },
+                      borderRadius: 2,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                      position: 'relative',
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '3px',
+                        // AI Generated - Ombre bar styling and gradient effects
+                        background: `linear-gradient(to right, ${MCMASTER_COLOURS.maroon}, ${MCMASTER_COLOURS.gold})`,
+                        borderRadius: '2px 2px 0 0'
+                      },
+                      '&::after': {
+                        content: '""',
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: '3px',
+                        background: `linear-gradient(to right, ${MCMASTER_COLOURS.gold}, ${MCMASTER_COLOURS.maroon})`,
+                        borderRadius: '0 0 2px 2px'
+                      },
                       '& .stat-label': {
                         color: MCMASTER_COLOURS.grey,
                         fontWeight: "bold",
@@ -210,7 +235,8 @@ export default function MyTeamPage() {
                       '& .stat-value': {
                         fontSize: '1.1rem',
                         fontWeight: 500,
-                      }
+                      },
+                      
                     }}
                   >
                     <Stack direction="row" spacing={1} alignItems="center">
