@@ -11,6 +11,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Divider,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -28,6 +29,14 @@ import { getPlayerById } from "../api/player";
 import { useAuth } from "../hooks/AuthProvider";
 import NotificationsRow from "../components/NotificationsRow";
 import NoDataCard from "../components/NoDataCard";
+
+// McMaster colours - AI generated
+const MCMASTER_COLOURS = {
+  maroon: '#7A003C',
+  grey: '#5E6A71',
+  gold: '#FDBF57',
+  lightGrey: '#F5F5F5',
+};
 
 const StyledCard = styled(Card)(({ theme }) => ({
   height: "300px",
@@ -109,95 +118,173 @@ export default function HomePage() {
   return (
     <>
       <NavBar />
-      <Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
+      <Box sx={{ bgcolor: "#f5f5f5", minHeight: "100vh" }}>
         {loading && <LoadingOverlay loading={loading} />}
         {/* Hero Section */}
-        <Container maxWidth="lg" sx={{ pt: 8, pb: 4, width: "100%" }}>
-          <Grid container spacing={2} alignItems="center">
-            {/* Title and Welcome Message */}
-            <Grid item xs={8} md={8}>
-              <Typography
-                variant="h1"
-                sx={{
-                  fontSize: { xs: "3rem", md: "4rem" },
-                  fontWeight: 900,
-                  color: "text.primary",
-                  mb: 1,
-                }}
-              >
-                McMaster GSA
-              </Typography>
-              <Typography
-                variant="body1"
-                sx={{ color: "text.secondary", fontSize: "1.1rem" }}
-              >
-                Welcome to the McMaster Graduate Students Association Softball
-                League!
-              </Typography>
-            </Grid>
+        <Box sx={{ bgcolor: 'white', pb: 8, borderBottom: '1px solid rgba(0,0,0,0.1)' }}>
+          <Container maxWidth="lg" sx={{ pt: 10, width: "100%" }}>
+            <Grid container spacing={2} alignItems="center">
+              {/* Title and Welcome Message */}
+              <Grid item xs={8} md={8}>
+                <Typography
+                  variant="h1"
+                  sx={{
+                    fontSize: { xs: "3.5rem", md: "5rem" },
+                    fontWeight: 900,
+                    color: "black",
+                    mb: 2,
+                    lineHeight: 1.1,
+                  }}
+                >
+                  McMaster GSA
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{ 
+                    color: MCMASTER_COLOURS.grey, 
+                    fontSize: "1.2rem",
+                    maxWidth: "600px" 
+                  }}
+                >
+                  Welcome to the McMaster Graduate Students Association Softball League!
+                </Typography>
+              </Grid>
 
-            {/* Logo */}
-            <Grid
-              item
-              xs={4}
-              md={4}
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "center",
-              }}
-            >
-              <img
-                src={GSALogo}
-                alt="GSA Logo"
-                style={{
-                  width: "300px",
-                  height: "auto",
-                  objectFit: "contain",
-                  paddingBottom: "3px",
+              {/* Logo */}
+              <Grid
+                item
+                xs={4}
+                md={4}
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
                 }}
-              />
+              >
+                <img
+                  src={GSALogo}
+                  alt="GSA Logo"
+                  style={{
+                    width: "300px",
+                    height: "auto",
+                    objectFit: "contain",
+                    paddingBottom: "55px",
+                  }}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
-        <Container maxWidth="lg" sx={{ pt: 2 }}>
-          {/* Seasons Section */}
-          <Typography
-            variant="h3"
+          </Container>
+        </Box>
+
+        {/* Main Content */}
+        <Container maxWidth="lg" sx={{ py: 6 }}>
+          <Box
             sx={{
-              fontSize: { xs: "2rem", md: "3rem" },
-              fontWeight: 700,
-              mb: 2,
+              bgcolor: 'white',
+              borderRadius: 2,
+              boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+              border: '1px solid rgba(0,0,0,0.1)',
+              p: 4,
             }}
           >
-            Seasons
-          </Typography>
-          <Accordion defaultExpanded={true}>
-            <AccordionSummary
-              expandIcon={<ArrowDropDownIcon />}
-              id="upcoming-header"
+            {/* Seasons Section */}
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: { xs: "2.5rem", md: "3rem" },
+                fontWeight: 700,
+                mb: 3,
+                color: "black",
+                fontFamily: "inherit",
+              }}
             >
-              <Typography component="span">Upcoming Seasons</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <SeasonsCard seasons={upcomingSeasons} status="Upcoming" />
-            </AccordionDetails>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ArrowDropDownIcon />}
-              id="ongoing-header"
+              Seasons
+            </Typography>
+            <Accordion 
+              defaultExpanded={true}
+              sx={{
+                '&.MuiAccordion-root': {
+                  boxShadow: 'none',
+                  border: '1px solid rgba(0,0,0,0.1)',
+                  borderRadius: '8px',
+                  mb: 2,
+                  '&:before': {
+                    display: 'none',
+                  },
+                },
+                '& .MuiAccordionSummary-root': {
+                  minHeight: 56,
+                  backgroundColor: MCMASTER_COLOURS.lightGrey,
+                  borderRadius: '8px 8px 0 0',
+                  '&.Mui-expanded': {
+                    minHeight: 56,
+                    backgroundColor: MCMASTER_COLOURS.lightGrey,
+                  },
+                },
+                '& .MuiAccordionSummary-content': {
+                  margin: '12px 0',
+                  '&.Mui-expanded': {
+                    margin: '12px 0',
+                  },
+                },
+              }}
             >
-              <Typography component="span">Ongoing Seasons</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <SeasonsCard seasons={ongoingSeasons} status="Ongoing" />
-            </AccordionDetails>
-          </Accordion>
-        </Container>
-        <Container maxWidth="lg" sx={{ pt: 10 }}>
-          <Box sx={{ py: 2 }}>
-            <Container maxWidth="lg">
+              <AccordionSummary
+                expandIcon={<ArrowDropDownIcon />}
+                id="upcoming-header"
+              >
+                <Typography variant="h6" component="span" sx={{ fontWeight: 600, color: MCMASTER_COLOURS.maroon }}>
+                  Upcoming Seasons
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <SeasonsCard seasons={upcomingSeasons} status="Upcoming" />
+              </AccordionDetails>
+            </Accordion>
+            <Accordion
+              sx={{
+                '&.MuiAccordion-root': {
+                  boxShadow: 'none',
+                  border: '1px solid rgba(0,0,0,0.1)',
+                  borderRadius: '8px',
+                  '&:before': {
+                    display: 'none',
+                  },
+                },
+                '& .MuiAccordionSummary-root': {
+                  minHeight: 56,
+                  backgroundColor: MCMASTER_COLOURS.lightGrey,
+                  borderRadius: '8px 8px 0 0',
+                  '&.Mui-expanded': {
+                    minHeight: 56,
+                    backgroundColor: MCMASTER_COLOURS.lightGrey,
+                  },
+                },
+                '& .MuiAccordionSummary-content': {
+                  margin: '12px 0',
+                  '&.Mui-expanded': {
+                    margin: '12px 0',
+                  },
+                },
+              }}
+            >
+              <AccordionSummary
+                expandIcon={<ArrowDropDownIcon />}
+                id="ongoing-header"
+              >
+                <Typography variant="h6" component="span" sx={{ fontWeight: 600, color: MCMASTER_COLOURS.maroon }}>
+                  Ongoing Seasons
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <SeasonsCard seasons={ongoingSeasons} status="Ongoing" />
+              </AccordionDetails>
+            </Accordion>
+
+            <Box sx={{ mt: 6, mb: 2 }}>
+              <Divider sx={{ mb: 6 }} />
+              
+              {/* Announcements Section */}
               <Box
                 sx={{
                   display: "flex",
@@ -209,9 +296,10 @@ export default function HomePage() {
                 <Typography
                   variant="h3"
                   sx={{
-                    fontSize: { xs: "2rem", md: "3rem" },
+                    fontSize: { xs: "2.5rem", md: "3rem" },
                     fontWeight: 700,
-                    mb: 2,
+                    color: "black",
+                    fontFamily: "inherit",
                   }}
                 >
                   Announcements
@@ -220,48 +308,69 @@ export default function HomePage() {
 
               <Grid container spacing={4}>
                 {announcements.length === 0 ? (
-                  <Typography>No announcements available.</Typography>
+                  <Grid item xs={12}>
+                    <NoDataCard text="No announcements available." />
+                  </Grid>
                 ) : (
                   announcements.map((announcement) => (
                     <Grid item xs={12} md={4} key={announcement._id}>
-                      <StyledCard>
+                      <Card
+                        sx={{
+                          height: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                          borderRadius: 2,
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                          border: '1px solid rgba(0,0,0,0.1)',
+                          transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                          backgroundColor: MCMASTER_COLOURS.lightGrey,
+                          "&:hover": {
+                            transform: "translateY(-4px)",
+                            boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+                          },
+                        }}
+                      >
                         <CardContent
                           sx={{
                             flexGrow: 1,
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "space-between",
+                            p: 3,
                           }}
                         >
-                          <Typography
-                            gutterBottom
-                            variant="h4"
-                            component="h2"
-                            sx={{
-                              fontWeight: 700,
-                            }}
-                          >
-                            {announcement.title}
-                          </Typography>
-                          <Typography
-                            variant="body"
-                            color="text.secondary"
-                            sx={{ mb: 2 }}
-                          >
-                            {announcement.content.length > 100
-                              ? `${announcement.content.substring(0, 100)}...`
-                              : announcement.content}
-                          </Typography>
+                          <Box>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="h2"
+                              sx={{
+                                fontWeight: 700,
+                                mb: 2,
+                                color: MCMASTER_COLOURS.maroon,
+                              }}
+                            >
+                              {announcement.title}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              color={MCMASTER_COLOURS.grey}
+                              sx={{ mb: 3 }}
+                            >
+                              {announcement.content.length > 100
+                                ? `${announcement.content.substring(0, 100)}...`
+                                : announcement.content}
+                            </Typography>
+                          </Box>
                           <Button
                             variant="contained"
                             sx={{
-                              bgcolor: "common.black",
-                              color: "common.white",
-                              borderRadius: "50px",
+                              backgroundColor: MCMASTER_COLOURS.maroon,
+                              color: 'white',
+                              borderRadius: 2,
                               width: "fit-content",
                               "&:hover": {
-                                bgcolor: "#7A003C",
-                                opacity: 0.9,
+                                backgroundColor: '#5C002E',
                               },
                             }}
                             onClick={() =>
@@ -273,12 +382,12 @@ export default function HomePage() {
                             Read More
                           </Button>
                         </CardContent>
-                      </StyledCard>
+                      </Card>
                     </Grid>
                   ))
                 )}
               </Grid>
-            </Container>
+            </Box>
           </Box>
         </Container>
       </Box>

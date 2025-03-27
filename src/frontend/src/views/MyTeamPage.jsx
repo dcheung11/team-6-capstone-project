@@ -128,7 +128,7 @@ export default function MyTeamPage() {
         <Typography 
           variant="h4" 
           sx={{ 
-            fontWeight: "bold",
+            fontWeight: 700,
             mb: 3
           }}
         >
@@ -168,7 +168,7 @@ export default function MyTeamPage() {
                     component="h1" 
                     sx={{ 
                       color: MCMASTER_COLOURS.maroon,
-                      fontWeight: "bold",
+                      fontWeight: 700,
                       fontSize: { xs: "2.5rem", md: "3rem" },
                       mb: 1,
                       display: 'flex',
@@ -265,6 +265,30 @@ export default function MyTeamPage() {
                       mb: 2,
                     }}
                   >
+                    Team Schedule
+                  </Typography>
+                  {teamGames && teamGames.games && teamGames.games.length > 0 ? (
+                    <ScheduleTable
+                      schedule={teamGames}
+                      captain={player.team.captainId.id}
+                      player={playerId}
+                      role={player.role}
+                      archived={teamGames.archived}
+                    />
+                  ) : (
+                    <NoDataCard text="No schedule to show." />
+                  )}
+
+                  <Divider sx={{ my: 6 }} />
+
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      fontSize: "2rem",
+                      fontWeight: 700,
+                      mb: 2,
+                    }}
+                  >
                     Roster
                   </Typography>
                   <RosterTable
@@ -288,29 +312,8 @@ export default function MyTeamPage() {
                       Invite Players
                     </Button>
                   )}
-                  <Divider sx={{ my: 4 }} />
+                  
 
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      fontSize: "2rem",
-                      fontWeight: 700,
-                      mb: 2,
-                    }}
-                  >
-                    Team Schedule
-                  </Typography>
-                  {teamGames && teamGames.games && teamGames.games.length > 0 ? (
-                    <ScheduleTable
-                      schedule={teamGames}
-                      captain={player.team.captainId.id}
-                      player={playerId}
-                      role={player.role}
-                      archived={teamGames.archived}
-                    />
-                  ) : (
-                    <NoDataCard text="No schedule to show." />
-                  )}
                 </Box>
               </TabPanel>
 
