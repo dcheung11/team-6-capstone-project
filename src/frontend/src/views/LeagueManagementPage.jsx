@@ -53,13 +53,15 @@ const LeagueManagementPage = () => {
 
   // Component state values
   const [value, setValue] = useState("manage");
-  const handleTabChange = (event, newValue) => {
-    setLoading(true);
+  const [isTabLoading, setIsTabLoading] = useState(false);
 
-    setTimeout(() => {
-      setValue(newValue);
-      setLoading(false);
-    }, 50);
+  const handleTabChange = async (event, newValue) => {
+    setIsTabLoading(true);
+    setValue(newValue);
+    
+    // Give time for loading state to show and data to be prepared
+    await new Promise(resolve => setTimeout(resolve, 100));
+    setIsTabLoading(false);
   };
 
   useEffect(() => {
@@ -175,13 +177,16 @@ const LeagueManagementPage = () => {
           bgcolor: 'white', 
           borderRadius: 2,
           boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          position: 'relative'
         }}>
           <TabContext value={value}>
             <Box sx={{ 
               borderBottom: 1, 
               borderColor: 'divider',
-              bgcolor: 'white'
+              bgcolor: 'white',
+              position: 'relative',
+              zIndex: 1
             }}>
               <TabList 
                 onChange={handleTabChange}
@@ -193,6 +198,9 @@ const LeagueManagementPage = () => {
                     '&.Mui-selected': {
                       color: MCMASTER_COLORS.maroon,
                       fontWeight: 600
+                    },
+                    '&.Mui-disabled': {
+                      color: `${MCMASTER_COLORS.grey}80`,
                     }
                   },
                   '& .MuiTabs-indicator': {
@@ -200,189 +208,222 @@ const LeagueManagementPage = () => {
                   }
                 }}
               >
-                <Tab label="Manage Seasons" value="manage" />
-                <Tab label="Upcoming Seasons" value="upcoming" />
-                <Tab label="Ongoing Seasons" value="ongoing" />
-                <Tab label="Archived Seasons" value="archived" />
-                <Tab label="Contact Info" value="contacts" />
+                <Tab label="Manage Seasons" value="manage" disabled={isTabLoading} />
+                <Tab label="Upcoming Seasons" value="upcoming" disabled={isTabLoading} />
+                <Tab label="Ongoing Seasons" value="ongoing" disabled={isTabLoading} />
+                <Tab label="Archived Seasons" value="archived" disabled={isTabLoading} />
+                <Tab label="Contact Info" value="contacts" disabled={isTabLoading} />
               </TabList>
             </Box>
-
-            <TabPanel value="manage" sx={{ p: { xs: 2, md: 3 } }}>
-              <InfoText>
-                Create new seasons and delete seasons that are no longer needed.
-              </InfoText>
-              <Typography 
-                variant="h6" 
-                sx={{ 
-                  mb: 3,
-                  color: MCMASTER_COLORS.maroon,
-                  fontWeight: 600
-                }}
-              >
-                Create New Season
-              </Typography>
-              <CreateSeasonForm seasons={seasons} setSeasons={setSeasons} />
-              <SeasonsTable seasons={seasons} setSeasons={setSeasons} />
-            </TabPanel>
-
-            <TabPanel value="upcoming" sx={{ p: { xs: 2, md: 3 } }}>
-              <InfoText>
-                Manage and launch seasons that are currently open for registration. 
-                Seasons will automatically launch on the start date.
-              </InfoText>
-              {!!upcomingSeasons && upcomingSeasons.map((season) => (
-                <Accordion 
-                  key={season.id}
-                  sx={{
-                    mb: 2,
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-                    '&:before': { display: 'none' },
-                    '&.Mui-expanded': {
-                      margin: '0 0 16px 0',
-                    }
+            
+            {/* Loading overlay component - AI generated */}
+            <Box sx={{ position: 'relative' }}>
+              {isTabLoading && (
+                <Box 
+                  sx={{ 
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    bgcolor: 'rgba(255, 255, 255, 0.8)',
+                    zIndex: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    minHeight: '200px'
                   }}
                 >
-                  <AccordionSummary
-                    expandIcon={<ArrowDropDownIcon />}
+                  <Typography 
+                    sx={{ 
+                      color: MCMASTER_COLORS.maroon,
+                      fontWeight: 500,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1
+                    }}
+                  >
+                    Loading...
+                  </Typography>
+                </Box>
+              )}
+
+              <TabPanel value="manage" sx={{ p: { xs: 2, md: 3 } }}>
+                <InfoText>
+                  Create new seasons and delete seasons that are no longer needed.
+                </InfoText>
+                <Typography 
+                  variant="h6" 
+                  sx={{ 
+                    mb: 3,
+                    color: MCMASTER_COLORS.maroon,
+                    fontWeight: 600
+                  }}
+                >
+                  Create New Season
+                </Typography>
+                <CreateSeasonForm seasons={seasons} setSeasons={setSeasons} />
+                <SeasonsTable seasons={seasons} setSeasons={setSeasons} />
+              </TabPanel>
+
+              <TabPanel value="upcoming" sx={{ p: { xs: 2, md: 3 } }}>
+                <InfoText>
+                  Manage and launch seasons that are currently open for registration. 
+                  Seasons will automatically launch on the start date.
+                </InfoText>
+                {!!upcomingSeasons && upcomingSeasons.map((season) => (
+                  <Accordion 
+                    key={season.id}
                     sx={{
-                      backgroundColor: 'rgba(122, 0, 60, 0.03)',
-                      '&:hover': {
-                        backgroundColor: 'rgba(122, 0, 60, 0.05)',
+                      mb: 2,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                      '&:before': { display: 'none' },
+                      '&.Mui-expanded': {
+                        margin: '0 0 16px 0',
                       }
                     }}
                   >
-                    <Typography 
-                      variant="h6"
-                      sx={{ 
-                        color: MCMASTER_COLORS.maroon,
-                        fontWeight: 600,
-                        fontSize: '1.1rem'
+                    <AccordionSummary
+                      expandIcon={<ArrowDropDownIcon />}
+                      sx={{
+                        backgroundColor: 'rgba(122, 0, 60, 0.03)',
+                        '&:hover': {
+                          backgroundColor: 'rgba(122, 0, 60, 0.05)',
+                        }
                       }}
                     >
-                      {season.name}
-                    </Typography>
-                  </AccordionSummary>
-                  <AccordionDetails sx={{ p: 3 }}>
-                    <Box sx={{ mb: 3 }}>
-                      <Typography sx={{ mb: 1, color: MCMASTER_COLORS.grey }}>
-                        <strong>Start Date:</strong> {formatDate(season.startDate)}
+                      <Typography 
+                        variant="h6"
+                        sx={{ 
+                          color: MCMASTER_COLORS.maroon,
+                          fontWeight: 600,
+                          fontSize: '1.1rem'
+                        }}
+                      >
+                        {season.name}
                       </Typography>
-                      <Typography sx={{ color: MCMASTER_COLORS.grey }}>
-                        <strong>End Date:</strong> {formatDate(season.endDate)}
+                    </AccordionSummary>
+                    <AccordionDetails sx={{ p: 3 }}>
+                      <Box sx={{ mb: 3 }}>
+                        <Typography sx={{ mb: 1, color: MCMASTER_COLORS.grey }}>
+                          <strong>Start Date:</strong> {formatDate(season.startDate)}
+                        </Typography>
+                        <Typography sx={{ color: MCMASTER_COLORS.grey }}>
+                          <strong>End Date:</strong> {formatDate(season.endDate)}
+                        </Typography>
+                      </Box>
+                      <TeamSchedulingComponent
+                        season={season}
+                        divisions={season.divisions}
+                        registeredTeams={season.registeredTeams}
+                      />
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
+              </TabPanel>
+
+              <TabPanel value="ongoing" sx={{ p: { xs: 2, md: 3 } }}>
+                <InfoText>
+                  Input scores and view the schedules and results of ongoing seasons. 
+                  Seasons will be automatically archived after the end date.
+                </InfoText>
+                {!!ongoingSeasons && ongoingSeasons.map((season) => (
+                  <Accordion 
+                    key={season.id}
+                    sx={{
+                      mb: 2,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                      '&:before': { display: 'none' },
+                      '&.Mui-expanded': {
+                        margin: '0 0 16px 0',
+                      }
+                    }}
+                  >
+                    <AccordionSummary
+                      expandIcon={<ArrowDropDownIcon />}
+                      sx={{
+                        backgroundColor: 'rgba(122, 0, 60, 0.03)',
+                        '&:hover': {
+                          backgroundColor: 'rgba(122, 0, 60, 0.05)',
+                        }
+                      }}
+                    >
+                      <Typography 
+                        variant="h6"
+                        sx={{ 
+                          color: MCMASTER_COLORS.maroon,
+                          fontWeight: 600,
+                          fontSize: '1.1rem'
+                        }}
+                      >
+                        {season.name}
                       </Typography>
-                    </Box>
-                    <TeamSchedulingComponent
-                      season={season}
-                      divisions={season.divisions}
-                      registeredTeams={season.registeredTeams}
-                    />
-                  </AccordionDetails>
-                </Accordion>
-              ))}
-            </TabPanel>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{ p: 3 }}>
+                      <ScheduleTable schedule={season.schedule} />
+                      <Button
+                        variant="contained"
+                        color="error"
+                        onClick={() => handleArchiveSeason(season.id)}
+                        sx={{ mt: 3 }}
+                      >
+                        Archive Season
+                      </Button>
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
+              </TabPanel>
 
-            <TabPanel value="ongoing" sx={{ p: { xs: 2, md: 3 } }}>
-              <InfoText>
-                Input scores and view the schedules and results of ongoing seasons. 
-                Seasons will be automatically archived after the end date.
-              </InfoText>
-              {!!ongoingSeasons && ongoingSeasons.map((season) => (
-                <Accordion 
-                  key={season.id}
-                  sx={{
-                    mb: 2,
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-                    '&:before': { display: 'none' },
-                    '&.Mui-expanded': {
-                      margin: '0 0 16px 0',
-                    }
-                  }}
-                >
-                  <AccordionSummary
-                    expandIcon={<ArrowDropDownIcon />}
+              <TabPanel value="archived" sx={{ p: { xs: 2, md: 3 } }}>
+                <InfoText>
+                  View schedules and results of past archived seasons.
+                </InfoText>
+                {!!archivedSeasons && archivedSeasons.map((season) => (
+                  <Accordion 
+                    key={season.id}
                     sx={{
-                      backgroundColor: 'rgba(122, 0, 60, 0.03)',
-                      '&:hover': {
-                        backgroundColor: 'rgba(122, 0, 60, 0.05)',
+                      mb: 2,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                      '&:before': { display: 'none' },
+                      '&.Mui-expanded': {
+                        margin: '0 0 16px 0',
                       }
                     }}
                   >
-                    <Typography 
-                      variant="h6"
-                      sx={{ 
-                        color: MCMASTER_COLORS.maroon,
-                        fontWeight: 600,
-                        fontSize: '1.1rem'
+                    <AccordionSummary
+                      expandIcon={<ArrowDropDownIcon />}
+                      sx={{
+                        backgroundColor: 'rgba(122, 0, 60, 0.03)',
+                        '&:hover': {
+                          backgroundColor: 'rgba(122, 0, 60, 0.05)',
+                        }
                       }}
                     >
-                      {season.name}
-                    </Typography>
-                  </AccordionSummary>
-                  <AccordionDetails sx={{ p: 3 }}>
-                    <ScheduleTable schedule={season.schedule} />
-                    <Button
-                      variant="contained"
-                      color="error"
-                      onClick={() => handleArchiveSeason(season.id)}
-                      sx={{ mt: 3 }}
-                    >
-                      Archive Season
-                    </Button>
-                  </AccordionDetails>
-                </Accordion>
-              ))}
-            </TabPanel>
+                      <Typography 
+                        variant="h6"
+                        sx={{ 
+                          color: MCMASTER_COLORS.maroon,
+                          fontWeight: 600,
+                          fontSize: '1.1rem'
+                        }}
+                      >
+                        {season.name}
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{ p: 3 }}>
+                      <ScheduleTable schedule={season.schedule} archived />
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
+              </TabPanel>
 
-            <TabPanel value="archived" sx={{ p: { xs: 2, md: 3 } }}>
-              <InfoText>
-                View schedules and results of past archived seasons.
-              </InfoText>
-              {!!archivedSeasons && archivedSeasons.map((season) => (
-                <Accordion 
-                  key={season.id}
-                  sx={{
-                    mb: 2,
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-                    '&:before': { display: 'none' },
-                    '&.Mui-expanded': {
-                      margin: '0 0 16px 0',
-                    }
-                  }}
-                >
-                  <AccordionSummary
-                    expandIcon={<ArrowDropDownIcon />}
-                    sx={{
-                      backgroundColor: 'rgba(122, 0, 60, 0.03)',
-                      '&:hover': {
-                        backgroundColor: 'rgba(122, 0, 60, 0.05)',
-                      }
-                    }}
-                  >
-                    <Typography 
-                      variant="h6"
-                      sx={{ 
-                        color: MCMASTER_COLORS.maroon,
-                        fontWeight: 600,
-                        fontSize: '1.1rem'
-                      }}
-                    >
-                      {season.name}
-                    </Typography>
-                  </AccordionSummary>
-                  <AccordionDetails sx={{ p: 3 }}>
-                    <ScheduleTable schedule={season.schedule} archived />
-                  </AccordionDetails>
-                </Accordion>
-              ))}
-            </TabPanel>
-
-            <TabPanel value="contacts" sx={{ p: { xs: 2, md: 3 } }}>
-              <InfoText>
-                View contact information for team captains across all seasons.
-              </InfoText>
-              <CommissionerContactInfo seasons={seasons} />
-            </TabPanel>
+              <TabPanel value="contacts" sx={{ p: { xs: 2, md: 3 } }}>
+                <InfoText>
+                  View contact information for team captains across all seasons.
+                </InfoText>
+                <CommissionerContactInfo seasons={seasons} />
+              </TabPanel>
+            </Box>
           </TabContext>
         </Box>
       </Container>
