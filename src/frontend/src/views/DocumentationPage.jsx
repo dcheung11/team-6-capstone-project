@@ -5,6 +5,7 @@ import inviteplayers1 from "../assets/documentation/inviteplayers1.png";
 import inviteplayers2 from "../assets/documentation/inviteplayers2.png"
 import inviteplayers3 from "../assets/documentation/inviteplayers3.png"
 import inviteplayers4 from "../assets/documentation/inviteplayers4.png"
+import inviteplayers5 from "../assets/documentation/inviteplayers5.png"
 import registerteam1 from "../assets/documentation/registerteam1.png"
 import acceptinvite1 from "../assets/documentation/acceptinvite1.png"
 import acceptinvite2 from "../assets/documentation/acceptinvite2.png"
@@ -21,6 +22,8 @@ import reschedule6 from "../assets/documentation/reschedule6.png"
 import reschedule7 from "../assets/documentation/reschedule7.png"
 import reschedule8 from "../assets/documentation/reschedule8.png"
 import reschedule9 from "../assets/documentation/reschedule9.png"
+import captains1 from "../assets/documentation/captains1.png"
+import captains2 from "../assets/documentation/captains2.png"
 import contacts1 from "../assets/documentation/contacts1.png"
 import contacts2 from "../assets/documentation/contacts2.png"
 
@@ -44,6 +47,9 @@ export default function DocumentationPage() {
         <li>
             <a href="#accept-team-invite" className="text-blue-600 hover:underline">Accept Team Invite</a>
         </li>
+        <li>
+            <a href="#contact-information" className="text-blue-600 hover:underline">Contact Information</a>
+        </li>
     </ul>
 
     <h3 className="font-bold text-lg mt-4">Captains</h3>
@@ -61,7 +67,7 @@ export default function DocumentationPage() {
             <a href="#respond-to-reschedule-requests" className="text-blue-600 hover:underline">Respond to Reschedule Requests</a>
         </li>
         <li>
-            <a href="#contact-information" className="text-blue-600 hover:underline">Contact Information</a>
+            <a href="#captain-contacts" className="text-blue-600 hover:underline">Captain Contacts</a>
         </li>
     </ul>
 </div>
@@ -104,6 +110,25 @@ export default function DocumentationPage() {
         style={{ width: "51%", height: "auto", border: "4px solid black" }} 
     />
 
+ {/* Divider Line */}
+ <hr style={{ border: "1px solid #000", margin: "20px 0" }}/>
+ <h5 id="contact-information" className="text-4xl font-bold mb-4">Contact Information</h5>
+
+<p>Navigate to the my team page.</p>
+        <img 
+                    src={contacts1} 
+                    alt="contacts1" 
+                    className="w-full mb-4" 
+                    style={{ width: "51%", height: "auto", border: "4px solid black" }} 
+                />
+<p>Scroll down. Here, the team roster includes the email contact for all your teammates.</p>
+      <img 
+                    src={contacts2} 
+                    alt="contacts2" 
+                    className="w-full mb-4" 
+                    style={{ width: "51%", height: "auto", border: "4px solid black" }} 
+                />
+
     {/* Divider Line */}
     <hr style={{ border: "1px solid #000", margin: "20px 0 80px 0" }}/>
 
@@ -138,6 +163,13 @@ export default function DocumentationPage() {
                         className="w-full mb-4" 
                         style={{ width: "70%", height: "auto", border: "4px solid black" }} 
                     />
+                       <p>You can use the search bar to filter players by name or toggle the button to view all players in the league.</p>
+                                      <img 
+                        src={inviteplayers5} 
+                        alt="inviteplayers5" 
+                        className="w-full mb-4" 
+                        style={{ width: "70%", height: "auto", border: "4px solid black" }} 
+                    />
 
 {/* Divider Line */}
 <hr style={{ border: "1px solid #000", margin: "20px 0" }} />
@@ -157,14 +189,15 @@ export default function DocumentationPage() {
                         className="w-full mb-4" 
                         style={{ width: "51%", height: "auto", border: "4px solid black" }} 
                     />
-                     <p>Click "edit score" to edit the score.</p>
+                     <p>Fill out the score and click "submit" to submit the score.</p>
                                      <img 
                         src={submitscores3} 
                         alt="submitscores3" 
                         className="w-full mb-4" 
                         style={{ width: "51%", height: "auto", border: "4px solid black" }} 
                     />
-                     <p>Click "submit score" to submit the score. You can re-edit the score any time if needed to. We expect all teams to uphold integrity and report scores honestly and accurately.</p>
+                     <p>You can re-edit the score any time if needed to by clicking "edit."</p>
+                     <p>We expect all teams to uphold integrity and report scores honestly and accurately.</p>
                                      <img 
                         src={submitscores4} 
                         alt="submitscores4" 
@@ -217,7 +250,7 @@ export default function DocumentationPage() {
                         className="w-full mb-4" 
                         style={{ width: "51%", height: "auto", border: "4px solid black" }} 
                     />
-        <p>You will find reschedule requests in the notifications section of the page. Select a notification to read.</p>
+        <p>You will find reschedule requests in the scheduling notifications section of the page. Select a notification to read.</p>
                                   <img 
                         src={reschedule6} 
                         alt="reschedule1" 
@@ -248,19 +281,19 @@ export default function DocumentationPage() {
         
         <hr style={{ border: "1px solid #000", margin: "20px 0" }} />
 
-<h5 id="contact-information" className="text-4xl font-bold mb-4">Contact Information</h5>
+<h5 id="captain-contacts" className="text-4xl font-bold mb-4">Captain Contacts</h5>
     <p>The captain is able to view the contact information of the captains of other teams.</p>
     <p>Navigate to the my team page.</p>
             <img 
-                    src={contacts1} 
-                    alt="contacts1" 
+                    src={captains1} 
+                    alt="captains1" 
                     className="w-full mb-4" 
                     style={{ width: "51%", height: "auto", border: "4px solid black" }} 
                 />
     <p>Click "captain contacts". Here, you are able to access all contact information easily if ever needed.</p>
         <img 
-                    src={contacts2} 
-                    alt="contacts2" 
+                    src={captains2} 
+                    alt="captains2" 
                     className="w-full mb-4" 
                     style={{ width: "51%", height: "auto", border: "4px solid black" }} 
                 />
