@@ -14,14 +14,16 @@ import {
   MenuItem,
   Box
 } from "@mui/material";
-import { getTeams } from "../api/team";
+import { getTeams, getSeasons } from "../api/team";
 
-export default function ContactInfoTable({ currentSeasonId }) {
+export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedDivision, setSelectedDivision] = useState('all');
   const [divisions, setDivisions] = useState([]);
+  const [seasons, setSeasons] = useState([]);
+  const [selectedSeason, setSelectedSeason] = useState(currentSeasonId);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,6 +64,22 @@ export default function ContactInfoTable({ currentSeasonId }) {
     fetchData();
   }, [currentSeasonId]);
 
+  // all seasons provided if we're in commissioner view 
+  useEffect(() => {
+    if (allSeasons) {
+      // Sort seasons: ongoing first, then archived, then by start date
+      const sortedSeasons = allSeasons.sort((a, b) => {
+        // First sort by status
+        if (a.status !== b.status) {
+          return a.status === "archived" ? 1 : -1;
+        }
+        // Then sort by start date
+        return new Date(b.startDate) - new Date(a.startDate);
+      });
+      setSeasons(sortedSeasons);
+    }
+  }, [allSeasons]);
+
   if (loading) {
     return <Typography>Loading Contact Info...</Typography>;
   }
@@ -84,21 +102,43 @@ export default function ContactInfoTable({ currentSeasonId }) {
 
   return (
     <Box>
-      <FormControl sx={{ mb: 2, minWidth: 200 }}>
-        <InputLabel>Division</InputLabel>
-        <Select
-          value={selectedDivision}
-          label="Division"
-          onChange={(e) => setSelectedDivision(e.target.value)}
-        >
-          <MenuItem value="all">All Divisions</MenuItem>
-          {divisions.map((division) => (
-            <MenuItem key={division} value={division}>
-              {division}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+        {/* Season Dropdown */}
+        {allSeasons && (
+          <FormControl sx={{ minWidth: 200 }}>
+            <InputLabel id="season-select-label">Season</InputLabel>
+            <Select
+              labelId="season-select-label"
+              label="Season"
+              value={selectedSeason}
+              onChange={(e) => setSelectedSeason(e.target.value)}
+            >
+              {seasons.map((season) => (
+                <MenuItem key={season._id} value={season._id}>
+                  {season.name} {season.status === "archived" ? " (Archived)" : ""}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
+
+        {/* Division Dropdown */}
+        <FormControl sx={{ minWidth: 200 }}>
+          <InputLabel>Division</InputLabel>
+          <Select
+            value={selectedDivision}
+            label="Division"
+            onChange={(e) => setSelectedDivision(e.target.value)}
+          >
+            <MenuItem value="all">All Divisions</MenuItem>
+            {divisions.map((division) => (
+              <MenuItem key={division} value={division}>
+                {division}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
 
       <TableContainer component={Paper}>
         <Table>

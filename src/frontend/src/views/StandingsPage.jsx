@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getStandingsByDivision } from "../api/standings"; 
-import { getOngoingSeasons } from "../api/season"; 
+import { getAllSeasons } from "../api/season"; 
 import {
   Typography,
   Container,
@@ -8,6 +8,7 @@ import {
   MenuItem,
   FormControl,
   Box,
+  InputLabel,
 } from "@mui/material";
 import NavBar from "../components/NavBar";
 import StandingsTable from "../components/StandingsTable";
@@ -33,13 +34,24 @@ export default function StandingsPage() {
 
   const fetchSeasons = async () => {
     try {
-      const data = await getOngoingSeasons();
-      setSeasons(data.seasons);
+      const data = await getAllSeasons();
+      
+      // Sort seasons: first by status (ongoing first), then by start date (newest first)
+      const sortedSeasons = data.seasons.sort((a, b) => {
+        // First sort by status
+        if (a.status !== b.status) {
+          return a.status === "archived" ? 1 : -1;
+        }
+        // Then sort by start date 
+        return new Date(b.startDate) - new Date(a.startDate);
+      });
+      
+      setSeasons(sortedSeasons);
   
       // Set default season and divisions
-      setSelectedSeason(data.seasons[0]._id);
-      setDivisions(data.seasons[0].divisions || []);
-      setSelectedDivision(data.seasons[0].divisions[0]?._id || "");
+      setSelectedSeason(sortedSeasons[0]._id);
+      setDivisions(sortedSeasons[0].divisions || []);
+      setSelectedDivision(sortedSeasons[0].divisions[0]?._id || "");
     } catch (error) {
       console.error("Error fetching seasons:", error);
     }
@@ -57,15 +69,17 @@ export default function StandingsPage() {
         }}
       >
         <Container sx={{ py: 4, flexGrow: 1 }}>
-          <Typography variant="h4" gutterBottom>
-            Standings
-          </Typography>
-
+        <Typography variant="h4" fontWeight="bold" gutterBottom >
+          Standings
+        </Typography>
           {/* Season & Division Selectors */}
           <Box>
             {/* Season Dropdown */}
             <FormControl sx={{ minWidth: 180, m: 2 }}>
+              <InputLabel id="season-select-label">Season</InputLabel>
               <Select
+                labelId="season-select-label"
+                label="Season"
                 value={selectedSeason}
                 onChange={(e) => {
                   const seasonId = e.target.value;
@@ -79,7 +93,7 @@ export default function StandingsPage() {
               >
                 {seasons.map((season) => (
                   <MenuItem key={season._id} value={season._id}>
-                    {season.name}
+                    {season.name} {season.status === "archived" ? " (Archived)" : ""}
                   </MenuItem>
                 ))}
               </Select>
@@ -87,7 +101,10 @@ export default function StandingsPage() {
 
             {/* Division Dropdown */}
             <FormControl sx={{ minWidth: 180, m: 2 }}>
+              <InputLabel id="division-select-label">Division</InputLabel>
               <Select
+                labelId="division-select-label"
+                label="Division"
                 value={selectedDivision}
                 onChange={(e) => setSelectedDivision(e.target.value)}
               >
@@ -109,8 +126,8 @@ export default function StandingsPage() {
                 draw, 0 points for a loss.
               </Typography>
               <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
-                - W - Wins, D - Draws, L - Losses, PTS - Points, RS - Runs Scored,
-                RA - Runs Allowed.
+                - PTS - Points, W - Wins, D - Draws, L - Losses, RS - Runs Scored,
+                RA - Runs Allowed, Run Diff - Run Differential.
               </Typography>
             </Box>
             ) : (

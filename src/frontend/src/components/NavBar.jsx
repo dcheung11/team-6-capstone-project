@@ -26,6 +26,7 @@ const NavBar = () => {
   const [playerId, setPlayerId] = useState(auth.playerId);
   const [player, setPlayer] = useState(null);
   const [teamId, setTeamId] = useState("");
+  const role = localStorage.getItem("role");
 
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
@@ -77,7 +78,7 @@ const NavBar = () => {
             <Button color="inherit" href="/announcements">
               Announcements
             </Button>
-            {player && player.role !== "commissioner" && (
+            {role !== "commissioner" && (
               <Button color="inherit" href={`/team/${teamId}`}>
                 My Team
               </Button>
@@ -94,7 +95,7 @@ const NavBar = () => {
             <Button color="inherit" href="/documentation">
               FAQ
             </Button>
-            {player && player.role === "commissioner" && (
+            {role === "commissioner" && (
               <Button color="inherit" href="/manage">
                 Manage
               </Button>
