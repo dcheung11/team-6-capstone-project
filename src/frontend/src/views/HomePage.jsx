@@ -143,10 +143,10 @@ export default function HomePage() {
                   sx={{ 
                     color: MCMASTER_COLOURS.grey, 
                     fontSize: "1.2rem",
-                    maxWidth: "600px" 
+                    maxWidth: "750px" 
                   }}
                 >
-                  Welcome to the McMaster Graduate Students Association Softball League!
+                  Welcome to the McMaster Graduate Students Association Softball League! 
                 </Typography>
               </Grid>
 
