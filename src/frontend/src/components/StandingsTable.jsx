@@ -9,31 +9,78 @@ import {
   TableBody,
 } from "@mui/material";
 
+// McMaster colours - AI generated
+const MCMASTER_COLOURS = {
+  maroon: '#7A003C',
+  grey: '#5E6A71',
+  gold: '#FDBF57',
+  lightGrey: '#F5F5F5',
+};
+
 export default function StandingsTable({ standings }) {
   const standingColumns = ["Rank", "Team", "PTS", "W", "D", "L", "RS", "RA", "Run Diff", "Losses by Default"];//, "No Show Shame"];
   const standingKeys = ["rank", "team", "p", "w", "d", "l", "rs", "ra", "differential", "dl"];//, "noshows"];
 
   return (
-    <TableContainer component={Paper} sx={{ mb: 4 }}>
+    // Standings table styling - AI generated
+    <TableContainer 
+      component={Paper} 
+      sx={{ 
+        mb: 4,
+        boxShadow: 'none',
+        border: '1px solid rgba(0, 0, 0, 0.1)',
+        borderRadius: '8px',
+        '& .MuiTableCell-root': {
+          px: 2,
+          py: 1.5,
+          borderColor: 'rgba(0,0,0,0.1)',
+        },
+        '& .MuiTableCell-head': {
+          backgroundColor: MCMASTER_COLOURS.maroon,
+          color: 'white',
+          fontWeight: 600,
+        },
+      }}
+    >
       <Table>
         <TableHead>
           <TableRow>
             {standingColumns.map((column, index) => (
-              <TableCell key={index}>{column}</TableCell>
+              <TableCell key={index} align={index > 1 ? "center" : "left"}>
+                <strong>{column}</strong>
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
           {standings.map((standingRow, rowIndex) => (
-            <TableRow key={rowIndex}>
+            <TableRow 
+              key={rowIndex}
+              sx={{
+                '&:nth-of-type(odd)': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.02)',
+                },
+                '&:last-child td, &:last-child th': { 
+                  borderBottom: 0 
+                },
+              }}
+            >
               {standingKeys.map((key, colIndex) => (
-                <TableCell key={colIndex}>
+                <TableCell 
+                  key={colIndex} 
+                  align={colIndex > 1 ? "center" : "left"}
+                  sx={{
+                    ...(key === "team" && {
+                      fontWeight: 500,
+                    })
+                  }}
+                >
                   {key === "team"
-                    ? standingRow.team?.name || "Unknown" // handle missing team names
+                    ? standingRow.team?.name || "Unknown"
                     : key === "differential"
                     ? standingRow.differential > 0
-                      ? `+${standingRow.differential}` // add "+" for positive values
-                      : standingRow.differential // show as is for negative/zero
+                      ? `+${standingRow.differential}`
+                      : standingRow.differential
                     : standingRow[key] ?? "N/A"}
                 </TableCell>
               ))}
