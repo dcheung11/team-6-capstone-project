@@ -15,9 +15,18 @@ import {
   Radio,
   RadioGroup,
   Typography,
+  Box,
 } from "@mui/material";
 import { formatDate, getDayOfWeek } from "../utils/Formatting";
 import { updateScore } from "../api/game.js";
+
+// McMaster colours - AI Generated
+const MCMASTER_COLOURS = {
+  maroon: '#7A003C',
+  grey: '#5E6A71',
+  gold: '#FDBF57',
+  lightGrey: '#F5F5F5',
+};
 
 export default function ScheduleTable(props) {
   const [scores, setScores] = useState({});
@@ -111,184 +120,228 @@ export default function ScheduleTable(props) {
   // Define columns
   const columns = [
     {
-      header: "Day of Week",
-      accessor: (game) => getDayOfWeek(game.date),
+      header: "Game Info",
+      accessor: (game) => (
+        <Box>
+          <Typography variant="subtitle2" sx={{ color: MCMASTER_COLOURS.maroon, fontWeight: 600 }}>
+            {getDayOfWeek(game.date)}
+          </Typography>
+          <Typography variant="body2" sx={{ color: MCMASTER_COLOURS.grey }}>
+            {formatDate(game.date)}
+          </Typography>
+          <Typography variant="body2" sx={{ color: MCMASTER_COLOURS.grey }}>
+            {game.time} | {game.field}
+          </Typography>
+        </Box>
+      ),
     },
     {
-      header: "Date",
-      accessor: (game) => formatDate(game.date),
+      header: "Teams",
+      accessor: (game) => (
+        <Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <Typography 
+              component="span" 
+              variant="caption" 
+              sx={{ 
+                color: MCMASTER_COLOURS.maroon,
+                fontWeight: 600,
+                backgroundColor: `${MCMASTER_COLOURS.maroon}10`,
+                px: 0.5,
+                borderRadius: 0.5
+              }}
+            >
+              HOME
+            </Typography>
+            <Typography variant="body2" sx={{ fontWeight: 500 }}>
+              {game.homeTeam.name}
+            </Typography>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.5 }}>
+            <Typography 
+              component="span" 
+              variant="caption" 
+              sx={{ 
+                color: MCMASTER_COLOURS.grey,
+                fontWeight: 600,
+                backgroundColor: `${MCMASTER_COLOURS.grey}10`,
+                px: 0.5,
+                borderRadius: 0.5
+              }}
+            >
+              AWAY
+            </Typography>
+            <Typography variant="body2" sx={{ fontWeight: 500 }}>
+              {game.awayTeam.name}
+            </Typography>
+          </Box>
+          <Typography variant="caption" sx={{ color: MCMASTER_COLOURS.grey, display: 'block', mt: 0.5 }}>
+            Division {game.division.name}
+          </Typography>
+        </Box>
+      ),
     },
-    { header: "Time", accessor: (game) => game.time },
-    { header: "Field", accessor: (game) => game.field },
-    { header: "Division", accessor: (game) => game.division.name },
-    { header: "Home", accessor: (game) => game.homeTeam.name },
-    { header: "Away", accessor: (game) => game.awayTeam.name },
     {
-      header: "Default Loss?",
+      header: "Default Loss",
       accessor: (game) => {
         const gameId = game._id;
         const { isDefaultLoss = false, team = null } = defaultLossOptions[gameId] || {};
         const isEditting = editMode[gameId];
 
-        return (
-          <Checkbox
-            checked={isDefaultLoss}
-            disabled={!isEditting}
-            onChange={(e) => {
-              const checked = e.target.checked;
-              setDefaultLossOptions((prev) => ({
-                ...prev,
-                [gameId]: {
-                  ...prev[gameId],
-                  isDefaultLoss: checked,
-                  // If turning on default loss, pick whichever team you want or none
-                  team: checked ? prev[gameId]?.team || null : null,
-                },
-              }));
-
-              // // If turning it on, also set default scores
-              // if (checked) {
-              //   // Suppose away lost by default: away=1, home=9
-              //   setScores((prevScores) => ({
-              //     ...prevScores,
-              //     [gameId]: {
-              //       ...prevScores[gameId],
-              //       home: 9,
-              //       away: 1,
-              //     },
-              //   }));
-              // } else {
-              if (!checked) { // If user unchecked, reset to blank
-                setScores((prevScores) => ({
-                  ...prevScores,
-                  [gameId]: {
-                    ...prevScores[gameId],
-                    home: "",
-                    away: "",
-                  },
-                }));
+        return isEditting ? (
+          <Box>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isDefaultLoss}
+                  disabled={!isEditting}
+                  size="small"
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    setDefaultLossOptions((prev) => ({
+                      ...prev,
+                      [gameId]: {
+                        ...prev[gameId],
+                        isDefaultLoss: checked,
+                        team: checked ? prev[gameId]?.team || null : null,
+                      },
+                    }));
+                    if (!checked) {
+                      setScores((prevScores) => ({
+                        ...prevScores,
+                        [gameId]: {
+                          ...prevScores[gameId],
+                          home: "",
+                          away: "",
+                        },
+                      }));
+                    }
+                  }}
+                />
               }
-            }}
-          />
-        );
+              label="Default Loss"
+            />
+            {isDefaultLoss && (
+              <FormControl component="fieldset" size="small">
+                <RadioGroup
+                  row
+                  value={team === game.homeTeam._id ? "home" : team === game.awayTeam._id ? "away" : ""}
+                  onChange={(e) => {
+                    const teamVal = e.target.value;
+                    const teamId = teamVal === "home" ? game.homeTeam._id : game.awayTeam._id;
+
+                    setDefaultLossOptions((prev) => ({
+                      ...prev,
+                      [gameId]: {
+                        ...prev[gameId],
+                        team: teamId,
+                      },
+                    }));
+
+                    setScores((prevScores) => ({
+                      ...prevScores,
+                      [gameId]: {
+                        ...prevScores[gameId],
+                        home: teamVal === "home" ? 1 : 9,
+                        away: teamVal === "away" ? 1 : 9,
+                      },
+                    }));
+                  }}
+                >
+                  <FormControlLabel value="home" control={<Radio size="small" />} label="Home" />
+                  <FormControlLabel value="away" control={<Radio size="small" />} label="Away" />
+                </RadioGroup>
+              </FormControl>
+            )}
+          </Box>
+        ) : isDefaultLoss ? (
+          <Typography variant="body2" sx={{ color: 'error.main' }}>
+            {team === game.homeTeam._id ? game.homeTeam.name : game.awayTeam.name} (Default Loss)
+          </Typography>
+        ) : null;
       },
       shouldShow:
         isCaptain || (props.role === "commissioner" && !props.archived),
     },
     {
-      header: "Lost By?",
-      accessor: (game) => {
-        const gameId = game._id;
-        const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;
-        const isEditting = editMode[gameId];
-
-        // Convert stored ID to "home"/"away" for UI
-        const selectedTeamId = defaultLossOptions[gameId]?.team;
-        let radioVal = "";
-        if (selectedTeamId === game.homeTeam._id) radioVal = "home";
-        if (selectedTeamId === game.awayTeam._id) radioVal = "away";
-
-        // Only enable if default loss is checked
-        return (
-          <FormControl component="fieldset" disabled={!isEditting || !isDefaultLoss}>
-            <RadioGroup
-              row
-              value={radioVal} 
-              onChange={(e) => {
-                const teamVal = e.target.value; // "home" or "away"
-                const teamId = teamVal === "home" ? game.homeTeam._id : game.awayTeam._id; // Store actual ID
-
-                setDefaultLossOptions((prev) => ({
-                  ...prev,
-                  [gameId]: {
-                    ...prev[gameId],
-                    team: teamId,
-                  },
-                }));
-
-                // Set default scores based on who lost
-                setScores((prevScores) => ({
-                  ...prevScores,
-                  [gameId]: {
-                    ...prevScores[gameId],
-                    home: teamVal === "home" ? 1 : 9,
-                    away: teamVal === "away" ? 1 : 9,
-                  },
-                }));
-              }}
-            >
-              <FormControlLabel value="home" control={<Radio />} label="Home" />
-              <FormControlLabel value="away" control={<Radio />} label="Away" />
-            </RadioGroup>
-          </FormControl>
-        );
-      },
-      shouldShow:
-        isCaptain || (props.role === "commissioner" && !props.archived),
-    },
-    {
-      header: "Home Score",
+      header: "Score",
       accessor: (game) => {
         const gameId = game._id;
         const isEditting = editMode[gameId];
         const homeScore = scores[gameId]?.home ?? game.homeScore ?? "";
-        const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;    
-        
-        // If user is not a captain/commissioner or if game is archived, just show the score as text
-        if ((!isCaptain && props.role !== "commissioner") || props.archived) {
-          return homeScore || "-";
-        }
-        
-        return (
-          <TextField
-            value={homeScore || ""}
-            onChange={(e) => handleScoreChange(gameId, "home", e.target.value)}
-            size="small"
-            variant="outlined"
-            type="number"
-            inputProps={{
-              maxLength: 2,
-              inputMode: "numeric",
-              pattern: "[0-9]*",
-              min: 0,
-              max: 99,
-            }}
-            sx={{ width: "60px" }} // Set the width for compact appearance
-            disabled={!isEditting || isDefaultLoss} // Disable if the score is submitted or default loss was checked
-          />
-        );
-      },
-    },
-    {
-      header: "Away Score",
-      accessor: (game) => {
-        const gameId = game._id;
-        const isEditting = editMode[gameId];
         const awayScore = scores[gameId]?.away ?? game.awayScore ?? "";
         const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;
 
-        // If user is not a captain/commissioner or if game is archived, just show the score as text
         if ((!isCaptain && props.role !== "commissioner") || props.archived) {
-          return awayScore || "-";
+          return (
+            <Typography variant="body2">
+              {homeScore || "-"} - {awayScore || "-"}
+            </Typography>
+          );
         }
 
-        return (
-          <TextField
-            value={awayScore || ""}
-            onChange={(e) => handleScoreChange(gameId, "away", e.target.value)}
-            size="small"
-            variant="outlined"
-            type="number"
-            inputProps={{
-              maxLength: 2,
-              inputMode: "numeric",
-              pattern: "[0-9]*",
-              min: 0,
-              max: 99,
-            }}
-            sx={{ width: "60px" }} // Set the width for compact appearance
-            disabled={!isEditting || isDefaultLoss} // Disable if the score is submitted
-          />
+        return isEditting ? (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <TextField
+              value={homeScore || ""}
+              onChange={(e) => handleScoreChange(gameId, "home", e.target.value)}
+              size="small"
+              variant="outlined"
+              type="number"
+              inputProps={{
+                maxLength: 2,
+                inputMode: "numeric",
+                pattern: "[0-9]*",
+                min: 0,
+                max: 99,
+                style: { color: 'inherit' },
+              }}
+              sx={{ 
+                width: "60px",
+                "& .Mui-disabled": {
+                  WebkitTextFillColor: 'inherit',
+                  color: 'inherit',
+                },
+                "& .MuiInputBase-input.Mui-disabled": {
+                  WebkitTextFillColor: 'inherit',
+                  color: 'inherit',
+                }
+              }}
+              disabled={isDefaultLoss}
+            />
+            <Typography variant="body1">-</Typography>
+            <TextField
+              value={awayScore || ""}
+              onChange={(e) => handleScoreChange(gameId, "away", e.target.value)}
+              size="small"
+              variant="outlined"
+              type="number"
+              inputProps={{
+                maxLength: 2,
+                inputMode: "numeric",
+                pattern: "[0-9]*",
+                min: 0,
+                max: 99,
+                style: { color: 'inherit' },
+              }}
+              sx={{ 
+                width: "60px",
+                "& .Mui-disabled": {
+                  WebkitTextFillColor: 'inherit',
+                  color: 'inherit',
+                },
+                "& .MuiInputBase-input.Mui-disabled": {
+                  WebkitTextFillColor: 'inherit',
+                  color: 'inherit',
+                }
+              }}
+              disabled={isDefaultLoss}
+            />
+          </Box>
+        ) : (
+          <Typography variant="body2">
+            {homeScore || "-"} - {awayScore || "-"}
+          </Typography>
         );
       },
     },
@@ -297,7 +350,30 @@ export default function ScheduleTable(props) {
       accessor: (game) => {
         const gameId = game._id;
         const isEditting = editMode[gameId];
-        const buttonLabel = isEditting ? "Submit Score" : "Edit Score";
+        const buttonLabel = isEditting ? "Submit" : "Edit";
+        const wasSubmitted = scores[gameId]?.submitted;
+
+        const handleCancel = () => {
+          // Reset scores to original values
+          setScores((prevScores) => ({
+            ...prevScores,
+            [gameId]: {
+              home: game.homeScore,
+              away: game.awayScore,
+              submitted: true
+            }
+          }));
+          // Reset default loss options
+          setDefaultLossOptions((prev) => ({
+            ...prev,
+            [gameId]: {
+              isDefaultLoss: game.defaultLossTeam ? true : false,
+              team: game.defaultLossTeam ? game.defaultLossTeam.toString() : null
+            }
+          }));
+          // Exit edit mode
+          toggleEditMode(gameId);
+        };
 
         // Evaluate if the button is disabled
         const getIsDisabled = () => {
@@ -341,17 +417,61 @@ export default function ScheduleTable(props) {
           }
         };       
 
-        return (
+        return isEditting ? (
+          <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
+            {wasSubmitted && (
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={handleCancel}
+                sx={{
+                  borderColor: MCMASTER_COLOURS.grey,
+                  color: MCMASTER_COLOURS.grey,
+                  minWidth: '80px',
+                  '&:hover': {
+                    borderColor: MCMASTER_COLOURS.grey,
+                    backgroundColor: `${MCMASTER_COLOURS.grey}10`,
+                  },
+                }}
+              >
+                Cancel
+              </Button>
+            )}
+            <Button
+              variant="contained"
+              size="small"
+              onClick={handleButtonClick}
+              disabled={getIsDisabled()}
+              sx={{
+                backgroundColor: MCMASTER_COLOURS.maroon,
+                minWidth: '80px',
+                '&:hover': {
+                  backgroundColor: '#5C002E',
+                },
+                '&.Mui-disabled': {
+                  backgroundColor: `${MCMASTER_COLOURS.grey}80`,
+                }
+              }}
+            >
+              {buttonLabel}
+            </Button>
+          </Box>
+        ) : (
           <Button
             variant="contained"
-            sx={{
-              backgroundColor: "#7A003C",
-              color: "white",
-              "&:hover": { backgroundColor: "#5A002C" },
-            }}
             size="small"
             onClick={handleButtonClick}
             disabled={getIsDisabled()}
+            sx={{
+              backgroundColor: MCMASTER_COLOURS.maroon,
+              minWidth: '80px',
+              '&:hover': {
+                backgroundColor: '#5C002E',
+              },
+              '&.Mui-disabled': {
+                backgroundColor: `${MCMASTER_COLOURS.grey}80`,
+              }
+            }}
           >
             {buttonLabel}
           </Button>
@@ -368,13 +488,40 @@ export default function ScheduleTable(props) {
   );
 
   return props.schedule ? (
-    <TableContainer component={Paper} sx={{ mb: 2, maxHeight: "50vh" }}>
-      <Table stickyHeader>
+    <TableContainer 
+      component={Paper} 
+      sx={{ 
+        mb: 2,
+        maxHeight: "60vh",
+        boxShadow: 'none',
+        border: '1px solid rgba(0,0,0,0.1)',
+        borderRadius: '8px',
+        '& .MuiTableCell-root': {
+          px: 2,
+          py: 1.5,
+          borderColor: 'rgba(0,0,0,0.1)',
+        },
+        '& .MuiTableCell-head': {
+          backgroundColor: MCMASTER_COLOURS.maroon,
+          color: 'white',
+          fontWeight: 600,
+        },
+      }}
+    >
+      <Table stickyHeader size="small">
         <TableHead>
           <TableRow>
             {/* Map over columns for headers */}
             {visibleColumns.map((column, index) => (
-              <TableCell key={index}>{column.header}</TableCell>
+              <TableCell 
+                key={index}
+                align={column.header === "Action" ? "center" : "left"}
+                sx={{
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                <strong>{column.header}</strong>
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -382,9 +529,19 @@ export default function ScheduleTable(props) {
           {/* Map through the games */}
           {props.schedule.games && props.schedule.games.length > 0 ? (
             props.schedule.games.map((game, index) => (
-              <TableRow key={index}>
+              <TableRow 
+                key={index}
+                sx={{
+                  '&:nth-of-type(odd)': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.02)',
+                  },
+                }}
+              >
                 {visibleColumns.map((column, colIndex) => (
-                  <TableCell key={colIndex} sx={{ height: 12 }}>
+                  <TableCell 
+                    key={colIndex}
+                    align={column.header === "Action" ? "center" : "left"}
+                  >
                     {column.accessor(game)}
                   </TableCell>
                 ))}
@@ -392,8 +549,10 @@ export default function ScheduleTable(props) {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} align="center">
-                No games scheduled.
+              <TableCell colSpan={visibleColumns.length} align="center">
+                <Typography sx={{ py: 2, color: MCMASTER_COLOURS.grey }}>
+                  No games scheduled.
+                </Typography>
               </TableCell>
             </TableRow>
           )}
@@ -401,7 +560,7 @@ export default function ScheduleTable(props) {
       </Table>
     </TableContainer>
   ) : (
-    <Typography variant="h6" sx={{ mb: 2 }}>
+    <Typography variant="h6" sx={{ mb: 2, color: MCMASTER_COLOURS.grey }}>
       No Schedule Available: email the commissioner if this is an unexpected error.
     </Typography>
   );
