@@ -43,6 +43,7 @@ export default function AnnouncementForm({ onSubmit, onDelete, initialTitle = ""
           left: 0,
           right: 0,
           height: '4px',
+          // AI Generated - Ombre bar styling and gradient effects
           background: `linear-gradient(to right, ${MCMASTER_COLOURS.maroon}, ${MCMASTER_COLOURS.gold})`,
           borderRadius: '2px 2px 0 0'
         }

@@ -13,6 +13,7 @@ const MCMASTER_COLOURS = {
   lightGrey: '#F5F5F5',
 };
 
+// AI Generated - Ombre bar styling and gradient effects
 export default function EditAnnouncementPage() {
   const { id } = useParams();
   const navigate = useNavigate();
