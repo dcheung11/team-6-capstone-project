@@ -11,6 +11,8 @@ import {
   TableHead,
   TableRow,
   Button,
+  TextField,
+  Box,
 } from "@mui/material";
 
 export default function PlayerTable(props) {
@@ -20,6 +22,8 @@ export default function PlayerTable(props) {
   const [user, setUser] = useState(null);
   const [playersWithTeams, setPlayersWithTeams] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showOnlyNoTeam, setShowOnlyNoTeam] = useState(true);
+  const [searchQuery, setSearchQuery] = useState(""); // State for search input
 
   // own user information
   useEffect(() => {
@@ -98,13 +102,50 @@ export default function PlayerTable(props) {
       )
     );
   }
-  
+
+  const toggleFilter = () => {
+    setShowOnlyNoTeam((prev) => !prev);
+  };
+
+    const filteredPlayers = (showOnlyNoTeam
+      ? playersWithTeams.filter((player) => !player.team)
+      : playersWithTeams
+    ).filter((player) => {
+      const fullName = `${player.firstName} ${player.lastName}`.toLowerCase();
+      return fullName.includes(searchQuery.toLowerCase());
+    });
+
+    // Sort players alphabetically by first name, then last name
+  const sortedPlayers = [...filteredPlayers].sort((a, b) => {
+    const nameA = `${a.firstName} ${a.lastName}`.toLowerCase();
+    const nameB = `${b.firstName} ${b.lastName}`.toLowerCase();
+    return nameA.localeCompare(nameB);
+  });
 
   return (
     <TableContainer component={Paper} sx={{ mb: 6, p: 2 }}>
       {loading ? (
         <div className="spinner">Loading...</div>
       ) : (
+        <div>
+          <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+           <TextField
+            label="Search Players"
+            variant="outlined"
+            fullWidth
+            sx={{ mb: 2, flexBasis: '66%'}}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+            <Button
+        variant="contained"
+        sx={{ marginBottom: 2, backgroundColor: "#7A003C", color: "white", flexBasis: '33%' }}
+        onClick={toggleFilter}
+      >
+        {showOnlyNoTeam ? "Show All Players" : "Show Players with No Team"}
+      </Button>
+      </Box>
+        
         <Table>
           <TableHead>
             <TableRow>
@@ -114,7 +155,7 @@ export default function PlayerTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {playersWithTeams.map((player, index) => (
+            {sortedPlayers.map((player, index) => (
               <TableRow key={index}>
                 <TableCell>{player.firstName} {player.lastName}</TableCell>
                 <TableCell>{player.team ? player.team : "No Team"}</TableCell>
@@ -151,6 +192,7 @@ export default function PlayerTable(props) {
             ))}
           </TableBody>
         </Table>
+        </div>
       )}
     </TableContainer>
   );
