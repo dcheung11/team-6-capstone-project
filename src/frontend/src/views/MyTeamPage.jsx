@@ -26,8 +26,8 @@ import { getScheduleGamesByTeamId } from "../api/team";
 import LoadingOverlay from "../components/LoadingOverlay";
 import ContactInfoTable from "../components/ContactInfoTable";
 
-// McMaster colors
-const MCMASTER_COLORS = {
+// McMaster colours - AI Generated
+const MCMASTER_COLOURS = {
   maroon: '#7A003C',
   grey: '#5E6A71',
   gold: '#FDBF57',
@@ -115,7 +115,7 @@ export default function MyTeamPage() {
   return (
     <div 
       style={{ 
-        backgroundColor: MCMASTER_COLORS.lightGrey,
+        backgroundColor: MCMASTER_COLOURS.lightGrey,
         minHeight: '100vh',
         height: '100%',
         position: 'fixed',
@@ -140,15 +140,16 @@ export default function MyTeamPage() {
         ) : player && player.team ? (
           <>
             <TabContext value={teamTabValue}>
+              {/* AI Generated - Tab styling and structure */}
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <TabList 
                   onChange={handleChange}
                   sx={{
                     '& .Mui-selected': {
-                      color: `${MCMASTER_COLORS.maroon} !important`,
+                      color: `${MCMASTER_COLOURS.maroon} !important`,
                     },
                     '& .MuiTabs-indicator': {
-                      backgroundColor: MCMASTER_COLORS.maroon,
+                      backgroundColor: MCMASTER_COLOURS.maroon,
                     }
                   }}
                 >
@@ -166,7 +167,7 @@ export default function MyTeamPage() {
                     variant="h4" 
                     component="h1" 
                     sx={{ 
-                      color: MCMASTER_COLORS.maroon,
+                      color: MCMASTER_COLOURS.maroon,
                       fontWeight: "bold",
                       fontSize: { xs: "2.5rem", md: "3rem" },
                       mb: 1,
@@ -181,7 +182,7 @@ export default function MyTeamPage() {
                         component="span"
                         sx={{
                           ml: 1,
-                          color: MCMASTER_COLORS.grey,
+                          color: MCMASTER_COLOURS.grey,
                           fontWeight: "normal",
                           fontSize: "0.8em",
                         }}
@@ -202,7 +203,7 @@ export default function MyTeamPage() {
                       borderRadius: 1,
                       boxShadow: 1,
                       '& .stat-label': {
-                        color: MCMASTER_COLORS.grey,
+                        color: MCMASTER_COLOURS.grey,
                         fontWeight: "bold",
                         fontSize: '1.1rem',
                       },
@@ -272,7 +273,7 @@ export default function MyTeamPage() {
                       variant="contained"
                       size="small"
                       sx={{
-                        bgcolor: MCMASTER_COLORS.maroon,
+                        bgcolor: MCMASTER_COLOURS.maroon,
                         mt: 1,
                         mb: 2,
                         '&:hover': {
@@ -317,7 +318,7 @@ export default function MyTeamPage() {
                     variant="h4" 
                     component="h2" 
                     sx={{ 
-                      color: MCMASTER_COLORS.maroon,
+                      color: MCMASTER_COLOURS.maroon,
                       fontWeight: "bold",
                       mb: 2
                     }}

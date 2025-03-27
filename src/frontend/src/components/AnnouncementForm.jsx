@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button, Box, Typography } from "@mui/material";
 
-// McMaster colors
-const MCMASTER_COLORS = {
+// McMaster colours - AI Generated
+const MCMASTER_COLOURS = {
   maroon: '#7A003C',
   grey: '#5E6A71',
   gold: '#FDBF57',
@@ -43,7 +43,7 @@ export default function AnnouncementForm({ onSubmit, onDelete, initialTitle = ""
           left: 0,
           right: 0,
           height: '4px',
-          background: `linear-gradient(to right, ${MCMASTER_COLORS.maroon}, ${MCMASTER_COLORS.gold})`,
+          background: `linear-gradient(to right, ${MCMASTER_COLOURS.maroon}, ${MCMASTER_COLOURS.gold})`,
           borderRadius: '2px 2px 0 0'
         }
       }}
@@ -52,7 +52,7 @@ export default function AnnouncementForm({ onSubmit, onDelete, initialTitle = ""
         variant="h6" 
         sx={{ 
           mb: 3, 
-          color: MCMASTER_COLORS.grey,
+          color: MCMASTER_COLOURS.grey,
           fontWeight: 500
         }}
       >
@@ -69,14 +69,14 @@ export default function AnnouncementForm({ onSubmit, onDelete, initialTitle = ""
           mb: 4,
           '& .MuiOutlinedInput-root': {
             '&:hover fieldset': {
-              borderColor: MCMASTER_COLORS.maroon,
+              borderColor: MCMASTER_COLOURS.maroon,
             },
             '&.Mui-focused fieldset': {
-              borderColor: MCMASTER_COLORS.maroon,
+              borderColor: MCMASTER_COLOURS.maroon,
             },
           },
           '& .MuiInputLabel-root.Mui-focused': {
-            color: MCMASTER_COLORS.maroon,
+            color: MCMASTER_COLOURS.maroon,
           }
         }}
       />
@@ -93,14 +93,14 @@ export default function AnnouncementForm({ onSubmit, onDelete, initialTitle = ""
           mb: 4,
           '& .MuiOutlinedInput-root': {
             '&:hover fieldset': {
-              borderColor: MCMASTER_COLORS.maroon,
+              borderColor: MCMASTER_COLOURS.maroon,
             },
             '&.Mui-focused fieldset': {
-              borderColor: MCMASTER_COLORS.maroon,
+              borderColor: MCMASTER_COLOURS.maroon,
             },
           },
           '& .MuiInputLabel-root.Mui-focused': {
-            color: MCMASTER_COLORS.maroon,
+            color: MCMASTER_COLOURS.maroon,
           }
         }}
       />
@@ -110,7 +110,7 @@ export default function AnnouncementForm({ onSubmit, onDelete, initialTitle = ""
           display: "flex", 
           justifyContent: "space-between", 
           gap: 2,
-          borderTop: `1px solid ${MCMASTER_COLORS.lightGrey}`,
+          borderTop: `1px solid ${MCMASTER_COLOURS.lightGrey}`,
           pt: 3
         }}
       >
@@ -141,11 +141,11 @@ export default function AnnouncementForm({ onSubmit, onDelete, initialTitle = ""
             size="large"
             onClick={() => window.history.back()}
             sx={{
-              borderColor: MCMASTER_COLORS.grey,
-              color: MCMASTER_COLORS.grey,
+              borderColor: MCMASTER_COLOURS.grey,
+              color: MCMASTER_COLOURS.grey,
               '&:hover': {
-                borderColor: MCMASTER_COLORS.maroon,
-                color: MCMASTER_COLORS.maroon,
+                borderColor: MCMASTER_COLOURS.maroon,
+                color: MCMASTER_COLOURS.maroon,
                 bgcolor: 'transparent'
               },
               px: 3
@@ -158,7 +158,7 @@ export default function AnnouncementForm({ onSubmit, onDelete, initialTitle = ""
             variant="contained" 
             size="large"
             sx={{
-              bgcolor: MCMASTER_COLORS.maroon,
+              bgcolor: MCMASTER_COLOURS.maroon,
               '&:hover': {
                 bgcolor: '#5A002C'
               },

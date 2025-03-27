@@ -16,8 +16,8 @@ import {
 } from "@mui/material";
 import { getTeams, getSeasons } from "../api/team";
 
-// McMaster colors
-const MCMASTER_COLORS = {
+// McMaster colours - AI Generated
+const MCMASTER_COLOURS = {
   maroon: '#7A003C',
   grey: '#5E6A71',
   gold: '#FDBF57',
@@ -95,7 +95,7 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: MCMASTER_COLORS.lightGrey
+        backgroundColor: MCMASTER_COLOURS.lightGrey
       }}>
         <Typography>Loading Contact Info...</Typography>
       </Box>
@@ -109,7 +109,7 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: MCMASTER_COLORS.lightGrey
+        backgroundColor: MCMASTER_COLOURS.lightGrey
       }}>
         <Typography color="error">Error: {error}</Typography>
       </Box>
@@ -123,7 +123,7 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: MCMASTER_COLORS.lightGrey
+        backgroundColor: MCMASTER_COLOURS.lightGrey
       }}>
         <Typography>Loading season information...</Typography>
       </Box>
@@ -137,7 +137,7 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: MCMASTER_COLORS.lightGrey
+        backgroundColor: MCMASTER_COLOURS.lightGrey
       }}>
         <Typography>No team contact info available for the current season.</Typography>
       </Box>
@@ -157,14 +157,14 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
             minWidth: 220,
             '& .MuiOutlinedInput-root': {
               '&:hover fieldset': {
-                borderColor: MCMASTER_COLORS.maroon,
+                borderColor: MCMASTER_COLOURS.maroon,
               },
               '&.Mui-focused fieldset': {
-                borderColor: MCMASTER_COLORS.maroon,
+                borderColor: MCMASTER_COLOURS.maroon,
               }
             },
             '& .MuiInputLabel-root.Mui-focused': {
-              color: MCMASTER_COLORS.maroon,
+              color: MCMASTER_COLOURS.maroon,
             }
           }}
         >
@@ -181,13 +181,13 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
               value="all"
               sx={{
                 '&.Mui-selected': {
-                  backgroundColor: `${MCMASTER_COLORS.maroon}14`,
+                  backgroundColor: `${MCMASTER_COLOURS.maroon}14`,
                   '&:hover': {
-                    backgroundColor: `${MCMASTER_COLORS.maroon}20`,
+                    backgroundColor: `${MCMASTER_COLOURS.maroon}20`,
                   }
                 },
                 '&:hover': {
-                  backgroundColor: `${MCMASTER_COLORS.maroon}0A`,
+                  backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
                 }
               }}
             >
@@ -199,13 +199,13 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
                 value={division}
                 sx={{
                   '&.Mui-selected': {
-                    backgroundColor: `${MCMASTER_COLORS.maroon}14`,
+                    backgroundColor: `${MCMASTER_COLOURS.maroon}14`,
                     '&:hover': {
-                      backgroundColor: `${MCMASTER_COLORS.maroon}20`,
+                      backgroundColor: `${MCMASTER_COLOURS.maroon}20`,
                     }
                   },
                   '&:hover': {
-                    backgroundColor: `${MCMASTER_COLORS.maroon}0A`,
+                    backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
                   }
                 }}
               >
@@ -226,7 +226,7 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
       >
         <Table>
           <TableHead>
-            <TableRow sx={{ backgroundColor: MCMASTER_COLORS.lightGrey }}>
+            <TableRow sx={{ backgroundColor: MCMASTER_COLOURS.lightGrey }}>
               <TableCell><strong>Team Name</strong></TableCell>
               <TableCell><strong>Division</strong></TableCell>
               <TableCell><strong>Captain Name</strong></TableCell>

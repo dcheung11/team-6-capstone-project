@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 import ContactInfoTable from "../ContactInfoTable";
 
-// McMaster colors
-const MCMASTER_COLORS = {
+// McMaster colours - AI Generated
+const MCMASTER_COLOURS = {
   maroon: '#7A003C',
   grey: '#5E6A71',
   gold: '#FDBF57',
@@ -34,8 +34,8 @@ export default function CommissionerContactInfo({ seasons }) {
         sx={{ 
           p: 4, 
           textAlign: 'center',
-          color: MCMASTER_COLORS.grey,
-          bgcolor: MCMASTER_COLORS.lightGrey,
+          color: MCMASTER_COLOURS.grey,
+          bgcolor: MCMASTER_COLOURS.lightGrey,
           borderRadius: 2
         }}
       >
@@ -60,7 +60,7 @@ export default function CommissionerContactInfo({ seasons }) {
           variant="h4" 
           component="h2" 
           sx={{ 
-            color: MCMASTER_COLORS.maroon,
+            color: MCMASTER_COLOURS.maroon,
             fontWeight: 700,
             mb: 3,
             fontSize: '2rem'
@@ -75,14 +75,14 @@ export default function CommissionerContactInfo({ seasons }) {
             mb: 4,
             '& .MuiOutlinedInput-root': {
               '&:hover fieldset': {
-                borderColor: MCMASTER_COLORS.maroon,
+                borderColor: MCMASTER_COLOURS.maroon,
               },
               '&.Mui-focused fieldset': {
-                borderColor: MCMASTER_COLORS.maroon,
+                borderColor: MCMASTER_COLOURS.maroon,
               }
             },
             '& .MuiInputLabel-root.Mui-focused': {
-              color: MCMASTER_COLORS.maroon,
+              color: MCMASTER_COLOURS.maroon,
             }
           }}
         >
@@ -98,13 +98,13 @@ export default function CommissionerContactInfo({ seasons }) {
                 value={season._id}
                 sx={{
                   '&.Mui-selected': {
-                    backgroundColor: `${MCMASTER_COLORS.maroon}14`,
+                    backgroundColor: `${MCMASTER_COLOURS.maroon}14`,
                     '&:hover': {
-                      backgroundColor: `${MCMASTER_COLORS.maroon}20`,
+                      backgroundColor: `${MCMASTER_COLOURS.maroon}20`,
                     }
                   },
                   '&:hover': {
-                    backgroundColor: `${MCMASTER_COLORS.maroon}0A`,
+                    backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
                   }
                 }}
               >

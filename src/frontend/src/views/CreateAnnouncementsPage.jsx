@@ -5,8 +5,8 @@ import NavBar from "../components/NavBar";
 import AnnouncementForm from "../components/AnnouncementForm";
 import { createAnnouncement } from "../api/announcements";
 
-// McMaster colors
-const MCMASTER_COLORS = {
+// McMaster colours - AI Generated
+const MCMASTER_COLOURS = {
   maroon: '#7A003C',
   grey: '#5E6A71',
   gold: '#FDBF57',
@@ -28,7 +28,7 @@ export default function CreateAnnouncementPage() {
   return (
     <Box 
       sx={{ 
-        bgcolor: MCMASTER_COLORS.lightGrey, 
+        bgcolor: MCMASTER_COLOURS.lightGrey, 
         minHeight: "100vh", 
         display: "flex", 
         flexDirection: "column" 
@@ -60,7 +60,7 @@ export default function CreateAnnouncementPage() {
               display: 'block',
               width: '80px',
               height: '4px',
-              bgcolor: MCMASTER_COLORS.gold,
+              bgcolor: MCMASTER_COLOURS.gold,
               mx: 'auto',
               mt: 2,
               borderRadius: '2px'

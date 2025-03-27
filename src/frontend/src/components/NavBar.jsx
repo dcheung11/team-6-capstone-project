@@ -15,8 +15,8 @@ import { useAuth } from "../hooks/AuthProvider";
 import { useNavigate, useLocation } from "react-router";
 import { getPlayerById } from "../api/player";
 
-// McMaster colors
-const MCMASTER_COLORS = {
+// McMaster colours - AI Generated
+const MCMASTER_COLOURS = {
   maroon: '#7A003C',
   grey: '#5E6A71',
   gold: '#FDBF57',
@@ -69,7 +69,7 @@ const NavBar = () => {
   return (
     <AppBar
       position="static"
-      style={{ backgroundColor: MCMASTER_COLORS.maroon, height: 92 }}
+      style={{ backgroundColor: MCMASTER_COLOURS.maroon, height: 92 }}
     >
       <Container style={{ marginTop: "14px" }}>
         <Toolbar disableGutters sx={{ height: 64 }}>
@@ -90,9 +90,9 @@ const NavBar = () => {
               color="inherit" 
               href="/home"
               sx={{ 
-                color: isCurrentPage('/home') ? MCMASTER_COLORS.gold : 'inherit',
+                color: isCurrentPage('/home') ? MCMASTER_COLOURS.gold : 'inherit',
                 '&:hover': {
-                  color: isCurrentPage('/home') ? MCMASTER_COLORS.gold : 'inherit',
+                  color: isCurrentPage('/home') ? MCMASTER_COLOURS.gold : 'inherit',
                 }
               }}
             >
@@ -102,9 +102,9 @@ const NavBar = () => {
               color="inherit" 
               href="/announcements"
               sx={{ 
-                color: isCurrentPage('/announcements') ? MCMASTER_COLORS.gold : 'inherit',
+                color: isCurrentPage('/announcements') ? MCMASTER_COLOURS.gold : 'inherit',
                 '&:hover': {
-                  color: isCurrentPage('/announcements') ? MCMASTER_COLORS.gold : 'inherit',
+                  color: isCurrentPage('/announcements') ? MCMASTER_COLOURS.gold : 'inherit',
                 }
               }}
             >
@@ -115,9 +115,9 @@ const NavBar = () => {
               color="inherit" 
               href={`/team/${teamId}`}
               sx={{ 
-                color: isCurrentPage(`/team/${teamId}`) ? MCMASTER_COLORS.gold : 'inherit',
+                color: isCurrentPage(`/team/${teamId}`) ? MCMASTER_COLOURS.gold : 'inherit',
                 '&:hover': {
-                  color: isCurrentPage(`/team/${teamId}`) ? MCMASTER_COLORS.gold : 'inherit',
+                  color: isCurrentPage(`/team/${teamId}`) ? MCMASTER_COLOURS.gold : 'inherit',
                 }
               }}
             >
@@ -128,9 +128,9 @@ const NavBar = () => {
               color="inherit" 
               href="/schedule"
               sx={{ 
-                color: isCurrentPage('/schedule') ? MCMASTER_COLORS.gold : 'inherit',
+                color: isCurrentPage('/schedule') ? MCMASTER_COLOURS.gold : 'inherit',
                 '&:hover': {
-                  color: isCurrentPage('/schedule') ? MCMASTER_COLORS.gold : 'inherit',
+                  color: isCurrentPage('/schedule') ? MCMASTER_COLOURS.gold : 'inherit',
                 }
               }}
             >
@@ -140,9 +140,9 @@ const NavBar = () => {
               color="inherit" 
               href="/standings"
               sx={{ 
-                color: isCurrentPage('/standings') ? MCMASTER_COLORS.gold : 'inherit',
+                color: isCurrentPage('/standings') ? MCMASTER_COLOURS.gold : 'inherit',
                 '&:hover': {
-                  color: isCurrentPage('/standings') ? MCMASTER_COLORS.gold : 'inherit',
+                  color: isCurrentPage('/standings') ? MCMASTER_COLOURS.gold : 'inherit',
                 }
               }}
             >
@@ -152,9 +152,9 @@ const NavBar = () => {
               color="inherit" 
               href="/info"
               sx={{ 
-                color: isCurrentPage('/info') ? MCMASTER_COLORS.gold : 'inherit',
+                color: isCurrentPage('/info') ? MCMASTER_COLOURS.gold : 'inherit',
                 '&:hover': {
-                  color: isCurrentPage('/info') ? MCMASTER_COLORS.gold : 'inherit',
+                  color: isCurrentPage('/info') ? MCMASTER_COLOURS.gold : 'inherit',
                 }
               }}
             >
@@ -164,9 +164,9 @@ const NavBar = () => {
               color="inherit" 
               href="/documentation"
               sx={{ 
-                color: isCurrentPage('/documentation') ? MCMASTER_COLORS.gold : 'inherit',
+                color: isCurrentPage('/documentation') ? MCMASTER_COLOURS.gold : 'inherit',
                 '&:hover': {
-                  color: isCurrentPage('/documentation') ? MCMASTER_COLORS.gold : 'inherit',
+                  color: isCurrentPage('/documentation') ? MCMASTER_COLOURS.gold : 'inherit',
                 }
               }}
             >
@@ -177,9 +177,9 @@ const NavBar = () => {
               color="inherit" 
               href="/manage"
               sx={{ 
-                color: isCurrentPage('/manage') ? MCMASTER_COLORS.gold : 'inherit',
+                color: isCurrentPage('/manage') ? MCMASTER_COLOURS.gold : 'inherit',
                 '&:hover': {
-                  color: isCurrentPage('/manage') ? MCMASTER_COLORS.gold : 'inherit',
+                  color: isCurrentPage('/manage') ? MCMASTER_COLOURS.gold : 'inherit',
                 }
               }}
             >

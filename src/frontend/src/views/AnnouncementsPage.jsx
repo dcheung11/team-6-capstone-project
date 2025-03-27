@@ -8,8 +8,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useAuth } from "../hooks/AuthProvider";
 import { getPlayerById } from "../api/player";
 
-// McMaster colors
-const MCMASTER_COLORS = {
+// McMaster colours - AI Generated
+const MCMASTER_COLOURS = {
   maroon: '#7A003C',
   grey: '#5E6A71',
   gold: '#FDBF57',
@@ -64,7 +64,7 @@ export default function AnnouncementPage() {
   return (
     <Box 
       sx={{ 
-        bgcolor: MCMASTER_COLORS.lightGrey, 
+        bgcolor: MCMASTER_COLOURS.lightGrey, 
         minHeight: "100vh",
         height: '100%',
         position: 'fixed',
@@ -87,7 +87,7 @@ export default function AnnouncementPage() {
                   variant="contained"
                   sx={{ 
                     borderRadius: 2, 
-                    backgroundColor: MCMASTER_COLORS.maroon, 
+                    backgroundColor: MCMASTER_COLOURS.maroon, 
                     "&:hover": { 
                       backgroundColor: '#5A002C'
                     },
@@ -120,7 +120,7 @@ export default function AnnouncementPage() {
                   left: 0,
                   right: 0,
                   height: '4px',
-                  background: `linear-gradient(to right, ${MCMASTER_COLORS.maroon}, ${MCMASTER_COLORS.gold})`,
+                  background: `linear-gradient(to right, ${MCMASTER_COLOURS.maroon}, ${MCMASTER_COLOURS.gold})`,
                   borderRadius: '2px 2px 0 0'
                 }
               }}
@@ -129,7 +129,7 @@ export default function AnnouncementPage() {
               <Box 
                 sx={{ 
                   display: 'inline-block',
-                  bgcolor: MCMASTER_COLORS.maroon,
+                  bgcolor: MCMASTER_COLOURS.maroon,
                   color: 'white',
                   px: 2,
                   py: 0.5,
@@ -158,7 +158,7 @@ export default function AnnouncementPage() {
                     display: 'block',
                     width: '80px',
                     height: '4px',
-                    bgcolor: MCMASTER_COLORS.gold,
+                    bgcolor: MCMASTER_COLOURS.gold,
                     mx: 'auto',
                     mt: 3,
                     borderRadius: '2px'
@@ -174,7 +174,7 @@ export default function AnnouncementPage() {
                 justifyContent: 'center',
                 gap: 1,
                 mb: 4,
-                color: MCMASTER_COLORS.grey,
+                color: MCMASTER_COLOURS.grey,
                 '& svg': { fontSize: '1rem' }
               }}>
                 <Typography 
@@ -202,7 +202,7 @@ export default function AnnouncementPage() {
                     mb: 2.5
                   },
                   '& strong': {
-                    color: MCMASTER_COLORS.maroon,
+                    color: MCMASTER_COLOURS.maroon,
                     fontWeight: 600
                   }
                 }}
@@ -217,13 +217,13 @@ export default function AnnouncementPage() {
                   justifyContent: "flex-end", 
                   mt: 4,
                   pt: 3,
-                  borderTop: `1px solid ${MCMASTER_COLORS.lightGrey}`
+                  borderTop: `1px solid ${MCMASTER_COLOURS.lightGrey}`
                 }}>
                   <Button
                     variant="contained"
                     sx={{
                       borderRadius: 2,
-                      backgroundColor: MCMASTER_COLORS.maroon,
+                      backgroundColor: MCMASTER_COLOURS.maroon,
                       "&:hover": { 
                         backgroundColor: '#5A002C'
                       }
@@ -249,7 +249,7 @@ export default function AnnouncementPage() {
               left: 0,
               right: 0,
               height: '4px',
-              background: `linear-gradient(to right, ${MCMASTER_COLORS.gold}, ${MCMASTER_COLORS.maroon})`,
+              background: `linear-gradient(to right, ${MCMASTER_COLOURS.gold}, ${MCMASTER_COLOURS.maroon})`,
             }
           }}>
             <PastAnnouncementsSection

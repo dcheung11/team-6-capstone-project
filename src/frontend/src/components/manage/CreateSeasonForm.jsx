@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Paper, Button, TextField, Snackbar, Alert, Grid } from "@mui/material";
 import { createSeason, getAllSeasons } from "../../api/season";
 
-// McMaster colors
-const MCMASTER_COLORS = {
+// McMaster colours - AI Generated
+const MCMASTER_COLOURS = {
   maroon: '#7A003C',
   grey: '#5E6A71',
   gold: '#FDBF57',
@@ -64,14 +64,14 @@ const CreateSeasonForm = (props) => {
   const textFieldStyles = {
     '& .MuiOutlinedInput-root': {
       '&:hover fieldset': {
-        borderColor: MCMASTER_COLORS.maroon,
+        borderColor: MCMASTER_COLOURS.maroon,
       },
       '&.Mui-focused fieldset': {
-        borderColor: MCMASTER_COLORS.maroon,
+        borderColor: MCMASTER_COLOURS.maroon,
       },
     },
     '& .MuiInputLabel-root.Mui-focused': {
-      color: MCMASTER_COLORS.maroon,
+      color: MCMASTER_COLOURS.maroon,
     },
   };
 
@@ -131,8 +131,8 @@ const CreateSeasonForm = (props) => {
                 sx={{
                   ...textFieldStyles,
                   '& .MuiInputBase-input.Mui-disabled': {
-                    WebkitTextFillColor: MCMASTER_COLORS.grey,
-                    backgroundColor: MCMASTER_COLORS.lightGrey,
+                    WebkitTextFillColor: MCMASTER_COLOURS.grey,
+                    backgroundColor: MCMASTER_COLOURS.lightGrey,
                   }
                 }}
               />
@@ -148,12 +148,12 @@ const CreateSeasonForm = (props) => {
               sx={{
                 mt: 2,
                 py: 1.5,
-                backgroundColor: MCMASTER_COLORS.maroon,
+                backgroundColor: MCMASTER_COLOURS.maroon,
                 '&:hover': {
                   backgroundColor: '#5C002E',
                 },
                 '&.Mui-disabled': {
-                  backgroundColor: MCMASTER_COLORS.grey,
+                  backgroundColor: MCMASTER_COLOURS.grey,
                   color: 'white',
                 },
               }}
@@ -177,7 +177,7 @@ const CreateSeasonForm = (props) => {
           sx={{ 
             width: '100%',
             ...(notification.severity === 'success' && {
-              backgroundColor: MCMASTER_COLORS.maroon,
+              backgroundColor: MCMASTER_COLOURS.maroon,
             })
           }}
         >

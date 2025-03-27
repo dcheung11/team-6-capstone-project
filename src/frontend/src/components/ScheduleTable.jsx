@@ -20,8 +20,8 @@ import {
 import { formatDate, getDayOfWeek } from "../utils/Formatting";
 import { updateScore } from "../api/game.js";
 
-// McMaster colors
-const MCMASTER_COLORS = {
+// McMaster colours - AI Generated
+const MCMASTER_COLOURS = {
   maroon: '#7A003C',
   grey: '#5E6A71',
   gold: '#FDBF57',
@@ -123,13 +123,13 @@ export default function ScheduleTable(props) {
       header: "Game Info",
       accessor: (game) => (
         <Box>
-          <Typography variant="subtitle2" sx={{ color: MCMASTER_COLORS.maroon, fontWeight: 600 }}>
+          <Typography variant="subtitle2" sx={{ color: MCMASTER_COLOURS.maroon, fontWeight: 600 }}>
             {getDayOfWeek(game.date)}
           </Typography>
-          <Typography variant="body2" sx={{ color: MCMASTER_COLORS.grey }}>
+          <Typography variant="body2" sx={{ color: MCMASTER_COLOURS.grey }}>
             {formatDate(game.date)}
           </Typography>
-          <Typography variant="body2" sx={{ color: MCMASTER_COLORS.grey }}>
+          <Typography variant="body2" sx={{ color: MCMASTER_COLOURS.grey }}>
             {game.time} | {game.field}
           </Typography>
         </Box>
@@ -144,9 +144,9 @@ export default function ScheduleTable(props) {
               component="span" 
               variant="caption" 
               sx={{ 
-                color: MCMASTER_COLORS.maroon,
+                color: MCMASTER_COLOURS.maroon,
                 fontWeight: 600,
-                backgroundColor: `${MCMASTER_COLORS.maroon}10`,
+                backgroundColor: `${MCMASTER_COLOURS.maroon}10`,
                 px: 0.5,
                 borderRadius: 0.5
               }}
@@ -162,9 +162,9 @@ export default function ScheduleTable(props) {
               component="span" 
               variant="caption" 
               sx={{ 
-                color: MCMASTER_COLORS.grey,
+                color: MCMASTER_COLOURS.grey,
                 fontWeight: 600,
-                backgroundColor: `${MCMASTER_COLORS.grey}10`,
+                backgroundColor: `${MCMASTER_COLOURS.grey}10`,
                 px: 0.5,
                 borderRadius: 0.5
               }}
@@ -175,7 +175,7 @@ export default function ScheduleTable(props) {
               {game.awayTeam.name}
             </Typography>
           </Box>
-          <Typography variant="caption" sx={{ color: MCMASTER_COLORS.grey, display: 'block', mt: 0.5 }}>
+          <Typography variant="caption" sx={{ color: MCMASTER_COLOURS.grey, display: 'block', mt: 0.5 }}>
             Division {game.division.name}
           </Typography>
         </Box>
@@ -425,12 +425,12 @@ export default function ScheduleTable(props) {
                 size="small"
                 onClick={handleCancel}
                 sx={{
-                  borderColor: MCMASTER_COLORS.grey,
-                  color: MCMASTER_COLORS.grey,
+                  borderColor: MCMASTER_COLOURS.grey,
+                  color: MCMASTER_COLOURS.grey,
                   minWidth: '80px',
                   '&:hover': {
-                    borderColor: MCMASTER_COLORS.grey,
-                    backgroundColor: `${MCMASTER_COLORS.grey}10`,
+                    borderColor: MCMASTER_COLOURS.grey,
+                    backgroundColor: `${MCMASTER_COLOURS.grey}10`,
                   },
                 }}
               >
@@ -443,13 +443,13 @@ export default function ScheduleTable(props) {
               onClick={handleButtonClick}
               disabled={getIsDisabled()}
               sx={{
-                backgroundColor: MCMASTER_COLORS.maroon,
+                backgroundColor: MCMASTER_COLOURS.maroon,
                 minWidth: '80px',
                 '&:hover': {
                   backgroundColor: '#5C002E',
                 },
                 '&.Mui-disabled': {
-                  backgroundColor: `${MCMASTER_COLORS.grey}80`,
+                  backgroundColor: `${MCMASTER_COLOURS.grey}80`,
                 }
               }}
             >
@@ -463,13 +463,13 @@ export default function ScheduleTable(props) {
             onClick={handleButtonClick}
             disabled={getIsDisabled()}
             sx={{
-              backgroundColor: MCMASTER_COLORS.maroon,
+              backgroundColor: MCMASTER_COLOURS.maroon,
               minWidth: '80px',
               '&:hover': {
                 backgroundColor: '#5C002E',
               },
               '&.Mui-disabled': {
-                backgroundColor: `${MCMASTER_COLORS.grey}80`,
+                backgroundColor: `${MCMASTER_COLOURS.grey}80`,
               }
             }}
           >
@@ -498,7 +498,7 @@ export default function ScheduleTable(props) {
           py: 1.5,
         },
         '& .MuiTableCell-head': {
-          backgroundColor: MCMASTER_COLORS.maroon,
+          backgroundColor: MCMASTER_COLOURS.maroon,
           color: 'white',
           fontWeight: 600,
         },
@@ -529,10 +529,10 @@ export default function ScheduleTable(props) {
                 key={index}
                 sx={{
                   '&:nth-of-type(odd)': {
-                    backgroundColor: `${MCMASTER_COLORS.maroon}05`,
+                    backgroundColor: `${MCMASTER_COLOURS.maroon}05`,
                   },
                   '&:hover': {
-                    backgroundColor: `${MCMASTER_COLORS.maroon}0A`,
+                    backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
                   },
                 }}
               >
@@ -549,7 +549,7 @@ export default function ScheduleTable(props) {
           ) : (
             <TableRow>
               <TableCell colSpan={visibleColumns.length} align="center">
-                <Typography sx={{ py: 2, color: MCMASTER_COLORS.grey }}>
+                <Typography sx={{ py: 2, color: MCMASTER_COLOURS.grey }}>
                   No games scheduled.
                 </Typography>
               </TableCell>
@@ -559,7 +559,7 @@ export default function ScheduleTable(props) {
       </Table>
     </TableContainer>
   ) : (
-    <Typography variant="h6" sx={{ mb: 2, color: MCMASTER_COLORS.grey }}>
+    <Typography variant="h6" sx={{ mb: 2, color: MCMASTER_COLOURS.grey }}>
       No Schedule Available: email the commissioner if this is an unexpected error.
     </Typography>
   );
