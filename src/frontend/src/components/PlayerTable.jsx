@@ -112,7 +112,8 @@ export default function PlayerTable(props) {
       : playersWithTeams
     ).filter((player) => {
       const fullName = `${player.firstName} ${player.lastName}`.toLowerCase();
-      return fullName.includes(searchQuery.toLowerCase());
+      const isNotCommissioner = player.role !== 'commissioner'; // Exclude commissioner role
+      return fullName.includes(searchQuery.toLowerCase()) && isNotCommissioner;;
     });
 
     // Sort players alphabetically by first name, then last name
