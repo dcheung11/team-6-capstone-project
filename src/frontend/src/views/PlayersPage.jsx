@@ -30,7 +30,16 @@ export default function Players() {
       <NavBar />
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <LoadingOverlay loading={loading} />
-        <Typography variant="h5" component="h2" gutterBottom>
+        <Typography
+		  variant="h5"
+		  component="h2"
+		  gutterBottom
+		  sx={{
+			fontSize: { xs: "2.5rem", md: "3rem" },
+			fontWeight: 700,
+			color: "black",
+			fontFamily: "inherit",
+		  }}>
           Players
         </Typography>
         <PlayerTable players={players} />
