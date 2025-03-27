@@ -493,9 +493,13 @@ export default function ScheduleTable(props) {
       sx={{ 
         mb: 2,
         maxHeight: "60vh",
+        boxShadow: 'none',
+        border: '1px solid rgba(0,0,0,0.1)',
+        borderRadius: '8px',
         '& .MuiTableCell-root': {
           px: 2,
           py: 1.5,
+          borderColor: 'rgba(0,0,0,0.1)',
         },
         '& .MuiTableCell-head': {
           backgroundColor: MCMASTER_COLOURS.maroon,
@@ -516,7 +520,7 @@ export default function ScheduleTable(props) {
                   whiteSpace: 'nowrap',
                 }}
               >
-                {column.header}
+                <strong>{column.header}</strong>
               </TableCell>
             ))}
           </TableRow>
@@ -529,10 +533,7 @@ export default function ScheduleTable(props) {
                 key={index}
                 sx={{
                   '&:nth-of-type(odd)': {
-                    backgroundColor: `${MCMASTER_COLOURS.maroon}05`,
-                  },
-                  '&:hover': {
-                    backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
+                    backgroundColor: 'rgba(0, 0, 0, 0.02)',
                   },
                 }}
               >

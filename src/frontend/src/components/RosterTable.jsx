@@ -54,17 +54,13 @@ export default function RosterTable(props) {
               key={index}
               sx={{
                 '&:nth-of-type(odd)': {
-                  backgroundColor: `${MCMASTER_COLOURS.maroon}05`,
-                },
-                '&:hover': {
-                  backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
+                  backgroundColor: 'rgba(0, 0, 0, 0.02)',
                 },
               }}
             >
               <TableCell>
                 {props.captain.id === player.id ? (
                   <Typography sx={{ 
-                    color: MCMASTER_COLOURS.maroon,
                     fontWeight: 600,
                   }}>
                     {player.firstName} {player.lastName}

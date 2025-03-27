@@ -226,12 +226,12 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
       >
         <Table>
           <TableHead>
-            <TableRow sx={{ backgroundColor: MCMASTER_COLOURS.lightGrey }}>
-              <TableCell><strong>Team Name</strong></TableCell>
-              <TableCell><strong>Division</strong></TableCell>
-              <TableCell><strong>Captain Name</strong></TableCell>
-              <TableCell><strong>Captain Email</strong></TableCell>
-              <TableCell><strong>Captain Phone</strong></TableCell>
+            <TableRow sx={{ backgroundColor: MCMASTER_COLOURS.maroon}}>
+              <TableCell sx={{ color: 'white' }}><strong>Team Name</strong></TableCell>
+              <TableCell sx={{ color: 'white' }}><strong>Division</strong></TableCell>
+              <TableCell sx={{ color: 'white' }}><strong>Captain Name</strong></TableCell>
+              <TableCell sx={{ color: 'white' }}><strong>Captain Email</strong></TableCell>
+              <TableCell sx={{ color: 'white' }}><strong>Captain Phone</strong></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

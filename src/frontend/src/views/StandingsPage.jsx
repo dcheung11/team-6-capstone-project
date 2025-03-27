@@ -147,13 +147,13 @@ export default function StandingsPage() {
                       value={season._id}
                       sx={{
                         '&.Mui-selected': {
-                          backgroundColor: `${MCMASTER_COLOURS.lightGrey}`,
+                          backgroundColor: `${MCMASTER_COLOURS.maroon}14`,
                           '&:hover': {
-                            backgroundColor: `${MCMASTER_COLOURS.lightGrey}`,
+                            backgroundColor: `${MCMASTER_COLOURS.maroon}20`,
                           }
                         },
                         '&:hover': {
-                          backgroundColor: `${MCMASTER_COLOURS.lightGrey}`,
+                          backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
                         }
                       }}
                     >
@@ -181,13 +181,13 @@ export default function StandingsPage() {
                       value={division._id}
                       sx={{
                         '&.Mui-selected': {
-                          backgroundColor: `${MCMASTER_COLOURS.lightGrey}`,
+                          backgroundColor: `${MCMASTER_COLOURS.maroon}14`,
                           '&:hover': {
-                            backgroundColor: `${MCMASTER_COLOURS.lightGrey}`,
+                            backgroundColor: `${MCMASTER_COLOURS.maroon}20`,
                           }
                         },
                         '&:hover': {
-                          backgroundColor: `${MCMASTER_COLOURS.lightGrey}`,
+                          backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
                         }
                       }}
                     >
