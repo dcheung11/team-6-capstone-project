@@ -28,7 +28,6 @@ const ProfileContainer = styled(Box)(({ theme }) => ({
 
 export default function ProfilePage() {
   const auth = useAuth();
-  const [rerenderTrigger, setRerenderTrigger] = useState(0);
 
   // placeholder profile
   const [player, setPlayer] = useState({
@@ -75,34 +74,6 @@ export default function ProfilePage() {
       [e.target.name]: e.target.value,
     }));
   };  
-
-  const handleAcceptInvite = (teamId) => {
-
-    // Immediate state change before API call
-    setPlayer((prevPlayer) => ({
-      ...prevPlayer,
-      invites: prevPlayer.invites.filter((invite) => invite !== teamId),
-    }));
-
-    // Trigger re-render manually
-    setRerenderTrigger((prev) => prev + 1);
-
-    const requestBody = {
-      playerId: auth.playerId,
-      teamId: teamId,
-    };
-    try {
-      acceptInvite(requestBody);
-    } catch (err) {
-      console.log("Failed to accept team invite");
-
-      //Handle failure (revert the state if needed)
-      setPlayer((prevPlayer) => ({
-        ...prevPlayer,
-        invites: [...prevPlayer.invites, teamId],
-      }));
-    }
-  };
 
   return (
     <>
