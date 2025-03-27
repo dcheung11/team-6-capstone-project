@@ -140,26 +140,25 @@ export default function MyTeamPage() {
         ) : player && player.team ? (
           <>
             <TabContext value={teamTabValue}>
-              {/* AI Generated - Tab styling and structure */}
-              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <TabList 
-                  onChange={handleChange}
-                  sx={{
-                    '& .Mui-selected': {
-                      color: `${MCMASTER_COLOURS.maroon} !important`,
-                    },
-                    '& .MuiTabs-indicator': {
-                      backgroundColor: MCMASTER_COLOURS.maroon,
-                    }
-                  }}
-                >
-                  <Tab label={player.team.name} value={player.team.id} />
-                  {(player.team.captainId.id === playerId ||
-                    player.role === "commissioner") && (
+              {player.team.captainId.id === playerId && ( // Only show tabs for captains
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  {/* AI Generated - Tablist styling */}
+                  <TabList 
+                    onChange={handleChange}
+                    sx={{
+                      '& .Mui-selected': {
+                        color: `${MCMASTER_COLOURS.maroon} !important`,
+                      },
+                      '& .MuiTabs-indicator': {
+                        backgroundColor: MCMASTER_COLOURS.maroon,
+                      }
+                    }}
+                  >
+                    <Tab label={player.team.name} value={player.team.id} />
                     <Tab label="Captain Contacts" value="contacts" />
-                  )}
-                </TabList>
-              </Box>
+                  </TabList>
+                </Box>
+              )}
 
               <TabPanel value={player.team.id}>
                 <Box>
@@ -246,7 +245,7 @@ export default function MyTeamPage() {
                           mb: 2,
                         }}
                       >
-                        Notifications
+                        Scheduling Notifications
                       </Typography>
                       {teamNotifications && teamNotifications.length > 0 ? (
                         <NotificationsRow notifications={teamNotifications} />
@@ -318,26 +317,29 @@ export default function MyTeamPage() {
               </TabPanel>
 
               {/* Contacts Panel */}
-              <TabPanel value="contacts">
-                <Box>
-                  <Typography 
-                    variant="h4" 
-                    component="h2" 
-                    sx={{ 
-                      color: MCMASTER_COLOURS.maroon,
-                      fontWeight: "bold",
-                      mb: 2
-                    }}
-                  >
-                    Captain Contact Information
-                  </Typography>
-                  <ContactInfoTable
-                    currentSeasonId={
-                      player?.team?.seasonId?._id || player?.team?.seasonId
-                    }
-                  />
-                </Box>
-              </TabPanel>
+              {/* AI Generated - contacts panel styling */}
+              {player.team.captainId.id === playerId && ( // Only show contacts panel for captains
+                <TabPanel value="contacts">
+                  <Box>
+                    <Typography 
+                      variant="h4" 
+                      component="h2" 
+                      sx={{ 
+                        color: MCMASTER_COLOURS.maroon,
+                        fontWeight: "bold",
+                        mb: 2
+                      }}
+                    >
+                      Captain Contact Information
+                    </Typography>
+                    <ContactInfoTable
+                      currentSeasonId={
+                        player?.team?.seasonId?._id || player?.team?.seasonId
+                      }
+                    />
+                  </Box>
+                </TabPanel>
+              )}
             </TabContext>
           </>
         ) : (
