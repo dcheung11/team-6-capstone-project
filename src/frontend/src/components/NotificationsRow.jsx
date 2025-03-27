@@ -106,7 +106,7 @@ export default function NotificationsRow({ notifications: initialNotifications, 
           position: "relative",
           mb: 2,
           backgroundColor: "white",
-          border: `2px solid ${borderColor}`,
+          border: `3px solid ${borderColor}`,
           borderRadius: 4,
           transition: 'all 0.2s ease-in-out',
           // Hover effect only for clickable cards 
@@ -139,7 +139,7 @@ export default function NotificationsRow({ notifications: initialNotifications, 
             <Typography
               sx={{
                 color: borderColor,
-                fontSize: "0.9rem",
+                fontSize: "1.3rem",
                 fontWeight: 500,
               }}
             >
@@ -205,8 +205,10 @@ export default function NotificationsRow({ notifications: initialNotifications, 
                 fontWeight: 400,
                 border: isRead ? `2px solid ${MCMASTER_COLOURS.grey}` : "none",
                 borderRadius: "12px",
-                position: "relative",
-                top: -12
+                position: "absolute",
+                bottom: 12,
+                right: 12,
+                padding: '4px 8px'
               }}
             />
           </Stack>

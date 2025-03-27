@@ -83,8 +83,19 @@ export default function StandingsPage() {
             sx={{
               bgcolor: 'white',
               borderRadius: 2,
-              boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-              border: '1px solid rgba(0,0,0,0.1)',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+              position: 'relative',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '4px',
+                // AI Generated - Ombre bar styling and gradient effects
+                background: `linear-gradient(to right, ${MCMASTER_COLOURS.maroon}, ${MCMASTER_COLOURS.gold})`,
+                borderRadius: '2px 2px 0 0'
+              },
               p: 3,
             }}
           >

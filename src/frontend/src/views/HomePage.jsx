@@ -121,7 +121,26 @@ export default function HomePage() {
       <Box sx={{ bgcolor: "#f5f5f5", minHeight: "100vh" }}>
         {loading && <LoadingOverlay loading={loading} />}
         {/* Hero Section */}
-        <Box sx={{ bgcolor: 'white', pb: 8, borderBottom: '1px solid rgba(0,0,0,0.1)' }}>
+        <Box sx={{ 
+          bgcolor: 'white', 
+          pb: 8, 
+          // borderBottom: '1px solid rgba(0,0,0,0.1)' 
+          borderRadius: 2,
+          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+          position: 'relative',
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '4px',
+            // AI Generated - Ombre bar styling and gradient effects
+            background: `linear-gradient(to right, ${MCMASTER_COLOURS.gold}, ${MCMASTER_COLOURS.maroon})`,
+            borderRadius: '2px 2px 0 0'
+          }
+        }}
+      >
           <Container maxWidth="lg" sx={{ pt: 10, width: "100%" }}>
             <Grid container spacing={2} alignItems="center">
               {/* Title and Welcome Message */}
@@ -181,11 +200,22 @@ export default function HomePage() {
           <Box
             sx={{
               bgcolor: 'white',
+              p: { xs: 3, md: 6 },
               borderRadius: 2,
-              boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-              border: '1px solid rgba(0,0,0,0.1)',
-              p: 4,
-            }}
+              boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+              position: 'relative',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '5px',
+                // AI Generated - Ombre bar styling and gradient effects
+                background: `linear-gradient(to right, ${MCMASTER_COLOURS.maroon}, ${MCMASTER_COLOURS.gold})`,
+                borderRadius: '2px 2px 0 0'
+              }
+      }}
           >
             {/* Seasons Section */}
             <Typography
