@@ -12,10 +12,6 @@ import {
   Grid,
   TextField,
   Avatar,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
   Button,
   MenuItem,
 } from "@mui/material";
@@ -270,57 +266,6 @@ export default function ProfilePage() {
                 </Grid>
               </Grid>
             </Box>
-
-            {/* My Teams + Notifications */}
-            <Grid container spacing={4} sx={{ mt: 4 }}>
-              <Grid item xs={12} md={6}>
-                <Typography variant="h6" sx={{ mb: 2 }}>
-                  My Teams
-                </Typography>
-                <List>
-                  {player && player.team && (
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar
-                          src={player.team.name}
-                          alt={player.team.name}
-                          sx={{ width: 35, height: 35, bgcolor: "#7A003C" }}
-                        >
-                          {player.team.name.charAt(0)}
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={player.team.name} />
-                    </ListItem>
-                  )}
-                </List>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography variant="h6" sx={{ mb: 2 }}>
-                  Team Invites
-                </Typography>
-                <List disablePadding>
-                  {player.invites?.map((team, index) => (
-                    <ListItem
-                      key={team.id}
-                      secondaryAction={
-                        <>
-                          <Button
-                            color="success"
-                            onClick={() => handleAcceptInvite(team.id)}
-                            sx={{ mr: 1 }}
-                          >
-                            Accept
-                          </Button>
-                          {/* <Button color="error" onClick={() => handleDeclineInvite(team)}>Decline</Button> */}
-                        </>
-                      }
-                    >
-                      <ListItemText primary={team.name} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Grid>
-            </Grid>
           </ProfileContainer>
         </Container>
       </Box>
