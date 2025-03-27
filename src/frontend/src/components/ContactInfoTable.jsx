@@ -16,6 +16,14 @@ import {
 } from "@mui/material";
 import { getTeams, getSeasons } from "../api/team";
 
+// McMaster colours - AI Generated
+const MCMASTER_COLOURS = {
+  maroon: '#7A003C',
+  grey: '#5E6A71',
+  gold: '#FDBF57',
+  lightGrey: '#F5F5F5',
+};
+
 export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -81,19 +89,59 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
   }, [allSeasons]);
 
   if (loading) {
-    return <Typography>Loading Contact Info...</Typography>;
+    return (
+      <Box sx={{ 
+        minHeight: '1000px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: MCMASTER_COLOURS.lightGrey
+      }}>
+        <Typography>Loading Contact Info...</Typography>
+      </Box>
+    );
   }
 
   if (error) {
-    return <Typography color="error">Error: {error}</Typography>;
+    return (
+      <Box sx={{ 
+        minHeight: '1000px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: MCMASTER_COLOURS.lightGrey
+      }}>
+        <Typography color="error">Error: {error}</Typography>
+      </Box>
+    );
   }
 
   if (!currentSeasonId) {
-    return <Typography>Loading season information...</Typography>;
+    return (
+      <Box sx={{ 
+        minHeight: '1000px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: MCMASTER_COLOURS.lightGrey
+      }}>
+        <Typography>Loading season information...</Typography>
+      </Box>
+    );
   }
 
   if (!teams || teams.length === 0) {
-    return <Typography>No team contact info available for the current season.</Typography>;
+    return (
+      <Box sx={{ 
+        minHeight: '1000px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: MCMASTER_COLOURS.lightGrey
+      }}>
+        <Typography>No team contact info available for the current season.</Typography>
+      </Box>
+    );
   }
 
   const filteredTeams = selectedDivision === 'all' 
@@ -102,37 +150,65 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-        {/* Season Dropdown */}
-        {allSeasons && (
-          <FormControl sx={{ minWidth: 200 }}>
-            <InputLabel id="season-select-label">Season</InputLabel>
-            <Select
-              labelId="season-select-label"
-              label="Season"
-              value={selectedSeason}
-              onChange={(e) => setSelectedSeason(e.target.value)}
-            >
-              {seasons.map((season) => (
-                <MenuItem key={season._id} value={season._id}>
-                  {season.name} {season.status === "archived" ? " (Archived)" : ""}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        )}
-
+      <Box sx={{ mb: 2 }}>
         {/* Division Dropdown */}
-        <FormControl sx={{ minWidth: 200 }}>
+        <FormControl 
+          sx={{ 
+            minWidth: 220,
+            '& .MuiOutlinedInput-root': {
+              '&:hover fieldset': {
+                borderColor: MCMASTER_COLOURS.maroon,
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: MCMASTER_COLOURS.maroon,
+              }
+            },
+            '& .MuiInputLabel-root.Mui-focused': {
+              color: MCMASTER_COLOURS.maroon,
+            }
+          }}
+        >
           <InputLabel>Division</InputLabel>
           <Select
             value={selectedDivision}
             label="Division"
             onChange={(e) => setSelectedDivision(e.target.value)}
+            sx={{
+              backgroundColor: 'white',
+            }}
           >
-            <MenuItem value="all">All Divisions</MenuItem>
+            <MenuItem 
+              value="all"
+              sx={{
+                '&.Mui-selected': {
+                  backgroundColor: `${MCMASTER_COLOURS.maroon}14`,
+                  '&:hover': {
+                    backgroundColor: `${MCMASTER_COLOURS.maroon}20`,
+                  }
+                },
+                '&:hover': {
+                  backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
+                }
+              }}
+            >
+              All Divisions
+            </MenuItem>
             {divisions.map((division) => (
-              <MenuItem key={division} value={division}>
+              <MenuItem 
+                key={division} 
+                value={division}
+                sx={{
+                  '&.Mui-selected': {
+                    backgroundColor: `${MCMASTER_COLOURS.maroon}14`,
+                    '&:hover': {
+                      backgroundColor: `${MCMASTER_COLOURS.maroon}20`,
+                    }
+                  },
+                  '&:hover': {
+                    backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
+                  }
+                }}
+              >
                 {division}
               </MenuItem>
             ))}
@@ -140,15 +216,22 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
         </FormControl>
       </Box>
 
-      <TableContainer component={Paper}>
+      <TableContainer 
+        component={Paper}
+        sx={{
+          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+          border: '1px solid rgba(0,0,0,0.1)',
+          borderRadius: '8px',
+        }}
+      >
         <Table>
           <TableHead>
-            <TableRow>
-              <TableCell><strong>Team Name</strong></TableCell>
-              <TableCell><strong>Division</strong></TableCell>
-              <TableCell><strong>Captain Name</strong></TableCell>
-              <TableCell><strong>Captain Email</strong></TableCell>
-              <TableCell><strong>Captain Phone</strong></TableCell>
+            <TableRow sx={{ backgroundColor: MCMASTER_COLOURS.maroon}}>
+              <TableCell sx={{ color: 'white' }}><strong>Team Name</strong></TableCell>
+              <TableCell sx={{ color: 'white' }}><strong>Division</strong></TableCell>
+              <TableCell sx={{ color: 'white' }}><strong>Captain Name</strong></TableCell>
+              <TableCell sx={{ color: 'white' }}><strong>Captain Email</strong></TableCell>
+              <TableCell sx={{ color: 'white' }}><strong>Captain Phone</strong></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -159,7 +242,14 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
                 : "No Captain";
 
               return (
-                <TableRow key={team._id}>
+                <TableRow 
+                  key={team._id}
+                  sx={{
+                    '&:nth-of-type(odd)': {
+                      backgroundColor: 'rgba(0, 0, 0, 0.02)',
+                    },
+                  }}
+                >
                   <TableCell>{team.name}</TableCell>
                   <TableCell>{team.divisionId.name}</TableCell>
                   <TableCell>{captainFullName}</TableCell>

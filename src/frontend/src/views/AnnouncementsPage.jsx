@@ -8,6 +8,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useAuth } from "../hooks/AuthProvider";
 import { getPlayerById } from "../api/player";
 
+// McMaster colours - AI Generated
+const MCMASTER_COLOURS = {
+  maroon: '#7A003C',
+  grey: '#5E6A71',
+  gold: '#FDBF57',
+  lightGrey: '#F5F5F5',
+};
+
 export default function AnnouncementPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -49,13 +57,23 @@ export default function AnnouncementPage() {
   const userRole = player?.role || "player"; // Default role if undefined
 
   // to exclude the selected announcement from past announcements
-  // (if user has selected READ MORE from past announcement list)
   const pastAnnouncements = announcements.filter(
     (announcement) => announcement._id !== selectedAnnouncement._id
   );
   
   return (
-    <Box sx={{ bgcolor: "background.default", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <Box 
+      sx={{ 
+        bgcolor: MCMASTER_COLOURS.lightGrey, 
+        minHeight: "100vh",
+        height: '100%',
+        position: 'fixed',
+        width: '100%',
+        overflowY: 'auto',
+        display: "flex", 
+        flexDirection: "column" 
+      }}
+    >
       <NavBar />
       {!selectedAnnouncement || announcements.length === 0 ? (
         console.log('No announcements fetched')
@@ -67,7 +85,15 @@ export default function AnnouncementPage() {
               <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 4 }}>
                 <Button
                   variant="contained"
-                  sx={{ borderRadius: 2, backgroundColor: "#7A003C", "&:hover": { backgroundColor: "#59002B" } }}
+                  sx={{ 
+                    borderRadius: 2, 
+                    backgroundColor: MCMASTER_COLOURS.maroon, 
+                    "&:hover": { 
+                      backgroundColor: '#5A002C'
+                    },
+                    px: 3,
+                    py: 1
+                  }}
                   onClick={() => navigate("/announcements/create")}
                 >
                   Create New Announcement
@@ -76,38 +102,132 @@ export default function AnnouncementPage() {
             )}
 
             {/* Main Announcement */}
-            <Box sx={{ py: 2 }}>
+            <Box 
+              sx={{ 
+                position: 'relative',
+                py: 4,
+                px: { xs: 3, md: 6 },
+                bgcolor: 'white',
+                borderRadius: 2,
+                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                mb: 4,
+                maxWidth: '850px',
+                mx: 'auto',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: '4px',
+                  // AI Generated - Ombre bar styling and gradient effects
+                  background: `linear-gradient(to right, ${MCMASTER_COLOURS.maroon}, ${MCMASTER_COLOURS.gold})`,
+                  borderRadius: '2px 2px 0 0'
+                }
+              }}
+            >
+              {/* Category Tag */}
+              <Box 
+                sx={{ 
+                  display: 'inline-block',
+                  bgcolor: MCMASTER_COLOURS.maroon,
+                  color: 'white',
+                  px: 2,
+                  py: 0.5,
+                  borderRadius: 1,
+                  mb: 3,
+                  fontSize: '0.875rem',
+                  fontWeight: 500
+                }}
+              >
+                Important Update
+              </Box>
+
               <Typography
                 variant="h3"
                 align="center"
                 gutterBottom
                 sx={{
-                  fontSize: { xs: "3rem", md: "4rem" },
+                  fontSize: { xs: "2.25rem", md: "3rem" },
                   fontWeight: 900,
+                  color: 'black',
+                  mb: 3,
+                  letterSpacing: '-0.02em',
+                  position: 'relative',
+                  '&::after': {
+                    content: '""',
+                    display: 'block',
+                    width: '80px',
+                    height: '4px',
+                    bgcolor: MCMASTER_COLOURS.gold,
+                    mx: 'auto',
+                    mt: 3,
+                    borderRadius: '2px'
+                  }
                 }}
               >
                 {selectedAnnouncement.title}
               </Typography>
-              <Typography align="center" color="text.secondary" gutterBottom>
-                {new Date(selectedAnnouncement.createdAt).toLocaleDateString()}
-              </Typography>
+
+              <Box sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                gap: 1,
+                mb: 4,
+                color: MCMASTER_COLOURS.grey,
+                '& svg': { fontSize: '1rem' }
+              }}>
+                <Typography 
+                  sx={{ 
+                    fontSize: '1rem',
+                    fontStyle: 'italic',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 0.5
+                  }}
+                >
+                  {new Date(selectedAnnouncement.createdAt).toLocaleDateString()}
+                </Typography>
+              </Box>
+
               <Typography
-                paragraph
                 sx={{
-                  fontSize: { md: "1.2rem" },
+                  fontSize: '1.1rem',
+                  lineHeight: 1.8,
+                  color: '#333',
+                  whiteSpace: 'pre-line',
+                  maxWidth: '750px',
+                  mx: 'auto',
+                  '& p': {
+                    mb: 2.5
+                  },
+                  '& strong': {
+                    color: MCMASTER_COLOURS.maroon,
+                    fontWeight: 600
+                  }
                 }}
               >
-                {selectedAnnouncement.content}</Typography>
+                {selectedAnnouncement.content}
+              </Typography>
 
               {/* Edit Button for Main Announcement */}
               {userRole === "commissioner" && (
-                <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+                <Box sx={{ 
+                  display: "flex", 
+                  justifyContent: "flex-end", 
+                  mt: 4,
+                  pt: 3,
+                  borderTop: `1px solid ${MCMASTER_COLOURS.lightGrey}`
+                }}>
                   <Button
                     variant="contained"
                     sx={{
                       borderRadius: 2,
-                      backgroundColor: "#7A003C", "&:hover": 
-                      { backgroundColor: "#59002B" }
+                      backgroundColor: MCMASTER_COLOURS.maroon,
+                      "&:hover": { 
+                        backgroundColor: '#5A002C'
+                      }
                     }}
                     onClick={() => navigate(`/announcements/edit/${selectedAnnouncement._id}`)}
                     startIcon={<EditIcon />}
@@ -119,12 +239,27 @@ export default function AnnouncementPage() {
             </Box>
           </Container>
 
-          {/* Past Announcements Section */}
-          <PastAnnouncementsSection
-            pastAnnouncements={pastAnnouncements}
-            userRole={userRole}
-            onReadMore={setSelectedAnnouncement} // Pass function to update the main announcement
-          />
+          {/* Past Announcements Section with updated styling */}
+          <Box sx={{ 
+            bgcolor: '#495965',
+            position: 'relative',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '4px',
+              // AI Generated - Ombre bar styling and gradient effects
+              background: `linear-gradient(to right, ${MCMASTER_COLOURS.gold}, ${MCMASTER_COLOURS.maroon})`,
+            }
+          }}>
+            <PastAnnouncementsSection
+              pastAnnouncements={pastAnnouncements}
+              userRole={userRole}
+              onReadMore={setSelectedAnnouncement}
+            />
+          </Box>
         </>
       )}
     </Box>

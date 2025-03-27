@@ -26,6 +26,14 @@ import { getScheduleGamesByTeamId } from "../api/team";
 import LoadingOverlay from "../components/LoadingOverlay";
 import ContactInfoTable from "../components/ContactInfoTable";
 
+// McMaster colours - AI Generated
+const MCMASTER_COLOURS = {
+  maroon: '#7A003C',
+  grey: '#5E6A71',
+  gold: '#FDBF57',
+  lightGrey: '#F5F5F5',
+};
+
 export default function MyTeamPage() {
   const auth = useAuth();
   const { id: teamId } = useParams();
@@ -105,85 +113,124 @@ export default function MyTeamPage() {
   }, [player, teamTabValue]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div 
+      style={{ 
+        backgroundColor: MCMASTER_COLOURS.lightGrey,
+        minHeight: '100vh',
+        height: '100%',
+        position: 'fixed',
+        width: '100%',
+        overflowY: 'auto'
+      }}
+    >
       <NavBar />
       <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Typography 
+          variant="h4" 
+          sx={{ 
+            fontWeight: 700,
+            mb: 3
+          }}
+        >
+          My Team
+        </Typography>
+
         {loading ? (
           <LoadingOverlay loading={loading} />
         ) : player && player.team ? (
           <>
-            <Typography variant="h4" fontWeight="bold">
-              Teams
-            </Typography>
             <TabContext value={teamTabValue}>
-              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <TabList onChange={handleChange}>
-                  <Tab label={player.team.name} value={player.team.id} />
-                  {(player.team.captainId.id === playerId ||
-                    player.role === "commissioner") && (
+              {player.team.captainId.id === playerId && ( // Only show tabs for captains
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  {/* AI Generated - Tablist styling */}
+                  <TabList 
+                    onChange={handleChange}
+                    sx={{
+                      '& .Mui-selected': {
+                        color: `${MCMASTER_COLOURS.maroon} !important`,
+                      },
+                      '& .MuiTabs-indicator': {
+                        backgroundColor: MCMASTER_COLOURS.maroon,
+                      }
+                    }}
+                  >
+                    <Tab label={player.team.name} value={player.team.id} />
                     <Tab label="Captain Contacts" value="contacts" />
-                  )}
-                </TabList>
-              </Box>
+                  </TabList>
+                </Box>
+              )}
 
-              {/* Team Panel */}
               <TabPanel value={player.team.id}>
                 <Box>
-                  <Typography variant="h4" component="h1" gutterBottom>
-                    <span style={{ color: "#7A003C", fontWeight: "bold" }}>
-                      {player.team.name}
-                    </span>
+                  <Typography 
+                    variant="h4" 
+                    component="h1" 
+                    sx={{ 
+                      color: MCMASTER_COLOURS.maroon,
+                      fontWeight: 700,
+                      fontSize: { xs: "2.5rem", md: "3rem" },
+                      mb: 1,
+                      display: 'flex',
+                      alignItems: 'baseline',
+                      gap: 1
+                    }}
+                  >
+                    {player.team.name}
                     {player.team.captainId.id === playerId && (
-                      <span
-                        style={{
-                          color: "gray",
+                      <Typography
+                        component="span"
+                        sx={{
+                          ml: 1,
+                          color: MCMASTER_COLOURS.grey,
                           fontWeight: "normal",
                           fontSize: "0.8em",
                         }}
                       >
-                        {" "}
                         (captain)
-                      </span>
+                      </Typography>
                     )}
                   </Typography>
-                  <Stack direction="row" spacing={3} mb={2} alignItems="center">
+
+                  <Stack 
+                    direction="row" 
+                    spacing={4} 
+                    mb={4}
+                    mt={2}
+                    sx={{ 
+                      p: 2,
+                      bgcolor: 'white',
+                      borderRadius: 1,
+                      //boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                      border: '1px solid rgba(0,0,0,0.1)',
+                      '& .stat-label': {
+                        color: MCMASTER_COLOURS.grey,
+                        fontWeight: "bold",
+                        fontSize: '1.1rem',
+                      },
+                      '& .stat-value': {
+                        fontSize: '1.1rem',
+                        fontWeight: 500,
+                      }
+                    }}
+                  >
                     <Stack direction="row" spacing={1} alignItems="center">
-                      <Typography
-                        variant="h6"
-                        sx={{ fontWeight: "bold", color: "#495965" }}
-                      >
-                        Season:
-                      </Typography>
-                      <Typography variant="h6">
-                        {player.team.seasonId.name}
-                      </Typography>
+                      <Typography className="stat-label">Season:</Typography>
+                      <Typography className="stat-value">{player.team.seasonId.name}</Typography>
                     </Stack>
 
                     <Stack direction="row" spacing={1} alignItems="center">
-                      <Typography
-                        variant="h6"
-                        sx={{ fontWeight: "bold", color: "#495965" }}
-                      >
-                        Division:
-                      </Typography>
-                      <Typography variant="h6">
-                        {player.team.divisionId.name}
-                      </Typography>
+                      <Typography className="stat-label">Division:</Typography>
+                      <Typography className="stat-value">{player.team.divisionId.name}</Typography>
                     </Stack>
 
                     <Stack direction="row" spacing={1} alignItems="center">
-                      <Typography
-                        variant="h6"
-                        sx={{ fontWeight: "bold", color: "#495965" }}
-                      >
-                        Record (W/D/L):
-                      </Typography>
-                      <Typography variant="h6">
-                        {player.team.wins}-{player.team.draws}-
-                        {player.team.losses}
+                      <Typography className="stat-label">Record (W/D/L):</Typography>
+                      <Typography className="stat-value">
+                        {player.team.wins}-{player.team.draws}-{player.team.losses}
                       </Typography>
                     </Stack>
                   </Stack>
+
                   <Divider sx={{ my: 4 }} />
 
                   {/* For captain view */}
@@ -191,14 +238,14 @@ export default function MyTeamPage() {
                     player.role === "commissioner") && (
                     <>
                       <Typography
-                        variant="subtitle2"
+                        variant="h5"
                         sx={{
-                          fontSize: { xs: "2rem", md: "2rem" },
+                          fontSize: "2rem",
                           fontWeight: 700,
                           mb: 2,
                         }}
                       >
-                        Notifications
+                        Scheduling Notifications
                       </Typography>
                       {teamNotifications && teamNotifications.length > 0 ? (
                         <NotificationsRow notifications={teamNotifications} />
@@ -210,9 +257,33 @@ export default function MyTeamPage() {
                   )}
 
                   <Typography
-                    variant="subtitle2"
+                    variant="h5"
                     sx={{
-                      fontSize: { xs: "2rem", md: "2rem" },
+                      fontSize: "2rem",
+                      fontWeight: 700,
+                      mb: 2,
+                    }}
+                  >
+                    Team Schedule
+                  </Typography>
+                  {teamGames && teamGames.games && teamGames.games.length > 0 ? (
+                    <ScheduleTable
+                      schedule={teamGames}
+                      captain={player.team.captainId.id}
+                      player={playerId}
+                      role={player.role}
+                      archived={teamGames.archived}
+                    />
+                  ) : (
+                    <NoDataCard text="No schedule to show." />
+                  )}
+
+                  <Divider sx={{ my: 6 }} />
+
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      fontSize: "2rem",
                       fontWeight: 700,
                       mb: 2,
                     }}
@@ -228,63 +299,51 @@ export default function MyTeamPage() {
                       variant="contained"
                       size="small"
                       sx={{
-                        bgcolor: "#800020",
+                        bgcolor: MCMASTER_COLOURS.maroon,
                         mt: 1,
                         mb: 2,
+                        '&:hover': {
+                          bgcolor: '#5A002C',
+                        }
                       }}
                       onClick={() => navigate("/players")}
                     >
                       Invite Players
                     </Button>
                   )}
-                  {player.team.captainId.id === playerId && (
-                    <>
-                      <Divider sx={{ my: 4 }} />
+                  
 
-                      <Typography
-                        variant="subtitle2"
-                        sx={{
-                          fontSize: { xs: "2rem", md: "2rem" },
-                          fontWeight: 700,
-                          mb: 2,
-                        }}
-                      >
-                        Submit Game Scores
-                      </Typography>
-                      {teamGames && teamGames.games && teamGames.games.length > 0 ? (
-                        <ScheduleTable
-                          schedule={teamGames}
-                          captain={player.team.captainId.id}
-                          player={playerId}
-                          role={player.role}
-                          archived={teamGames.archived}
-                        />
-                      ) : (
-                        <NoDataCard text="No schedule to show." />
-                      )}
-                    </>
-                  )}
                 </Box>
               </TabPanel>
 
               {/* Contacts Panel */}
-              <TabPanel value="contacts">
-                <Box>
-                  <Typography variant="h4" component="h2" gutterBottom>
-                    Captain Contact Information
-                  </Typography>
-                  <ContactInfoTable
-                    currentSeasonId={
-                      player?.team?.seasonId?._id || player?.team?.seasonId
-                    }
-                  />
-                </Box>
-              </TabPanel>
+              {/* AI Generated - contacts panel styling */}
+              {player.team.captainId.id === playerId && ( // Only show contacts panel for captains
+                <TabPanel value="contacts">
+                  <Box>
+                    <Typography 
+                      variant="h4" 
+                      component="h2" 
+                      sx={{ 
+                        color: MCMASTER_COLOURS.maroon,
+                        fontWeight: "bold",
+                        mb: 2
+                      }}
+                    >
+                      Captain Contact Information
+                    </Typography>
+                    <ContactInfoTable
+                      currentSeasonId={
+                        player?.team?.seasonId?._id || player?.team?.seasonId
+                      }
+                    />
+                  </Box>
+                </TabPanel>
+              )}
             </TabContext>
           </>
         ) : (
           <Box>            
-            {/* Only show Team Invitations when player has no team */}
             <Typography variant="subtitle2" sx={{
               fontSize: { xs: "2rem", md: "2rem" },
               fontWeight: 700,

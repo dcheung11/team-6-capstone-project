@@ -2,6 +2,14 @@ import React, { useState } from "react";
 import { Paper, Button, TextField, Snackbar, Alert, Grid } from "@mui/material";
 import { createSeason, getAllSeasons } from "../../api/season";
 
+// McMaster colours - AI Generated
+const MCMASTER_COLOURS = {
+  maroon: '#7A003C',
+  grey: '#5E6A71',
+  gold: '#FDBF57',
+  lightGrey: '#F5F5F5',
+};
+
 const CreateSeasonForm = (props) => {
   const [seasonName, setSeasonName] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -14,18 +22,18 @@ const CreateSeasonForm = (props) => {
 
   // Function to calculate end date (17 weeks after start date)
   const calculateEndDate = (startDate) => {
-    if (!startDate) return ""; // Return empty if no start date is selected
+    if (!startDate) return "";
     const start = new Date(startDate);
     const end = new Date(start);
-    end.setDate(start.getDate() + 17 * 7); // Add 17 weeks
-    return end.toISOString().split("T")[0]; // Format as YYYY-MM-DD
+    end.setDate(start.getDate() + 17 * 7);
+    return end.toISOString().split("T")[0];
   };
 
   // Handle start date change
   const handleStartDateChange = (e) => {
     const selectedStartDate = e.target.value;
     setStartDate(selectedStartDate);
-    setEndDate(calculateEndDate(selectedStartDate)); // Auto-set end date
+    setEndDate(calculateEndDate(selectedStartDate));
   };
 
   const handleCreateSeason = async () => {
@@ -38,6 +46,11 @@ const CreateSeasonForm = (props) => {
       });
       const data = await getAllSeasons();
       props.setSeasons(data.seasons);
+      
+      // Clear form
+      setSeasonName("");
+      setStartDate("");
+      setEndDate("");
     } catch (err) {
       console.log(err);
       setNotification({
@@ -48,39 +61,64 @@ const CreateSeasonForm = (props) => {
     }
   };
 
+  const textFieldStyles = {
+    '& .MuiOutlinedInput-root': {
+      '&:hover fieldset': {
+        borderColor: MCMASTER_COLOURS.maroon,
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: MCMASTER_COLOURS.maroon,
+      },
+    },
+    '& .MuiInputLabel-root.Mui-focused': {
+      color: MCMASTER_COLOURS.maroon,
+    },
+  };
+
   return (
     <>
-      <Paper sx={{ p: 2, mb: 4 }}>
-        <Grid container spacing={2} alignItems="center">
-          {/* Input Fields Row (Season Name, Start Date, End Date) */}
-          <Grid container item spacing={2}>
-            <Grid item xs={4}>
+      <Paper 
+        sx={{ 
+          p: 3, 
+          mb: 4,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+          border: '1px solid rgba(0,0,0,0.1)',
+          borderRadius: '8px'
+        }}
+      >
+        <Grid container spacing={3} alignItems="center">
+          <Grid container item spacing={3}>
+            <Grid item xs={12} md={4}>
               <TextField
                 label="Season Name"
                 type="text"
                 fullWidth
+                required
                 InputLabelProps={{
                   shrink: true,
                 }}
                 value={seasonName}
                 onChange={(e) => setSeasonName(e.target.value)}
+                sx={textFieldStyles}
               />
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <TextField
                 label="Start Date"
                 type="date"
                 fullWidth
+                required
                 InputLabelProps={{
                   shrink: true,
                 }}
                 value={startDate}
                 onChange={handleStartDateChange}
+                sx={textFieldStyles}
               />
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <TextField
                 label="End Date"
                 type="date"
@@ -89,32 +127,59 @@ const CreateSeasonForm = (props) => {
                   shrink: true,
                 }}
                 value={endDate}
-                disabled // Lock the end date field
+                disabled
+                sx={{
+                  ...textFieldStyles,
+                  '& .MuiInputBase-input.Mui-disabled': {
+                    WebkitTextFillColor: MCMASTER_COLOURS.grey,
+                    backgroundColor: MCMASTER_COLOURS.lightGrey,
+                  }
+                }}
               />
             </Grid>
           </Grid>
 
-          {/* Button Row (Separate Row Below) */}
           <Grid item xs={12}>
             <Button
               variant="contained"
               fullWidth
-              sx={{ backgroundColor: "#7A003C" }}
               onClick={handleCreateSeason}
+              disabled={!seasonName || !startDate}
+              sx={{
+                mt: 2,
+                py: 1.5,
+                backgroundColor: MCMASTER_COLOURS.maroon,
+                '&:hover': {
+                  backgroundColor: '#5C002E',
+                },
+                '&.Mui-disabled': {
+                  backgroundColor: MCMASTER_COLOURS.grey,
+                  color: 'white',
+                },
+              }}
             >
               Create New Season
             </Button>
           </Grid>
         </Grid>
       </Paper>
+      
       <Snackbar
         open={notification.open}
         autoHideDuration={6000}
         onClose={() => setNotification({ ...notification, open: false })}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
         <Alert
           onClose={() => setNotification({ ...notification, open: false })}
           severity={notification.severity}
+          variant="filled"
+          sx={{ 
+            width: '100%',
+            ...(notification.severity === 'success' && {
+              backgroundColor: MCMASTER_COLOURS.maroon,
+            })
+          }}
         >
           {notification.message}
         </Alert>
