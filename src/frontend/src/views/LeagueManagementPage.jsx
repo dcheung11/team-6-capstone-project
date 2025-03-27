@@ -31,8 +31,8 @@ import ScheduleTable from "../components/ScheduleTable";
 import LoadingOverlay from "../components/LoadingOverlay";
 import CommissionerContactInfo from "../components/manage/CommissionerContactInfo";
 
-// McMaster colors
-const MCMASTER_COLORS = {
+// McMaster colours - AI Generated
+const MCMASTER_COLOURS = {
   maroon: '#7A003C',
   grey: '#5E6A71',
   gold: '#FDBF57',
@@ -136,7 +136,7 @@ const LeagueManagementPage = () => {
           fontStyle: italic ? "italic" : "normal",
           fontWeight: bold ? 600 : 400,
           fontSize: size,
-          color: MCMASTER_COLORS.grey,
+          color: MCMASTER_COLOURS.grey,
           mb: 3,
           maxWidth: '800px'
         }}
@@ -147,7 +147,7 @@ const LeagueManagementPage = () => {
   };
 
   return (
-    <Box sx={{ bgcolor: MCMASTER_COLORS.lightGrey, minHeight: '100vh' }}>
+    <Box sx={{ bgcolor: MCMASTER_COLOURS.lightGrey, minHeight: '100vh' }}>
       <NavBar />
       {loading && <LoadingOverlay loading={loading} />}
 
@@ -164,7 +164,7 @@ const LeagueManagementPage = () => {
               display: 'block',
               width: '80px',
               height: '4px',
-              bgcolor: MCMASTER_COLORS.gold,
+              bgcolor: MCMASTER_COLOURS.gold,
               mt: 2,
               borderRadius: '2px'
             }
@@ -194,17 +194,17 @@ const LeagueManagementPage = () => {
                   '& .MuiTab-root': {
                     fontSize: '0.95rem',
                     fontWeight: 500,
-                    color: MCMASTER_COLORS.grey,
+                    color: MCMASTER_COLOURS.grey,
                     '&.Mui-selected': {
-                      color: MCMASTER_COLORS.maroon,
+                      color: MCMASTER_COLOURS.maroon,
                       fontWeight: 600
                     },
                     '&.Mui-disabled': {
-                      color: `${MCMASTER_COLORS.grey}80`,
+                      color: `${MCMASTER_COLOURS.grey}80`,
                     }
                   },
                   '& .MuiTabs-indicator': {
-                    backgroundColor: MCMASTER_COLORS.maroon
+                    backgroundColor: MCMASTER_COLOURS.maroon
                   }
                 }}
               >
@@ -215,7 +215,7 @@ const LeagueManagementPage = () => {
                 <Tab label="Contact Info" value="contacts" disabled={isTabLoading} />
               </TabList>
             </Box>
-            
+
             {/* Loading overlay component - AI generated */}
             <Box sx={{ position: 'relative' }}>
               {isTabLoading && (
@@ -236,7 +236,7 @@ const LeagueManagementPage = () => {
                 >
                   <Typography 
                     sx={{ 
-                      color: MCMASTER_COLORS.maroon,
+                      color: MCMASTER_COLOURS.maroon,
                       fontWeight: 500,
                       display: 'flex',
                       alignItems: 'center',
@@ -256,7 +256,7 @@ const LeagueManagementPage = () => {
                   variant="h6" 
                   sx={{ 
                     mb: 3,
-                    color: MCMASTER_COLORS.maroon,
+                    color: MCMASTER_COLOURS.maroon,
                     fontWeight: 600
                   }}
                 >
@@ -295,7 +295,7 @@ const LeagueManagementPage = () => {
                       <Typography 
                         variant="h6"
                         sx={{ 
-                          color: MCMASTER_COLORS.maroon,
+                          color: MCMASTER_COLOURS.maroon,
                           fontWeight: 600,
                           fontSize: '1.1rem'
                         }}
@@ -305,10 +305,10 @@ const LeagueManagementPage = () => {
                     </AccordionSummary>
                     <AccordionDetails sx={{ p: 3 }}>
                       <Box sx={{ mb: 3 }}>
-                        <Typography sx={{ mb: 1, color: MCMASTER_COLORS.grey }}>
+                        <Typography sx={{ mb: 1, color: MCMASTER_COLOURS.grey }}>
                           <strong>Start Date:</strong> {formatDate(season.startDate)}
                         </Typography>
-                        <Typography sx={{ color: MCMASTER_COLORS.grey }}>
+                        <Typography sx={{ color: MCMASTER_COLOURS.grey }}>
                           <strong>End Date:</strong> {formatDate(season.endDate)}
                         </Typography>
                       </Box>
@@ -351,7 +351,7 @@ const LeagueManagementPage = () => {
                       <Typography 
                         variant="h6"
                         sx={{ 
-                          color: MCMASTER_COLORS.maroon,
+                          color: MCMASTER_COLOURS.maroon,
                           fontWeight: 600,
                           fontSize: '1.1rem'
                         }}
@@ -402,7 +402,7 @@ const LeagueManagementPage = () => {
                       <Typography 
                         variant="h6"
                         sx={{ 
-                          color: MCMASTER_COLORS.maroon,
+                          color: MCMASTER_COLOURS.maroon,
                           fontWeight: 600,
                           fontSize: '1.1rem'
                         }}
