@@ -168,7 +168,7 @@ export default function HomePage() {
                     width: "300px",
                     height: "auto",
                     objectFit: "contain",
-                    paddingBottom: "55px",
+                    paddingBottom: "30px",
                   }}
                 />
               </Grid>
