@@ -195,23 +195,7 @@ export default function HomePage() {
             </AccordionDetails>
           </Accordion>
         </Container>
-        {player && player.role !== "commissioner" && (<Container maxWidth="lg" sx={{ pt: 10 }}>
-          <Typography
-            variant="h3"
-            sx={{
-              fontSize: { xs: "2rem", md: "3rem" },
-              fontWeight: 700,
-              mt: 4,
-            }}
-          >
-            Team Invitations
-          </Typography>
-          {player && player.invites && player.invites.length === 0 ? (
-            <NoDataCard text="No invitations to show." />
-          ) : (
-            <NotificationsRow teamInvites={player && player.invites} />
-          )}
-        </Container>)}
+
         {/* Announcements Section */}
         <Box sx={{ py: 10 }}>
           <Container maxWidth="lg">
