@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 const getPlayers = async (req, res, next) => {
   let players;
   try {
-    players = await Player.find(); // todo: remove password for privacy
+    players = await Player.find().populate("team"); // todo: remove password for privacy
   } catch (err) {
     const error = new HttpError("Fetching players failed, please try again later.", 500);
     return next(error);
