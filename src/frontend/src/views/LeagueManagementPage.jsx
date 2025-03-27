@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Container,
@@ -67,19 +66,25 @@ const LeagueManagementPage = () => {
 
     const fetchOngoingSeasons = async () => {
       try {
+        setLoading(true);
         const data = await getOngoingSeasons();
         setOngoingSeasons(data.seasons);
       } catch (err) {
         setError(err.message || "Failed to fetch ongoing seasons");
+      } finally {
+        setLoading(false);
       }
     };
 
     const fetchArchivedSeasons = async () => {
       try {
+        setLoading(true);
         const data = await getArchivedSeasons();
         setArchivedSeasons(data.seasons);
       } catch (err) {
         setError(err.message || "Failed to fetch ongoing seasons");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -162,16 +167,20 @@ const LeagueManagementPage = () => {
                 Create New Season
               </Typography>
               <CreateSeasonForm seasons={seasons} setSeasons={setSeasons} />
-              <SeasonsTable seasons={seasons} setSeasons={setSeasons} />
+              {seasons && seasons.length > 0 ? (
+                <SeasonsTable seasons={seasons} setSeasons={setSeasons} />
+              ) : (
+                <Typography>No seasons available</Typography>
+              )}
             </TabPanel>
             <TabPanel value="upcoming">
               <InfoText>
                 Manage and launch seasons that are currently open for
                 registration. Seasons will automatically launch on the start date.
               </InfoText>
-              {!!upcomingSeasons &&
+              {upcomingSeasons && upcomingSeasons.length > 0 ? (
                 upcomingSeasons.map((season) => (
-                  <Accordion>
+                  <Accordion key={season.id}>
                     <AccordionSummary
                       expandIcon={<ArrowDropDownIcon />}
                       id="upcoming-header"
@@ -184,20 +193,20 @@ const LeagueManagementPage = () => {
                       <Typography>
                         Start Date: {formatDate(season.startDate)}
                       </Typography>
-
                       <Typography>
                         End Date: {formatDate(season.endDate)}
                       </Typography>
-
                       <TeamSchedulingComponent
-                        // registeredTeamsIds={season.registeredTeams}
                         season={season}
                         divisions={season.divisions}
                         registeredTeams={season.registeredTeams}
                       />
                     </AccordionDetails>
                   </Accordion>
-                ))}
+                ))
+              ) : (
+                <Typography>No upcoming seasons</Typography>
+              )}
             </TabPanel>
             <TabPanel value="ongoing">
               <InfoText>
@@ -205,9 +214,9 @@ const LeagueManagementPage = () => {
                 seasons. Seasons will be automatically archived after the end date.
               </InfoText>
 
-              {!!ongoingSeasons &&
+              {ongoingSeasons && ongoingSeasons.length > 0 ? (
                 ongoingSeasons.map((season) => (
-                  <Accordion>
+                  <Accordion key={season.id}>
                     <AccordionSummary
                       expandIcon={<ArrowDropDownIcon />}
                       id="ongoing-header"
@@ -227,28 +236,34 @@ const LeagueManagementPage = () => {
                       </Button>
                     </AccordionDetails>
                   </Accordion>
-                ))}
+                ))
+              ) : (
+                <Typography>No ongoing seasons</Typography>
+              )}
             </TabPanel>
             <TabPanel value="archived">
               <InfoText>
                 View schedules and results of past archived seasons.
               </InfoText>
-              {!!archivedSeasons &&
-                archivedSeasons.map((season) => (
-                  <Accordion>
-                    <AccordionSummary
-                      expandIcon={<ArrowDropDownIcon />}
-                      id="archived-header"
-                    >
-                      <Typography variant="h5" component="span">
-                        {season.name}
-                      </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <ScheduleTable schedule={season.schedule} archived />
-                    </AccordionDetails>
-                  </Accordion>
-                ))}
+              {!!archivedSeasons ?
+                (archivedSeasons.map((season) => (
+                    <Accordion>
+                      <AccordionSummary
+                        expandIcon={<ArrowDropDownIcon />}
+                        id="archived-header"
+                      >
+                        <Typography variant="h5" component="span">
+                          {season.name}
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <ScheduleTable schedule={season.schedule} archived />
+                      </AccordionDetails>
+                    </Accordion>
+                  ))
+                ) : (
+                  <Typography>No ongoing seasons</Typography>
+              )}
             </TabPanel>
             <TabPanel value="contacts">
               <InfoText>

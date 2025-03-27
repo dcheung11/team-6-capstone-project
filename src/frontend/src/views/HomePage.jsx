@@ -160,7 +160,7 @@ export default function HomePage() {
             </Grid>
           </Grid>
         </Container>
-        <Container maxWidth="lg" sx={{ pt: 2 }}>
+        <Container maxWidth="lg" sx={{ pt: 10 }}>
           {/* Seasons Section */}
           <Typography
             variant="h3"
@@ -195,28 +195,45 @@ export default function HomePage() {
             </AccordionDetails>
           </Accordion>
         </Container>
-        <Container maxWidth="lg" sx={{ pt: 10 }}>
-          <Box sx={{ py: 2 }}>
-            <Container maxWidth="lg">
-              <Box
+        {player && player.role !== "commissioner" && (<Container maxWidth="lg" sx={{ pt: 10 }}>
+          <Typography
+            variant="h3"
+            sx={{
+              fontSize: { xs: "2rem", md: "3rem" },
+              fontWeight: 700,
+              mt: 4,
+            }}
+          >
+            Team Invitations
+          </Typography>
+          {player && player.invites && player.invites.length === 0 ? (
+            <NoDataCard text="No invitations to show." />
+          ) : (
+            <NotificationsRow teamInvites={player && player.invites} />
+          )}
+        </Container>)}
+        {/* Announcements Section */}
+        <Box sx={{ py: 10 }}>
+          <Container maxWidth="lg">
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: 4,
+              }}
+            >
+              <Typography
+                variant="h3"
                 sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  mb: 4,
+                  fontSize: { xs: "2rem", md: "3rem" },
+                  fontWeight: 700,
+                  mb: 2,
                 }}
               >
-                <Typography
-                  variant="h3"
-                  sx={{
-                    fontSize: { xs: "2rem", md: "3rem" },
-                    fontWeight: 700,
-                    mb: 2,
-                  }}
-                >
-                  Announcements
-                </Typography>
-              </Box>
+                Announcements
+              </Typography>
+            </Box>
 
               <Grid container spacing={4}>
                 {announcements.length === 0 ? (
@@ -278,9 +295,8 @@ export default function HomePage() {
                   ))
                 )}
               </Grid>
-            </Container>
-          </Box>
-        </Container>
+          </Container>
+        </Box>
       </Box>
     </>
   );
