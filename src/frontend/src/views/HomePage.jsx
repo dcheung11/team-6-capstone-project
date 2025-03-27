@@ -295,9 +295,8 @@ export default function HomePage() {
                   ))
                 )}
               </Grid>
-            </Container>
-          </Box>
-        </Container>
+          </Container>
+        </Box>
       </Box>
     </>
   );
