@@ -97,6 +97,14 @@ export default function ScheduleTable(props) {
         },
       }));
 
+      // Update the game object to reflect the latest submitted scores
+      props.schedule.games.forEach((game) => {
+        if (game._id === gameId) {
+          game.homeScore = homeScore; // Update the home score in the game object
+          game.awayScore = awayScore; // Update the away score in the game object
+        }
+      });
+
       // Once submitted, read-only unless user hits "Edit Score"
       setEditMode((prev) => ({
         ...prev,
@@ -272,10 +280,13 @@ export default function ScheduleTable(props) {
         const awayScore = scores[gameId]?.away ?? game.awayScore ?? "";
         const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;
 
+        console.log("homeScore: ", homeScore);
+        console.log("awayScore: ", awayScore);
+
         if ((!isCaptain && props.role !== "commissioner") || props.archived) {
           return (
             <Typography variant="body2">
-              {homeScore || "-"} - {awayScore || "-"}
+              {homeScore === "" || awayScore === "" ? "- - -" : `${homeScore} - ${awayScore}`}
             </Typography>
           );
         }
@@ -340,7 +351,7 @@ export default function ScheduleTable(props) {
           </Box>
         ) : (
           <Typography variant="body2">
-            {homeScore || "-"} - {awayScore || "-"}
+            {homeScore === "" || awayScore === "" ? "- - -" : `${homeScore} - ${awayScore}`}
           </Typography>
         );
       },
@@ -354,13 +365,13 @@ export default function ScheduleTable(props) {
         const wasSubmitted = scores[gameId]?.submitted;
 
         const handleCancel = () => {
-          // Reset scores to original values
+          // Reset scores to the latest submitted 
           setScores((prevScores) => ({
             ...prevScores,
             [gameId]: {
-              home: game.homeScore,
-              away: game.awayScore,
-              submitted: true
+              home: game.homeScore, // Use the last submitted score or fallback to the original
+              away: game.awayScore, // Use the last submitted score or fallback to the original
+              submitted: true // Keep submitted status as true
             }
           }));
           // Reset default loss options
