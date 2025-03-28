@@ -282,8 +282,8 @@ export default function MyTeamPage() {
 
                   <Divider sx={{ my: 4 }} />
 
-                  {/* For captain view */}
-                  {(player.team.captainId.id === playerId ||
+                    {/* For captain view */}
+                    {(player.team.captainId.id === playerId ||
                     player.role === "commissioner") && (
                     <>
                       <Typography
@@ -305,47 +305,28 @@ export default function MyTeamPage() {
                     </>
                   )}
 
-                  {player._id === player.team.captainId.id && (
-                    <>
-                      <Typography variant="h5" sx={{ 
-                        color: MCMASTER_COLOURS.maroon,
-                        fontWeight: 'bold',
-                        mt: 4,
-                        mb: 2 
-                      }}>
-                        Previous Games
-                      </Typography>
-                      <TableContainer component={Paper}>
-                        <Table>
-                          <TableHead>
-                            <TableRow>
-                              <TableCell>Date</TableCell>
-                              <TableCell>Opponent</TableCell>
-                              <TableCell>Score</TableCell>
-                              <TableCell>Result</TableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            {teamGames && teamGames.games && teamGames.games.length > 0 ? (
-                              teamGames.games.map((game) => (
-                                <TableRow key={game._id}>
-                                  <TableCell>{game.date.toLocaleDateString()}</TableCell>
-                                  <TableCell>{game.opponent}</TableCell>
-                                  <TableCell>{game.score}</TableCell>
-                                  <TableCell>{game.result}</TableCell>
-                                </TableRow>
-                              ))
-                            ) : (
-                              <TableRow>
-                                <TableCell colSpan={4}>No games to display</TableCell>
-                              </TableRow>
-                            )}
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                    </>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      fontSize: "2rem",
+                      fontWeight: 700,
+                      mb: 2,
+                    }}
+                  >
+                    Previous Games
+                  </Typography>
+                  {teamGames && teamGames.games && teamGames.games.length > 0 ? (
+                    <ScheduleTable
+                      schedule={teamGames}
+                      captain={player.team.captainId.id}
+                      player={playerId}
+                      role={player.role}
+                      archived={teamGames.archived}
+                    />
+                  ) : (
+                    <NoDataCard text="No schedule to show." />
                   )}
-
+                  
                   <Divider sx={{ my: 6 }} />
 
                   <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
