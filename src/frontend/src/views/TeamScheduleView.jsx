@@ -191,29 +191,19 @@ export const TeamSchedule = () => {
         )}
 
         {!loading && (
-          <div style={{
-            ...styles.calendar,
-            border: `1px solid ${MCMASTER_COLOURS.maroon}`,
-          }}>
+          <div style={styles.calendar}>
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-              <div key={day} style={{
-                ...styles.calendarHeader,
-                backgroundColor: MCMASTER_COLOURS.maroon,
-              }}>
+              <div key={day} style={styles.calendarHeader}>
                 {day}
               </div>
             ))}
             {monthDates.map((dayISO, idx) => (
-              <div key={idx} style={dayISO ? {
-                ...styles.calendarCell,
-                border: `1px solid ${MCMASTER_COLOURS.maroon}`,
-              } : styles.emptyCell}>
+              <div key={idx} style={dayISO ? styles.calendarCell : styles.emptyCell}>
                 {dayISO && (
                   <div>
-                    <div style={{
-                      ...styles.dateText,
-                      color: MCMASTER_COLOURS.maroon,
-                    }}>{new Date(dayISO).getUTCDate()}</div>
+                    <div style={styles.dateText}>
+                      {new Date(dayISO).getUTCDate()}
+                    </div>
                     <div style={styles.matchesContainer}>
                       {getMatchesForDay(dayISO)}
                     </div>
@@ -247,94 +237,127 @@ export const TeamSchedule = () => {
 };
 
 const styles = {
-  container: {
-    padding: "20px",
-    fontFamily: "'Segoe UI', sans-serif",
-    color: "#7A003C",
-  },
   header: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: "20px",
+    width: '100%',
   },
+  
   title: {
     fontSize: "24px",
     fontWeight: "bold",
     textAlign: "center",
     color: MCMASTER_COLOURS.maroon,
   },
+  
   navButton: {
-    backgroundColor: "#7A003C",
+    backgroundColor: MCMASTER_COLOURS.maroon,
     color: "white",
     border: "none",
     padding: "10px 15px",
     borderRadius: "5px",
     cursor: "pointer",
+    transition: 'background-color 0.2s ease',
+    '&:hover': {
+      backgroundColor: '#5A002C',
+    }
   },
+  
   calendar: {
     display: "grid",
     gridTemplateColumns: "repeat(7, 1fr)",
-    gap: "2px",
-    border: "1px solid #7A003C",
+    gap: "1px",
+    width: '100%',
+    backgroundColor: MCMASTER_COLOURS.grey + '20',
+    borderRadius: '8px',
+    overflow: 'hidden',
+    boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
   },
+  
   calendarHeader: {
-    backgroundColor: "#7A003C",
+    backgroundColor: MCMASTER_COLOURS.maroon,
     color: "white",
     textAlign: "center",
-    padding: "10px",
-    fontWeight: "bold",
+    padding: "12px",
+    fontWeight: "500",
+    fontSize: '0.9rem',
+    letterSpacing: '0.5px',
   },
+  
   calendarCell: {
-    border: "1px solid #7A003C",
-    padding: "10px",
-    textAlign: "center",
-    minHeight: "80px",
-    position: "relative",
+    backgroundColor: 'white',
+    padding: '12px 8px',
+    textAlign: 'center',
+    minHeight: '120px',
+    position: 'relative',
+    transition: 'all 0.2s ease',
+    '&:hover': {
+      backgroundColor: MCMASTER_COLOURS.lightGrey,
+    },
   },
+  
   emptyCell: {
-    border: "1px solid #D3D3D3",
-    backgroundColor: "#E0E0E0",
-    minHeight: "80px",
+    backgroundColor: '#f8f8f8',
+    minHeight: '120px',
   },
+  
   dateText: {
-    fontWeight: "bold",
+    fontWeight: "500",
     fontSize: "14px",
-    color: "#7A003C",
+    color: MCMASTER_COLOURS.maroon,
+    marginBottom: '8px',
   },
+  
+  matchesContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+    marginTop: '4px',
+  },
+  
   matchText: {
     fontSize: '12px',
     color: MCMASTER_COLOURS.grey,
-    fontWeight: 'bold',
-    padding: '6px',
-    borderRadius: '4px',
+    fontWeight: '500',
+    padding: '8px',
+    borderRadius: '6px',
     backgroundColor: MCMASTER_COLOURS.lightGrey,
-    border: `1px solid ${MCMASTER_COLOURS.maroon}`,
+    border: 'none',
     transition: 'all 0.2s ease',
-    marginTop: '8px',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
     '&:hover': {
-      backgroundColor: MCMASTER_COLOURS.gold,
+      backgroundColor: MCMASTER_COLOURS.gold + '30',
       transform: 'translateY(-2px)',
+      boxShadow: '0 3px 6px rgba(0,0,0,0.08)',
     },
   },
+  
   rescheduleButton: {
-    backgroundColor: "#FFC72C",
-    color: "#7A003C",
-    border: "none",
-    padding: "4px 8px",
-    borderRadius: "5px",
-    fontWeight: "bold",
-    cursor: "pointer",
-    fontSize: "11px",
-    marginTop: "5px",
+    backgroundColor: MCMASTER_COLOURS.gold + '90',
+    color: MCMASTER_COLOURS.maroon,
+    border: 'none',
+    padding: '6px 10px',
+    borderRadius: '4px',
+    fontWeight: '500',
+    cursor: 'pointer',
+    fontSize: '11px',
+    marginTop: '6px',
+    transition: 'all 0.2s ease',
+    '&:hover': {
+      backgroundColor: MCMASTER_COLOURS.gold,
+      transform: 'translateY(-1px)',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+    },
   },
+  
   spinner: {
-    width: "30px",
-    height: "30px",
-    border: "4px solid #FFC72C",
-    borderTop: "4px solid transparent",
-    borderRadius: "50%",
-    animation: "spin 1s linear infinite",
+    width: '30px',
+    height: '30px',
+    border: `4px solid ${MCMASTER_COLOURS.gold}`,
+    borderTop: '4px solid transparent',
+    borderRadius: '50%',
+    animation: 'spin 1s linear infinite',
   },
 };
 

@@ -206,7 +206,12 @@ export const WeeklySchedule = () => {
                   {match ? (
                     <div style={styles.matchText}>
                       <div>{match.awayTeam.name} @ {match.homeTeam.name}</div>
-                      <div style={{ fontSize: '11px', marginTop: '2px', color: MCMASTER_COLOURS.maroon }}>
+                      <div style={{ 
+                        fontSize: '11px', 
+                        marginTop: '4px', 
+                        color: MCMASTER_COLOURS.maroon,
+                        opacity: 0.9
+                      }}>
                         {match.time} | {match.field}
                       </div>
                       {player?.team?.captainId?.id === player._id && (
@@ -252,106 +257,123 @@ export const WeeklySchedule = () => {
 export default WeeklySchedule;
 
 const styles = {
-  container: {
-    padding: "20px",
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-    color: "#7A003C",
-  },
   header: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: "20px",
+    width: '100%',
+    marginBottom: '30px',
   },
+  
   title: {
     fontSize: "24px",
     fontWeight: "bold",
     textAlign: "center",
     color: MCMASTER_COLOURS.maroon,
   },
+  
   navButton: {
-    backgroundColor: "#7A003C",
+    backgroundColor: MCMASTER_COLOURS.maroon,
     color: "white",
     border: "none",
     padding: "10px 15px",
     borderRadius: "5px",
     cursor: "pointer",
+    transition: 'background-color 0.2s ease',
+    '&:hover': {
+      backgroundColor: '#5A002C',
+    }
   },
+  
   calendar: {
     display: "grid",
     gridTemplateColumns: "repeat(7, 1fr)",
-    gap: "15px",
-    marginBottom: "20px",
+    gap: "1px",
+    width: '100%',
+    backgroundColor: MCMASTER_COLOURS.grey + '20',
+    borderRadius: '8px',
+    overflow: 'hidden',
+    boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
   },
+  
   calendarCard: {
-    border: "1px solid #D3D3D3",
-    borderRadius: "5px",
-    padding: "10px",
-    backgroundColor: "#F5F5F5",
-    textAlign: "center",
-    position: "relative",
+    backgroundColor: 'white',
+    padding: '12px 8px',
+    textAlign: 'center',
+    minHeight: '120px',
+    position: 'relative',
+    transition: 'all 0.2s ease',
+    display: 'flex',
+    flexDirection: 'column',
+    '&:hover': {
+      backgroundColor: MCMASTER_COLOURS.lightGrey + '30',
+    },
   },
+  
   calendarDay: {
-    fontWeight: "bold",
-    color: "#7A003C",
+    margin: '0 0 4px 0',
+    color: MCMASTER_COLOURS.maroon,
+    fontWeight: "500",
+    fontSize: '0.9rem',
+    letterSpacing: '0.5px',
   },
+  
   calendarDate: {
-    fontSize: "14px",
-    color: "#4F4F4F",
+    margin: '0 0 12px 0',
+    color: MCMASTER_COLOURS.grey,
+    fontSize: '0.85rem',
+    fontWeight: '500',
   },
+  
   eventText: {
-    fontSize: "14px",
-    color: "#7A003C",
-    fontWeight: "bold",
-    marginBottom: "10px",
+    fontSize: '12px',
+    color: MCMASTER_COLOURS.grey,
+    fontWeight: '500',
+    margin: '0',
   },
+  
   matchText: {
     fontSize: '12px',
     color: MCMASTER_COLOURS.grey,
-    fontWeight: 'bold',
-    padding: '6px',
-    borderRadius: '4px',
+    fontWeight: '500',
+    padding: '8px',
+    borderRadius: '6px',
     backgroundColor: MCMASTER_COLOURS.lightGrey,
-    border: `1px solid ${MCMASTER_COLOURS.maroon}`,
+    border: 'none',
     transition: 'all 0.2s ease',
-    marginTop: '8px',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+    margin: '0',
     '&:hover': {
-      backgroundColor: MCMASTER_COLOURS.gold,
+      backgroundColor: MCMASTER_COLOURS.gold + '30',
       transform: 'translateY(-2px)',
+      boxShadow: '0 3px 6px rgba(0,0,0,0.08)',
     },
   },
+  
   rescheduleButton: {
-    backgroundColor: MCMASTER_COLOURS.gold,
+    backgroundColor: MCMASTER_COLOURS.gold + '90',
     color: MCMASTER_COLOURS.maroon,
     border: 'none',
-    padding: '4px 8px',
+    padding: '6px 10px',
     borderRadius: '4px',
-    fontWeight: 'bold',
+    fontWeight: '500',
     cursor: 'pointer',
     fontSize: '11px',
-    marginTop: '5px',
+    marginTop: '6px',
     transition: 'all 0.2s ease',
     '&:hover': {
-      backgroundColor: '#e6a800',
+      backgroundColor: MCMASTER_COLOURS.gold,
+      transform: 'translateY(-1px)',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
     },
   },
-  loadingOverlay: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
-    padding: "20px",
-    borderRadius: "10px",
-    textAlign: "center",
-    fontWeight: "bold",
-    color: "#7A003C",
-    display: "flex",          // Added for centering
-    flexDirection: "column",  // Stack spinner & text
-    alignItems: "center",     // Center horizontally
-    justifyContent: "center", // Center vertically
-    gap: "10px",              // Space between spinner & text
-    zIndex: 1000,
+  
+  spinner: {
+    width: '30px',
+    height: '30px',
+    border: `4px solid ${MCMASTER_COLOURS.gold}`,
+    borderTop: '4px solid transparent',
+    borderRadius: '50%',
+    animation: 'spin 1s linear infinite',
   },
-  spinner: { width: "30px", height: "30px", border: "4px solid #FFC72C", borderTop: "4px solid transparent", borderRadius: "50%", animation: "spin 1s linear infinite" },
 };

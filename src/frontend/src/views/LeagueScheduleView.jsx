@@ -162,27 +162,21 @@ export const LeagueSchedule = () => {
         {!loading && (
           <div style={{
             ...styles.calendar,
-            border: `1px solid ${MCMASTER_COLOURS.maroon}`,
           }}>
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
               <div key={day} style={{
                 ...styles.calendarHeader,
-                backgroundColor: MCMASTER_COLOURS.maroon,
               }}>
                 {day}
               </div>
             ))}
             {monthDates.map((dayISO, idx) => (
-              <div key={idx} style={dayISO ? {
-                ...styles.calendarCell,
-                border: `1px solid ${MCMASTER_COLOURS.maroon}`,
-              } : styles.emptyCell}>
+              <div key={idx} style={dayISO ? styles.calendarCell : styles.emptyCell}>
                 {dayISO && (
                   <div>
-                    <div style={{
-                      ...styles.dateText,
-                      color: MCMASTER_COLOURS.maroon,
-                    }}>{new Date(dayISO).getUTCDate()}</div>
+                    <div style={styles.dateText}>
+                      {new Date(dayISO).getUTCDate()}
+                    </div>
                     <div style={styles.matchesContainer}>
                       {getMatchesForDay(dayISO)}
                     </div>
@@ -224,56 +218,63 @@ const styles = {
   calendar: {
     display: "grid",
     gridTemplateColumns: "repeat(7, 1fr)",
-    gap: "2px",
+    gap: "1px",
     width: '100%',
+    backgroundColor: MCMASTER_COLOURS.grey + '20',
+    borderRadius: '8px',
+    overflow: 'hidden',
+    boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
   },
   calendarHeader: {
-    backgroundColor: "#7A003C",
+    backgroundColor: MCMASTER_COLOURS.maroon,
     color: "white",
     textAlign: "center",
-    padding: "10px",
-    fontWeight: "bold",
+    padding: "12px",
+    fontWeight: "500",
+    fontSize: '0.9rem',
+    letterSpacing: '0.5px',
   },
   calendarCell: {
-    border: `1px solid ${MCMASTER_COLOURS.maroon}`,
-    padding: '10px',
+    backgroundColor: 'white',
+    padding: '12px 8px',
     textAlign: 'center',
     minHeight: '120px',
     position: 'relative',
-    backgroundColor: 'white',
     transition: 'all 0.2s ease',
     '&:hover': {
       backgroundColor: MCMASTER_COLOURS.lightGrey,
     },
   },
   emptyCell: {
-    border: `1px solid ${MCMASTER_COLOURS.grey}`,
-    backgroundColor: '#E0E0E0',
+    backgroundColor: '#f8f8f8',
     minHeight: '120px',
   },
   dateText: {
-    fontWeight: "bold",
+    fontWeight: "500",
     fontSize: "14px",
-    color: "#7A003C",
+    color: MCMASTER_COLOURS.maroon,
+    marginBottom: '8px',
   },
   matchesContainer: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '8px',
-    marginTop: '8px',
+    gap: '6px',
+    marginTop: '4px',
   },
   matchText: {
     fontSize: '12px',
     color: MCMASTER_COLOURS.grey,
-    fontWeight: 'bold',
-    padding: '6px',
-    borderRadius: '4px',
+    fontWeight: '500',
+    padding: '8px',
+    borderRadius: '6px',
     backgroundColor: MCMASTER_COLOURS.lightGrey,
-    border: `1px solid ${MCMASTER_COLOURS.maroon}`,
+    border: 'none',
     transition: 'all 0.2s ease',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
     '&:hover': {
-      backgroundColor: MCMASTER_COLOURS.gold,
+      backgroundColor: MCMASTER_COLOURS.gold + '30',
       transform: 'translateY(-2px)',
+      boxShadow: '0 3px 6px rgba(0,0,0,0.08)',
     },
   },
   spinner: {
