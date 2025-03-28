@@ -158,7 +158,7 @@ export default function LoginForm() {
         </Box> */}
       </Box>
 
-      {/* {!loginState && (
+      {!loginState && (
         <>
           <Typography
             sx={{
@@ -203,7 +203,7 @@ export default function LoginForm() {
             </Typography>
           </Box>
         </>
-      )} */}
+      )}
 
       <Button
         variant="contained"

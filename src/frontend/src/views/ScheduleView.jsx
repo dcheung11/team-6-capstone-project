@@ -96,98 +96,137 @@ const ScheduleView = () => {
             variant="h4" 
             sx={{ 
               fontWeight: "bold",
-              color: "black",
+              color: MCMASTER_COLOURS.maroon,
               mb: 3
             }}
           >
             Schedule
           </Typography>
 
-          {player.role !== "commissioner" && (
-            <FormControl
+          {player.role !== "commissioner" && !player.team ? (
+            // No team message
+            <Box
               sx={{
-                mb: 4,
-                minWidth: 220,
-                '& .MuiOutlinedInput-root': {
-                  '&:hover fieldset': {
-                    borderColor: MCMASTER_COLOURS.maroon,
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: MCMASTER_COLOURS.maroon,
-                  }
-                },
-                '& .MuiInputLabel-root.Mui-focused': {
-                  color: MCMASTER_COLOURS.maroon,
-                }
+                textAlign: 'center',
+                py: 8,
+                px: 3,
+                bgcolor: MCMASTER_COLOURS.lightGrey + '30',
+                borderRadius: 2,
+                border: `1px dashed ${MCMASTER_COLOURS.grey}40`,
               }}
             >
-              <InputLabel id="view-select-label">View</InputLabel>
-              <Select
-                labelId="view-select-label"
-                value={activeView}
-                label="View"
-                onChange={(e) => setActiveView(e.target.value)}
+              <Typography
+                variant="h6"
                 sx={{
-                  backgroundColor: 'white',
+                  color: MCMASTER_COLOURS.maroon,
+                  fontWeight: 500,
+                  mb: 2
                 }}
               >
-                <MenuItem 
-                  value="weekly"
+                Join a Team to View Schedules
+              </Typography>
+              <Typography
+                sx={{
+                  color: MCMASTER_COLOURS.grey,
+                  maxWidth: '600px',
+                  margin: '0 auto',
+                  lineHeight: 1.6
+                }}
+              >
+                To view game schedules, you'll need to be part of a team. 
+                Register your own team or accept a team invitation to get started.
+              </Typography>
+            </Box>
+          ) : (
+            // Regular schedule view for players with teams
+            <>
+              {player.role !== "commissioner" && (
+                <FormControl
                   sx={{
-                    '&.Mui-selected': {
-                      backgroundColor: `${MCMASTER_COLOURS.maroon}14`,
-                      '&:hover': {
-                        backgroundColor: `${MCMASTER_COLOURS.maroon}20`,
+                    mb: 4,
+                    minWidth: 220,
+                    '& .MuiOutlinedInput-root': {
+                      '&:hover fieldset': {
+                        borderColor: MCMASTER_COLOURS.maroon,
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: MCMASTER_COLOURS.maroon,
                       }
                     },
-                    '&:hover': {
-                      backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: MCMASTER_COLOURS.maroon,
                     }
                   }}
                 >
-                  Weekly Schedule
-                </MenuItem>
-                <MenuItem 
-                  value="team"
-                  sx={{
-                    '&.Mui-selected': {
-                      backgroundColor: `${MCMASTER_COLOURS.maroon}14`,
-                      '&:hover': {
-                        backgroundColor: `${MCMASTER_COLOURS.maroon}20`,
-                      }
-                    },
-                    '&:hover': {
-                      backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
-                    }
-                  }}
-                >
-                  Monthly Schedule
-                </MenuItem>
-                <MenuItem 
-                  value="league"
-                  sx={{
-                    '&.Mui-selected': {
-                      backgroundColor: `${MCMASTER_COLOURS.maroon}14`,
-                      '&:hover': {
-                        backgroundColor: `${MCMASTER_COLOURS.maroon}20`,
-                      }
-                    },
-                    '&:hover': {
-                      backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
-                    }
-                  }}
-                >
-                  League Schedule
-                </MenuItem>
-              </Select>
-            </FormControl>
-          )}
+                  <InputLabel id="view-select-label">View</InputLabel>
+                  <Select
+                    labelId="view-select-label"
+                    value={activeView}
+                    label="View"
+                    onChange={(e) => setActiveView(e.target.value)}
+                    sx={{
+                      backgroundColor: 'white',
+                    }}
+                  >
+                    <MenuItem 
+                      value="weekly"
+                      sx={{
+                        '&.Mui-selected': {
+                          backgroundColor: `${MCMASTER_COLOURS.maroon}14`,
+                          '&:hover': {
+                            backgroundColor: `${MCMASTER_COLOURS.maroon}20`,
+                          }
+                        },
+                        '&:hover': {
+                          backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
+                        }
+                      }}
+                    >
+                      Weekly Schedule
+                    </MenuItem>
+                    <MenuItem 
+                      value="team"
+                      sx={{
+                        '&.Mui-selected': {
+                          backgroundColor: `${MCMASTER_COLOURS.maroon}14`,
+                          '&:hover': {
+                            backgroundColor: `${MCMASTER_COLOURS.maroon}20`,
+                          }
+                        },
+                        '&:hover': {
+                          backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
+                        }
+                      }}
+                    >
+                      Monthly Schedule
+                    </MenuItem>
+                    <MenuItem 
+                      value="league"
+                      sx={{
+                        '&.Mui-selected': {
+                          backgroundColor: `${MCMASTER_COLOURS.maroon}14`,
+                          '&:hover': {
+                            backgroundColor: `${MCMASTER_COLOURS.maroon}20`,
+                          }
+                        },
+                        '&:hover': {
+                          backgroundColor: `${MCMASTER_COLOURS.maroon}0A`,
+                        }
+                      }}
+                    >
+                      League Schedule
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              )}
 
-          {/* Schedule Components */}
-          {activeView === "weekly" && <WeeklySchedule />}
-          {activeView === "team" && <TeamSchedule />}
-          {activeView === "league" && <LeagueSchedule />}
-          {activeView === "commissioner" && <CommissionerSchedule />}
+              {/* Schedule Components */}
+              {activeView === "weekly" && <WeeklySchedule />}
+              {activeView === "team" && <TeamSchedule />}
+              {activeView === "league" && <LeagueSchedule />}
+              {activeView === "commissioner" && <CommissionerSchedule />}
+            </>
+          )}
         </Box>
       </Container>
     </Box>
