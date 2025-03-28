@@ -44,16 +44,18 @@ export default function StandingsPage() {
   const fetchSeasons = async () => {
     try {
       const data = await getAllSeasons();
-      
+
       // Sort seasons: first by status (ongoing first), then by start date (newest first)
-      const sortedSeasons = data.seasons.sort((a, b) => {
-        // First sort by status
-        if (a.status !== b.status) {
-          return a.status === "archived" ? 1 : -1;
-        }
-        // Then sort by start date 
-        return new Date(b.startDate) - new Date(a.startDate);
-      });
+      const sortedSeasons = data.seasons
+        .filter((season) => season.status !== "upcoming")
+        .sort((a, b) => {
+          // First sort by status
+          if (a.status !== b.status) {
+            return a.status === "archived" ? 1 : -1;
+          }
+          // Then sort by start date 
+          return new Date(b.startDate) - new Date(a.startDate);
+        });
       
       setSeasons(sortedSeasons);
   
