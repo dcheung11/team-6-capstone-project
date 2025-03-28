@@ -6,6 +6,30 @@ import { getScheduleGamesByTeamId } from "../api/team";
 import { getAvailableGameslots } from "../api/reschedule-requests";
 import { formatDate } from "../utils/Formatting";
 
+const MCMASTER_COLOURS = {
+  maroon: '#7A003C',
+  grey: '#5E6A71',
+  gold: '#FDBF57',
+  lightGrey: '#F5F5F5',
+};
+
+// Common loading overlay style
+const loadingOverlayStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  textAlign: 'center',
+  fontWeight: 'bold',
+  color: MCMASTER_COLOURS.maroon,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '10px',
+  zIndex: 1000,
+};
+
 // Fix the "day ahead" issue by normalizing date/time
 function getLocalISODate(date) {
   date.setHours(12, 0, 0, 0);
@@ -22,80 +46,66 @@ export const WeeklySchedule = () => {
   const auth = useAuth();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [playerId, setPlayerId] = useState(auth.playerId);
+  const [playerId] = useState(auth.playerId);
   const [player, setPlayer] = useState(null);
   const [teamGames, setTeamGames] = useState([]);
   const [availableGameslots, setAvailableGameslots] = useState({});
 
   useEffect(() => {
-    const fetchPlayerById = async (pid) => {
+    const fetchAllData = async () => {
       try {
         setLoading(true);
-        const data = await getPlayerById(pid);
-        setPlayer(data.player);
-      } catch (err) {
-        setError(err.message || "Failed to fetch player");
-      } finally {
-        setLoading(false);
-      }
-    };
+        
+        // Fetch player data first
+        const playerData = await getPlayerById(playerId);
+        setPlayer(playerData.player);
 
-    fetchPlayerById(playerId);
-  }, []);
+        // If player has a team, fetch team games
+        if (playerData.player?.team?.id) {
+          const gamesData = await getScheduleGamesByTeamId(playerData.player.team.id);
+          const weekDates = getWeekDates(currentDate);
+          
+          const filteredGames = gamesData.games.filter(game => {
+            let gameDate = formatDate(game.date);
+            return gameDate >= weekDates[0].fullDate && gameDate <= weekDates[6].fullDate;
+          });
+          
+          setTeamGames(filteredGames);
+        }
 
-  useEffect(() => {
-    const fetchTeamGames = async () => {
-      if (!player?.team?.id) {
-        return;
-      }
-
-      try {
-        setLoading(true);
-        const data = await getScheduleGamesByTeamId(player.team.id);
-        const weekDates = getWeekDates(currentDate);
-
-        const filteredGames = data.games.filter(game => {
-          let gameDate = formatDate(game.date);
-          return gameDate >= weekDates[0].fullDate && gameDate <= weekDates[6].fullDate
-        });
-
-        setTeamGames(filteredGames);
-      } catch (err) {
-        setError(err.message || "Failed to fetch team schedule");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTeamGames();
-  }, [player, currentDate]);
-
-  useEffect(() => {
-    const fetchGameslots = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await getAvailableGameslots();
-
-        // Transform data into { "YYYY-MM-DD": ["Time | Field"] } format
-        const formattedData = response.reduce((acc, slot) => {
+        // Fetch available gameslots
+        const slotsResponse = await getAvailableGameslots();
+        const formattedData = slotsResponse.reduce((acc, slot) => {
           const dateKey = formatDate(new Date(slot.date));
           const slotString = `${slot.time} | ${slot.field}`;
           if (!acc[dateKey]) acc[dateKey] = [];
           acc[dateKey].push({ id: slot._id, slotString: slotString });
           return acc;
         }, {});
-
+        
         setAvailableGameslots(formattedData);
+
       } catch (err) {
-        setError(err.message);
+        setError(err.message || "Failed to fetch data");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchGameslots();
-  }, []);
+    fetchAllData();
+  }, [playerId, currentDate]);
+
+  useEffect(() => {
+    if (!player?.team?.id) return;
+
+    const weekDates = getWeekDates(currentDate);
+    const filteredGames = teamGames.filter(game => {
+      let gameDate = formatDate(game.date);
+      return gameDate >= weekDates[0].fullDate && gameDate <= weekDates[6].fullDate;
+    });
+
+    setTeamGames(filteredGames);
+  }, [currentDate, player?.team?.id]);
 
   const handleNavigation = (direction) => {
     setLoading(true);
@@ -150,75 +160,82 @@ export const WeeklySchedule = () => {
   };
 
   return (
-    <div style={styles.container}>
-      {/* Navigation */}
+    <>
+      {/* Navigation Header */}
       <div style={styles.header}>
-        <button style={styles.navButton} onClick={() => handleNavigation("prev")}>
+        <button style={{
+          ...styles.navButton,
+          backgroundColor: MCMASTER_COLOURS.maroon,
+        }} onClick={() => handleNavigation("prev")}>
           Prev
         </button>
         <h2 style={styles.title}>
           {getWeekRange(currentDate)}
         </h2>
-        <button style={styles.navButton} onClick={() => handleNavigation("next")}>
+        <button style={{
+          ...styles.navButton,
+          backgroundColor: MCMASTER_COLOURS.maroon,
+        }} onClick={() => handleNavigation("next")}>
           Next
         </button>
       </div>
 
-      {/* loading overlay */}
-      {loading && (
-        <div style={styles.loadingOverlay}>
-          <div style={styles.spinner}></div>
-          <p>Loading games...</p>
-        </div>
-      )}
+      {/* Calendar Container with Loading Overlay */}
+      <div style={{ position: 'relative', minHeight: '500px' }}>
+        {loading && (
+          <div style={loadingOverlayStyle}>
+            <div style={styles.spinner}></div>
+            <p>Loading games...</p>
+          </div>
+        )}
 
-      {/* Weekly Schedule Grid */}
-      {!loading &&
-        <div style={styles.calendar}>
-          {weekDates.map((wdate, index) => {
-            // Find the game that matches this week date
-            const match = teamGames.find(game => {
-              const gameDate = new Date(game.date);
-              const gameDateStr = formatDate(gameDate);
-              return gameDateStr === wdate.fullDate;
-            });
+        {!loading && (
+          <div style={styles.calendar}>
+            {weekDates.map((wdate, index) => {
+              const match = teamGames.find(game => {
+                const gameDate = new Date(game.date);
+                const gameDateStr = formatDate(gameDate);
+                return gameDateStr === wdate.fullDate;
+              });
 
-            return (
-              <div key={index} style={styles.calendarCard}>
-                <h4 style={styles.calendarDay}>{wdate.day}</h4>
-                <p style={styles.calendarDate}>{wdate.date}</p>
-                
-                {match ? (
-                  <>
-                    <p style={styles.eventText}>
-                      {match.awayTeam.name} @ {match.homeTeam.name}
-                    </p>
-                    <p style={styles.gameTime}>
-                      {match.time}
-                    </p>
-                    <p style={styles.gameField}>
-                      {match.field}
-                    </p>
-                    {/* TODO: captainId is populated so this syntax is a bit gross */}
-                    {player.team.captainId.id === player._id ? (<button
-                      style={styles.rescheduleButton}
-                      onClick={() => handleRescheduleClick(wdate.fullDate, match)}
-                    >
-                      Reschedule
-                    </button>) : null}
-                  </>
-                ) : (
-                  <p style={styles.eventText}>No Matches</p>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      }
+              return (
+                <div key={index} style={styles.calendarCard}>
+                  <h4 style={styles.calendarDay}>{wdate.day}</h4>
+                  <p style={styles.calendarDate}>{wdate.date}</p>
+                  
+                  {match ? (
+                    <div style={styles.matchText}>
+                      <div>{match.awayTeam.name} @ {match.homeTeam.name}</div>
+                      <div style={{ 
+                        fontSize: '11px', 
+                        marginTop: '4px', 
+                        color: MCMASTER_COLOURS.maroon,
+                        opacity: 0.9
+                      }}>
+                        {match.time} | {match.field}
+                      </div>
+                      {player?.team?.captainId?.id === player._id && (
+                        <button
+                          style={styles.rescheduleButton}
+                          onClick={() => handleRescheduleClick(wdate.fullDate, match)}
+                        >
+                          Reschedule
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    <p style={styles.eventText}>No Matches</p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
 
+      {/* ReschedulePopup modal */}
       {showModal && (
         Object.keys(availableGameslots).length > 0 ? (
-          // Show popup ONLY when data exists
           <ReschedulePopup
             selectedDate={selectedDate}
             selectedMatch={selectedMatch}
@@ -227,96 +244,136 @@ export const WeeklySchedule = () => {
             onClose={() => setShowModal(false)}
           />
         ) : (
-          // Show loading ONLY while data is empty
-          <div style={styles.loadingOverlay}>
+          <div style={loadingOverlayStyle}>
             <div style={styles.spinner}></div>
             <p>Loading available timeslots...</p>
           </div>
         )
       )}
-    </div>
+    </>
   );
 };
 
 export default WeeklySchedule;
 
 const styles = {
-  container: {
-    padding: "20px",
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-    color: "#7A003C",
-  },
   header: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: "20px",
+    width: '100%',
+    marginBottom: '30px',
   },
+  
   title: {
     fontSize: "24px",
     fontWeight: "bold",
+    textAlign: "center",
+    color: MCMASTER_COLOURS.maroon,
   },
+  
   navButton: {
-    backgroundColor: "#7A003C",
+    backgroundColor: MCMASTER_COLOURS.maroon,
     color: "white",
     border: "none",
     padding: "10px 15px",
     borderRadius: "5px",
     cursor: "pointer",
+    transition: 'background-color 0.2s ease',
+    '&:hover': {
+      backgroundColor: '#5A002C',
+    }
   },
+  
   calendar: {
     display: "grid",
     gridTemplateColumns: "repeat(7, 1fr)",
-    gap: "15px",
-    marginBottom: "20px",
+    gap: "1px",
+    width: '100%',
+    backgroundColor: MCMASTER_COLOURS.grey + '20',
+    borderRadius: '8px',
+    overflow: 'hidden',
+    boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
   },
+  
   calendarCard: {
-    border: "1px solid #D3D3D3",
-    borderRadius: "5px",
-    padding: "10px",
-    backgroundColor: "#F5F5F5",
-    textAlign: "center",
-    position: "relative",
+    backgroundColor: 'white',
+    padding: '12px 8px',
+    textAlign: 'center',
+    minHeight: '120px',
+    position: 'relative',
+    transition: 'all 0.2s ease',
+    display: 'flex',
+    flexDirection: 'column',
+    '&:hover': {
+      backgroundColor: MCMASTER_COLOURS.lightGrey + '30',
+    },
   },
+  
   calendarDay: {
-    fontWeight: "bold",
-    color: "#7A003C",
+    margin: '0 0 4px 0',
+    color: MCMASTER_COLOURS.maroon,
+    fontWeight: "500",
+    fontSize: '0.9rem',
+    letterSpacing: '0.5px',
   },
+  
   calendarDate: {
-    fontSize: "14px",
-    color: "#4F4F4F",
+    margin: '0 0 12px 0',
+    color: MCMASTER_COLOURS.grey,
+    fontSize: '0.85rem',
+    fontWeight: '500',
   },
+  
   eventText: {
-    fontSize: "14px",
-    color: "#7A003C",
-    fontWeight: "bold",
-    marginBottom: "10px",
+    fontSize: '12px',
+    color: MCMASTER_COLOURS.grey,
+    fontWeight: '500',
+    margin: '0',
   },
+  
+  matchText: {
+    fontSize: '12px',
+    color: MCMASTER_COLOURS.grey,
+    fontWeight: '500',
+    padding: '8px',
+    borderRadius: '6px',
+    backgroundColor: MCMASTER_COLOURS.lightGrey,
+    border: 'none',
+    transition: 'all 0.2s ease',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+    margin: '0',
+    '&:hover': {
+      backgroundColor: MCMASTER_COLOURS.gold + '30',
+      transform: 'translateY(-2px)',
+      boxShadow: '0 3px 6px rgba(0,0,0,0.08)',
+    },
+  },
+  
   rescheduleButton: {
-    backgroundColor: "#FFC72C",
-    color: "#7A003C",
-    border: "none",
-    padding: "8px 12px",
-    borderRadius: "5px",
-    fontWeight: "bold",
-    cursor: "pointer",
+    backgroundColor: MCMASTER_COLOURS.gold + '90',
+    color: MCMASTER_COLOURS.maroon,
+    border: 'none',
+    padding: '6px 10px',
+    borderRadius: '4px',
+    fontWeight: '500',
+    cursor: 'pointer',
+    fontSize: '11px',
+    marginTop: '6px',
+    transition: 'all 0.2s ease',
+    '&:hover': {
+      backgroundColor: MCMASTER_COLOURS.gold,
+      transform: 'translateY(-1px)',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+    },
   },
-  loadingOverlay: {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  backgroundColor: "rgba(255, 255, 255, 0.9)",
-  padding: "20px",
-  borderRadius: "10px",
-  textAlign: "center",
-  fontWeight: "bold",
-  color: "#7A003C",
-  display: "flex",          // Added for centering
-  flexDirection: "column",  // Stack spinner & text
-  alignItems: "center",     // Center horizontally
-  justifyContent: "center", // Center vertically
-  gap: "10px",              // Space between spinner & text
-},
-  spinner: { width: "30px", height: "30px", border: "4px solid #FFC72C", borderTop: "4px solid transparent", borderRadius: "50%", animation: "spin 1s linear infinite" },
+  
+  spinner: {
+    width: '30px',
+    height: '30px',
+    border: `4px solid ${MCMASTER_COLOURS.gold}`,
+    borderTop: '4px solid transparent',
+    borderRadius: '50%',
+    animation: 'spin 1s linear infinite',
+  },
 };
