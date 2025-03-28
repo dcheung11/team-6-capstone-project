@@ -23,4 +23,6 @@ router.get("/:id", teamsController.getTeamsById);
 
 router.get("/schedule/:id", teamsController.getScheduleGamesByTeamId);
 
+router.delete("/:teamId/roster/:playerId", teamsController.removePlayerFromRoster);
+
 module.exports = router;
