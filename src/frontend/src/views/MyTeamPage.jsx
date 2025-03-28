@@ -6,6 +6,13 @@ import {
   Stack,
   Button,
   Divider,
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Paper,
 } from "@mui/material";
 import NavBar from "../components/NavBar";
 import RosterTable from "../components/RosterTable";
@@ -298,26 +305,45 @@ export default function MyTeamPage() {
                     </>
                   )}
 
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      fontSize: "2rem",
-                      fontWeight: 700,
-                      mb: 2,
-                    }}
-                  >
-                    Previous Games
-                  </Typography>
-                  {teamGames && teamGames.games && teamGames.games.length > 0 ? (
-                    <ScheduleTable
-                      schedule={teamGames}
-                      captain={player.team.captainId.id}
-                      player={playerId}
-                      role={player.role}
-                      archived={teamGames.archived}
-                    />
-                  ) : (
-                    <NoDataCard text="No schedule to show." />
+                  {player._id === player.team.captainId.id && (
+                    <>
+                      <Typography variant="h5" sx={{ 
+                        color: MCMASTER_COLOURS.maroon,
+                        fontWeight: 'bold',
+                        mt: 4,
+                        mb: 2 
+                      }}>
+                        Previous Games
+                      </Typography>
+                      <TableContainer component={Paper}>
+                        <Table>
+                          <TableHead>
+                            <TableRow>
+                              <TableCell>Date</TableCell>
+                              <TableCell>Opponent</TableCell>
+                              <TableCell>Score</TableCell>
+                              <TableCell>Result</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {teamGames && teamGames.games && teamGames.games.length > 0 ? (
+                              teamGames.games.map((game) => (
+                                <TableRow key={game._id}>
+                                  <TableCell>{game.date.toLocaleDateString()}</TableCell>
+                                  <TableCell>{game.opponent}</TableCell>
+                                  <TableCell>{game.score}</TableCell>
+                                  <TableCell>{game.result}</TableCell>
+                                </TableRow>
+                              ))
+                            ) : (
+                              <TableRow>
+                                <TableCell colSpan={4}>No games to display</TableCell>
+                              </TableRow>
+                            )}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </>
                   )}
 
                   <Divider sx={{ my: 6 }} />
@@ -339,10 +365,15 @@ export default function MyTeamPage() {
       onClick={handleLeaveTeam}
       disabled={loading}
       sx={{
-        backgroundColor: MCMASTER_COLOURS.maroon, // Custom background color
-        fontWeight: 700,
-        fontSize: "1rem",
-        padding: "6px 16px", // Adjust padding if needed
+        backgroundColor: MCMASTER_COLOURS.maroon,
+        color: 'white',
+        padding: '8px 24px',
+        borderRadius: '6px',
+        textTransform: 'none',
+        fontWeight: 500,
+        '&:hover': {
+          backgroundColor: MCMASTER_COLOURS.maroon + 'E6',
+        }
       }}
     >
       Leave Team
