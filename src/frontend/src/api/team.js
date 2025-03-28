@@ -3,16 +3,13 @@ const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // replace with your
 // body = { name, divisionId, captainId, roster, seasonId }
 export async function registerTeam(body) {
   try {
-    const response = await fetch(
-      `${REACT_APP_API_BASE_URL}/teams/registerTeam`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      }
-    );
+    const response = await fetch(`${REACT_APP_API_BASE_URL}/teams/registerTeam`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
 
     if (!response.ok) {
       const error = await response.json();
@@ -29,15 +26,12 @@ export async function registerTeam(body) {
 export async function getTeamsById(ids) {
   try {
     const idString = ids.join(",");
-    const response = await fetch(
-      `${REACT_APP_API_BASE_URL}/teams/${idString}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(`${REACT_APP_API_BASE_URL}/teams/${idString}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (!response.ok) {
       const error = await response.json();
@@ -74,19 +68,37 @@ export async function getTeams() {
 
 export async function getScheduleGamesByTeamId(id) {
   try {
-    const response = await fetch(
-      `${REACT_APP_API_BASE_URL}/teams/schedule/${id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(`${REACT_APP_API_BASE_URL}/teams/schedule/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Fetching schedule failed");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function removePlayerFromRoster(teamId, playerId) {
+  try {
+    const response = await fetch(`${REACT_APP_API_BASE_URL}/teams/${teamId}/roster/${playerId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Removing player failed");
     }
 
     const data = await response.json();

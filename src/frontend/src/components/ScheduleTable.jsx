@@ -280,8 +280,8 @@ export default function ScheduleTable(props) {
         const awayScore = scores[gameId]?.away ?? game.awayScore ?? "";
         const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;
 
-        console.log("homeScore: ", homeScore);
-        console.log("awayScore: ", awayScore);
+        // console.log("homeScore: ", homeScore);
+        // console.log("awayScore: ", awayScore);
 
         if ((!isCaptain && props.role !== "commissioner") || props.archived) {
           return (

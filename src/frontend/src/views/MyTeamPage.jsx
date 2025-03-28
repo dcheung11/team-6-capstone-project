@@ -25,6 +25,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getScheduleGamesByTeamId } from "../api/team";
 import LoadingOverlay from "../components/LoadingOverlay";
 import ContactInfoTable from "../components/ContactInfoTable";
+import { removePlayerFromRoster } from "../api/team";
 
 // McMaster colours - AI Generated
 const MCMASTER_COLOURS = {
@@ -111,6 +112,21 @@ export default function MyTeamPage() {
       fetchNotificationsByTeamId(teamTabValue);
     }
   }, [player, teamTabValue]);
+
+  const handleLeaveTeam = async () => {
+    if (!playerId || !teamTabValue) return;
+  
+    try {
+      setLoading(true);
+      await removePlayerFromRoster(teamTabValue, playerId);
+      // Optionally redirect or refresh
+      navigate("/home"); // or another route after leaving
+    } catch (err) {
+      setError(err.message || "Failed to leave team");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div 
@@ -306,16 +322,34 @@ export default function MyTeamPage() {
 
                   <Divider sx={{ my: 6 }} />
 
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      fontSize: "2rem",
-                      fontWeight: 700,
-                      mb: 2,
-                    }}
-                  >
-                    Roster
-                  </Typography>
+                  <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
+  <Typography
+    variant="h5"
+    sx={{
+      fontSize: "2rem",
+      fontWeight: 700,
+    }}
+  >
+    Roster
+  </Typography>
+  
+  {player.team.captainId.id !== playerId && ( // Only show button if the player is not the captain
+    <Button
+      variant="contained"
+      onClick={handleLeaveTeam}
+      disabled={loading}
+      sx={{
+        backgroundColor: MCMASTER_COLOURS.maroon, // Custom background color
+        fontWeight: 700,
+        fontSize: "1rem",
+        padding: "6px 16px", // Adjust padding if needed
+      }}
+    >
+      Leave Team
+    </Button>
+  )}
+</Stack>
+                  
                   <RosterTable
                     roster={player.team.roster}
                     captain={player.team.captainId}
