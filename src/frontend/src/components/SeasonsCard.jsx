@@ -7,14 +7,17 @@ import { useState, useEffect } from "react";
 export const SeasonsCard = (props) => {
   const auth = useAuth();
   const [player, setPlayer] = useState(null);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
       try {
+        setLoading(true);
         const data = await getPlayerById(pid);
         setPlayer(data.player);
       } catch (err) {
         console.log("Failed to fetch player");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -67,7 +70,7 @@ export const SeasonsCard = (props) => {
                   {season.registeredTeams.length}
                 </Typography>
               </Box>
-              {season.status === "upcoming" && !player?.team && (
+              {!loading &&season.status === "upcoming" && !player?.team && (
                 <Button
                   href={`/registerteam/${season.id}`}
                   variant="contained"
@@ -89,7 +92,7 @@ export const SeasonsCard = (props) => {
               )}
               {season.status === "upcoming" && player?.team && (
                 <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-                  You are already registered on a team for this season.
+                  You are already registered on a team.
                 </Typography>
               )}
             </CardContent>
