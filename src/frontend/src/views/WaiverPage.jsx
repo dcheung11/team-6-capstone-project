@@ -14,13 +14,18 @@ export default function WaiverPage() {
   const location = useLocation();
   const [isChecked, setIsChecked] = useState(false);
   const [teamId, setTeamId] = useState(null);
+  const [seasonId, setSeasonId] = useState(null);
 
   useEffect(() => {
     // Get teamId from URL parameters
     const params = new URLSearchParams(location.search);
-    const id = params.get('teamId');
-    if (id) {
-      setTeamId(id);
+    const teamID = params.get('teamId');
+    const seasonId = params.get('seasonId');
+    if (teamID) {
+      setTeamId(teamID);
+    }
+    if (seasonId) {
+      setSeasonId(seasonId);
     }
   }, [location]);
 
@@ -31,6 +36,8 @@ export default function WaiverPage() {
   const handleSubmit = () => {
     if (isChecked && teamId) {
       navigate(`/team/${teamId}`);
+    } else if (isChecked && !teamId) {
+      navigate(`/home`);
     }
   };
 

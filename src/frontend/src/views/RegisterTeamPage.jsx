@@ -77,7 +77,7 @@ export default function RegisterTeamPage() {
     setBlacklistDay(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const requestBody = {
       name: teamName,
@@ -89,8 +89,9 @@ export default function RegisterTeamPage() {
       blacklistDays: blacklistDay,
     };
     try {
-      registerTeam(requestBody);
-      navigate("/home");
+      const response = await registerTeam(requestBody);
+      const teamId = response.team._id;
+      navigate(`/waiver?teamId=${teamId}`);
     } catch (err) {
       setError(err.message || "Failed to register team");
     }

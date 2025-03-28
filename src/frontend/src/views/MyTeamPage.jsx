@@ -271,7 +271,7 @@ export default function MyTeamPage() {
                           mb: 2,
                         }}
                       >
-                        Scheduling Notifications
+                        Rescheduling Notifications
                       </Typography>
                       {teamNotifications && teamNotifications.length > 0 ? (
                         <NotificationsRow notifications={teamNotifications} />
@@ -290,7 +290,7 @@ export default function MyTeamPage() {
                       mb: 2,
                     }}
                   >
-                    Team Schedule
+                    Previous Games
                   </Typography>
                   {teamGames && teamGames.games && teamGames.games.length > 0 ? (
                     <ScheduleTable
