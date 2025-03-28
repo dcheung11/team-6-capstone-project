@@ -158,53 +158,6 @@ export default function LoginForm() {
         </Box> */}
       </Box>
 
-      {!loginState && (
-        <>
-          <Typography
-            sx={{
-              fontSize: "0.875rem",
-              color: "text.secondary",
-              mb: 1
-            }}
-          >
-            Please complete the waiver form and confirm below:
-          </Typography>
-          <Box sx={{ width: '100%', height: '400px', border: '1px solid #ccc' }}>
-            <iframe 
-              width="100%"
-              height="100%"
-              src="https://forms.office.com/Pages/ResponsePage.aspx?id=B2M3RCm0rUKMJSjNSW9HchGPxkBSqu9MvUTc8JXTFOBUNTUwWktNM09BNEZLQTY4WDhRV1pXTjlINy4u&embed=true" 
-              frameBorder="0"
-              marginWidth="0"
-              marginHeight="0"
-              style={{ border: 'none', maxWidth:'100%', maxHeight:'100vh' }}
-              allowFullScreen
-              webkitallowfullscreen="true"
-              mozallowfullscreen="true"
-              msallowfullscreen="true"
-            />
-          </Box>
-          <Box sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: 1,
-            padding: '8px',
-            backgroundColor: '#f5f5f5',
-            borderRadius: '4px'
-          }}>
-            <input 
-              type="checkbox" 
-              id="waiver-confirm" 
-              checked={waiverConfirmed}
-              onChange={(e) => setWaiverConfirmed(e.target.checked)}
-            />
-            <Typography sx={{ fontSize: '0.875rem' }}>
-              I confirm that I have completed and submitted the waiver form
-            </Typography>
-          </Box>
-        </>
-      )}
-
       <Button
         variant="contained"
         sx={{
