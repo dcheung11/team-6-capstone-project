@@ -9,6 +9,8 @@ export const SeasonsCard = (props) => {
   const auth = useAuth();
   const [player, setPlayer] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Fetch player data by ID when the component mounts or when auth.playerId changes
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
       try {
@@ -27,6 +29,8 @@ export const SeasonsCard = (props) => {
     }
   }, [auth.playerId]);
 
+  // If no seasons exist or the seasons array is empty, display a message
+  // Otherwise, display a card for each season
   if (!props.seasons || props.seasons.length === 0) {
     return (
       <Box sx={{ mb: 2, width: "100%" }}>
