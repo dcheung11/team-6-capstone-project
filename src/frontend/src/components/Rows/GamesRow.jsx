@@ -1,7 +1,8 @@
 import React from "react";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
-import { formatDate } from "../utils/Formatting";
+import { formatDate } from "../../utils/Formatting";
 
+// GamesRow: Displays a row of game cards for a specific team.
 export default function GamesRow(props) {
   const getOpponent = (game) => {
     return game.homeTeam._id === props.teamId ? game.awayTeam : game.homeTeam;

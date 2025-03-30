@@ -16,11 +16,9 @@ import {
   Paper,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import GroupIcon from "@mui/icons-material/Group";
-import { deleteNotification, updateNotificationStatus } from "../api/notification.js";
-import { acceptInvite, getPlayerById } from "../api/player";
-import { useAuth } from "../hooks/AuthProvider";
+import { deleteNotification, updateNotificationStatus } from "../../api/notification.js";
+import { acceptInvite, getPlayerById } from "../../api/player.js";
+import { useAuth } from "../../hooks/AuthProvider.js";
 
 // MUI envelope icons
 import MarkEmailUnreadIcon from "@mui/icons-material/MarkEmailUnread";
@@ -34,6 +32,7 @@ const MCMASTER_COLOURS = {
   lightGrey: '#F5F5F5',
 };
 
+// NotificationsRow: Displays a row of notifications and team invites.
 export default function NotificationsRow({ notifications: initialNotifications, teamInvites }) {
   const navigate = useNavigate();
   const auth = useAuth();
@@ -47,6 +46,7 @@ export default function NotificationsRow({ notifications: initialNotifications, 
     new Date(b.createdAt) - new Date(a.createdAt)
   );
 
+  // Handle request to reschedule click
   const handleRescheduleClick = async (notification) => {
     await updateNotificationStatus(notification._id, 'read');
     setNotifications((prevNotifications) =>
@@ -57,6 +57,7 @@ export default function NotificationsRow({ notifications: initialNotifications, 
     navigate(`/notifications/${notification._id}/reschedule-requests/${notification.rescheduleRequestId}`);
   };
 
+  // Handle team invite click
   const handleTeamInviteClick = async (teamId) => {
     try {
       const requestBody = {
@@ -77,11 +78,13 @@ export default function NotificationsRow({ notifications: initialNotifications, 
     }
   };
 
+  // Handle delete notification click
   const handleDeleteClick = (notification) => {
     setSelectedNotification(notification);
     setDeleteDialogOpen(true);
   };
 
+  // Confirm delete notification
   const confirmDelete = async () => {
     if (selectedNotification) {
       setNotifications(notifications.filter((n) => n._id !== selectedNotification._id));
@@ -90,6 +93,7 @@ export default function NotificationsRow({ notifications: initialNotifications, 
     }
   };
   
+  // NotificationCard: Displays individual notification cards
   const NotificationCard = ({ notification, isTeamInvite, team }) => {
     const isRead = notification?.status === "read";
     const borderColor = isRead ? MCMASTER_COLOURS.grey : MCMASTER_COLOURS.maroon;

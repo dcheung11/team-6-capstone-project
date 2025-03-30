@@ -1,13 +1,16 @@
 import React from "react";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
-import { useAuth } from "../hooks/AuthProvider";
-import { getPlayerById } from "../api/player";
+import { useAuth } from "../../hooks/AuthProvider";
+import { getPlayerById } from "../../api/player";
 import { useState, useEffect } from "react";
 
+// SeasonsCard: Displays a card for each season with its details and a button to register a team if applicable.
 export const SeasonsCard = (props) => {
   const auth = useAuth();
   const [player, setPlayer] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Fetch player data by ID when the component mounts or when auth.playerId changes
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
       try {
@@ -26,6 +29,8 @@ export const SeasonsCard = (props) => {
     }
   }, [auth.playerId]);
 
+  // If no seasons exist or the seasons array is empty, display a message
+  // Otherwise, display a card for each season
   if (!props.seasons || props.seasons.length === 0) {
     return (
       <Box sx={{ mb: 2, width: "100%" }}>
@@ -70,7 +75,8 @@ export const SeasonsCard = (props) => {
                   {season.registeredTeams.length}
                 </Typography>
               </Box>
-              {!loading &&season.status === "upcoming" && !player?.team && (
+              {/* Only show the register button if the season is upcoming and the player is not already on a team */}
+              {!loading && season.status === "upcoming" && !player?.team && (
                 <Button
                   href={`/registerteam/${season.id}`}
                   variant="contained"

@@ -12,7 +12,7 @@ import {
   Stack,
 } from "@mui/material";
 import NavBar from "../components/NavBar";
-import StandingsTable from "../components/StandingsTable";
+import StandingsTable from "../components/Tables/StandingsTable";
 
 // McMaster colours - AI generated
 const MCMASTER_COLOURS = {

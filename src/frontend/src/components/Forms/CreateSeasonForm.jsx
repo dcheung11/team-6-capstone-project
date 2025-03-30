@@ -10,6 +10,7 @@ const MCMASTER_COLOURS = {
   lightGrey: '#F5F5F5',
 };
 
+// CreateSeasonForm: A form component for creating a new season.
 const CreateSeasonForm = (props) => {
   const [seasonName, setSeasonName] = useState("");
   const [startDate, setStartDate] = useState("");

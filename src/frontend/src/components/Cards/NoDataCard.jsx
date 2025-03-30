@@ -1,8 +1,8 @@
 import React from "react";
-import { Button, Stack, Container, Typography } from "@mui/material";
-import GroupIcon from "@mui/icons-material/Group";
+import { Stack, Container, Typography } from "@mui/material";
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 
+// NoDataCard: Displays a message when there is no data to show.
 export default function NoDataCard(props) {
   return (
     <Container>

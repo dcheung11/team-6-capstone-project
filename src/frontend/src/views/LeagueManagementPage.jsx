@@ -24,11 +24,11 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import { formatDate } from "../utils/Formatting";
-import CreateSeasonForm from "../components/manage/CreateSeasonForm";
-import SeasonsTable from "../components/manage/SeasonsTable";
-import ScheduleTable from "../components/ScheduleTable";
+import CreateSeasonForm from "../components/Forms/CreateSeasonForm";
+import SeasonsTable from "../components/Tables/SeasonsTable";
+import ScheduleTable from "../components/Tables/ScheduleTable";
 import LoadingOverlay from "../components/LoadingOverlay";
-import CommissionerContactInfo from "../components/manage/CommissionerContactInfo";
+import CommissionerContactInfo from "../components/Tables/CommissionerContactInfo";
 
 // McMaster colours - AI Generated
 const MCMASTER_COLOURS = {
