@@ -3,6 +3,7 @@ import { Alert, Box, Button, TextField, Typography } from "@mui/material";
 import { signup } from "../../api/player";
 import { useAuth } from "../../hooks/AuthProvider";
 
+// LoginForm: A form component for user login and signup.
 export default function LoginForm() {
   const [loginState, setLoginState] = useState(true); // true for login, false for signup
   const [firstName, setFirstName] = useState("");
@@ -15,6 +16,7 @@ export default function LoginForm() {
   const auth = useAuth();
   const [waiverConfirmed, setWaiverConfirmed] = useState(false);
 
+  // Handle login/signup submit button click
   const handleSubmit = (e) => {
     e.preventDefault();
     if (loginState) {
@@ -46,6 +48,7 @@ export default function LoginForm() {
     }
   };
 
+  // Handle Enter key press to submit the form
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -82,6 +85,7 @@ export default function LoginForm() {
           />
         </Box>
       )}
+      {/* Toggle login/signup */}
       {!loginState && (
         <Box>
           <Typography
@@ -146,16 +150,6 @@ export default function LoginForm() {
           placeholder="Type your password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        {/* TODO */}
-        {/* <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 1 }}>
-          <Link
-            href="#"
-            underline="hover"
-            sx={{ color: "text.secondary", fontSize: "0.875rem" }}
-          >
-            Forgot Password?
-          </Link>
-        </Box> */}
       </Box>
 
       <Button
@@ -166,7 +160,6 @@ export default function LoginForm() {
           borderRadius: 2,
         }}
         onClick={handleSubmit}
-        // disabled={!loginState && !waiverConfirmed}
       >
         {loginState ? "Login" : "Sign Up"}
       </Button>
@@ -187,18 +180,6 @@ export default function LoginForm() {
           {loginState ? "Sign Up" : "Login"}
         </Button>
       </Typography>
-      
-      {/* {!loginState && !waiverConfirmed && (
-        <Typography 
-          sx={{ 
-            color: 'error.main', 
-            fontSize: '0.875rem', 
-            textAlign: 'center' 
-          }}
-        >
-          Please complete the waiver form and check the confirmation box to enable sign up
-        </Typography>
-      )} */}
     </Box>
   );
 }
