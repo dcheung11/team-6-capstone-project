@@ -1,5 +1,8 @@
+// Contains functions to interact with the player API
+
 const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // replace with your backend port
 
+// Signup function for player registration/creation
 export async function signup(firstName, lastName, email, password) {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/players/signup`, {
@@ -22,6 +25,7 @@ export async function signup(firstName, lastName, email, password) {
   }
 }
 
+// Fetch all players
 export async function allPlayers() {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/players`, {
@@ -43,6 +47,7 @@ export async function allPlayers() {
   }
 }
 
+// Fetch player by player ID
 export async function getPlayerById(playerId) {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/players/${playerId}`, {
@@ -64,6 +69,7 @@ export async function getPlayerById(playerId) {
   }
 }
 
+// Accept a team invite for a given player ID and team ID
 export async function acceptInvite(playerId, teamId) {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/players/acceptinvite`, {
@@ -86,6 +92,7 @@ export async function acceptInvite(playerId, teamId) {
   }
 }
 
+// This function is used to send an invitation to a team
 export async function sendInvite(playerId, teamId) {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/players/sendinvite`, {
@@ -108,6 +115,7 @@ export async function sendInvite(playerId, teamId) {
   }
 }
 
+// This function is used to update player information
 export const updatePlayerInfo = async (playerId, updatedData) => {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/players/${playerId}`, {
