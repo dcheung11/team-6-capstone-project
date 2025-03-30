@@ -9,6 +9,7 @@ const MCMASTER_COLOURS = {
   lightGrey: '#F5F5F5',
 };
 
+// AnnouncementForm: A form component for creating or editing announcements.
 export default function AnnouncementForm({ onSubmit, onDelete, initialTitle = "", initialContent = "", isEdit = false }) {
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);

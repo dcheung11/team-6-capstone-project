@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Container, Typography, Grid } from "@mui/material";
 import CardAnnouncement from "./CardAnnouncement";
 
+// PastAnnouncementsSection: Displays a section with past announcements.
 export default function PastAnnouncementsSection({ pastAnnouncements, userRole, onReadMore }) {
   return (
     <Box sx={{ bgcolor: "#495965", py: 6, width: "100%", flexGrow: 1 }}>

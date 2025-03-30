@@ -17,18 +17,16 @@ import { styled } from "@mui/material/styles";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useNavigate } from "react-router-dom";
 import {
-  getArchivedSeasons,
   getOngoingSeasons,
   getUpcomingSeasons,
 } from "../api/season";
 import { getAnnouncements } from "../api/announcements";
-import { SeasonsCard } from "../components/SeasonsCard";
+import { SeasonsCard } from "../components/Cards/SeasonsCard";
 import GSALogo from "../assets/GSALogo.png";
 import LoadingOverlay from "../components/LoadingOverlay";
 import { getPlayerById } from "../api/player";
 import { useAuth } from "../hooks/AuthProvider";
-import NotificationsRow from "../components/NotificationsRow";
-import NoDataCard from "../components/NoDataCard";
+import NoDataCard from "../components/Cards/NoDataCard";
 
 // McMaster colours - AI generated
 const MCMASTER_COLOURS = {

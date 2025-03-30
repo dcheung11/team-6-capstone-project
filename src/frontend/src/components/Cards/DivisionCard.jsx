@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 
+// DivisionCard: Displays a division with its teams.
 export const DivisionCard = (props) => {
   return (
     <Card elevation={3}>

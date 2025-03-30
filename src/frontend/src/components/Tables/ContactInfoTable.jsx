@@ -14,7 +14,7 @@ import {
   MenuItem,
   Box
 } from "@mui/material";
-import { getTeams, getSeasons } from "../api/team";
+import { getTeams } from "../../api/team";
 
 // McMaster colours - AI Generated
 const MCMASTER_COLOURS = {
@@ -24,6 +24,7 @@ const MCMASTER_COLOURS = {
   lightGrey: '#F5F5F5',
 };
 
+// ContactInfoTable: Displays a table of team contact information for the current season.
 export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -88,6 +89,7 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
     }
   }, [allSeasons]);
 
+  // display loading message if loading
   if (loading) {
     return (
       <Box sx={{ 
@@ -102,6 +104,7 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
     );
   }
 
+  // display error message if error
   if (error) {
     return (
       <Box sx={{ 
@@ -116,6 +119,7 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
     );
   }
 
+  // If no current season ID is provided, display a loading message
   if (!currentSeasonId) {
     return (
       <Box sx={{ 
@@ -130,6 +134,7 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
     );
   }
 
+  // If no teams are available, display a message
   if (!teams || teams.length === 0) {
     return (
       <Box sx={{ 

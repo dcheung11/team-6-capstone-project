@@ -17,8 +17,8 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import { formatDate, getDayOfWeek } from "../utils/Formatting";
-import { updateScore } from "../api/game.js";
+import { formatDate, getDayOfWeek } from "../../utils/Formatting.js";
+import { updateScore } from "../../api/game.js";
 
 // McMaster colours - AI Generated
 const MCMASTER_COLOURS = {
@@ -28,6 +28,7 @@ const MCMASTER_COLOURS = {
   lightGrey: '#F5F5F5',
 };
 
+// ScheduleTable: Displays a table of games with options to edit scores and default loss
 export default function ScheduleTable(props) {
   const [scores, setScores] = useState({});
   const [defaultLossOptions, setDefaultLossOptions] = useState({});
@@ -35,6 +36,7 @@ export default function ScheduleTable(props) {
   // Update scores when the component is mounted or when props.schedule changes
   const [editMode, setEditMode] = useState({}); // track edit mode (per game)
 
+  // Update scores when the component is mounted or when props.schedule changes
   useEffect(() => {
     if (props.schedule && props.schedule.games) {
       const newScores = {};
@@ -77,13 +79,10 @@ export default function ScheduleTable(props) {
     }));
   };
 
+  // Function to handle score submission
   const handleSubmitScore = async (gameId, homeScore, awayScore, defaultLossTeam) => {
-    console.log(`Submit score for game with ID: ${gameId}`);
-    console.log(homeScore, awayScore);
     try {
-      console.log(`defaultLossTeam value: ${defaultLossTeam}`);
       const result = await updateScore(gameId, homeScore, awayScore, defaultLossTeam);
-      console.log("Score updated successfully:", result);
 
       // Update the local state to reflect the 'submitted' status
       setScores((prevScores) => ({
@@ -125,7 +124,7 @@ export default function ScheduleTable(props) {
     }));
   };
 
-  // Define columns
+  // Define columns for the table
   const columns = [
     {
       header: "Game Info",
@@ -194,15 +193,16 @@ export default function ScheduleTable(props) {
       accessor: (game) => {
         const gameId = game._id;
         const { isDefaultLoss = false, team = null } = defaultLossOptions[gameId] || {};
-        const isEditting = editMode[gameId];
+        const isEditing = editMode[gameId];
 
-        return isEditting ? (
+        // change style if in edit mode
+        return isEditing ? (
           <Box>
             <FormControlLabel
               control={
                 <Checkbox
                   checked={isDefaultLoss}
-                  disabled={!isEditting}
+                  disabled={!isEditing}
                   size="small"
                   onChange={(e) => {
                     const checked = e.target.checked;
@@ -268,20 +268,20 @@ export default function ScheduleTable(props) {
           </Typography>
         ) : null;
       },
+      // Show this column only if the user is a captain or commissioner
+      // and the game has not been archived
       shouldShow:
         isCaptain || (props.role === "commissioner" && !props.archived),
     },
     {
       header: "Score",
       accessor: (game) => {
+        // Score submitting logic
         const gameId = game._id;
-        const isEditting = editMode[gameId];
+        const isEditing = editMode[gameId];
         const homeScore = scores[gameId]?.home ?? game.homeScore ?? "";
         const awayScore = scores[gameId]?.away ?? game.awayScore ?? "";
         const isDefaultLoss = defaultLossOptions[gameId]?.isDefaultLoss || false;
-
-        // console.log("homeScore: ", homeScore);
-        // console.log("awayScore: ", awayScore);
 
         if ((!isCaptain && props.role !== "commissioner") || props.archived) {
           return (
@@ -291,7 +291,7 @@ export default function ScheduleTable(props) {
           );
         }
 
-        return isEditting ? (
+        return isEditing ? (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <TextField
               value={homeScore || ""}

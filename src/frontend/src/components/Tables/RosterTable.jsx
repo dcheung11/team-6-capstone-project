@@ -18,6 +18,7 @@ const MCMASTER_COLOURS = {
   lightGrey: '#F5F5F5',
 };
 
+// RosterTable: Displays a table of players in a team with their contact information.
 export default function RosterTable(props) {
   return (
     // Styling for the roster table - AI assisted

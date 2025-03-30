@@ -34,7 +34,12 @@ const StyledButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export default function CardAnnouncement({ announcement, userRole, onReadMore }) {
+// AnnouncementCard: Displays an individual announcement with title and content.
+export default function CardAnnouncement({
+  announcement,
+  userRole,
+  onReadMore,
+}) {
   const navigate = useNavigate();
 
   return (
@@ -46,23 +51,37 @@ export default function CardAnnouncement({ announcement, userRole, onReadMore })
             ? `${announcement.content.substring(0, 100)}...`
             : announcement.content}
         </Typography>
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Typography
-            sx={{ color: "#FED99A", display: "flex", alignItems: "center", gap: 1 }}
+            sx={{
+              color: "#FED99A",
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            }}
             variant="caption"
           >
             {new Date(announcement.createdAt).toLocaleDateString()}
           </Typography>
           <Stack direction="row" spacing={1}>
-            <StyledButton 
-            onClick={() => onReadMore(announcement)}
-            sx={{color: "#FED99A", textDecoration: "underline"}}
+            <StyledButton
+              onClick={() => onReadMore(announcement)}
+              sx={{ color: "#FED99A", textDecoration: "underline" }}
             >
-                Read More</StyledButton>
+              Read More
+            </StyledButton>
+            {/* Only show edit button if the user is a commissioner */}
             {userRole === "commissioner" && (
-              <StyledButton 
-                onClick={() => navigate(`/announcements/edit/${announcement._id}`)}
-                startIcon={<EditIcon />}>
+              <StyledButton
+                onClick={() =>
+                  navigate(`/announcements/edit/${announcement._id}`)
+                }
+                startIcon={<EditIcon />}
+              >
                 EDIT
               </StyledButton>
             )}
