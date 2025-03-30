@@ -74,6 +74,7 @@ export default function CardAnnouncement({
             >
               Read More
             </StyledButton>
+            {/* Only show edit button if the user is a commissioner */}
             {userRole === "commissioner" && (
               <StyledButton
                 onClick={() =>

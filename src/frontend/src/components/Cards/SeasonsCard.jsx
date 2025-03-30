@@ -75,7 +75,8 @@ export const SeasonsCard = (props) => {
                   {season.registeredTeams.length}
                 </Typography>
               </Box>
-              {!loading &&season.status === "upcoming" && !player?.team && (
+              {/* Only show the register button if the season is upcoming and the player is not already on a team */}
+              {!loading && season.status === "upcoming" && !player?.team && (
                 <Button
                   href={`/registerteam/${season.id}`}
                   variant="contained"
