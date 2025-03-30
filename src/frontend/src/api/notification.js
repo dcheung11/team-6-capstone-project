@@ -1,3 +1,5 @@
+// Contains functions to interact with the notification API
+
 const API_URL = "http://localhost:3001/api/notifications";
 
 // Get all notifications for a given team

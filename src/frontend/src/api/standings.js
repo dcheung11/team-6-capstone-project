@@ -1,5 +1,8 @@
+// This file contains functions to interact with the standings API. 
+
 const REACT_APP_API_BASE_URL = "http://localhost:3001/api";
 
+// Fetch standings by division ID
 export const getStandingsByDivision = async (divisionId) => {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/standings/${divisionId}`);

@@ -1,5 +1,7 @@
+// Function to interact with the schedule API 
 const REACT_APP_API_BASE_URL = "http://localhost:3001/api";
 
+// generate schedule for a season
 export const generateSchedule = async (seasonId) => {
   try {
     const response = await fetch(
@@ -23,6 +25,7 @@ export const generateSchedule = async (seasonId) => {
   }
 };
 
+// get schedule by season id
 export const getScheduleBySeasonId = async (seasonId) => {
   try {
     const response = await fetch(

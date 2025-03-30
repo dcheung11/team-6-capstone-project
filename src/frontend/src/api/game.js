@@ -1,7 +1,9 @@
+// This file contains the API calls related to game operations
+
 const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // Backend port
 
+// Updating scores for a game
 export async function updateScore(gameId, homeScore, awayScore, defaultLossTeam) {
-  console.log("updateScore", gameId, homeScore, awayScore);
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/games/update-score/${gameId}/${homeScore}/${awayScore}`, {
       method: "PATCH",
