@@ -1,5 +1,8 @@
+// This file contains the API functions for managing seasons.
+
 const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // replace with your backend port
 
+// Create operation for a season
 export async function createSeason(
   name,
   startDate,
@@ -27,6 +30,7 @@ export async function createSeason(
   }
 }
 
+// Fetch ongoing seasons
 export async function getOngoingSeasons() {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/seasons/ongoing`, {
@@ -47,6 +51,7 @@ export async function getOngoingSeasons() {
   }
 }
 
+// Fetch upcoming seasons
 export async function getUpcomingSeasons() {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/seasons/upcoming`, {
@@ -68,6 +73,7 @@ export async function getUpcomingSeasons() {
   }
 }
 
+// Fetch archived seasons
 export async function getArchivedSeasons() {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/seasons/archived`, {
@@ -88,6 +94,7 @@ export async function getArchivedSeasons() {
   }
 }
 
+// Fetch all seasons
 export async function getAllSeasons() {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/seasons`, {
@@ -109,6 +116,7 @@ export async function getAllSeasons() {
   }
 }
 
+// Delete a season
 export async function deleteSeason(id) {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/seasons/${id}`, {
@@ -130,6 +138,7 @@ export async function deleteSeason(id) {
   }
 }
 
+// This function retrieves a season by its ID
 export async function getSeasonById(id) {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/seasons/${id}`, {
@@ -151,6 +160,7 @@ export async function getSeasonById(id) {
   }
 }
 
+// updates a seasons divisions
 export async function updateSeasonDivisionTeams(id, divisions) {
   try {
     const response = await fetch(
@@ -176,6 +186,7 @@ export async function updateSeasonDivisionTeams(id, divisions) {
   }
 }
 
+// launch a season (upcoming -> ongoing status)
 export async function launchSeason(seasonId) {
   try {
     const response = await fetch(
@@ -200,6 +211,7 @@ export async function launchSeason(seasonId) {
   }
 }
 
+// archives a season (ongoing -> archived status)
 export async function archiveSeason(seasonId) {
   try {
     const response = await fetch(
@@ -224,6 +236,7 @@ export async function archiveSeason(seasonId) {
   }
 }
 
+// This function removes a team from a season
 export async function removeTeamFromSeason(seasonId, teamId) {
   try {
     const response = await fetch(
