@@ -46,10 +46,15 @@ export default function ContactInfoTable({ currentSeasonId, allSeasons }) {
         const data = await getTeams();
         
         // Filter teams to only show those in the current season
-        const seasonTeams = data.teams.filter(team => {
+        const seasonTeams = data.teams.filter((team) => {
           // Handle both string and ObjectId cases
+
           const teamSeasonId = team.seasonId?._id || team.seasonId;
-          return teamSeasonId?.toString() === currentSeasonId?.toString();
+          return (
+            teamSeasonId?.toString() === currentSeasonId?.toString() &&
+            team.divisionId &&
+            team.divisionId.name
+          );
         });
 
         // Get unique divisions from the filtered teams
