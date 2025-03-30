@@ -4,6 +4,7 @@ import { useAuth } from "../../hooks/AuthProvider";
 import { getPlayerById } from "../../api/player";
 import { useState, useEffect } from "react";
 
+// SeasonsCard: Displays a card for each season with its details and a button to register a team if applicable.
 export const SeasonsCard = (props) => {
   const auth = useAuth();
   const [player, setPlayer] = useState(null);
