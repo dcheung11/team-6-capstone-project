@@ -18,6 +18,7 @@ const MCMASTER_COLOURS = {
   lightGrey: '#F5F5F5',
 };
 
+// CommissionerContactInfo: Displays a contact information table for the selected season.
 export default function CommissionerContactInfo({ seasons }) {
   const [selectedSeason, setSelectedSeason] = useState("");
 
@@ -28,6 +29,7 @@ export default function CommissionerContactInfo({ seasons }) {
     }
   }, [seasons]);
 
+  // If no seasons are available, display a message
   if (!seasons || seasons.length === 0) {
     return (
       <Box 

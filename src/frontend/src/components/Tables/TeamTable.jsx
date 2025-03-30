@@ -31,10 +31,12 @@ const style = {
   p: 4,
 };
 
+// TeamTable: Displays a table of teams with options to change division, payment status, and delete teams.
 export default function TeamTable(props) {
   const [open, setOpen] = useState(false);
   const [teamToDelete, setTeamToDelete] = useState(null);
 
+  // Function to handle division change
   const handleDivisionChange = (teamId, newDivisionId) => {
     const updatedTeams = props.tempTeams.map((team) => {
       if (team.id === teamId) {
@@ -45,26 +47,31 @@ export default function TeamTable(props) {
     props.setTempTeams(updatedTeams);
   };
 
+  // Function to handle payment status toggle
   const handlePaymentToggle = (name) => {
     console.log(`Changing paid for team ${name}`);
     setOpen(false);
   };
-
+  
+  // Function to handle modal close
   const handleClose = () => {
     setOpen(false);
   };
-
+  
+  // Function to handle delete team action
   const handleDeleteTeam = () => {
     props.handleDeleteTeam(teamToDelete);
     setOpen(false);
     setTeamToDelete(null);
   };
 
+  // Function to handle icon click (delete action)
   const handleIconClick = (name) => {
     setTeamToDelete(name);
     setOpen(true);
   };
 
+  // Function to get division name by ID
   function getDivisionName(divisionId) {
     const division = props.divisions.find(
       (division) => division.id === divisionId
@@ -72,11 +79,13 @@ export default function TeamTable(props) {
     return division ? division.name : "null"; // Default fallback, change later
   }
 
+  // Function to get preferred division for a team
   function getPreferredDivision(refTeam) {
     const team = props.registeredTeams.find((team) => team.id === refTeam.id);
     return team && team.divisionId ? team.divisionId : null;
   }
 
+  // Define columns for the table
   const columns = [
     { label: "Team Name", accessor: (team) => team.name },
     {

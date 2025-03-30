@@ -23,6 +23,7 @@ const MCMASTER_COLOURS = {
   lightGrey: '#F5F5F5',
 };
 
+// PlayerTable: Displays a table of players with options to invite them to a team.
 export default function PlayerTable(props) {
 
   const auth = useAuth();
@@ -47,9 +48,10 @@ export default function PlayerTable(props) {
     fetchPlayerById(playerId);
   }, []);
 
+  // Update state when props.players changes
   useEffect(() => {
     setPlayersWithTeams(props.players);
-  }, [props.players]); // Update state when props.players changes
+  }, [props.players]); 
 
   //Function to handle inviting a player to a team
   const handleInvite = (invitee) => {
@@ -73,10 +75,12 @@ export default function PlayerTable(props) {
     );
   }
 
+  // Function to toggle the filter for players with no team
   const toggleFilter = () => {
     setShowOnlyNoTeam((prev) => !prev);
   };
 
+  // Filter players based on search query and whether they have a team
   const filteredPlayers = (
     showOnlyNoTeam
       ? playersWithTeams.filter((player) => !player.team)
@@ -182,6 +186,7 @@ export default function PlayerTable(props) {
                   <TableCell sx={{ fontSize: '1.1rem' }}>
                     {player?.team ? player.team.name : "No Team"}
                   </TableCell>
+                  {/* Invite Button if not on a team and not invited yet */}
                   <TableCell>
                     {player?.team ? null : !player?.invites?.includes(
                         user?.team?._id

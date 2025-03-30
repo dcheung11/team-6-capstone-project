@@ -21,6 +21,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteSeason, getAllSeasons } from "../../api/season";
 import { formatDate } from "../../utils/Formatting";
 
+// SeasonsTable: Displays a table of seasons with options to delete them.
 const SeasonsTable = (props) => {
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [notification, setNotification] = useState({
@@ -30,6 +31,7 @@ const SeasonsTable = (props) => {
   });
   const [seasonIdToDelete, setSeasonIdToDelete] = useState(null);
 
+  // Handle delete season action
   const handleDelete = async () => {
     try {
       await deleteSeason(seasonIdToDelete);
