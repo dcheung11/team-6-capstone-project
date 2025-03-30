@@ -8,7 +8,7 @@ import {
   Typography,
   Paper
 } from "@mui/material";
-import ContactInfoTable from "../ContactInfoTable";
+import ContactInfoTable from "../Tables/ContactInfoTable";
 
 // McMaster colours - AI Generated
 const MCMASTER_COLOURS = {

@@ -14,7 +14,7 @@ import {
   MenuItem,
   Box
 } from "@mui/material";
-import { getTeams, getSeasons } from "../api/team";
+import { getTeams, getSeasons } from "../../api/team";
 
 // McMaster colours - AI Generated
 const MCMASTER_COLOURS = {

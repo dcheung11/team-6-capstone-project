@@ -18,9 +18,9 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import GroupIcon from "@mui/icons-material/Group";
-import { deleteNotification, updateNotificationStatus } from "../api/notification.js";
-import { acceptInvite, getPlayerById } from "../api/player";
-import { useAuth } from "../hooks/AuthProvider";
+import { deleteNotification, updateNotificationStatus } from "../../api/notification.js";
+import { acceptInvite, getPlayerById } from "../../api/player.js";
+import { useAuth } from "../../hooks/AuthProvider.js";
 
 // MUI envelope icons
 import MarkEmailUnreadIcon from "@mui/icons-material/MarkEmailUnread";

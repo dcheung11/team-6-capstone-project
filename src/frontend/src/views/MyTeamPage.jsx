@@ -15,11 +15,9 @@ import {
   Paper,
 } from "@mui/material";
 import NavBar from "../components/NavBar";
-import RosterTable from "../components/RosterTable";
-import ScheduleTable from "../components/ScheduleTable";
-import GamesRow from "../components/GamesRow";
-import NotificationsRow from "../components/NotificationsRow";
-import temp_team_info from "../data/team.json";
+import RosterTable from "../components/Tables/RosterTable";
+import ScheduleTable from "../components/Tables/ScheduleTable";
+import NotificationsRow from "../components/Rows/NotificationsRow";
 import { useAuth } from "../hooks/AuthProvider";
 import { getPlayerById } from "../api/player";
 import { getNotificationsByTeamId } from "../api/notification";
@@ -27,11 +25,11 @@ import { useEffect, useState } from "react";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import NoDataCard from "../components/NoDataCard";
+import NoDataCard from "../components/Cards/NoDataCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { getScheduleGamesByTeamId } from "../api/team";
 import LoadingOverlay from "../components/LoadingOverlay";
-import ContactInfoTable from "../components/ContactInfoTable";
+import ContactInfoTable from "../components/Tables/ContactInfoTable";
 import { removePlayerFromRoster } from "../api/team";
 
 // McMaster colours - AI Generated

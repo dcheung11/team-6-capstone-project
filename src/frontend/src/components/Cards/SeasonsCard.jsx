@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
-import { useAuth } from "../hooks/AuthProvider";
-import { getPlayerById } from "../api/player";
+import { useAuth } from "../../hooks/AuthProvider";
+import { getPlayerById } from "../../api/player";
 import { useState, useEffect } from "react";
 
 export const SeasonsCard = (props) => {

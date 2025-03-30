@@ -17,8 +17,8 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import { formatDate, getDayOfWeek } from "../utils/Formatting";
-import { updateScore } from "../api/game.js";
+import { formatDate, getDayOfWeek } from "../../utils/Formatting.js";
+import { updateScore } from "../../api/game.js";
 
 // McMaster colours - AI Generated
 const MCMASTER_COLOURS = {

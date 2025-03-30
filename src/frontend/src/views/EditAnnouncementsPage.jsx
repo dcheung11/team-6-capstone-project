@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Typography, Box, CircularProgress } from "@mui/material";
 import NavBar from "../components/NavBar";
-import AnnouncementForm from "../components/AnnouncementForm";
+import AnnouncementForm from "../components/Forms/AnnouncementForm";
 import { getAnnouncementById, editAnnouncement, deleteAnnouncement } from "../api/announcements";
 
 // McMaster colours - AI Generated

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Typography, Box, Grid, Button } from "@mui/material";
-import TeamTable from "./TeamTable";
-import { DivisionCard } from "./DivisionCard";
+import TeamTable from "./Tables/TeamTable";
+import { DivisionCard } from "./Cards/DivisionCard";
 import {
   launchSeason,
   removeTeamFromSeason,
   updateSeasonDivisionTeams,
 } from "../api/season";
 import { generateSchedule, getScheduleBySeasonId } from "../api/schedule";
-import ScheduleTable from "./ScheduleTable";
+import ScheduleTable from "./Tables/ScheduleTable";
 import LoadingOverlay from "./LoadingOverlay";
 
 export default function TeamSchedulingComponent(props) {

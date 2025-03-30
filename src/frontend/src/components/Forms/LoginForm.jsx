@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Alert, Box, Button, TextField, Typography } from "@mui/material";
-import { signup } from "../api/player";
-import { useAuth } from "../hooks/AuthProvider";
+import { signup } from "../../api/player";
+import { useAuth } from "../../hooks/AuthProvider";
 
 export default function LoginForm() {
   const [loginState, setLoginState] = useState(true); // true for login, false for signup

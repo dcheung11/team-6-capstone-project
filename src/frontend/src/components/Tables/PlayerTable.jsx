@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getPlayerById } from "../api/player";
-import { useAuth } from "../hooks/AuthProvider";
-import { sendInvite } from "../api/player";
+import { getPlayerById } from "../../api/player";
+import { useAuth } from "../../hooks/AuthProvider";
+import { sendInvite } from "../../api/player";
 import {
   Paper,
   Table,

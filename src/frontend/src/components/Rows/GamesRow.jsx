@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
-import { formatDate } from "../utils/Formatting";
+import { formatDate } from "../../utils/Formatting";
 
 export default function GamesRow(props) {
   const getOpponent = (game) => {
