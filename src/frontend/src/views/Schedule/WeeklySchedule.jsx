@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import ReschedulePopup from "./ReschedulePopup";
-import { useAuth } from "../hooks/AuthProvider";
-import { getPlayerById } from "../api/player";
-import { getScheduleGamesByTeamId } from "../api/team";
-import { getAvailableGameslots } from "../api/reschedule-requests";
-import { formatDate } from "../utils/Formatting";
+import ReschedulePopup from "../Reschedule/ReschedulePopup";
+import { useAuth } from "../../hooks/AuthProvider";
+import { getPlayerById } from "../../api/player";
+import { getScheduleGamesByTeamId } from "../../api/team";
+import { getAvailableGameslots } from "../../api/reschedule-requests";
+import { formatDate } from "../../utils/Formatting";
 
 const MCMASTER_COLOURS = {
   maroon: '#7A003C',

@@ -12,10 +12,10 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
-import NavBar from "../components/NavBar";
-import schedule from "../data/schedule.json";
-import seasons from "../data/seasons.json";
-import ScheduleTable from "../components/Tables/ScheduleTable";
+import NavBar from "../../components/NavBar";
+import schedule from "../../data/schedule.json";
+import seasons from "../../data/seasons.json";
+import ScheduleTable from "../../components/Tables/ScheduleTable";
 
 export default function SchedulePage() {
   //   const [selectedSeason, setSelectedSeason] = useState("2025");

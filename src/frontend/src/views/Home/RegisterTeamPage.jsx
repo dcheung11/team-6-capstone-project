@@ -1,4 +1,4 @@
-import NavBar from "../components/NavBar";
+import NavBar from "../../components/NavBar";
 import React, { useState, useEffect } from "react";
 import {
   TextField,
@@ -10,12 +10,12 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
-import { registerTeam } from "../api/team";
-import { useAuth } from "../hooks/AuthProvider";
-import { getPlayerById } from "../api/player";
+import { registerTeam } from "../../api/team";
+import { useAuth } from "../../hooks/AuthProvider";
+import { getPlayerById } from "../../api/player";
 import { useNavigate, useParams } from "react-router-dom";
-import { getSeasonById } from "../api/season";
-import { getDivisionsById } from "../api/division";
+import { getSeasonById } from "../../api/season";
+import { getDivisionsById } from "../../api/division";
 
 export default function RegisterTeamPage() {
   const { id: seasonId } = useParams();

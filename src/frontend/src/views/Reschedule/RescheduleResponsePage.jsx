@@ -5,10 +5,10 @@ import { Typography, Container, Button, Stack, Box, CircularProgress, Dialog,
   DialogContent,
   DialogContentText,
   DialogTitle, } from "@mui/material";
-import NavBar from "../components/NavBar";
-import { getNotificationById, updateNotification } from "../api/notification";
-import { acceptRescheduleRequest, declineRescheduleRequest } from "../api/reschedule-requests";
-import { formatDate, getDayOfWeek } from "../utils/Formatting";
+import NavBar from "../../components/NavBar";
+import { getNotificationById, updateNotification } from "../../api/notification";
+import { acceptRescheduleRequest, declineRescheduleRequest } from "../../api/reschedule-requests";
+import { formatDate, getDayOfWeek } from "../../utils/Formatting";
 
 export default function RescheduleRequestPage() {
   const { notificationId } = useParams();

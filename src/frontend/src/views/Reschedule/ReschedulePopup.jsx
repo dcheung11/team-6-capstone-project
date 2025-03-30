@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { createRescheduleRequest } from "../api/reschedule-requests";
+import { createRescheduleRequest } from "../../api/reschedule-requests";
 
 // Utility functions
 function getLocalISODate(date) {

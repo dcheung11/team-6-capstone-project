@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import NavBar from "../components/NavBar";
+import NavBar from "../../components/NavBar";
 import {
   Box,
   Container,
@@ -19,14 +19,14 @@ import { useNavigate } from "react-router-dom";
 import {
   getOngoingSeasons,
   getUpcomingSeasons,
-} from "../api/season";
-import { getAnnouncements } from "../api/announcements";
-import { SeasonsCard } from "../components/Cards/SeasonsCard";
-import GSALogo from "../assets/GSALogo.png";
-import LoadingOverlay from "../components/LoadingOverlay";
-import { getPlayerById } from "../api/player";
-import { useAuth } from "../hooks/AuthProvider";
-import NoDataCard from "../components/Cards/NoDataCard";
+} from "../../api/season";
+import { getAnnouncements } from "../../api/announcements";
+import { SeasonsCard } from "../../components/Cards/SeasonsCard";
+import GSALogo from "../../assets/GSALogo.png";
+import LoadingOverlay from "../../components/LoadingOverlay";
+import { getPlayerById } from "../../api/player";
+import { useAuth } from "../../hooks/AuthProvider";
+import NoDataCard from "../../components/Cards/NoDataCard";
 
 // McMaster colours - AI generated
 const MCMASTER_COLOURS = {

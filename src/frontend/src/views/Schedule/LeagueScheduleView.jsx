@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../hooks/AuthProvider";
-import { getPlayerById } from "../api/player";
-import { getScheduleGamesByTeamId } from "../api/team";
-import { formatDate } from "../utils/Formatting";
-import ReschedulePopup from "./ReschedulePopup";
-import { getAvailableGameslots } from "../api/reschedule-requests";
+import { useAuth } from "../../hooks/AuthProvider";
+import { getPlayerById } from "../../api/player";
+import { getScheduleBySeasonId } from "../../api/schedule";
+import { formatDate } from "../../utils/Formatting";
+import { Container, Typography, Box } from "@mui/material";
 
+// Helper to normalize a date to local ISO (YYYY-MM-DD)
 const getLocalISODate = (date) => {
   const d = new Date(date);
   d.setHours(12, 0, 0, 0);
@@ -14,6 +14,7 @@ const getLocalISODate = (date) => {
   return localDate.toISOString().split("T")[0];
 };
 
+// Add McMaster colours constant
 const MCMASTER_COLOURS = {
   maroon: '#7A003C',
   grey: '#5E6A71',
@@ -21,6 +22,7 @@ const MCMASTER_COLOURS = {
   lightGrey: '#F5F5F5',
 };
 
+// Common loading overlay style for all schedule components
 const loadingOverlayStyle = {
   position: 'absolute',
   top: '50%',
@@ -37,54 +39,43 @@ const loadingOverlayStyle = {
   zIndex: 1000,
 };
 
-export const TeamSchedule = () => {
+export const LeagueSchedule = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const auth = useAuth();
   const [player, setPlayer] = useState(null);
-  const [teamGames, setTeamGames] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedDate, setSelectedDate] = useState("");
-  const [selectedMatch, setSelectedMatch] = useState("");
-  const [availableGameslots, setAvailableGameslots] = useState({});
+  const [seasonGames, setSeasonGames] = useState([]);
 
-  // Move getMonthDates function before it's used
+  // Helper functions defined before use
   const getMonthDates = (date) => {
     let firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
     let lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    let firstWeekday = firstDayOfMonth.getDay(); // 0 (Sun) to 6 (Sat)
+    let firstWeekday = firstDayOfMonth.getDay();
     let totalDays = lastDayOfMonth.getDate();
     let daysArray = [];
-    // Add empty cells for days before the first day
     for (let i = 0; i < firstWeekday; i++) {
       daysArray.push(null);
     }
-    // Add each day as an ISO date string
     for (let d = 1; d <= totalDays; d++) {
       daysArray.push(formatDate(new Date(date.getFullYear(), date.getMonth(), d)));
     }
     return daysArray;
   };
 
-  // Now we can safely use getMonthDates
-  const monthYear = currentMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" });
-  const monthDates = getMonthDates(currentMonth);
-
-  // Combine all data fetching into a single useEffect
+  // Combine data fetching into a single useEffect
   useEffect(() => {
     const fetchAllData = async () => {
       try {
         setLoading(true);
-        setError(null);
-
+        
         // Fetch player data
         const playerData = await getPlayerById(auth.playerId);
         setPlayer(playerData.player);
 
-        // Fetch team games if player has a team
-        if (playerData.player?.team?.id) {
-          const gamesData = await getScheduleGamesByTeamId(playerData.player.team.id);
+        // Fetch season games if player has a team with seasonId
+        if (playerData.player?.team?.seasonId) {
+          const scheduleData = await getScheduleBySeasonId(playerData.player.team.seasonId.id);
           
           // Filter games for current month
           const startOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
@@ -92,54 +83,40 @@ export const TeamSchedule = () => {
           const startISO = getLocalISODate(startOfMonth);
           const endISO = getLocalISODate(endOfMonth);
 
-          const filteredGames = gamesData.games.filter((game) => {
-            const gameDate = getLocalISODate(game.date);
+          const filteredGames = scheduleData.schedule.games.filter((game) => {
+            const gameDate = getLocalISODate(new Date(game.date));
             return gameDate >= startISO && gameDate <= endISO;
           });
           
-          setTeamGames(filteredGames);
+          setSeasonGames(filteredGames);
         }
-
-        // Fetch available gameslots
-        const slotsResponse = await getAvailableGameslots();
-        const formattedData = slotsResponse.reduce((acc, slot) => {
-          const dateKey = formatDate(new Date(slot.date));
-          const slotString = `${slot.time} | ${slot.field}`;
-          if (!acc[dateKey]) acc[dateKey] = [];
-          acc[dateKey].push({ id: slot._id, slotString: slotString });
-          return acc;
-        }, {});
-        
-        setAvailableGameslots(formattedData);
-
       } catch (err) {
-        setError(err.message || "Failed to fetch data");
+        console.error(err.message || "Failed to fetch data");
       } finally {
         setLoading(false);
       }
     };
 
     fetchAllData();
-  }, [auth.playerId, currentMonth]); // Only depend on playerId and currentMonth
+  }, [auth.playerId, currentMonth]);
+
+  const monthYear = currentMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+  const monthDates = getMonthDates(currentMonth);
 
   // Navigation: change month
   const handleNavigation = (direction) => {
-    const newDate = new Date(currentMonth);
+    setLoading(true);
+    let newDate = new Date(currentMonth);
     newDate.setMonth(newDate.getMonth() + (direction === "next" ? 1 : -1));
     setCurrentMonth(newDate);
   };
 
-  // Add handler for reschedule clicks
-  const handleRescheduleClick = (dateKey, match) => {
-    setSelectedDate(dateKey);
-    setSelectedMatch(match);
-    setShowModal(true);
-  };
-
-  // Modify the getMatchesForDay function to include the reschedule button
+  // For each day, filter all season games (normalized) that match this day
   const getMatchesForDay = (dayISO) => {
     if (!dayISO) return null;
-    const matches = teamGames.filter((game) => formatDate(game.date) === dayISO);
+    const matches = seasonGames.filter(
+      (game) => formatDate(new Date(game.date)) === dayISO
+    );
     if (matches.length === 0) return null;
     return matches.map((match, idx) => (
       <div key={idx} style={styles.matchText}>
@@ -147,14 +124,6 @@ export const TeamSchedule = () => {
         <div style={{ fontSize: '11px', marginTop: '2px', color: MCMASTER_COLOURS.maroon }}>
           {match.time} | {match.field}
         </div>
-        {player?.team?.captainId?.id === player._id && (
-          <button
-            style={styles.rescheduleButton}
-            onClick={() => handleRescheduleClick(dayISO, match)}
-          >
-            Reschedule
-          </button>
-        )}
       </div>
     ));
   };
@@ -191,9 +160,13 @@ export const TeamSchedule = () => {
         )}
 
         {!loading && (
-          <div style={styles.calendar}>
+          <div style={{
+            ...styles.calendar,
+          }}>
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-              <div key={day} style={styles.calendarHeader}>
+              <div key={day} style={{
+                ...styles.calendarHeader,
+              }}>
                 {day}
               </div>
             ))}
@@ -214,24 +187,6 @@ export const TeamSchedule = () => {
           </div>
         )}
       </div>
-
-      {/* ReschedulePopup modal */}
-      {showModal && (
-        Object.keys(availableGameslots).length > 0 ? (
-          <ReschedulePopup
-            selectedDate={selectedDate}
-            selectedMatch={selectedMatch}
-            availableTimeslots={availableGameslots}
-            player={player}
-            onClose={() => setShowModal(false)}
-          />
-        ) : (
-          <div style={loadingOverlayStyle}>
-            <div style={styles.spinner}></div>
-            <p>Loading available timeslots...</p>
-          </div>
-        )
-      )}
     </>
   );
 };
@@ -243,14 +198,12 @@ const styles = {
     alignItems: "center",
     width: '100%',
   },
-  
   title: {
     fontSize: "24px",
     fontWeight: "bold",
     textAlign: "center",
     color: MCMASTER_COLOURS.maroon,
   },
-  
   navButton: {
     backgroundColor: MCMASTER_COLOURS.maroon,
     color: "white",
@@ -258,12 +211,10 @@ const styles = {
     padding: "10px 15px",
     borderRadius: "5px",
     cursor: "pointer",
-    transition: 'background-color 0.2s ease',
     '&:hover': {
       backgroundColor: '#5A002C',
     }
   },
-  
   calendar: {
     display: "grid",
     gridTemplateColumns: "repeat(7, 1fr)",
@@ -274,7 +225,6 @@ const styles = {
     overflow: 'hidden',
     boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
   },
-  
   calendarHeader: {
     backgroundColor: MCMASTER_COLOURS.maroon,
     color: "white",
@@ -284,7 +234,6 @@ const styles = {
     fontSize: '0.9rem',
     letterSpacing: '0.5px',
   },
-  
   calendarCell: {
     backgroundColor: 'white',
     padding: '12px 8px',
@@ -296,26 +245,22 @@ const styles = {
       backgroundColor: MCMASTER_COLOURS.lightGrey,
     },
   },
-  
   emptyCell: {
     backgroundColor: '#f8f8f8',
     minHeight: '120px',
   },
-  
   dateText: {
     fontWeight: "500",
     fontSize: "14px",
     color: MCMASTER_COLOURS.maroon,
     marginBottom: '8px',
   },
-  
   matchesContainer: {
     display: 'flex',
     flexDirection: 'column',
     gap: '6px',
     marginTop: '4px',
   },
-  
   matchText: {
     fontSize: '12px',
     color: MCMASTER_COLOURS.grey,
@@ -332,25 +277,6 @@ const styles = {
       boxShadow: '0 3px 6px rgba(0,0,0,0.08)',
     },
   },
-  
-  rescheduleButton: {
-    backgroundColor: MCMASTER_COLOURS.gold + '90',
-    color: MCMASTER_COLOURS.maroon,
-    border: 'none',
-    padding: '6px 10px',
-    borderRadius: '4px',
-    fontWeight: '500',
-    cursor: 'pointer',
-    fontSize: '11px',
-    marginTop: '6px',
-    transition: 'all 0.2s ease',
-    '&:hover': {
-      backgroundColor: MCMASTER_COLOURS.gold,
-      transform: 'translateY(-1px)',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-    },
-  },
-  
   spinner: {
     width: '30px',
     height: '30px',
@@ -361,4 +287,4 @@ const styles = {
   },
 };
 
-export default TeamSchedule;
+export default LeagueSchedule;

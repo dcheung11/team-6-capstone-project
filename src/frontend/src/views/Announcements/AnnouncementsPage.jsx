@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Box, Container, Typography, Button } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
-import NavBar from "../components/NavBar";
-import { getAnnouncements } from "../api/announcements";
-import PastAnnouncementsSection from "../components/Cards/PastAnnouncements";
+import NavBar from "../../components/NavBar";
+import { getAnnouncements } from "../../api/announcements";
+import PastAnnouncementsSection from "../../components/Cards/PastAnnouncements";
 import EditIcon from "@mui/icons-material/Edit";
-import { useAuth } from "../hooks/AuthProvider";
-import { getPlayerById } from "../api/player";
+import { useAuth } from "../../hooks/AuthProvider";
+import { getPlayerById } from "../../api/player";
 
 // McMaster colours - AI Generated
 const MCMASTER_COLOURS = {

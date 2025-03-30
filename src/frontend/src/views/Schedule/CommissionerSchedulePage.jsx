@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../hooks/AuthProvider";
-import { getPlayerById } from "../api/player";
-import { getScheduleBySeasonId } from "../api/schedule";
-import { getOngoingSeasons, getUpcomingSeasons } from "../api/season";
-import { formatDate } from "../utils/Formatting";
+import { useAuth } from "../../hooks/AuthProvider";
+import { getPlayerById } from "../../api/player";
+import { getOngoingSeasons, getUpcomingSeasons } from "../../api/season";
+import { formatDate } from "../../utils/Formatting";
 import { Typography, Container, Box, Tab, Stack, Button, Collapse, IconButton } from "@mui/material";
-import { getAvailableGameslots, swapSlots } from "../api/reschedule-requests";
+import { getAvailableGameslots, swapSlots } from "../../api/reschedule-requests";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import LoadingOverlay from '../components/LoadingOverlay';
+import LoadingOverlay from '../../components/LoadingOverlay';
 
 
 export const CommissionerSchedule = () => {

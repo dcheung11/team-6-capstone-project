@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import NavBar from "../components/NavBar";
+import NavBar from "../../components/NavBar";
 import { WeeklySchedule } from "./WeeklySchedule";
 import { TeamSchedule } from "./TeamScheduleView";
 import { LeagueSchedule } from "./LeagueScheduleView";
 import { CommissionerSchedule } from "./CommissionerSchedulePage";
-import { useAuth } from "../hooks/AuthProvider";
-import { getPlayerById } from "../api/player";
+import { useAuth } from "../../hooks/AuthProvider";
+import { getPlayerById } from "../../api/player";
 import { 
   Container, 
   Typography, 
@@ -15,7 +15,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import LoadingOverlay from "../components/LoadingOverlay";
+import LoadingOverlay from "../../components/LoadingOverlay";
 
 // McMaster colours constant
 const MCMASTER_COLOURS = {

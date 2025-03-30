@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Typography, Box } from "@mui/material";
-import NavBar from "../components/NavBar";
-import AnnouncementForm from "../components/Forms/AnnouncementForm";
-import { createAnnouncement } from "../api/announcements";
+import NavBar from "../../components/NavBar";
+import AnnouncementForm from "../../components/Forms/AnnouncementForm";
+import { createAnnouncement } from "../../api/announcements";
 
 // McMaster colours - AI Generated
 const MCMASTER_COLOURS = {
