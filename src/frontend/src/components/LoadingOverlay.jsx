@@ -2,6 +2,7 @@ import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
+// LoadingOverlay: Displays a loading overlay with a spinner.
 export default function LoadingOverlay(props) {
   return (
     <Backdrop
