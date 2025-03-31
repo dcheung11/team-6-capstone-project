@@ -25,6 +25,9 @@ const MCMASTER_COLOURS = {
   lightGrey: '#F5F5F5',
 };
 
+// ScheduleView component: Main component for displaying the schedule view
+// It fetches the player data and conditionally renders the schedule based on the player's role
+// Players can choose between weekly, team (monthly), and league views
 const ScheduleView = () => {
   const [activeView, setActiveView] = useState("weekly");
   const auth = useAuth();
@@ -33,6 +36,7 @@ const ScheduleView = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetch player data by ID and set the active view based on the player's role
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
       try {

@@ -9,7 +9,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import LoadingOverlay from '../../components/LoadingOverlay';
 
-
+// CommissionerSchedule: Displays a calendar view for the commissioner to swap game slots.
 export const CommissionerSchedule = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [loading, setLoading] = useState(true);
@@ -67,6 +67,7 @@ export const CommissionerSchedule = () => {
       fetchSeasonGames();
     }, [player]);
 
+    // Fetch season schedule (all gameslots)
     useEffect(() => {
       fetchGameslots();
     }, []);
@@ -139,6 +140,7 @@ export const CommissionerSchedule = () => {
 
   const monthDates = getMonthDates();
 
+  // Handle slot selection, limit to two slots
   const handleSelect = (slot) => {
     if (slot1 && slot1.id === slot.id) {
       setSlot1(null);
@@ -153,13 +155,13 @@ export const CommissionerSchedule = () => {
     }
   }
 
+  // Handle swap submission and ensure two slots are selected
   const handleSubmit = async () => {
     if (!slot1 || !slot2) {
       console.error("Must select two slots/games");
       alert("Must select two slots/games")
       return
     }
-    console.log("swapping", slot1.id, slot2.id);
     setLoading(true);
     try {
       await swapSlots(slot1.id, slot2.id);

@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/AuthProvider";
 import { getPlayerById } from "../../api/player";
 import { getScheduleGamesByTeamId } from "../../api/team";
 import { getAvailableGameslots } from "../../api/reschedule-requests";
-import { formatDate } from "../../utils/Formatting";
+import { formatDate, getLocalISODate } from "../../utils/Formatting";
 
 const MCMASTER_COLOURS = {
   maroon: '#7A003C',
@@ -30,14 +30,7 @@ const loadingOverlayStyle = {
   zIndex: 1000,
 };
 
-// Fix the "day ahead" issue by normalizing date/time
-function getLocalISODate(date) {
-  date.setHours(12, 0, 0, 0);
-  const offset = date.getTimezoneOffset();
-  const localDate = new Date(date.getTime() - offset * 60 * 1000);
-  return localDate.toISOString().split("T")[0];
-}
-
+// WeeklySchedule component: a weekly calendar view of the player's schedule
 export const WeeklySchedule = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
@@ -151,7 +144,6 @@ export const WeeklySchedule = () => {
   };
 
   const weekDates = getWeekDates(currentDate);
-  const weekRange = getWeekRange(currentDate);
 
   const handleRescheduleClick = (dateKey, match) => {
     setSelectedDate(dateKey);

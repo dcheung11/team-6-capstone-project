@@ -2,17 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 import { getPlayerById } from "../../api/player";
 import { getScheduleGamesByTeamId } from "../../api/team";
-import { formatDate } from "../../utils/Formatting";
+import { formatDate, getLocalISODate } from "../../utils/Formatting";
 import ReschedulePopup from "../Reschedule/ReschedulePopup";
 import { getAvailableGameslots } from "../../api/reschedule-requests";
-
-const getLocalISODate = (date) => {
-  const d = new Date(date);
-  d.setHours(12, 0, 0, 0);
-  const offset = d.getTimezoneOffset();
-  const localDate = new Date(d.getTime() - offset * 60 * 1000);
-  return localDate.toISOString().split("T")[0];
-};
 
 const MCMASTER_COLOURS = {
   maroon: '#7A003C',
@@ -37,6 +29,7 @@ const loadingOverlayStyle = {
   zIndex: 1000,
 };
 
+// TeamSchedule component: a monthly calendar view of the team schedule
 export const TeamSchedule = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [loading, setLoading] = useState(true);

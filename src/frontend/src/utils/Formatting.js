@@ -8,12 +8,15 @@ export const getDayOfWeek = (date) => {
   return days[dayIndex];
 };
 
-export function getLocalISODate(date) {
-  date.setHours(12, 0, 0, 0);
-  const offset = date.getTimezoneOffset();
-  const localDate = new Date(date.getTime() - offset * 60 * 1000);
+// Helper to normalize a date to local ISO (YYYY-MM-DD)
+export const getLocalISODate = (date) => {
+  const d = new Date(date);
+  d.setHours(12, 0, 0, 0);
+  const offset = d.getTimezoneOffset();
+  const localDate = new Date(d.getTime() - offset * 60 * 1000);
   return localDate.toISOString().split("T")[0];
-}
+};
+
 
 export const getPopupWeekDates = (date) => {
   let monday = new Date(date);

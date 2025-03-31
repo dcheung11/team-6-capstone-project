@@ -2,17 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 import { getPlayerById } from "../../api/player";
 import { getScheduleBySeasonId } from "../../api/schedule";
-import { formatDate } from "../../utils/Formatting";
-import { Container, Typography, Box } from "@mui/material";
+import { formatDate, getLocalISODate } from "../../utils/Formatting";
 
-// Helper to normalize a date to local ISO (YYYY-MM-DD)
-const getLocalISODate = (date) => {
-  const d = new Date(date);
-  d.setHours(12, 0, 0, 0);
-  const offset = d.getTimezoneOffset();
-  const localDate = new Date(d.getTime() - offset * 60 * 1000);
-  return localDate.toISOString().split("T")[0];
-};
 
 // Add McMaster colours constant
 const MCMASTER_COLOURS = {
@@ -39,6 +30,7 @@ const loadingOverlayStyle = {
   zIndex: 1000,
 };
 
+// LeagueSchedule component: a monthly calendar view of the league schedule, including all teams in the league
 export const LeagueSchedule = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [loading, setLoading] = useState(true);
