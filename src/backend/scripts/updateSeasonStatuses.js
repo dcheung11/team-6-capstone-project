@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const Season = require("../models/season");
 require("dotenv").config(); // Load DB credentials from .env
 
+// This script updates the status of seasons in the database.
+// It checks the current date and updates the status of seasons accordingly:
+// - If the current date is between the start and end dates of a season, it sets the status from "upcoming" to "ongoing".
+// - If the current date is past the end date of a season, it sets the status to "archived".
 async function updateSeasonStatuses() {
   try {
     await mongoose.connect(process.env.MONGO_URI);
@@ -13,14 +17,12 @@ async function updateSeasonStatuses() {
       { startDate: { $lte: now }, endDate: { $gte: now }, status: "upcoming" },
       { $set: { status: "ongoing" } }
     );
-    console.log(`Updated ${ongoingUpdate.modifiedCount} seasons to 'ongoing'.`);
 
     // Archive seasons that have ended
     const archiveUpdate = await Season.updateMany(
       { endDate: { $lt: now }, status: "ongoing" },
       { $set: { status: "archived" } }
     );
-    console.log(`Archived ${archiveUpdate.modifiedCount} seasons.`);
 
     mongoose.connection.close();
   } catch (error) {
