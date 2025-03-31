@@ -15,6 +15,11 @@ import RescheduleResponsePage from "./views/Reschedule/RescheduleResponsePage";
 import DocumentationPage from "./views/DocumentationPage";
 import WaiverPage from "./views/MyTeam/WaiverPage";
 
+// This file contains the routes for the application.
+// Each route is an object with a path and a component.
+// The path is the URL path for the route, and the component is the React component to render for that route.
+// The routes are used in the App.js file to set up the routing for the application.
+
 const routes = [
   { path: "/home", component: HomePage },
   { path: "/", component: LoginPage },

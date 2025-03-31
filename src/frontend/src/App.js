@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AuthProvider from "./hooks/AuthProvider";
 import PrivateRoute from "./utils/PrivateRoute";
 
+// Central App component that contains the routing and authentication context
 function App() {
   return (
     <Router>
