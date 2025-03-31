@@ -14,6 +14,7 @@ const MCMASTER_COLOURS = {
 };
 
 // AI Generated - Ombre bar styling and gradient effects
+// EditAnnouncementPage: Redirect Page for editing an existing announcement (commissioner).
 export default function EditAnnouncementPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ export default function EditAnnouncementPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetch the announcement by ID when the component mounts
   useEffect(() => {
     const fetchAnnouncement = async () => {
       try {
@@ -36,6 +38,7 @@ export default function EditAnnouncementPage() {
     fetchAnnouncement();
   }, [id]);
 
+  // Function to handle the edit onclick - sends edit request to the API
   const handleEdit = async ({ title, content }) => {
     try {
       await editAnnouncement(id, title, content);
@@ -46,6 +49,7 @@ export default function EditAnnouncementPage() {
     }
   };
 
+  // Function to handle the delete button click - sends delete request to the API
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this announcement?")) {
       try {

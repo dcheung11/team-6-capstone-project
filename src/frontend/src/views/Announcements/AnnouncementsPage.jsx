@@ -16,6 +16,7 @@ const MCMASTER_COLOURS = {
   lightGrey: '#F5F5F5',
 };
 
+// AnnouncementPage: Displays the main announcement and past announcements.
 export default function AnnouncementPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,6 +26,7 @@ export default function AnnouncementPage() {
   const auth = useAuth();
   const [player, setPlayer] = useState(null);
 
+  // fetches the current player data
   useEffect(() => {
     const fetchPlayer = async () => {
       if (!auth.playerId) return;
@@ -39,6 +41,7 @@ export default function AnnouncementPage() {
     fetchPlayer();
   }, [auth.playerId]);
 
+  // fetches the announcements data
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {

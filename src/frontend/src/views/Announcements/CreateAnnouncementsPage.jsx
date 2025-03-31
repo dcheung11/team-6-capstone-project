@@ -13,9 +13,15 @@ const MCMASTER_COLOURS = {
   lightGrey: '#F5F5F5',
 };
 
+// CreateAnnouncementPage: Redirect Page for creating a new announcement (commissioner).
 export default function CreateAnnouncementPage() {
   const navigate = useNavigate();
 
+  ```  
+  Function to handle the creation of a new announcement
+  It takes the title and content as parameters and calls the createAnnouncement API function,
+  then navigates back to the announcements page.
+  ```
   const handleCreate = async ({ title, content }) => {
     try {
       await createAnnouncement(title, content);
