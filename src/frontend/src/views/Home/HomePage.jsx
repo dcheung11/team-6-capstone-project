@@ -1,3 +1,7 @@
+// Author: Emma Wigglesworth, Derek Li, Damien Cheung
+// Description: Home Page that displays the seasons, and announcements.
+// Last Modified: 2025-03-23
+
 import React, { useEffect, useState } from "react";
 import NavBar from "../../components/NavBar";
 import {

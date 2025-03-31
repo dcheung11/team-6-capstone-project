@@ -1,3 +1,7 @@
+// Author: Jad Haytaoglu
+// Description: The WaiverPage is a page that displays a waiver form for players to sign before joining a team
+// Last Modified: 2025-03-28
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {

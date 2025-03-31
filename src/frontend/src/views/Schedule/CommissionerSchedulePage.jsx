@@ -1,3 +1,7 @@
+// Author: Jad Haytaoglu
+// Description: Displays a calendar view for the commissioner to swap game slots and view the season
+// Last Modified: 2025-03-28
+
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 import { getPlayerById } from "../../api/player";

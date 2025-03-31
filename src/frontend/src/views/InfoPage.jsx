@@ -1,3 +1,8 @@
+// Author: Derek Li
+// Description: InfoPage displays information about the league, including rules, registration, and contact information.
+// This information is McMaster GSA Specific and info was migrated from the old GSA website.
+// Last Modified: 2025-03-23
+
 import NavBar from "../components/NavBar"
 import React from 'react';
 import { Container } from "@mui/material";

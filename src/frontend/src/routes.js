@@ -1,3 +1,7 @@
+// Author: Pitch Perfect
+// Description: This file contains the routes for the application.
+// Last Modified: 2025-02-01
+
 import HomePage from "./views/Home/HomePage";
 import StandingsPage from "./views/StandingsPage";
 import LeagueManagementPage from "./views/LeagueManagementPage";

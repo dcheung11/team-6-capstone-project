@@ -1,3 +1,7 @@
+// Author: Jad Haytaoglu, Tuoyo Ugborogho
+// Description: LeagueSchedule component displays a monthly calendar view of the entire league schedule.
+// Last Modified: 2025-03-23
+
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 import { getPlayerById } from "../../api/player";

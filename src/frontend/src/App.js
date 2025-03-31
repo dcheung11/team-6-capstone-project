@@ -1,3 +1,7 @@
+// Author: Pitch Perfect
+// Description: Main entry point for the React application.
+// Last Modified: 2025-02-01
+
 import React from "react";
 import routes from "./routes";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
