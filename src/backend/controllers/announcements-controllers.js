@@ -1,3 +1,8 @@
+// Author: Emma Wigglesworth
+// Description: This file contains the controller functions for handling
+// announcements-related operations, including creating, editing, fetching.
+// Last Modified: 2025-03-31
+
 const { validationResult } = require("express-validator");
 const HttpError = require("../models/http-error"); 
 const Announcement = require("../models/announcements"); 

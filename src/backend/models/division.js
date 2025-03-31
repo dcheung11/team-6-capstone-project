@@ -1,5 +1,10 @@
+// Author: Damien Cheung
+// Description: Defines the Division model for MongoDB for season divisions
+// Last Modified: 2025-03-31
+
 const mongoose = require('mongoose');
 
+// Define the schema for the Division model
 const DivisionSchema = new mongoose.Schema(
   {
     name: {

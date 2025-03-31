@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Unit tests for the Player model
+// Last Modified: 2025-03-21
+
 const mongoose = require("mongoose");
 const Player = require("../../models/Player");
 const Team = require("../../models/Team");

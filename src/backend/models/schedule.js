@@ -1,5 +1,12 @@
+// Auther: Jad Haytaoglu
+// Description: Define the schema for the Schedule model
+// Schedule represents a collection of game slots and games for a specific season
+// It contains references to the season, game slots, and games
+// Last Modified: 2025-03-31
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
 
 const ScheduleSchema = new Schema(
   {

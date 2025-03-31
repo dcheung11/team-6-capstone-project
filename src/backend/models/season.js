@@ -1,5 +1,14 @@
+// Author: Damien Cheung
+// Description: Defines the Season model for MongoDB for league seasons
+// Last Modified: 2025-02-14
+
 const mongoose = require("mongoose");
 
+// Define the schema for the Season model
+// Season represents a specific period of time in which a league or tournament takes place
+// It contains information about the season's name, start and end dates, divisions, teams, and schedule
+// The schema also includes a status field to indicate the current state of the season (upcoming, ongoing, archived)
+// The registeredTeams field is an array of unique team IDs that are registered for the season
 const SeasonSchema = new mongoose.Schema(
   {
     name: {

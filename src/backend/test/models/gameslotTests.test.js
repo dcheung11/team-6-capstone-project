@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Unit tests for the Gameslot model
+// Last Modified: 2025-03-21
+
 const mongoose = require("mongoose");
 const GameSlot = require("../../models/GameSlot");
 const { MongoMemoryServer } = require("mongodb-memory-server");

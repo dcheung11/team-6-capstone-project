@@ -1,3 +1,7 @@
+// Author: Derek Li
+// Description: Team-related CRUD operations, including registration, schedule retrieval, and player management
+// Last Modified: 2025-03-31
+
 const { validationResult } = require("express-validator");
 const HttpError = require("../models/http-error");
 const Team = require("../models/team");

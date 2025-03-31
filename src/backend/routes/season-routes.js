@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Routes for season-related operations
+// Last Modified: 2025-02-19
+
 const express = require("express");
 const { check } = require("express-validator");
 
