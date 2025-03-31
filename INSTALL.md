@@ -16,7 +16,7 @@ In the `/backend/.env` file, you should see something like this:
 
 ```
 PORT=3001
-MONGO_URI=mongodb+srv://root:[CODE]@capstone-cluster.ghx0o.mongodb.net/
+MONGO_URI=[CODE]
 JWT_SECRET=yourSecretKey
 ```
 
