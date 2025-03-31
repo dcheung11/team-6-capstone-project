@@ -14,14 +14,7 @@ import {
   TextField,
   Box,
 } from "@mui/material";
-
-// McMaster colours
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
+import { MCMASTER_COLOURS } from "../../utils/Constants";
 
 // PlayerTable: Displays a table of players with options to invite them to a team.
 export default function PlayerTable(props) {

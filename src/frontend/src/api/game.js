@@ -1,6 +1,6 @@
 // This file contains the API calls related to game operations
 
-const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // Backend port
+import { REACT_APP_API_BASE_URL } from "../utils/Constants";
 
 // Updating scores for a game
 export async function updateScore(gameId, homeScore, awayScore, defaultLossTeam) {

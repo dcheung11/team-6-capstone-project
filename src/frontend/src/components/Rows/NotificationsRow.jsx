@@ -24,13 +24,7 @@ import { useAuth } from "../../hooks/AuthProvider.js";
 import MarkEmailUnreadIcon from "@mui/icons-material/MarkEmailUnread";
 import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
 
-// McMaster colours
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
+import { MCMASTER_COLOURS } from "../../utils/Constants.js";
 
 // NotificationsRow: Displays a row of notifications and team invites.
 export default function NotificationsRow({ notifications: initialNotifications, teamInvites }) {

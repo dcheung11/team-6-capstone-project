@@ -8,14 +8,8 @@ import {
   TableCell,
   TableBody,
 } from "@mui/material";
+import { MCMASTER_COLOURS } from "../../utils/Constants.js";
 
-// McMaster colours - AI generated
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
 
 export default function StandingsTable({ standings }) {
   const standingColumns = ["Rank", "Team", "PTS", "W", "D", "L", "RS", "RA", "Run Diff", "Losses by Default"];//, "No Show Shame"];

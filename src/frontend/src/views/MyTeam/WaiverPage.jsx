@@ -9,6 +9,12 @@ import {
   Typography,
 } from '@mui/material';
 
+
+// Waiver Form Page for players consenting to the league. Each player must sign a waiver
+// before they can play in the league. The waiver form is embedded in an iframe.
+// The page also includes a checkbox for the player to confirm that they have completed the waiver form.
+// This page is redirected to whne a player creates or joins a team
+
 export default function WaiverPage() {
   const navigate = useNavigate();
   const location = useLocation();

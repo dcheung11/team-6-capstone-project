@@ -1,5 +1,5 @@
 // This file contains functions to interact with the backend API for team-related operations.
-const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // replace with your backend port
+import { REACT_APP_API_BASE_URL } from "../utils/Constants";
 
 // Function to register a team to a season
 export async function registerTeam(body) {
