@@ -1,4 +1,13 @@
+// Author: Damien Cheung
+// Description: Define the schema for the Player model
+// The Player model represents a player in the league, or a commissioner account
+// It includes personal information such as first name, last name, email, password, and phone number
+// It also includes the player's team, role, and waiver status
+// Commissioner roles have to be made manually at the moment
+// Last Modified: 2025-03-31
+
 const mongoose = require("mongoose");
+
 
 const PlayerSchema = new mongoose.Schema({
   firstName: { type: String, required: true },

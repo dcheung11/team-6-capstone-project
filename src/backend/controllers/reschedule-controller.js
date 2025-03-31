@@ -1,3 +1,8 @@
+// Author: Jad Haytaoglu
+// Description: Reschedule request-related operations
+// including creating, accepting, declining, and deleting requests
+// Last Modified: 2025-03-31
+
 const Game = require("../models/game");
 const Team = require("../models/team");
 const Notification = require("../models/notification");

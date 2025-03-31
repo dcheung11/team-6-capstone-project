@@ -1,7 +1,20 @@
+// Author: Damien Cheung, Jad Haytaoglu
+// Description: Helper functions for the schedule algorithm
+// This module contains functions to generate game slots, assign games to slots, and manage divisional matchups.
+// Last Modified: 2025-03-10
+
 const Gameslot = require("../models/gameslot");
 const Game = require("../models/game");
 const Division = require("../models/division");
 
+// This function assigns games to slots based on the divisional matchups
+// It takes in the divisional matchups, the schedule, the season, and the teams
+// It considers the availability of teams, their preferred times, and any blacklisted days and 
+// tries to match their preferences as closely as possible, while distributing games
+// evenly across the season and balancing home/away games.
+
+// Input: the divisional matchups
+// Output: a schedule with games assigned to slots
 const assignDivisionGames = async (
   allDivisionPairings,
   schedule,
@@ -129,7 +142,6 @@ const assignDivisionGames = async (
 
 // New generateDivisionPairings function that generates pairings in a round-robin fashion
 // this shuffles the order of games and improves the runtime as well
-
 const generateDivisionPairings = (teams) => {
   const pairings = [];
   const gamesPerTeam = 20;
@@ -195,7 +207,6 @@ const generateDivisionPairings = (teams) => {
 };
 
 // Interleaves pairings from all divisions to ensure a distribution of games and not games sequentilly played by division
-
 const interleavePairings = (allDivisionPairings, totalWeeks, teams) => {
   const allPairings = [];
   const NUM_GAMES_PER_TEAM = 20;
@@ -301,6 +312,7 @@ const getWeekNumber = (date, seasonStartDate) => {
   return Math.floor(diffInDays / 7) + 1; // Week 1, Week 2, etc.
 };
 
+// Generates game slots for the given date range
 const generateGameSlots = async (startDate, endDate) => {
   const gameSlotTimes = ["5:00 PM", "6:30 PM", "8:00 PM", "9:30 PM"];
   const fields = ["Field 1", "Field 2", "Field 3"];

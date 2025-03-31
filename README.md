@@ -14,4 +14,19 @@ docs - Documentation for the project
 refs - Reference material used for the project, including papers  
 src - Source code  
 test - Test cases  
-etc. 
+
+# Project Overview
+
+Our project is built using the **MERN Stack** (MongoDB, Express, React, Node.js), because it allows full-stack **JavaScript development**, making the backend (API) and frontend (UI) seamlessly connected. It is **scalable, efficient, and widely supported**, enabling fast development with modern web technologies. 
+
+[MERN Stack](https://www.mongodb.com/resources/languages/mern-stack)
+
+Inside the `src` folder, we have `backend` and `frontend` subdirectories:
+
+## Backend (`backend/`)
+The backend is built using **Node.js, Express, and MongoDB**. MongoDB is a **NoSQL database**, which allows flexible, schema-less data storage. This makes it easy to store and scale league-related data such as teams, schedules, scores, and user authentication. The backend provides a **REST API** that the frontend uses to fetch and update league information, ensuring scalability as the league grows.
+
+
+## Frontend (`frontend/`)
+The frontend is developed with **React**. It handles the **user interface and experience**, displaying league information, schedules, standings, and team details. The frontend communicates with the backend to retrieve and submit data. Our modern tech stack also makes it easy to implement role-based access control and store user information.
+

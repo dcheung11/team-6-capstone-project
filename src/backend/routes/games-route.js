@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Routes for game-related operations
+// Last Modified: 2025-02-01
+
 const express = require("express");
 const gamesController = require("../controllers/games-controller");
 

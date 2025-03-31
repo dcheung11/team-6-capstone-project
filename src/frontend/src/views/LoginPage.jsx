@@ -1,6 +1,11 @@
-import { Box, Container, Typography } from "@mui/material";
-import LoginForm from "../components/LoginForm";
+// Author: Damien Cheung
+// Description: LoginPage is the main login page for the application.
+// Last Modified: 2025-02-28
 
+import { Box, Container, Typography } from "@mui/material";
+import LoginForm from "../components/Forms/LoginForm";
+
+// LoginPage: The main login page for the application
 export default function LoginPage() {
   return (
     <Box sx={{ minHeight: "100vh", display: "flex" }}>

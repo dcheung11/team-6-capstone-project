@@ -1,4 +1,8 @@
-const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; 
+// Author: Damien Cheung
+// Description: Announcement API functions: Fetch, create, edit, and delete announcements.
+// Last Modified: 2025-03-25
+
+import { REACT_APP_API_BASE_URL } from "../utils/Constants";
 
 // Fetch all announcements
 export async function getAnnouncements() {

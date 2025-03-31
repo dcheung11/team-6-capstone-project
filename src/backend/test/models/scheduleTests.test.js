@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Unit tests for the Schedule model
+// Last Modified: 2025-03-21
+
 const mongoose = require("mongoose");
 const Schedule = require("../../models/Schedule");
 const { MongoMemoryServer } = require("mongodb-memory-server");

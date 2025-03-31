@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Unit tests for the Seasons model
+// Last Modified: 2025-03-21
+
 const mongoose = require("mongoose");
 const Season = require("../../models/Season");
 const { MongoMemoryServer } = require("mongodb-memory-server");

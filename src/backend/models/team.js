@@ -1,5 +1,12 @@
+// Author: Damien Cheung
+// Description: Defines the Team model for MongoDB for teams
+// Last Modified: 2025-02-24
+
 const mongoose = require("mongoose");
 
+// Define the schema for the Team model
+// The Team model represents a team in the league and includes information about the team name, division, roster, captain, season, and statistics
+// It also includes a list of notifications, preferred times for games, and blacklisted days
 const TeamSchema = new mongoose.Schema({
   name: { type: String, required: true },
   divisionId: { type: mongoose.Schema.Types.ObjectId, ref: "Division", required: true },

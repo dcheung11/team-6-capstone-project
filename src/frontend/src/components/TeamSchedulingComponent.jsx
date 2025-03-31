@@ -1,16 +1,22 @@
+// Author: Damien Cheung
+// Description: The TeamSchedulingComponent component is responsible for managing the scheduling of teams in a season.
+// It allows the commissioner to set divisions, generate schedules, and launch seasons. Used in Management Page.
+// Last Modified: 2025-02-28
+
 import React, { useEffect, useState } from "react";
 import { Typography, Box, Grid, Button } from "@mui/material";
-import TeamTable from "./TeamTable";
-import { DivisionCard } from "./DivisionCard";
+import TeamTable from "./Tables/TeamTable";
+import { DivisionCard } from "./Cards/DivisionCard";
 import {
   launchSeason,
   removeTeamFromSeason,
   updateSeasonDivisionTeams,
 } from "../api/season";
 import { generateSchedule, getScheduleBySeasonId } from "../api/schedule";
-import ScheduleTable from "./ScheduleTable";
+import ScheduleTable from "./Tables/ScheduleTable";
 import LoadingOverlay from "./LoadingOverlay";
 
+// TeamSchedulingComponent: A component for managing team scheduling, including setting divisions, generating schedules, and launching seasons.
 export default function TeamSchedulingComponent(props) {
   const [divisionsSet, setDivisionsSet] = useState(false);
   const [schedule, setSchedule] = useState(null);
@@ -22,6 +28,8 @@ export default function TeamSchedulingComponent(props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  // Function to generate temporary divisions based on the registered teams, this is the
+  // value displayed in the editable dropdown in the Manage Upcoming Seasons tab
   function generateTempDivision(divisions, teams) {
     const tempDivisions = divisions.map((division) => {
       const divisionTeams = teams.filter(
@@ -33,6 +41,7 @@ export default function TeamSchedulingComponent(props) {
     return tempDivisions;
   }
 
+  // Update tempDivisions when registeredTeams change
   useEffect(() => {
     setTempDivisions(
       generateTempDivision(tempDivisions, props.registeredTeams)
@@ -81,6 +90,7 @@ export default function TeamSchedulingComponent(props) {
     updateDivisionTeams(props.season.id, divisionTeamsRequestBody);
   };
 
+  // Generate schedule for the season with the commissioner-set divisions
   const handleGenerateSchedule = async () => {
     try {
       setLoading(true);
@@ -102,12 +112,8 @@ export default function TeamSchedulingComponent(props) {
     }
   };
 
+  // Handle team deletion
   const handleDeleteTeam = (teamId) => {
-    console.log(`Deleting team with id ${teamId}`);
-
-    // Implement team deletion logic here
-    // call api to delete team
-
     const removeTeam = async (seasonId, teamId) => {
       try {
         setLoading(true);
@@ -122,9 +128,8 @@ export default function TeamSchedulingComponent(props) {
     removeTeam(props.season.id, teamId);
   };
 
+  // Launch the season (upcoming -> ongoing)
   const handleLaunchSeason = async () => {
-    // Implement season launch logic here
-    // call api to launch season
     try {
       setLoading(true);
       await launchSeason(props.season.id);

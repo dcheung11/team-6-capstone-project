@@ -1,8 +1,11 @@
+// Author: Emma Wigglesworth, Derek Li
+// Description: ProfilePage is the profile page for the application where users can view and edit their profile information.
+// Last Modified: 2025-03-23
+
 import React, { useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import { getPlayerById } from "../api/player";
 import { useAuth } from "../hooks/AuthProvider";
-import { acceptInvite } from "../api/player";
 import { updatePlayerInfo } from "../api/player";
 
 import {
@@ -26,6 +29,7 @@ const ProfileContainer = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(4),
 }));
 
+// ProfilePage component: Displays and allows editing of user profile information
 export default function ProfilePage() {
   const auth = useAuth();
 

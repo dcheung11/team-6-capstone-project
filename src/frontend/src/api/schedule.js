@@ -1,5 +1,10 @@
-const REACT_APP_API_BASE_URL = "http://localhost:3001/api";
+// Author: Damien Cheung
+// Description: Functions to interact with the schedule API 
+// Last Modified: 2025-03-21
 
+import { REACT_APP_API_BASE_URL } from "../utils/Constants";
+
+// generate schedule for a season
 export const generateSchedule = async (seasonId) => {
   try {
     const response = await fetch(
@@ -23,6 +28,7 @@ export const generateSchedule = async (seasonId) => {
   }
 };
 
+// get schedule by season id
 export const getScheduleBySeasonId = async (seasonId) => {
   try {
     const response = await fetch(

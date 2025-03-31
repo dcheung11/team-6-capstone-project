@@ -1,3 +1,8 @@
+// Author: Damien Cheung
+// Description: The NavBar component provides a navigation bar for the application.
+// It includes links to different pages and a user profile menu.
+// Last Modified: 2025-02-10
+
 import React, { useEffect, useState } from "react";
 import {
   AppBar,
@@ -14,15 +19,9 @@ import { Person as PersonIcon } from "@mui/icons-material";
 import { useAuth } from "../hooks/AuthProvider";
 import { useNavigate, useLocation } from "react-router";
 import { getPlayerById } from "../api/player";
+import { MCMASTER_COLOURS } from "../utils/Constants";
 
-// McMaster colours - AI Generated
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
-
+// NavBar: Displays the navigation bar with links to different pages and user profile options.
 const NavBar = () => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);

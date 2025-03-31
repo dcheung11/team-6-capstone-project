@@ -1,7 +1,12 @@
-const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // Backend port
+// Author: Derek Li
+// Description: API functions for updating game scores
+// Last Modified: 2025-03-25
 
+
+import { REACT_APP_API_BASE_URL } from "../utils/Constants";
+
+// Updating scores for a game
 export async function updateScore(gameId, homeScore, awayScore, defaultLossTeam) {
-  console.log("updateScore", gameId, homeScore, awayScore);
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/games/update-score/${gameId}/${homeScore}/${awayScore}`, {
       method: "PATCH",

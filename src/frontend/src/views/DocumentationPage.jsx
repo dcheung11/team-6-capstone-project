@@ -1,3 +1,8 @@
+// Author: Derek Li
+// Description: Part of our user manual, this page provides documentation for 
+// the application and simple instructions on how to perform certain tasks.
+// Last Modified: 2025-03-25
+
 import NavBar from "../components/NavBar"
 import React from 'react';
 import { Container } from "@mui/material";
@@ -35,6 +40,8 @@ import schedule2 from "../assets/documentation/schedule2.png"
 import schedule3 from "../assets/documentation/schedule3.png"
 import schedule4 from "../assets/documentation/schedule4.png"
 
+// FAQ Documentation Page: Displays the documentation for the application.
+// Part of the User Manual
 export default function DocumentationPage() {
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col items-center">

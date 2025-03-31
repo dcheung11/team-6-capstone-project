@@ -1,3 +1,7 @@
+// Author: Jad Haytaoglu
+// Description: Routes for reschedule-related operations
+// Last Modified: 2025-03-29
+
 const express = require('express');
 const rescheduleController = require('../controllers/reschedule-controller');
 

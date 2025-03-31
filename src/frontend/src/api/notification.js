@@ -1,4 +1,10 @@
-const API_URL = "http://localhost:3001/api/notifications";
+// Author: Jad Haytaoglu
+// Description: API functions for managing notifications
+// Last Modified: 2025-03-25
+
+import { REACT_APP_API_BASE_URL } from "../utils/Constants";
+
+const API_URL = `${REACT_APP_API_BASE_URL}/notifications`;
 
 // Get all notifications for a given team
 export const getNotificationsByTeamId = async (teamId) => {

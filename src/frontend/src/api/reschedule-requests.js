@@ -1,5 +1,12 @@
-const API_URL = "http://localhost:3001/api/reschedule-requests";
+// Author: Jad Haytaoglu
+// Description: API functions for interacting with reschedule requests
+// Last Modified: 2025-03-21
 
+import { REACT_APP_API_BASE_URL } from "../utils/Constants";
+
+const API_URL = `${REACT_APP_API_BASE_URL}/reschedule-requests`;
+
+// This function swaps two game slots by sending a PUT request to the server.
 export const swapSlots = async (slot1Id, slot2Id) => {
   try {
     const response = await fetch(`${API_URL}/swap`, {
@@ -9,8 +16,6 @@ export const swapSlots = async (slot1Id, slot2Id) => {
       },
       body: JSON.stringify({ slot1Id, slot2Id }),
     });
-
-    console.log("api response: ", response);
     
     if (!response.ok) {
       const error = await response.json();
@@ -24,6 +29,7 @@ export const swapSlots = async (slot1Id, slot2Id) => {
   }
 };
 
+// gets all reschedule requests
 export const getRescheduleRequests = async () => {
   try {
     const response = await fetch(API_URL);
@@ -37,6 +43,7 @@ export const getRescheduleRequests = async () => {
   }
 };
 
+// gets all available game slots
 export const getAvailableGameslots = async () => {
   try {
     const response = await fetch(`${API_URL}/available-gameslots`, {
@@ -56,6 +63,7 @@ export const getAvailableGameslots = async () => {
   }
 };
 
+// creates new reschedule request
 export const createRescheduleRequest = async (requestData) => {
   try {
     const response = await fetch(`${API_URL}/create`, {
@@ -78,6 +86,7 @@ export const createRescheduleRequest = async (requestData) => {
   }
 };
 
+// accepts reschedule request
 export const acceptRescheduleRequest = async (rescheduleRequestId, newSlot) => {
   try {
     const response = await fetch(`${API_URL}/${rescheduleRequestId}/accept`, {
@@ -97,6 +106,7 @@ export const acceptRescheduleRequest = async (rescheduleRequestId, newSlot) => {
   }
 };
 
+// declines reschedule request
 export const declineRescheduleRequest = async (rescheduleRequestId) => {
   try {
     const response = await fetch(`${API_URL}/${rescheduleRequestId}/decline`, {
@@ -113,6 +123,7 @@ export const declineRescheduleRequest = async (rescheduleRequestId) => {
   }
 };
 
+// deletes reschedule request
 export const deleteRescheduleRequest = async (requestId) => {
   try {
     const response = await fetch(`${API_URL}/${requestId}`, {

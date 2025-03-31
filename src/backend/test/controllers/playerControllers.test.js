@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Tests for player-related operations
+// Last Modified: 2025-03-15
+
 const request = require("supertest");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");

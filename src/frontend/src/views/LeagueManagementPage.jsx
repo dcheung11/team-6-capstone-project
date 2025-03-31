@@ -1,3 +1,8 @@
+// Author: Damien Cheung
+// Description: The LeagueManagementPage is responsible for managing the league seasons.
+// It allows the commissioner to create new seasons, view upcoming and ongoing seasons, and archive past seasons.
+// Last Modified: 2025-03-30
+
 import React, { useEffect, useState } from "react";
 import {
   Typography,
@@ -9,7 +14,6 @@ import {
   AccordionDetails,
   Button,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import NavBar from "../components/NavBar";
 import TeamSchedulingComponent from "../components/TeamSchedulingComponent";
@@ -24,20 +28,18 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import { formatDate } from "../utils/Formatting";
-import CreateSeasonForm from "../components/manage/CreateSeasonForm";
-import SeasonsTable from "../components/manage/SeasonsTable";
-import ScheduleTable from "../components/ScheduleTable";
+import CreateSeasonForm from "../components/Forms/CreateSeasonForm";
+import SeasonsTable from "../components/Tables/SeasonsTable";
+import ScheduleTable from "../components/Tables/ScheduleTable";
 import LoadingOverlay from "../components/LoadingOverlay";
-import CommissionerContactInfo from "../components/manage/CommissionerContactInfo";
+import CommissionerContactInfo from "../components/Tables/CommissionerContactInfo";
+import { MCMASTER_COLOURS } from "../utils/Constants.js";
 
-// McMaster colours - AI Generated
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
-
+// LeagueManagementPage: Displays a page for managing league seasons, including
+// creating new seasons, viewing upcoming and ongoing seasons, and archiving past seasons.
+// It also includes a contact information section for team captains.
+// The page is divided into tabs for easy navigation between different sections.
+// The page is intended for use by league commissioners and administrators to manage the league effectively.
 const LeagueManagementPage = () => {
   // Season state values
   const [upcomingSeasons, setUpcomingSeasons] = useState(null);
@@ -63,6 +65,7 @@ const LeagueManagementPage = () => {
     setIsTabLoading(false);
   };
 
+  // Fetch seasons data
   useEffect(() => {
     const fetchUpcomingSeasons = async () => {
       try {
@@ -115,6 +118,7 @@ const LeagueManagementPage = () => {
     fetchSeasons();
   }, []);
 
+  // Handle archiving a season
   const handleArchiveSeason = async (seasonId) => {
     try {
       setLoading(true);

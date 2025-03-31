@@ -1,6 +1,10 @@
-const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // replace with your backend port
+// Author: Derek Li
+// Description: This file contains functions to interact with the backend API for team-related operations.
+// Last Modified: 2025-03-21
 
-// body = { name, divisionId, captainId, roster, seasonId }
+import { REACT_APP_API_BASE_URL } from "../utils/Constants";
+
+// Function to register a team to a season
 export async function registerTeam(body) {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/teams/registerTeam`, {
@@ -23,6 +27,7 @@ export async function registerTeam(body) {
   }
 }
 
+// Function to fetch all teams by their IDs
 export async function getTeamsById(ids) {
   try {
     const idString = ids.join(",");
@@ -45,6 +50,7 @@ export async function getTeamsById(ids) {
   }
 }
 
+// Function to fetch all teams
 export async function getTeams() {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/teams`, {
@@ -66,6 +72,7 @@ export async function getTeams() {
   }
 }
 
+// Function to fetch a team's schedule by its ID
 export async function getScheduleGamesByTeamId(id) {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/teams/schedule/${id}`, {
@@ -87,6 +94,7 @@ export async function getScheduleGamesByTeamId(id) {
   }
 }
 
+// Function to remove a player from a team's roster
 export async function removePlayerFromRoster(teamId, playerId) {
   try {
     const response = await fetch(`${REACT_APP_API_BASE_URL}/teams/${teamId}/roster/${playerId}`, {
