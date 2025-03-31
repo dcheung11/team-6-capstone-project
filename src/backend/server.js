@@ -1,3 +1,10 @@
+// Author: Damien Cheung
+// Description: This file sets up the Express server, connects to the MongoDB database,
+// and defines the API routes for the application. It also includes error handling and
+// middleware for parsing incoming requests. The server listens on a specified port and
+// runs a scheduled job to update season statuses.
+// Last Modified: 2025-03-30
+
 require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");

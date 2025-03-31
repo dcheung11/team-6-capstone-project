@@ -1,4 +1,6 @@
-// This file contains functions to interact with the standings API. 
+// Author: Emma Wigglesworth
+// Description: Functions to interact with the standings API 
+// Last Modified: 2025-03-21
 
 import { REACT_APP_API_BASE_URL } from "../utils/Constants";
 

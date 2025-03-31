@@ -1,4 +1,6 @@
-// This file contains the API functions for managing seasons.
+// Author: Damien Cheung
+// Description: Functions to interact with the season API 
+// Last Modified: 2025-03-21
 
 import { REACT_APP_API_BASE_URL } from "../utils/Constants";
 
