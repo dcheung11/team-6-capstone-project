@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+// Define the schema for the Standing model
+// Standing represents the rankings and statistics of teams within a division
+// TODO - add a field for the seasonId
 const StandingSchema = new mongoose.Schema(
   {
     division: {

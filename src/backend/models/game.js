@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Define the schema for the Game model
 const GameSchema = new mongoose.Schema({
   date: { type: Date, required: true },
   time: { type: String, required: true },

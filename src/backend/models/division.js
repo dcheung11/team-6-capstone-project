@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Define the schema for the Division model
 const DivisionSchema = new mongoose.Schema(
   {
     name: {

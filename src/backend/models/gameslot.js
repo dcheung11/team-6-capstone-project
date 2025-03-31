@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+// Define the schema for the GameSlot model
+// GameSlot represents a time slot for a game on a specific date and field
 const GameSlotSchema = new mongoose.Schema({
   date: {
     type: Date,

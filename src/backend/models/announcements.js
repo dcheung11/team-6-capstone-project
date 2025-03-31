@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Define the schema for the Announcement model
 const AnnouncementSchema = new mongoose.Schema({
   title: {
     type: String,

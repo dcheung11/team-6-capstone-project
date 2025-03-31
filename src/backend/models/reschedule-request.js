@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+// Define the schema for the RescheduleRequest model
+// This model represents a request to another captain player to reschedule a game
 const RescheduleRequestSchema = new Schema(
   {
     gameId: {
