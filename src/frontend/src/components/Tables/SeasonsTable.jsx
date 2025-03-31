@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: This component displays a table of seasons with options to delete them. Used in Management Page
+// Last Modified: 2025-03-01
+
 import React, { useState } from "react";
 import {
   IconButton,

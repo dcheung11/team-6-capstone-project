@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: This component displays a table of players in a team with their contact information.
+// Last Modified: 2025-02-28
+
 import React from "react";
 import {
   Paper,

@@ -1,3 +1,8 @@
+// Author: Damien Cheung
+// Description: The TeamSchedulingComponent component is responsible for managing the scheduling of teams in a season.
+// It allows the commissioner to set divisions, generate schedules, and launch seasons. Used in Management Page.
+// Last Modified: 2025-02-28
+
 import React, { useEffect, useState } from "react";
 import { Typography, Box, Grid, Button } from "@mui/material";
 import TeamTable from "./Tables/TeamTable";

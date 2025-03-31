@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: This file contains the AuthProvider component that manages authentication state in the application.
+// Last Modified: 2025-02-22
+
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";

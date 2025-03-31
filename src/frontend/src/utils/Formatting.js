@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: This file contains utility functions - mostly for formatting dates and getting date-related information.
+// Last Modified: 2025-03-27
+
 export function formatDate(dateString) {
   const date = new Date(dateString);
   return date.toISOString().split("T")[0]; // Extracts YYYY-MM-DD from ISO format

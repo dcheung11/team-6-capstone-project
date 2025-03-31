@@ -1,3 +1,7 @@
+// Author: Emma Wigglesworth
+// Description: This component displays a section with past announcements.
+// Last Modified: 2025-03-23
+
 import React from "react";
 import { Box, Container, Typography, Grid } from "@mui/material";
 import CardAnnouncement from "./CardAnnouncement";

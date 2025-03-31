@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: This file contains constants used throughout the application.
+// Last Modified: 2025-03-27
+
 export const MCMASTER_COLOURS = {
   maroon: "#7A003C",
   grey: "#5E6A71",

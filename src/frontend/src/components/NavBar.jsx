@@ -1,3 +1,8 @@
+// Author: Damien Cheung
+// Description: The NavBar component provides a navigation bar for the application.
+// It includes links to different pages and a user profile menu.
+// Last Modified: 2025-02-10
+
 import React, { useEffect, useState } from "react";
 import {
   AppBar,
