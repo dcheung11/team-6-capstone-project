@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+## Frontend Structure
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### `components/`
+This folder contains **reusable UI components** that make up the building blocks of the application. Each component represents a specific part of the user interface, such as buttons, forms, or headers. Components are typically small, self-contained, and can be used throughout the application. They are sub-organized by the type of component (Table, Card, etc.)
 
-## Available Scripts
+Ex: `ScheduleTable.jsx`
 
-In the project directory, you can run:
+### `views/`
+The `views/` folder contains **higher-level components** that represent entire pages or container of the application. Views typically combine multiple components to form the complete layout of a page.
 
-### `npm start`
+Ex: `HomePage.jsx`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### `api/`
+The `api/` folder holds the logic for interacting with the backend API. It contains functions to **send HTTP requests** to the backend, such as getting, posting, updating, or deleting league data. This abstraction helps keep the code modular and ensures easier communication between the frontend and backend.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### `assets/`
+The `assets/` folder contains **static files** used in the application, such as images, icons, and other media.
 
-### `npm test`
+### `context/`
+The `context/` folder defines **React Contexts** for global state management. Contexts provide a way to share user auth values across different components without needing to pass props manually at each level of the component tree.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### `hooks/`
+The `hooks/` folder contains custom **React hooks** that encapsulate reusable logic for various tasks (providing auth) These hooks can be used across components to keep the code clean and maintainable.
 
-### `npm run build`
+### `utils/`
+The `utils/` folder holds **utility functions** that assist with common tasks in the application, such as formatting.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### `utils/Constants.js`
+A constants file is used to store commonly repeating variables to avoid repetitive code. We are still in the process of removing some values and reusing them as a Constant.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+export const MCMASTER_COLOURS = {
+  maroon: "#7A003C",
+  grey: "#5E6A71",
+  gold: "#FDBF57",
+  lightGrey: "#F5F5F5",
+};
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `App.js`
+`App.js` is the main entry point for the frontend application. It defines the overall structure of the UI and sets up the routing system.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### `routes.js`
+`routes.js` defines the **client-side routes** for the application using React Router (or a similar routing library). It maps each route to its corresponding view, allowing users to navigate between different pages of the application.
