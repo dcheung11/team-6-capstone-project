@@ -34,12 +34,17 @@ import { removePlayerFromRoster } from "../../api/team";
 
 // McMaster colours - AI Generated
 const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
+  maroon: "#7A003C",
+  grey: "#5E6A71",
+  gold: "#FDBF57",
+  lightGrey: "#F5F5F5",
 };
 
+```
+MyTeamPage: This component displays the player's team information, 
+including schedule, notifications, and roster. Captains have submit score and 
+invite player permissions.
+```;
 export default function MyTeamPage() {
   const auth = useAuth();
   const { id: teamId } = useParams();
@@ -53,14 +58,15 @@ export default function MyTeamPage() {
 
   const [teamTabValue, setTeamTabValue] = useState(teamId || null);
 
+  // handle change teams (future use for when we allow multiple teams)
   const handleChange = (event, newValue) => {
     setTeamTabValue(newValue);
-    // Only navigate if it's a team tab
     if (newValue !== "contacts") {
       navigate(`/team/${newValue}`);
     }
   };
 
+  // Fetch player data by ID
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
       try {
@@ -77,6 +83,7 @@ export default function MyTeamPage() {
     fetchPlayerById(playerId);
   }, []);
 
+  // Fetch schedule games and notifications by team ID
   useEffect(() => {
     if (!player || teamTabValue === "contacts") return;
 
@@ -97,13 +104,13 @@ export default function MyTeamPage() {
     }
   }, [player, teamTabValue]);
 
+  // Fetch notifications by team ID
   useEffect(() => {
     if (!player || teamTabValue === "contacts") return;
 
     const fetchNotificationsByTeamId = async (tid) => {
       try {
         const data = await getNotificationsByTeamId(tid);
-        // this data doesn't populate rescheduleRequestIds
         setTeamNotifications(data.notifications || data);
         setLoading(false);
       } catch (err) {
@@ -118,13 +125,13 @@ export default function MyTeamPage() {
     }
   }, [player, teamTabValue]);
 
+  // Handle leaving the team
   const handleLeaveTeam = async () => {
     if (!playerId || !teamTabValue) return;
-  
+
     try {
       setLoading(true);
       await removePlayerFromRoster(teamTabValue, playerId);
-      // Optionally redirect or refresh
       navigate("/home"); // or another route after leaving
     } catch (err) {
       setError(err.message || "Failed to leave team");
@@ -134,23 +141,23 @@ export default function MyTeamPage() {
   };
 
   return (
-    <div 
-      style={{ 
+    <div
+      style={{
         backgroundColor: MCMASTER_COLOURS.lightGrey,
-        minHeight: '100vh',
-        height: '100%',
-        position: 'fixed',
-        width: '100%',
-        overflowY: 'auto'
+        minHeight: "100vh",
+        height: "100%",
+        position: "fixed",
+        width: "100%",
+        overflowY: "auto",
       }}
     >
       <NavBar />
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Typography 
-          variant="h4" 
-          sx={{ 
+        <Typography
+          variant="h4"
+          sx={{
             fontWeight: 700,
-            mb: 3
+            mb: 3,
           }}
         >
           My Team
@@ -164,15 +171,15 @@ export default function MyTeamPage() {
               {player.team?.captainId?.id === playerId && ( // Only show tabs for captains
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                   {/* AI Generated - Tablist styling */}
-                  <TabList 
+                  <TabList
                     onChange={handleChange}
                     sx={{
-                      '& .Mui-selected': {
+                      "& .Mui-selected": {
                         color: `${MCMASTER_COLOURS.maroon} !important`,
                       },
-                      '& .MuiTabs-indicator': {
+                      "& .MuiTabs-indicator": {
                         backgroundColor: MCMASTER_COLOURS.maroon,
-                      }
+                      },
                     }}
                   >
                     <Tab label={player?.team?.name} value={player?.team?.id} />
@@ -183,17 +190,17 @@ export default function MyTeamPage() {
 
               <TabPanel value={player.team?.id}>
                 <Box>
-                  <Typography 
-                    variant="h4" 
-                    component="h1" 
-                    sx={{ 
+                  <Typography
+                    variant="h4"
+                    component="h1"
+                    sx={{
                       color: MCMASTER_COLOURS.maroon,
                       fontWeight: 700,
                       fontSize: { xs: "2.5rem", md: "3rem" },
                       mb: 1,
-                      display: 'flex',
-                      alignItems: 'baseline',
-                      gap: 1
+                      display: "flex",
+                      alignItems: "baseline",
+                      gap: 1,
                     }}
                   >
                     {player.team?.name}
@@ -212,76 +219,79 @@ export default function MyTeamPage() {
                     )}
                   </Typography>
 
-                  <Stack 
-                    direction="row" 
-                    spacing={4} 
+                  <Stack
+                    direction="row"
+                    spacing={4}
                     mb={4}
                     mt={2}
-                    sx={{ 
+                    sx={{
                       p: 2,
-                      bgcolor: 'white',
-                      // borderRadius: 1,
-                      // //boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-                      // border: '1px solid rgba(0,0,0,0.1)',
+                      bgcolor: "white",
                       p: { md: 3 },
                       borderRadius: 2,
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-                      position: 'relative',
-                      '&::before': {
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                      position: "relative",
+                      "&::before": {
                         content: '""',
-                        position: 'absolute',
+                        position: "absolute",
                         top: 0,
                         left: 0,
                         right: 0,
-                        height: '3px',
+                        height: "3px",
                         // AI Generated - Ombre bar styling and gradient effects
                         background: `linear-gradient(to right, ${MCMASTER_COLOURS.maroon}, ${MCMASTER_COLOURS.gold})`,
-                        borderRadius: '2px 2px 0 0'
+                        borderRadius: "2px 2px 0 0",
                       },
-                      '&::after': {
+                      "&::after": {
                         content: '""',
-                        position: 'absolute',
+                        position: "absolute",
                         bottom: 0,
                         left: 0,
                         right: 0,
-                        height: '3px',
+                        height: "3px",
                         background: `linear-gradient(to right, ${MCMASTER_COLOURS.gold}, ${MCMASTER_COLOURS.maroon})`,
-                        borderRadius: '0 0 2px 2px'
+                        borderRadius: "0 0 2px 2px",
                       },
-                      '& .stat-label': {
+                      "& .stat-label": {
                         color: MCMASTER_COLOURS.grey,
                         fontWeight: "bold",
-                        fontSize: '1.1rem',
+                        fontSize: "1.1rem",
                       },
-                      '& .stat-value': {
-                        fontSize: '1.1rem',
+                      "& .stat-value": {
+                        fontSize: "1.1rem",
                         fontWeight: 500,
                       },
-                      
                     }}
                   >
                     <Stack direction="row" spacing={1} alignItems="center">
                       <Typography className="stat-label">Season:</Typography>
-                      <Typography className="stat-value">{player.team?.seasonId?.name}</Typography>
+                      <Typography className="stat-value">
+                        {player.team?.seasonId?.name}
+                      </Typography>
                     </Stack>
 
                     <Stack direction="row" spacing={1} alignItems="center">
                       <Typography className="stat-label">Division:</Typography>
-                      <Typography className="stat-value">{player.team?.divisionId?.name}</Typography>
+                      <Typography className="stat-value">
+                        {player.team?.divisionId?.name}
+                      </Typography>
                     </Stack>
 
                     <Stack direction="row" spacing={1} alignItems="center">
-                      <Typography className="stat-label">Record (W/D/L):</Typography>
+                      <Typography className="stat-label">
+                        Record (W/D/L):
+                      </Typography>
                       <Typography className="stat-value">
-                        {player.team.wins}-{player.team.draws}-{player.team.losses}
+                        {player.team.wins}-{player.team.draws}-
+                        {player.team.losses}
                       </Typography>
                     </Stack>
                   </Stack>
 
                   <Divider sx={{ my: 4 }} />
 
-                    {/* For captain view */}
-                    {(player.team.captainId.id === playerId ||
+                  {/* For captain view */}
+                  {(player.team.captainId.id === playerId ||
                     player.role === "commissioner") && (
                     <>
                       <Typography
@@ -313,7 +323,9 @@ export default function MyTeamPage() {
                   >
                     Previous Games
                   </Typography>
-                  {teamGames && teamGames.games && teamGames.games.length > 0 ? (
+                  {teamGames &&
+                  teamGames.games &&
+                  teamGames.games.length > 0 ? (
                     <ScheduleTable
                       schedule={teamGames}
                       captain={player.team.captainId.id}
@@ -324,42 +336,47 @@ export default function MyTeamPage() {
                   ) : (
                     <NoDataCard text="No schedule to show." />
                   )}
-                  
+
                   <Divider sx={{ my: 6 }} />
 
-                  <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
-  <Typography
-    variant="h5"
-    sx={{
-      fontSize: "2rem",
-      fontWeight: 700,
-    }}
-  >
-    Roster
-  </Typography>
-  
-  {player.team.captainId.id !== playerId && ( // Only show button if the player is not the captain
-    <Button
-      variant="contained"
-      onClick={handleLeaveTeam}
-      disabled={loading}
-      sx={{
-        backgroundColor: MCMASTER_COLOURS.maroon,
-        color: 'white',
-        padding: '8px 24px',
-        borderRadius: '6px',
-        textTransform: 'none',
-        fontWeight: 500,
-        '&:hover': {
-          backgroundColor: MCMASTER_COLOURS.maroon + 'E6',
-        }
-      }}
-    >
-      Leave Team
-    </Button>
-  )}
-</Stack>
-                  
+                  <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    sx={{ mb: 2 }}
+                  >
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        fontSize: "2rem",
+                        fontWeight: 700,
+                      }}
+                    >
+                      Roster
+                    </Typography>
+
+                    {player.team.captainId.id !== playerId && ( // Only show button if the player is not the captain
+                      <Button
+                        variant="contained"
+                        onClick={handleLeaveTeam}
+                        disabled={loading}
+                        sx={{
+                          backgroundColor: MCMASTER_COLOURS.maroon,
+                          color: "white",
+                          padding: "8px 24px",
+                          borderRadius: "6px",
+                          textTransform: "none",
+                          fontWeight: 500,
+                          "&:hover": {
+                            backgroundColor: MCMASTER_COLOURS.maroon + "E6",
+                          },
+                        }}
+                      >
+                        Leave Team
+                      </Button>
+                    )}
+                  </Stack>
+
                   <RosterTable
                     roster={player.team.roster}
                     captain={player.team.captainId}
@@ -372,17 +389,15 @@ export default function MyTeamPage() {
                         bgcolor: MCMASTER_COLOURS.maroon,
                         mt: 1,
                         mb: 2,
-                        '&:hover': {
-                          bgcolor: '#5A002C',
-                        }
+                        "&:hover": {
+                          bgcolor: "#5A002C",
+                        },
                       }}
                       onClick={() => navigate("/players")}
                     >
                       Invite Players
                     </Button>
                   )}
-                  
-
                 </Box>
               </TabPanel>
 
@@ -391,13 +406,13 @@ export default function MyTeamPage() {
               {player.team.captainId.id === playerId && ( // Only show contacts panel for captains
                 <TabPanel value="contacts">
                   <Box>
-                    <Typography 
-                      variant="h4" 
-                      component="h2" 
-                      sx={{ 
+                    <Typography
+                      variant="h4"
+                      component="h2"
+                      sx={{
                         color: MCMASTER_COLOURS.maroon,
                         fontWeight: "bold",
-                        mb: 2
+                        mb: 2,
                       }}
                     >
                       Captain Contact Information
@@ -413,12 +428,15 @@ export default function MyTeamPage() {
             </TabContext>
           </>
         ) : (
-          <Box>            
-            <Typography variant="subtitle2" sx={{
-              fontSize: { xs: "2rem", md: "2rem" },
-              fontWeight: 700,
-              mb: 2,
-            }}>
+          <Box>
+            <Typography
+              variant="subtitle2"
+              sx={{
+                fontSize: { xs: "2rem", md: "2rem" },
+                fontWeight: 700,
+                mb: 2,
+              }}
+            >
               Team Invitations
             </Typography>
             {player && player.invites && player.invites.length > 0 ? (

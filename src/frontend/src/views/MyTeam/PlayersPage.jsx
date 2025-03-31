@@ -5,6 +5,7 @@ import { allPlayers } from "../../api/player";
 import { useState, useEffect } from "react";
 import LoadingOverlay from "../../components/LoadingOverlay";
 
+// Page for searching and inviting players to your team as a captain
 export default function Players() {
   const [loading, setLoading] = useState(true);
   const [players, setPlayers] = useState([]);
