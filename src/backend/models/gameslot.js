@@ -1,3 +1,7 @@
+// Author: Jad Haytaoglu
+// Description: Defines the Gameslot model for MongoDB for game time slots for scheduling
+// Last Modified: 2025-03-31
+
 const mongoose = require("mongoose");
 
 // Define the schema for the GameSlot model

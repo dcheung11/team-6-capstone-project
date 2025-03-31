@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Unit tests for the Announcement model
+// Last Modified: 2025-03-21
+
 const mongoose = require('mongoose');
 const Announcement = require('../../models/announcements');
 const { MongoMemoryServer } = require('mongodb-memory-server');

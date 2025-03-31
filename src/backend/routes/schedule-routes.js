@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Routes for schedule-related operations
+// Last Modified: 2025-02-06
+
 const express = require("express");
 const {
   generateSchedule,

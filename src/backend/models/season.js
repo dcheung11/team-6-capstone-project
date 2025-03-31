@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Defines the Season model for MongoDB for league seasons
+// Last Modified: 2025-02-14
+
 const mongoose = require("mongoose");
 
 // Define the schema for the Season model

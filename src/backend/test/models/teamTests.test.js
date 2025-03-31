@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Unit tests for the Teams model
+// Last Modified: 2025-03-21
+
 const mongoose = require("mongoose");
 const Team = require("../../models/Team");
 const { MongoMemoryServer } = require("mongodb-memory-server");

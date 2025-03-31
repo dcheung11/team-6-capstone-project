@@ -1,21 +1,14 @@
-const { validationResult } = require("express-validator");
+// Author: Damien Cheung
+// Description: Game-related operations (updating scores)
+// Last Modified: 2025-03-31
+
 const HttpError = require("../models/http-error");
-const Team = require("../models/team");
-const Season = require("../models/season");
-const Division = require("../models/division");
-const Player = require("../models/player");
-const Schedule = require("../models/schedule");
 const Game = require("../models/game");
 const { updateStandings } = require("./standings-controller")
 
 const updateScore = async (req, res, next) => {
   const { gameId, homeScore, awayScore } = req.params;
   const { defaultLossTeam } = req.body;
-
-  console.log("Received data:", { gameId, homeScore, awayScore, defaultLossTeam }); // Debugging
-  console.log("Full req.body:", req.body);
-  console.log("Extracted defaultLossTeam:", req.body.defaultLossTeam);
-
 
   try {
     const updatedGame = await Game.findByIdAndUpdate(

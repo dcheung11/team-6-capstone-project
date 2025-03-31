@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Defines the Team model for MongoDB for teams
+// Last Modified: 2025-02-24
+
 const mongoose = require("mongoose");
 
 // Define the schema for the Team model

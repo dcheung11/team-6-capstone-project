@@ -1,6 +1,9 @@
+// Author: Damien Cheung
+// Description: Defines the Announcement model for MongoDB for league announcements
+// Last Modified: 2025-03-31
+
 const mongoose = require('mongoose');
 
-// Define the schema for the Announcement model
 const AnnouncementSchema = new mongoose.Schema({
   title: {
     type: String,

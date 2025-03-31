@@ -1,3 +1,7 @@
+// Author: Emma Wigglesworth
+// Description: This file contains the controller functions for the league standings
+// Last Modified: 2025-03-31
+
 const HttpError = require("../models/http-error"); 
 const Standing = require("../models/standing"); 
 const Game = require("../models/game");
@@ -26,7 +30,6 @@ const getStandingsByDivision = async (req, res, next) => {
 const updateStandings = async (divisionId) => {
   // include all teams even without played games
   const teamsInDivision = await Team.find({ divisionId: divisionId });
-  //console.log(teamsInDivision);
 
   const teamStats = {};
   teamsInDivision.forEach((team) => {

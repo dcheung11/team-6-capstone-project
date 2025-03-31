@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Basic CRUD operations for Divisions
+// Last Modified: 2025-03-31
+
 const { validationResult } = require("express-validator");
 const HttpError = require("../models/http-error");
 const Division = require("../models/division");

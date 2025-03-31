@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Script to auto-update the status of seasons in the database using a cron job
+// Last Modified: 2025-03-20
+
 const mongoose = require("mongoose");
 const Season = require("../models/season");
 require("dotenv").config(); // Load DB credentials from .env
@@ -12,7 +16,7 @@ async function updateSeasonStatuses() {
 
     const now = new Date();
 
-    // Update seasons from "upcoming" to "ongoing"
+    // Update seasons from "upcoming" to "ongoing". Variable stored in case of testing needs
     const ongoingUpdate = await Season.updateMany(
       { startDate: { $lte: now }, endDate: { $gte: now }, status: "upcoming" },
       { $set: { status: "ongoing" } }
