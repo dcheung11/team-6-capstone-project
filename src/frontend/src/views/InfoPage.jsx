@@ -3,6 +3,9 @@ import React from 'react';
 import { Container } from "@mui/material";
 import Map from "../assets/Map.png";
 
+// InfoPage: Displays a page with information about the league, including rules,
+// registration, and contact information.
+// Information was migrated from the old GSA website.
 export default function InfoPage() {
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col items-center">

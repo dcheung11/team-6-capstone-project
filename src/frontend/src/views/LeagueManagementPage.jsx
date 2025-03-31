@@ -9,7 +9,6 @@ import {
   AccordionDetails,
   Button,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import NavBar from "../components/NavBar";
 import TeamSchedulingComponent from "../components/TeamSchedulingComponent";
@@ -38,6 +37,11 @@ const MCMASTER_COLOURS = {
   lightGrey: '#F5F5F5',
 };
 
+// LeagueManagementPage: Displays a page for managing league seasons, including
+// creating new seasons, viewing upcoming and ongoing seasons, and archiving past seasons.
+// It also includes a contact information section for team captains.
+// The page is divided into tabs for easy navigation between different sections.
+// The page is intended for use by league commissioners and administrators to manage the league effectively.
 const LeagueManagementPage = () => {
   // Season state values
   const [upcomingSeasons, setUpcomingSeasons] = useState(null);
@@ -63,6 +67,7 @@ const LeagueManagementPage = () => {
     setIsTabLoading(false);
   };
 
+  // Fetch seasons data
   useEffect(() => {
     const fetchUpcomingSeasons = async () => {
       try {
@@ -115,6 +120,7 @@ const LeagueManagementPage = () => {
     fetchSeasons();
   }, []);
 
+  // Handle archiving a season
   const handleArchiveSeason = async (seasonId) => {
     try {
       setLoading(true);

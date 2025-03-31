@@ -22,6 +22,7 @@ const MCMASTER_COLOURS = {
   lightGrey: '#F5F5F5',
 };
 
+// StandingsPage component: Displays the standings of teams in a selected season and division
 export default function StandingsPage() {
   const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState("");

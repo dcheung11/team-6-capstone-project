@@ -1,6 +1,7 @@
 import { Box, Container, Typography } from "@mui/material";
 import LoginForm from "../components/Forms/LoginForm";
 
+// LoginPage: The main login page for the application
 export default function LoginPage() {
   return (
     <Box sx={{ minHeight: "100vh", display: "flex" }}>
