@@ -16,10 +16,9 @@ import { getPlayerById } from "../../api/player";
 import { useNavigate, useParams } from "react-router-dom";
 import { getSeasonById } from "../../api/season";
 
-```
-RegisterTeamPage: Redirect page for registering a team to a season - 
-takes you to the register form component
-```
+// RegisterTeamPage: Redirect page for registering a team to a season - 
+// takes you to the register form component
+
 export default function RegisterTeamPage() {
   const { id: seasonId } = useParams();
   const [teamName, setTeamName] = useState("");

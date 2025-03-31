@@ -13,7 +13,6 @@ import {
   AccordionDetails,
   Divider,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useNavigate } from "react-router-dom";
 import {
@@ -35,10 +34,10 @@ const MCMASTER_COLOURS = {
   gold: '#FDBF57',
   lightGrey: '#F5F5F5',
 };
-```
-HomePage: Displays the home page with the hero section, seasons, and announcements. 
-First page the user sees after logging in. Prominently displays upcoming seasons.
-```
+
+// HomePage: Displays the home page with the hero section, seasons, and announcements. 
+// First page the user sees after logging in. Prominently displays upcoming seasons.
+
 export default function HomePage() {
   const navigate = useNavigate();
   const auth = useAuth();

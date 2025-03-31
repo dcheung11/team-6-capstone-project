@@ -40,11 +40,11 @@ const MCMASTER_COLOURS = {
   lightGrey: "#F5F5F5",
 };
 
-```
-MyTeamPage: This component displays the player's team information, 
-including schedule, notifications, and roster. Captains have submit score and 
-invite player permissions.
-```;
+
+// MyTeamPage: This component displays the player's team information, 
+// including schedule, notifications, and roster. Captains have submit score and 
+// invite player permissions.
+
 export default function MyTeamPage() {
   const auth = useAuth();
   const { id: teamId } = useParams();
