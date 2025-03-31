@@ -13,14 +13,8 @@ import {
 } from "@mui/material";
 import NavBar from "../components/NavBar";
 import StandingsTable from "../components/Tables/StandingsTable";
+import { MCMASTER_COLOURS } from "../utils/Constants.js";
 
-// McMaster colours - AI generated
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
 
 // StandingsPage component: Displays the standings of teams in a selected season and division
 export default function StandingsPage() {

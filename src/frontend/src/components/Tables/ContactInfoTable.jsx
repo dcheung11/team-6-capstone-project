@@ -15,14 +15,7 @@ import {
   Box
 } from "@mui/material";
 import { getTeams } from "../../api/team";
-
-// McMaster colours - AI Generated
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
+import { MCMASTER_COLOURS } from "../../utils/Constants";
 
 // ContactInfoTable: Displays a table of team contact information for the current season.
 export default function ContactInfoTable({ currentSeasonId, allSeasons }) {

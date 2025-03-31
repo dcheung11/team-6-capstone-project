@@ -26,14 +26,8 @@ import LoadingOverlay from "../../components/LoadingOverlay";
 import { getPlayerById } from "../../api/player";
 import { useAuth } from "../../hooks/AuthProvider";
 import NoDataCard from "../../components/Cards/NoDataCard";
+import { MCMASTER_COLOURS } from "../../utils/Constants.js";
 
-// McMaster colours - AI generated
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
 
 // HomePage: Displays the home page with the hero section, seasons, and announcements. 
 // First page the user sees after logging in. Prominently displays upcoming seasons.

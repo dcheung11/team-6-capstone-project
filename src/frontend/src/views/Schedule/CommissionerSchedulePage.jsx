@@ -8,6 +8,7 @@ import { getAvailableGameslots, swapSlots } from "../../api/reschedule-requests"
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import LoadingOverlay from '../../components/LoadingOverlay';
+import { MCMASTER_COLOURS } from "../../utils/Constants.js";
 
 // CommissionerSchedule: Displays a calendar view for the commissioner to swap game slots.
 export const CommissionerSchedule = () => {
@@ -358,13 +359,6 @@ export const CommissionerSchedule = () => {
 };
 
 export default CommissionerSchedule;
-
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
 
 const loadingOverlayStyle = {
   position: 'absolute',

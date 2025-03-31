@@ -16,14 +16,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import LoadingOverlay from "../../components/LoadingOverlay";
-
-// McMaster colours constant
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
+import { MCMASTER_COLOURS } from "../../utils/Constants.js";
 
 // ScheduleView component: Main component for displaying the schedule view
 // It fetches the player data and conditionally renders the schedule based on the player's role

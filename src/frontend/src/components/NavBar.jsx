@@ -14,14 +14,7 @@ import { Person as PersonIcon } from "@mui/icons-material";
 import { useAuth } from "../hooks/AuthProvider";
 import { useNavigate, useLocation } from "react-router";
 import { getPlayerById } from "../api/player";
-
-// McMaster colours - AI Generated
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
+import { MCMASTER_COLOURS } from "../utils/Constants";
 
 // NavBar: Displays the navigation bar with links to different pages and user profile options.
 const NavBar = () => {

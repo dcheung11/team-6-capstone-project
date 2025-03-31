@@ -5,13 +5,7 @@ import { getScheduleGamesByTeamId } from "../../api/team";
 import { formatDate, getLocalISODate } from "../../utils/Formatting";
 import ReschedulePopup from "../Reschedule/ReschedulePopup";
 import { getAvailableGameslots } from "../../api/reschedule-requests";
-
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
+import { MCMASTER_COLOURS } from "../../utils/Constants.js";
 
 const loadingOverlayStyle = {
   position: 'absolute',

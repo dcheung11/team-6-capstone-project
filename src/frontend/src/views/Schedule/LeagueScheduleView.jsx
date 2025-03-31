@@ -3,15 +3,7 @@ import { useAuth } from "../../hooks/AuthProvider";
 import { getPlayerById } from "../../api/player";
 import { getScheduleBySeasonId } from "../../api/schedule";
 import { formatDate, getLocalISODate } from "../../utils/Formatting";
-
-
-// Add McMaster colours constant
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
+import { MCMASTER_COLOURS } from "../../utils/Constants.js";
 
 // Common loading overlay style for all schedule components
 const loadingOverlayStyle = {

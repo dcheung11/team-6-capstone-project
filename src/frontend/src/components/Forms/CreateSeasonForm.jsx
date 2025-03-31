@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import { Paper, Button, TextField, Snackbar, Alert, Grid } from "@mui/material";
 import { createSeason, getAllSeasons } from "../../api/season";
-
-// McMaster colours - AI Generated
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
+import { MCMASTER_COLOURS } from "../../utils/Constants";
 
 // CreateSeasonForm: A form component for creating a new season.
 const CreateSeasonForm = (props) => {

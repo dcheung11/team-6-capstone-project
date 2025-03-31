@@ -4,14 +4,8 @@ import { Container, Typography, Box } from "@mui/material";
 import NavBar from "../../components/NavBar";
 import AnnouncementForm from "../../components/Forms/AnnouncementForm";
 import { createAnnouncement } from "../../api/announcements";
+import { MCMASTER_COLOURS } from "../../utils/Constants.js";
 
-// McMaster colours - AI Generated
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
 
 // CreateAnnouncementPage: Redirect Page for creating a new announcement (commissioner).
 export default function CreateAnnouncementPage() {

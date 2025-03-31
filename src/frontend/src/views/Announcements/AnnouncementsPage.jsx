@@ -7,14 +7,7 @@ import PastAnnouncementsSection from "../../components/Cards/PastAnnouncements";
 import EditIcon from "@mui/icons-material/Edit";
 import { useAuth } from "../../hooks/AuthProvider";
 import { getPlayerById } from "../../api/player";
-
-// McMaster colours - AI Generated
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
+import { MCMASTER_COLOURS } from "../../utils/Constants.js";
 
 // AnnouncementPage: Displays the main announcement and past announcements.
 export default function AnnouncementPage() {
