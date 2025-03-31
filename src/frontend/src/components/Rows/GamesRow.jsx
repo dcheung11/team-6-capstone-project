@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: This component displays a row of game cards for a specific team.
+// Last Modified: 2025-02-10
+
 import React from "react";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import { formatDate } from "../../utils/Formatting";

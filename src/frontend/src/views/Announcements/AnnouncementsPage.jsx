@@ -1,3 +1,7 @@
+// Author: Emma Wigglesworth
+// Description: Central Page for displaying announcements and past announcements.
+// Last Modified: 2025-02-23
+
 import React, { useState, useEffect } from "react";
 import { Box, Container, Typography, Button } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";

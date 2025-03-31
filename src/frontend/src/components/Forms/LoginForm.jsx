@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: This component provides a login and signup form for users.
+// Last Modified: 2025-02-16
+
 import { useState } from "react";
 import { Alert, Box, Button, TextField, Typography } from "@mui/material";
 import { signup } from "../../api/player";

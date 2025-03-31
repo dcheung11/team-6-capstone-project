@@ -1,3 +1,8 @@
+// Author: Damien Cheung, Emma Wigglesworth
+// Description: This component displays a table of games with options to edit scores and default loss.
+// It is used in the ScheduleView component to show the schedule for a team.
+// Last Modified: 2025-03-28
+
 import React, { useEffect, useState } from "react";
 import {
   Paper,

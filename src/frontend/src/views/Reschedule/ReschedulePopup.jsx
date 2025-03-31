@@ -1,3 +1,7 @@
+// Author: Jad Haytaoglu
+// Description: A reschedule popup modal for a match, allowing the user to select adn view new timeslots
+// Last Modified: 2025-03-28
+
 import React, { useState, useEffect } from "react";
 import { createRescheduleRequest } from "../../api/reschedule-requests";
 import { getPopupWeekDates, getPopupWeekRange } from "../../utils/Formatting";

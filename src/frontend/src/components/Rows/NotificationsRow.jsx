@@ -1,3 +1,7 @@
+// Author: Jad Haytaoglu
+// Description: This component displays a row of notifications and team invites.
+// Last Modified: 2025-03-30
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {

@@ -1,4 +1,6 @@
-// Contains functions to interact with the player API
+// Author: Damien Cheung, Derek Li
+// Description: API functions for managing players
+// Last Modified: 2025-03-25
 
 import { REACT_APP_API_BASE_URL } from "../utils/Constants";
 

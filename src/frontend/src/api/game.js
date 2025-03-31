@@ -1,4 +1,7 @@
-// This file contains the API calls related to game operations
+// Author: Derek Li
+// Description: API functions for updating game scores
+// Last Modified: 2025-03-25
+
 
 import { REACT_APP_API_BASE_URL } from "../utils/Constants";
 

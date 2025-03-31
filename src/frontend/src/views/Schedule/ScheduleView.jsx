@@ -1,3 +1,7 @@
+// Author: Jad Haytaoglu, Tuoyo Ugborogho
+// Description: ScheduleView is the container component for the schedule view and allows players to toggle between different schedule views.
+// Last Modified: 2025-03-23
+
 import React, { useState, useEffect } from "react";
 import NavBar from "../../components/NavBar";
 import { WeeklySchedule } from "./WeeklySchedule";

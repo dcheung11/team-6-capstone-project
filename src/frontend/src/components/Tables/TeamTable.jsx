@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: This component displays a table of teams with options to change division, payment status, and delete teams.
+// Last Modified: 2025-03-12
+
 import React, { useState } from "react";
 import {
   Paper,

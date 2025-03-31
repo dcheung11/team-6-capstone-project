@@ -1,3 +1,7 @@
+// Author: Jad Haytaoglu, Tuoyo Ugborogho
+// Description: TeamSchedule component displays a monthly calendar view of the viewing player's team schedule.
+// Last Modified: 2025-03-23
+
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 import { getPlayerById } from "../../api/player";

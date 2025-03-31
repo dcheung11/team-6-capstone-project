@@ -1,3 +1,7 @@
+// Author: Jad Haytaoglu, Tuoyo Ugborogho
+// Description: WeeklySchedule component displays a scrollable weekly calendar view of the viewing player's team schedule.
+// Last Modified: 2025-03-23
+
 import React, { useState, useEffect } from "react";
 import ReschedulePopup from "../Reschedule/ReschedulePopup";
 import { useAuth } from "../../hooks/AuthProvider";

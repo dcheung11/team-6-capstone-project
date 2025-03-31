@@ -1,8 +1,11 @@
+// Author: Damien Cheung
+// Description: This component displays a message when there is no data to show.
+// Last Modified: 2025-03-27
+
 import React from "react";
 import { Stack, Container, Typography } from "@mui/material";
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 
-// NoDataCard: Displays a message when there is no data to show.
 export default function NoDataCard(props) {
   return (
     <Container>

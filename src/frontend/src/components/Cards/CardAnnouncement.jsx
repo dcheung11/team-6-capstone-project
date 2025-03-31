@@ -1,3 +1,8 @@
+// Author: Emma Wigglesworth
+// Description: This component displays an individual announcement card with a title, content 
+// preview, and buttons for reading more and editing (if the user is a commissioner).
+// Last Modified: 2025-03-27
+
 import React from "react";
 import { styled } from "@mui/material/styles";
 import { Card, CardContent, Typography, Stack, Button } from "@mui/material";

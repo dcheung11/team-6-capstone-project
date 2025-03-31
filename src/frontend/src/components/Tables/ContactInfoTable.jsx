@@ -1,3 +1,7 @@
+// Author: Emma Wigglesworth
+// Description: This component displays a contact information table for captains
+// Last Modified: 2025-03-25
+
 import React, { useEffect, useState } from "react";
 import { 
   Table, 

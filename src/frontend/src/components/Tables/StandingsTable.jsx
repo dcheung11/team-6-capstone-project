@@ -1,3 +1,7 @@
+// Author: Emma Wigglesworth
+// Description: This component displays a standings table for the current season.
+// Last Modified: 2025-03-18
+
 import React from "react";
 import {
   TableContainer,

@@ -1,3 +1,8 @@
+// Author: Damien Cheung
+// Description: The LeagueManagementPage is responsible for managing the league seasons.
+// It allows the commissioner to create new seasons, view upcoming and ongoing seasons, and archive past seasons.
+// Last Modified: 2025-03-30
+
 import React, { useEffect, useState } from "react";
 import {
   Typography,
