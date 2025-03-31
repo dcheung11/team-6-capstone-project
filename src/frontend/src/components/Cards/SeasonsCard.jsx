@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: This component displays a card for each season with its details and a button to register a team if applicable.
+// Last Modified: 2025-03-20
+
 import React from "react";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import { useAuth } from "../../hooks/AuthProvider";

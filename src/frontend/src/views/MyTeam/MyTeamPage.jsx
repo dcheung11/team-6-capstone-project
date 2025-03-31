@@ -1,3 +1,7 @@
+// Author: Damien Cheung, Emma Wigglesworth
+// Description: Page for displaying the player's team information, including schedule, notifications, and roster.
+// Last Modified: 2025-03-28
+
 import {
   Typography,
   Container,
@@ -6,13 +10,6 @@ import {
   Stack,
   Button,
   Divider,
-  TableContainer,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Paper,
 } from "@mui/material";
 import NavBar from "../../components/NavBar";
 import RosterTable from "../../components/Tables/RosterTable";
@@ -31,18 +28,10 @@ import { getScheduleGamesByTeamId } from "../../api/team";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import ContactInfoTable from "../../components/Tables/ContactInfoTable";
 import { removePlayerFromRoster } from "../../api/team";
+import { MCMASTER_COLOURS } from "../../utils/Constants";
 
-// McMaster colours - AI Generated
-const MCMASTER_COLOURS = {
-  maroon: "#7A003C",
-  grey: "#5E6A71",
-  gold: "#FDBF57",
-  lightGrey: "#F5F5F5",
-};
-
-
-// MyTeamPage: This component displays the player's team information, 
-// including schedule, notifications, and roster. Captains have submit score and 
+// MyTeamPage: This component displays the player's team information,
+// including schedule, notifications, and roster. Captains have submit score and
 // invite player permissions.
 
 export default function MyTeamPage() {

@@ -1,3 +1,7 @@
+// Author: Jad Haytaoglu
+// Description: Displays a page for accepting or declining rescheduling requests as a captain of a team who has just received a request.
+// Last Modified: 2025-03-28
+
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Typography, Container, Button, Stack, Box, CircularProgress, Dialog,

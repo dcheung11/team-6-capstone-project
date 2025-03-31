@@ -1,3 +1,8 @@
+// Author: Damien Cheung
+// Description: This component displays a division with its teams.
+// It is used in the ScheduleView component to show the divisions and their teams.
+// Last Modified: 2025-03-27
+
 import React from "react";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 

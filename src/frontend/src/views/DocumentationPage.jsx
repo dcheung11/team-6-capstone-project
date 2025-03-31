@@ -1,3 +1,8 @@
+// Author: Derek Li
+// Description: Part of our user manual, this page provides documentation for 
+// the application and simple instructions on how to perform certain tasks.
+// Last Modified: 2025-03-25
+
 import NavBar from "../components/NavBar"
 import React from 'react';
 import { Container } from "@mui/material";

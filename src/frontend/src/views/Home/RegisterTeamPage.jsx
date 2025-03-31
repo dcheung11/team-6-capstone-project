@@ -1,3 +1,7 @@
+// Author: Derek Li
+// Description: The registration page for a team to a season.
+// Last Modified: 2025-03-28
+
 import NavBar from "../../components/NavBar";
 import React, { useState, useEffect } from "react";
 import {

@@ -1,3 +1,7 @@
+// Author: Derek Li
+// Description: This component displays a table of players with options to invite them to a team.
+// Last Modified: 2025-02-28
+
 import React, { useEffect, useState } from "react";
 import { getPlayerById } from "../../api/player";
 import { useAuth } from "../../hooks/AuthProvider";

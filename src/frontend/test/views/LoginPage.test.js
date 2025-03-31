@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: LoginPage test file
+// Last Modified: 2025-03-23
+
 // LoginPage.test.js
 import { render, screen } from '@testing-library/react';
 import LoginPage from '../../src/views/LoginPage'; // Adjust the import path as needed

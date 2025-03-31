@@ -1,3 +1,8 @@
+// Author: Emma Wigglesworth
+// Description: StandingsPage is the page that displays the standings of teams in a selected season and division.
+// It calculates and ranks teams based on their performance in the league.
+// Last Modified: 2025-03-23
+
 import { useState, useEffect } from "react";
 import { getStandingsByDivision } from "../api/standings"; 
 import { getAllSeasons } from "../api/season"; 
@@ -14,7 +19,6 @@ import {
 import NavBar from "../components/NavBar";
 import StandingsTable from "../components/Tables/StandingsTable";
 import { MCMASTER_COLOURS } from "../utils/Constants.js";
-
 
 // StandingsPage component: Displays the standings of teams in a selected season and division
 export default function StandingsPage() {

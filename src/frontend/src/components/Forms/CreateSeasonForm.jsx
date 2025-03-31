@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: This component provides a form for creating a new season.
+// Last Modified: 2025-03-22
+
 import React, { useState } from "react";
 import { Paper, Button, TextField, Snackbar, Alert, Grid } from "@mui/material";
 import { createSeason, getAllSeasons } from "../../api/season";

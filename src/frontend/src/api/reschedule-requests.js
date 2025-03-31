@@ -1,4 +1,7 @@
-// This file contains API calls related to reschedule requests.
+// Author: Jad Haytaoglu
+// Description: API functions for interacting with reschedule requests
+// Last Modified: 2025-03-21
+
 import { REACT_APP_API_BASE_URL } from "../utils/Constants";
 
 const API_URL = `${REACT_APP_API_BASE_URL}/reschedule-requests`;

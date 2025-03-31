@@ -1,4 +1,7 @@
-// This file contains functions to interact with the backend API for team-related operations.
+// Author: Derek Li
+// Description: This file contains functions to interact with the backend API for team-related operations.
+// Last Modified: 2025-03-21
+
 import { REACT_APP_API_BASE_URL } from "../utils/Constants";
 
 // Function to register a team to a season

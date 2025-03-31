@@ -1,3 +1,7 @@
+// Author: Emma Wigglesworth
+// Description: This component provides a form for creating or editing announcements.
+// Last Modified: 2025-03-16
+
 import React, { useState, useEffect } from "react";
 import { TextField, Button, Box, Typography } from "@mui/material";
 import { MCMASTER_COLOURS } from "../../utils/Constants";

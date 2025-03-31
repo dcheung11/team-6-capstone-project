@@ -1,3 +1,7 @@
+// Author: Emma Wigglesworth
+// Description: Page for creating a new announcement for the commissioner.
+// Last Modified: 2025-02-23
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Typography, Box } from "@mui/material";
