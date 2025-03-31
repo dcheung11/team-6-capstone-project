@@ -1,6 +1,6 @@
 // This file contains the API functions for managing seasons.
 
-const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // replace with your backend port
+import { REACT_APP_API_BASE_URL } from "../utils/Constants";
 
 // Create operation for a season
 export async function createSeason(

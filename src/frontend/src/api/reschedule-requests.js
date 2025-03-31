@@ -1,6 +1,7 @@
 // This file contains API calls related to reschedule requests.
+import { REACT_APP_API_BASE_URL } from "../utils/Constants";
 
-const API_URL = "http://localhost:3001/api/reschedule-requests";
+const API_URL = `${REACT_APP_API_BASE_URL}/reschedule-requests`;
 
 // This function swaps two game slots by sending a PUT request to the server.
 export const swapSlots = async (slot1Id, slot2Id) => {

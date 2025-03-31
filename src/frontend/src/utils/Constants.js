@@ -4,3 +4,5 @@ export const MCMASTER_COLOURS = {
   gold: "#FDBF57",
   lightGrey: "#F5F5F5",
 };
+
+export const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; 

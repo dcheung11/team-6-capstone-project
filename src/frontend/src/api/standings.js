@@ -1,6 +1,6 @@
 // This file contains functions to interact with the standings API. 
 
-const REACT_APP_API_BASE_URL = "http://localhost:3001/api";
+import { REACT_APP_API_BASE_URL } from "../utils/Constants";
 
 // Fetch standings by division ID
 export const getStandingsByDivision = async (divisionId) => {

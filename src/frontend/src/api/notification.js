@@ -1,6 +1,7 @@
 // Contains functions to interact with the notification API
+import { REACT_APP_API_BASE_URL } from "../utils/Constants";
 
-const API_URL = "http://localhost:3001/api/notifications";
+const API_URL = `${REACT_APP_API_BASE_URL}/notifications`;
 
 // Get all notifications for a given team
 export const getNotificationsByTeamId = async (teamId) => {
