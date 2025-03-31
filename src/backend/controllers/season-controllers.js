@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Season-related CRUD operations, including creating, updating, and deleting seasons
+// Last Modified: 2025-03-31
+
 const { validationResult } = require("express-validator");
 const HttpError = require("../models/http-error");
 const Season = require("../models/season");

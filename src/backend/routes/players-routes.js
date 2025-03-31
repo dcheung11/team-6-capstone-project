@@ -1,3 +1,7 @@
+// Author: Emma Wigglesworth
+// Description: Routes for player-related operations
+// Last Modified: 2025-03-29
+
 const express = require("express");
 const { check } = require("express-validator");
 

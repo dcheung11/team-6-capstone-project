@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Unit tests for the Game model
+// Last Modified: 2025-03-21
+
 const mongoose = require("mongoose");
 const Game = require("../../models/Game");
 const { MongoMemoryServer } = require("mongodb-memory-server");

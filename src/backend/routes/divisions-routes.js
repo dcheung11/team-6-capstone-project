@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Routes for division-related operations
+// Last Modified: 2025-03-23
+
 const express = require("express");
 const { check } = require("express-validator");
 

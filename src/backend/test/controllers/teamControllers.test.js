@@ -1,10 +1,14 @@
+// Author: Damien Cheung
+// Description: Team controller tests
+// Last Modified: 2025-03-31
+
 const request = require("supertest");
 const { app, server } = require("../../server"); // Adjust based on your project structure
 const mongoose = require("mongoose");
-const Team = require("../../models/Team");
-const Player = require("../../models/Player");
-const Season = require("../../models/Season");
-const Division = require("../../models/Division");
+// const Team = require("../../models/Team");
+// const Player = require("../../models/Player");
+// const Season = require("../../models/Season");
+// const Division = require("../../models/Division");
 
 describe("Prevent multiple teams per captain", () => {
   let captainId;

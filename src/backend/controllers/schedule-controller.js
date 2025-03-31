@@ -1,3 +1,7 @@
+// Author: Damien Cheung, Jad Haytaoglu
+// Description: Schedule-related CRUD operations, including schedule generation
+// Last Modified: 2025-03-31
+
 const mongoose = require("mongoose");
 const Schedule = require("../models/schedule");
 const Gameslot = require("../models/gameslot");

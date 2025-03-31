@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Unit tests for the Reschedule Request model
+// Last Modified: 2025-03-21
+
 const mongoose = require('mongoose');
 const RescheduleRequest = require('../../models/reschedule-request.js');
 const { MongoMemoryServer } = require('mongodb-memory-server');

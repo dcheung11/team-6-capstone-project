@@ -1,3 +1,7 @@
+// Author: Jad Haytaoglu
+// Description: Routes for notification-related operations
+// Last Modified: 2025-03-29
+
 const express = require('express');
 const controller = require('../controllers/notification-controller');
 

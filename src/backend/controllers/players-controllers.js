@@ -1,3 +1,7 @@
+// Author: Damien Cheung
+// Description: Player-related CRUD operations, including signup, login, and invite acceptance
+// Last Modified: 2025-03-31
+
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");

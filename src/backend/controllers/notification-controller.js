@@ -1,3 +1,7 @@
+// Author: Jad Haytaoglu
+// Description: Notification-related CRUD operations
+// Last Modified: 2025-03-31
+
 const Notification = require("../models/notification");
 const Team = require("../models/team"); // Assuming you have a Team model
 
