@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import NavBar from "../components/NavBar";
+import NavBar from "../../components/NavBar";
 import {
   Box,
   Container,
@@ -13,43 +13,24 @@ import {
   AccordionDetails,
   Divider,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useNavigate } from "react-router-dom";
 import {
   getOngoingSeasons,
   getUpcomingSeasons,
-} from "../api/season";
-import { getAnnouncements } from "../api/announcements";
-import { SeasonsCard } from "../components/Cards/SeasonsCard";
-import GSALogo from "../assets/GSALogo.png";
-import LoadingOverlay from "../components/LoadingOverlay";
-import { getPlayerById } from "../api/player";
-import { useAuth } from "../hooks/AuthProvider";
-import NoDataCard from "../components/Cards/NoDataCard";
+} from "../../api/season";
+import { getAnnouncements } from "../../api/announcements";
+import { SeasonsCard } from "../../components/Cards/SeasonsCard";
+import GSALogo from "../../assets/GSALogo.png";
+import LoadingOverlay from "../../components/LoadingOverlay";
+import { getPlayerById } from "../../api/player";
+import { useAuth } from "../../hooks/AuthProvider";
+import NoDataCard from "../../components/Cards/NoDataCard";
+import { MCMASTER_COLOURS } from "../../utils/Constants.js";
 
-// McMaster colours - AI generated
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
 
-const StyledCard = styled(Card)(({ theme }) => ({
-  height: "300px",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-  borderRadius: theme.spacing(3),
-  backgroundColor: theme.palette.grey[200],
-  padding: theme.spacing(2),
-  transition: "transform 0.3s ease, box-shadow 0.3s ease",
-  "&:hover": {
-    transform: "scale(1.05)",
-    boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.3)",
-  },
-}));
+// HomePage: Displays the home page with the hero section, seasons, and announcements. 
+// First page the user sees after logging in. Prominently displays upcoming seasons.
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -57,12 +38,12 @@ export default function HomePage() {
   const [player, setPlayer] = useState(null);
   const [upcomingSeasons, setUpcomingSeasons] = useState(null);
   const [ongoingSeasons, setOngoingSeasons] = useState(null);
-  const [archivedSeasons, setArchivedSeasons] = useState(null);
   const [announcements, setAnnouncements] = useState([]); // Store fetched announcements
   // todo: can use these to show loading spinner or error message
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetch player data, upcoming seasons, ongoing seasons, and announcements to display 
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
       try {
@@ -122,7 +103,6 @@ export default function HomePage() {
         <Box sx={{ 
           bgcolor: 'white', 
           pb: 8, 
-          // borderBottom: '1px solid rgba(0,0,0,0.1)' 
           borderRadius: 2,
           boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
           position: 'relative',

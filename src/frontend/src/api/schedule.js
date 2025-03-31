@@ -1,5 +1,5 @@
 // Function to interact with the schedule API 
-const REACT_APP_API_BASE_URL = "http://localhost:3001/api";
+import { REACT_APP_API_BASE_URL } from "../utils/Constants";
 
 // generate schedule for a season
 export const generateSchedule = async (seasonId) => {

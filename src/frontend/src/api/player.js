@@ -1,6 +1,6 @@
 // Contains functions to interact with the player API
 
-const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // replace with your backend port
+import { REACT_APP_API_BASE_URL } from "../utils/Constants";
 
 // Signup function for player registration/creation
 export async function signup(firstName, lastName, email, password) {

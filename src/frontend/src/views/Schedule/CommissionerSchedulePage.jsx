@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../hooks/AuthProvider";
-import { getPlayerById } from "../api/player";
-import { getScheduleBySeasonId } from "../api/schedule";
-import { getOngoingSeasons, getUpcomingSeasons } from "../api/season";
-import { formatDate } from "../utils/Formatting";
+import { useAuth } from "../../hooks/AuthProvider";
+import { getPlayerById } from "../../api/player";
+import { getOngoingSeasons, getUpcomingSeasons } from "../../api/season";
+import { formatDate } from "../../utils/Formatting";
 import { Typography, Container, Box, Tab, Stack, Button, Collapse, IconButton } from "@mui/material";
-import { getAvailableGameslots, swapSlots } from "../api/reschedule-requests";
+import { getAvailableGameslots, swapSlots } from "../../api/reschedule-requests";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import LoadingOverlay from '../components/LoadingOverlay';
+import LoadingOverlay from '../../components/LoadingOverlay';
+import { MCMASTER_COLOURS } from "../../utils/Constants.js";
 
-
+// CommissionerSchedule: Displays a calendar view for the commissioner to swap game slots.
 export const CommissionerSchedule = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [loading, setLoading] = useState(true);
@@ -68,6 +68,7 @@ export const CommissionerSchedule = () => {
       fetchSeasonGames();
     }, [player]);
 
+    // Fetch season schedule (all gameslots)
     useEffect(() => {
       fetchGameslots();
     }, []);
@@ -140,6 +141,7 @@ export const CommissionerSchedule = () => {
 
   const monthDates = getMonthDates();
 
+  // Handle slot selection, limit to two slots
   const handleSelect = (slot) => {
     if (slot1 && slot1.id === slot.id) {
       setSlot1(null);
@@ -154,13 +156,13 @@ export const CommissionerSchedule = () => {
     }
   }
 
+  // Handle swap submission and ensure two slots are selected
   const handleSubmit = async () => {
     if (!slot1 || !slot2) {
       console.error("Must select two slots/games");
       alert("Must select two slots/games")
       return
     }
-    console.log("swapping", slot1.id, slot2.id);
     setLoading(true);
     try {
       await swapSlots(slot1.id, slot2.id);
@@ -357,13 +359,6 @@ export const CommissionerSchedule = () => {
 };
 
 export default CommissionerSchedule;
-
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
 
 const loadingOverlayStyle = {
   position: 'absolute',

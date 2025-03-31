@@ -1,20 +1,24 @@
-import HomePage from "./views/HomePage";
+import HomePage from "./views/Home/HomePage";
 import StandingsPage from "./views/StandingsPage";
 import LeagueManagementPage from "./views/LeagueManagementPage";
 import LoginPage from "./views/LoginPage";
-import MyTeamPage from "./views/MyTeamPage";
-import AnnouncementsPage from "./views/AnnouncementsPage";
-import CreateAnnouncementsPage from "./views/CreateAnnouncementsPage";
-import EditAnnouncementsPage from "./views/EditAnnouncementsPage";
-import RegisterTeamPage from "./views/RegisterTeamPage";
-import PlayersPage from "./views/PlayersPage";
+import MyTeamPage from "./views/MyTeam/MyTeamPage";
+import AnnouncementsPage from "./views/Announcements/AnnouncementsPage";
+import CreateAnnouncementsPage from "./views/Announcements/CreateAnnouncementsPage";
+import EditAnnouncementsPage from "./views/Announcements/EditAnnouncementsPage";
+import RegisterTeamPage from "./views/Home/RegisterTeamPage";
+import PlayersPage from "./views/MyTeam/PlayersPage";
 import ProfilePage from "./views/ProfilePage";
 import InfoPage from "./views/InfoPage";
-import SchedulePage from "./views/SchedulePage";
-import ScheduleView from "./views/ScheduleView";
-import RescheduleResponsePage from "./views/RescheduleResponsePage";
+import ScheduleView from "./views/Schedule/ScheduleView";
+import RescheduleResponsePage from "./views/Reschedule/RescheduleResponsePage";
 import DocumentationPage from "./views/DocumentationPage";
-import WaiverPage from "./views/WaiverPage";
+import WaiverPage from "./views/MyTeam/WaiverPage";
+
+// This file contains the routes for the application.
+// Each route is an object with a path and a component.
+// The path is the URL path for the route, and the component is the React component to render for that route.
+// The routes are used in the App.js file to set up the routing for the application.
 
 const routes = [
   { path: "/home", component: HomePage },

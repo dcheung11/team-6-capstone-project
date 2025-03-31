@@ -19,14 +19,7 @@ import {
 } from "@mui/material";
 import { formatDate, getDayOfWeek } from "../../utils/Formatting.js";
 import { updateScore } from "../../api/game.js";
-
-// McMaster colours - AI Generated
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
+import { MCMASTER_COLOURS } from "../../utils/Constants.js";
 
 // ScheduleTable: Displays a table of games with options to edit scores and default loss
 export default function ScheduleTable(props) {

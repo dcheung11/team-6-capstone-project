@@ -35,6 +35,8 @@ import schedule2 from "../assets/documentation/schedule2.png"
 import schedule3 from "../assets/documentation/schedule3.png"
 import schedule4 from "../assets/documentation/schedule4.png"
 
+// FAQ Documentation Page: Displays the documentation for the application.
+// Part of the User Manual
 export default function DocumentationPage() {
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col items-center">

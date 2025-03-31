@@ -1,6 +1,6 @@
 // API functions for fetching division data from the backend
 
-const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // replace with your backend port
+import { REACT_APP_API_BASE_URL } from "../utils/Constants";
 
 // Get a division by ID
 export async function getDivisionsById(ids) {

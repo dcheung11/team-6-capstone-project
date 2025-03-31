@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
-import ReschedulePopup from "./ReschedulePopup";
-import { useAuth } from "../hooks/AuthProvider";
-import { getPlayerById } from "../api/player";
-import { getScheduleGamesByTeamId } from "../api/team";
-import { getAvailableGameslots } from "../api/reschedule-requests";
-import { formatDate } from "../utils/Formatting";
+import ReschedulePopup from "../Reschedule/ReschedulePopup";
+import { useAuth } from "../../hooks/AuthProvider";
+import { getPlayerById } from "../../api/player";
+import { getScheduleGamesByTeamId } from "../../api/team";
+import { getAvailableGameslots } from "../../api/reschedule-requests";
+import { formatDate, getLocalISODate } from "../../utils/Formatting";
+import { MCMASTER_COLOURS } from "../../utils/Constants.js";
 
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
 
 // Common loading overlay style
 const loadingOverlayStyle = {
@@ -30,14 +25,7 @@ const loadingOverlayStyle = {
   zIndex: 1000,
 };
 
-// Fix the "day ahead" issue by normalizing date/time
-function getLocalISODate(date) {
-  date.setHours(12, 0, 0, 0);
-  const offset = date.getTimezoneOffset();
-  const localDate = new Date(date.getTime() - offset * 60 * 1000);
-  return localDate.toISOString().split("T")[0];
-}
-
+// WeeklySchedule component: a weekly calendar view of the player's schedule
 export const WeeklySchedule = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
@@ -151,7 +139,6 @@ export const WeeklySchedule = () => {
   };
 
   const weekDates = getWeekDates(currentDate);
-  const weekRange = getWeekRange(currentDate);
 
   const handleRescheduleClick = (dateKey, match) => {
     setSelectedDate(dateKey);

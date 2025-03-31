@@ -4,6 +4,9 @@ import { AuthContext } from "../context/AuthContext";
 
 const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // replace with your backend port
 
+// AuthProvider component: Provides authentication context to the application
+// It manages the authentication state, including login and logout functionality
+// It uses local storage to persist the authentication state across sessions
 const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [playerId, setPlayerId] = useState(localStorage.getItem("playerId") || null);

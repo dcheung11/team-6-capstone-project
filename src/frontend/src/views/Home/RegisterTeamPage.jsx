@@ -1,4 +1,4 @@
-import NavBar from "../components/NavBar";
+import NavBar from "../../components/NavBar";
 import React, { useState, useEffect } from "react";
 import {
   TextField,
@@ -10,16 +10,20 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
-import { registerTeam } from "../api/team";
-import { useAuth } from "../hooks/AuthProvider";
-import { getPlayerById } from "../api/player";
+import { registerTeam } from "../../api/team";
+import { useAuth } from "../../hooks/AuthProvider";
+import { getPlayerById } from "../../api/player";
 import { useNavigate, useParams } from "react-router-dom";
-import { getSeasonById } from "../api/season";
-import { getDivisionsById } from "../api/division";
+import { getSeasonById } from "../../api/season";
+
+// RegisterTeamPage: Redirect page for registering a team to a season - 
+// takes you to the register form component
 
 export default function RegisterTeamPage() {
   const { id: seasonId } = useParams();
   const [teamName, setTeamName] = useState("");
+
+  // Set the initial state for team preferences
   const [division, setDivision] = useState("");
   const [preferredTime, setPreferredTime] = useState("Balanced");
   const [blacklistDay, setBlacklistDay] = useState("None");
@@ -32,6 +36,7 @@ export default function RegisterTeamPage() {
   const [player, setPlayer] = useState(null);
   const [season, setSeason] = useState(null);
 
+  // Fetch the player and season data when the component mounts
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
       try {
@@ -61,6 +66,10 @@ export default function RegisterTeamPage() {
     fetchSeasonById(seasonId);
   }, []);
 
+  ```
+  Basic form handling functions
+  ```
+
   const handleTeamNameChange = (e) => {
     setTeamName(e.target.value);
   };
@@ -77,6 +86,9 @@ export default function RegisterTeamPage() {
     setBlacklistDay(e.target.value);
   };
 
+  ```
+  Handle form submission: Send the request to register the team and redirect to the waiver page
+  ```
   const handleSubmit = async (e) => {
     e.preventDefault();
     const requestBody = {

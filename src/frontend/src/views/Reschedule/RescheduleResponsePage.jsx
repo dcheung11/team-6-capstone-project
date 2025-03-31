@@ -5,11 +5,13 @@ import { Typography, Container, Button, Stack, Box, CircularProgress, Dialog,
   DialogContent,
   DialogContentText,
   DialogTitle, } from "@mui/material";
-import NavBar from "../components/NavBar";
-import { getNotificationById, updateNotification } from "../api/notification";
-import { acceptRescheduleRequest, declineRescheduleRequest } from "../api/reschedule-requests";
-import { formatDate, getDayOfWeek } from "../utils/Formatting";
+import NavBar from "../../components/NavBar";
+import { getNotificationById } from "../../api/notification";
+import { acceptRescheduleRequest, declineRescheduleRequest } from "../../api/reschedule-requests";
+import { formatDate } from "../../utils/Formatting";
 
+// RescheduleRequestPage: Displays a page for accepting or declining rescheduling 
+// requests as a captain of a team who has just received a request.
 export default function RescheduleRequestPage() {
   const { notificationId } = useParams();
   const navigate = useNavigate();
@@ -20,6 +22,7 @@ export default function RescheduleRequestPage() {
   const [confirmDeclinePopup, setConfirmDeclinePopup] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
 
+  // Fetch the notification of the reschedule request by ID
   useEffect(() => {
     const fetchNotification = async () => {
       try {
@@ -33,20 +36,6 @@ export default function RescheduleRequestPage() {
     };
     fetchNotification();
   }, [notificationId]);
-
-  // const handleResponse = async (accepted) => {
-  //   try {
-  //     // await updateNotification(notificationId);
-  //     if (accepted) {
-  //       await acceptRescheduleRequest(notification.rescheduleRequestId);
-  //     } else {
-  //       await declineRescheduleRequest(notification.rescheduleRequestId);
-  //     }
-  //     navigate(`/team/${notification.recipient}`); // Redirect back to team page
-  //   } catch (err) {
-  //     setError(err.message);
-  //   }
-  // };
 
   const handleSelectedSlot = async (slot) => {
     setSelectedSlot(slot);

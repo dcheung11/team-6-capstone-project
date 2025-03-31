@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import NavBar from "../components/NavBar";
+import NavBar from "../../components/NavBar";
 import { WeeklySchedule } from "./WeeklySchedule";
 import { TeamSchedule } from "./TeamScheduleView";
 import { LeagueSchedule } from "./LeagueScheduleView";
 import { CommissionerSchedule } from "./CommissionerSchedulePage";
-import { useAuth } from "../hooks/AuthProvider";
-import { getPlayerById } from "../api/player";
+import { useAuth } from "../../hooks/AuthProvider";
+import { getPlayerById } from "../../api/player";
 import { 
   Container, 
   Typography, 
@@ -15,16 +15,12 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import LoadingOverlay from "../components/LoadingOverlay";
+import LoadingOverlay from "../../components/LoadingOverlay";
+import { MCMASTER_COLOURS } from "../../utils/Constants.js";
 
-// McMaster colours constant
-const MCMASTER_COLOURS = {
-  maroon: '#7A003C',
-  grey: '#5E6A71',
-  gold: '#FDBF57',
-  lightGrey: '#F5F5F5',
-};
-
+// ScheduleView component: Main component for displaying the schedule view
+// It fetches the player data and conditionally renders the schedule based on the player's role
+// Players can choose between weekly, team (monthly), and league views
 const ScheduleView = () => {
   const [activeView, setActiveView] = useState("weekly");
   const auth = useAuth();
@@ -33,6 +29,7 @@ const ScheduleView = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetch player data by ID and set the active view based on the player's role
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
       try {
