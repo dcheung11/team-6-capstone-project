@@ -70,9 +70,9 @@ export default function RegisterTeamPage() {
     fetchSeasonById(seasonId);
   }, []);
 
-  ```
-  Basic form handling functions
-  ```
+  
+  // Basic form handling functions
+  
 
   const handleTeamNameChange = (e) => {
     setTeamName(e.target.value);
@@ -90,9 +90,9 @@ export default function RegisterTeamPage() {
     setBlacklistDay(e.target.value);
   };
 
-  ```
-  Handle form submission: Send the request to register the team and redirect to the waiver page
-  ```
+
+  // Handle form submission: Send the request to register the team and redirect to the waiver page
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const requestBody = {

@@ -15,11 +15,11 @@ import { MCMASTER_COLOURS } from "../../utils/Constants.js";
 export default function CreateAnnouncementPage() {
   const navigate = useNavigate();
 
-  ```  
-  Function to handle the creation of a new announcement
-  It takes the title and content as parameters and calls the createAnnouncement API function,
-  then navigates back to the announcements page.
-  ```
+  
+  // Function to handle the creation of a new announcement
+  // It takes the title and content as parameters and calls the createAnnouncement API function,
+  // then navigates back to the announcements page.
+  
   const handleCreate = async ({ title, content }) => {
     try {
       await createAnnouncement(title, content);
