@@ -19,10 +19,7 @@ import {
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useNavigate } from "react-router-dom";
-import {
-  getOngoingSeasons,
-  getUpcomingSeasons,
-} from "../../api/season";
+import { getOngoingSeasons, getUpcomingSeasons } from "../../api/season";
 import { getAnnouncements } from "../../api/announcements";
 import { SeasonsCard } from "../../components/Cards/SeasonsCard";
 import GSALogo from "../../assets/GSALogo.png";
@@ -32,8 +29,7 @@ import { useAuth } from "../../hooks/AuthProvider";
 import NoDataCard from "../../components/Cards/NoDataCard";
 import { MCMASTER_COLOURS } from "../../utils/Constants.js";
 
-
-// HomePage: Displays the home page with the hero section, seasons, and announcements. 
+// HomePage: Displays the home page with the hero section, seasons, and announcements.
 // First page the user sees after logging in. Prominently displays upcoming seasons.
 
 export default function HomePage() {
@@ -47,7 +43,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch player data, upcoming seasons, ongoing seasons, and announcements to display 
+  // Fetch player data, upcoming seasons, ongoing seasons, and announcements to display
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
       try {
@@ -104,33 +100,42 @@ export default function HomePage() {
       <Box sx={{ bgcolor: "#f5f5f5", minHeight: "100vh" }}>
         {loading && <LoadingOverlay loading={loading} />}
         {/* Hero Section */}
-        <Box sx={{ 
-          bgcolor: 'white', 
-          pb: 8, 
-          borderRadius: 2,
-          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-          position: 'relative',
-          '&::after': {
-            content: '""',
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: '4px',
-            // AI Generated - Ombre bar styling and gradient effects
-            background: `linear-gradient(to right, ${MCMASTER_COLOURS.gold}, ${MCMASTER_COLOURS.maroon})`,
-            borderRadius: '2px 2px 0 0'
-          }
-        }}
-      >
+        <Box
+          sx={{
+            bgcolor: "white",
+            pb: 8,
+            borderRadius: 2,
+            boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+            position: "relative",
+            "&::after": {
+              content: '""',
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: "4px",
+              // Ombre bar styling
+              background: `linear-gradient(to right, ${MCMASTER_COLOURS.gold}, ${MCMASTER_COLOURS.maroon})`,
+              borderRadius: "2px 2px 0 0",
+            },
+          }}
+        >
           <Container maxWidth="lg" sx={{ pt: 10, width: "100%" }}>
             <Grid container spacing={2} alignItems="center">
               {/* Title and Welcome Message */}
-              <Grid item xs={8} md={8}>
+              <Grid
+                item
+                xs={12} // Adjust for mobile responsiveness
+                md={8}
+                sx={{
+                  mb: { xs: 4, md: 0 }, // Adjust margin for small screens
+                  textAlign: { xs: "center", md: "left" }, // Center text on mobile
+                }}
+              >
                 <Typography
                   variant="h1"
                   sx={{
-                    fontSize: { xs: "3.5rem", md: "5rem" },
+                    fontSize: { xs: "3.5rem", sm: "4rem", md: "5rem" }, // Adjust font size on mobile
                     fontWeight: 900,
                     color: "black",
                     mb: 2,
@@ -141,24 +146,26 @@ export default function HomePage() {
                 </Typography>
                 <Typography
                   variant="h6"
-                  sx={{ 
-                    color: MCMASTER_COLOURS.grey, 
-                    fontSize: "1.2rem",
-                    maxWidth: "750px" 
+                  sx={{
+                    color: MCMASTER_COLOURS.grey,
+                    fontSize: { xs: "1rem", sm: "1.2rem" }, // Adjust font size for mobile
+                    maxWidth: "750px",
+                    mx: "auto", // Center the text
                   }}
                 >
-                  Welcome to the McMaster Graduate Students Association Softball League! 
+                  Welcome to the McMaster Graduate Students Association Softball
+                  League!
                 </Typography>
               </Grid>
 
               {/* Logo */}
               <Grid
                 item
-                xs={4}
+                xs={12} // Adjust for mobile responsiveness
                 md={4}
                 sx={{
                   display: "flex",
-                  justifyContent: "flex-end",
+                  justifyContent: "center", // Center the logo on mobile
                   alignItems: "center",
                 }}
               >
@@ -166,7 +173,7 @@ export default function HomePage() {
                   src={GSALogo}
                   alt="GSA Logo"
                   style={{
-                    width: "300px",
+                    width: "250px", // Make logo smaller for mobile
                     height: "auto",
                     objectFit: "contain",
                     paddingBottom: "30px",
@@ -181,23 +188,23 @@ export default function HomePage() {
         <Container maxWidth="lg" sx={{ py: 6 }}>
           <Box
             sx={{
-              bgcolor: 'white',
+              bgcolor: "white",
               p: { xs: 3, md: 6 },
               borderRadius: 2,
-              boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-              position: 'relative',
-              '&::before': {
+              boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+              position: "relative",
+              "&::before": {
                 content: '""',
-                position: 'absolute',
+                position: "absolute",
                 top: 0,
                 left: 0,
                 right: 0,
-                height: '5px',
+                height: "5px",
                 // AI Generated - Ombre bar styling and gradient effects
                 background: `linear-gradient(to right, ${MCMASTER_COLOURS.maroon}, ${MCMASTER_COLOURS.gold})`,
-                borderRadius: '2px 2px 0 0'
-              }
-      }}
+                borderRadius: "2px 2px 0 0",
+              },
+            }}
           >
             {/* Seasons Section */}
             <Typography
@@ -212,31 +219,31 @@ export default function HomePage() {
             >
               Seasons
             </Typography>
-            <Accordion 
+            <Accordion
               defaultExpanded={true}
               sx={{
-                '&.MuiAccordion-root': {
-                  boxShadow: 'none',
-                  border: '1px solid rgba(0,0,0,0.1)',
-                  borderRadius: '8px',
+                "&.MuiAccordion-root": {
+                  boxShadow: "none",
+                  border: "1px solid rgba(0,0,0,0.1)",
+                  borderRadius: "8px",
                   mb: 2,
-                  '&:before': {
-                    display: 'none',
+                  "&:before": {
+                    display: "none",
                   },
                 },
-                '& .MuiAccordionSummary-root': {
+                "& .MuiAccordionSummary-root": {
                   minHeight: 56,
                   backgroundColor: MCMASTER_COLOURS.lightGrey,
-                  borderRadius: '8px 8px 0 0',
-                  '&.Mui-expanded': {
+                  borderRadius: "8px 8px 0 0",
+                  "&.Mui-expanded": {
                     minHeight: 56,
                     backgroundColor: MCMASTER_COLOURS.lightGrey,
                   },
                 },
-                '& .MuiAccordionSummary-content': {
-                  margin: '12px 0',
-                  '&.Mui-expanded': {
-                    margin: '12px 0',
+                "& .MuiAccordionSummary-content": {
+                  margin: "12px 0",
+                  "&.Mui-expanded": {
+                    margin: "12px 0",
                   },
                 },
               }}
@@ -245,7 +252,11 @@ export default function HomePage() {
                 expandIcon={<ArrowDropDownIcon />}
                 id="upcoming-header"
               >
-                <Typography variant="h6" component="span" sx={{ fontWeight: 600, color: MCMASTER_COLOURS.maroon }}>
+                <Typography
+                  variant="h6"
+                  component="span"
+                  sx={{ fontWeight: 600, color: MCMASTER_COLOURS.maroon }}
+                >
                   Upcoming Seasons
                 </Typography>
               </AccordionSummary>
@@ -255,27 +266,27 @@ export default function HomePage() {
             </Accordion>
             <Accordion
               sx={{
-                '&.MuiAccordion-root': {
-                  boxShadow: 'none',
-                  border: '1px solid rgba(0,0,0,0.1)',
-                  borderRadius: '8px',
-                  '&:before': {
-                    display: 'none',
+                "&.MuiAccordion-root": {
+                  boxShadow: "none",
+                  border: "1px solid rgba(0,0,0,0.1)",
+                  borderRadius: "8px",
+                  "&:before": {
+                    display: "none",
                   },
                 },
-                '& .MuiAccordionSummary-root': {
+                "& .MuiAccordionSummary-root": {
                   minHeight: 56,
                   backgroundColor: MCMASTER_COLOURS.lightGrey,
-                  borderRadius: '8px 8px 0 0',
-                  '&.Mui-expanded': {
+                  borderRadius: "8px 8px 0 0",
+                  "&.Mui-expanded": {
                     minHeight: 56,
                     backgroundColor: MCMASTER_COLOURS.lightGrey,
                   },
                 },
-                '& .MuiAccordionSummary-content': {
-                  margin: '12px 0',
-                  '&.Mui-expanded': {
-                    margin: '12px 0',
+                "& .MuiAccordionSummary-content": {
+                  margin: "12px 0",
+                  "&.Mui-expanded": {
+                    margin: "12px 0",
                   },
                 },
               }}
@@ -284,7 +295,11 @@ export default function HomePage() {
                 expandIcon={<ArrowDropDownIcon />}
                 id="ongoing-header"
               >
-                <Typography variant="h6" component="span" sx={{ fontWeight: 600, color: MCMASTER_COLOURS.maroon }}>
+                <Typography
+                  variant="h6"
+                  component="span"
+                  sx={{ fontWeight: 600, color: MCMASTER_COLOURS.maroon }}
+                >
                   Ongoing Seasons
                 </Typography>
               </AccordionSummary>
@@ -295,7 +310,7 @@ export default function HomePage() {
 
             <Box sx={{ mt: 6, mb: 2 }}>
               <Divider sx={{ mb: 6 }} />
-              
+
               {/* Announcements Section */}
               <Box
                 sx={{
@@ -331,13 +346,14 @@ export default function HomePage() {
                           display: "flex",
                           flexDirection: "column",
                           borderRadius: 2,
-                          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                          border: '1px solid rgba(0,0,0,0.1)',
-                          transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                          border: "1px solid rgba(0,0,0,0.1)",
+                          transition:
+                            "transform 0.2s ease, box-shadow 0.2s ease",
                           backgroundColor: MCMASTER_COLOURS.lightGrey,
                           "&:hover": {
                             transform: "translateY(-4px)",
-                            boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+                            boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
                           },
                         }}
                       >
@@ -377,11 +393,11 @@ export default function HomePage() {
                             variant="contained"
                             sx={{
                               backgroundColor: MCMASTER_COLOURS.maroon,
-                              color: 'white',
+                              color: "white",
                               borderRadius: 2,
                               width: "fit-content",
                               "&:hover": {
-                                backgroundColor: '#5C002E',
+                                backgroundColor: "#5C002E",
                               },
                             }}
                             onClick={() =>
