@@ -14,17 +14,23 @@ import {
   Menu,
   MenuItem,
   Typography,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
-import { Person as PersonIcon } from "@mui/icons-material";
+import { Person as PersonIcon, Menu as MenuIcon } from "@mui/icons-material";
 import { useAuth } from "../hooks/AuthProvider";
 import { useNavigate, useLocation } from "react-router";
 import { getPlayerById } from "../api/player";
 import { MCMASTER_COLOURS } from "../utils/Constants";
 
-// NavBar: Displays the navigation bar with links to different pages and user profile options.
 const NavBar = () => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const auth = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,6 +41,9 @@ const NavBar = () => {
   const [player, setPlayer] = useState(null);
   const [teamId, setTeamId] = useState("");
   const role = localStorage.getItem("role");
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     const fetchPlayerById = async (pid) => {
@@ -65,6 +74,43 @@ const NavBar = () => {
     return location.pathname === path;
   };
 
+  const toggleDrawer = (open) => {
+    setDrawerOpen(open);
+  };
+
+  const drawerItems = (
+    <List>
+      <ListItem button component="a" href="/home">
+        <ListItemText primary="Home" />
+      </ListItem>
+      <ListItem button component="a" href="/announcements">
+        <ListItemText primary="Announcements" />
+      </ListItem>
+      {role !== "commissioner" && (
+        <ListItem button component="a" href={`/team/${teamId}`}>
+          <ListItemText primary="My Team" />
+        </ListItem>
+      )}
+      <ListItem button component="a" href="/schedule">
+        <ListItemText primary="Schedule" />
+      </ListItem>
+      <ListItem button component="a" href="/standings">
+        <ListItemText primary="Standings" />
+      </ListItem>
+      <ListItem button component="a" href="/info">
+        <ListItemText primary="Useful Info" />
+      </ListItem>
+      <ListItem button component="a" href="/documentation">
+        <ListItemText primary="FAQ" />
+      </ListItem>
+      {role === "commissioner" && (
+        <ListItem button component="a" href="/manage">
+          <ListItemText primary="Manage" />
+        </ListItem>
+      )}
+    </List>
+  );
+
   return (
     <AppBar
       position="static"
@@ -84,108 +130,135 @@ const NavBar = () => {
             />
           </Box>
 
-          <Box sx={{ display: "flex", gap: 3 }}>
-            <Button 
-              color="inherit" 
-              href="/home"
-              sx={{ 
-                color: isCurrentPage('/home') ? MCMASTER_COLOURS.gold : 'inherit',
-                '&:hover': {
-                  color: isCurrentPage('/home') ? MCMASTER_COLOURS.gold : 'inherit',
-                }
-              }}
-            >
-              Home
-            </Button>
-            <Button 
-              color="inherit" 
-              href="/announcements"
-              sx={{ 
-                color: isCurrentPage('/announcements') ? MCMASTER_COLOURS.gold : 'inherit',
-                '&:hover': {
-                  color: isCurrentPage('/announcements') ? MCMASTER_COLOURS.gold : 'inherit',
-                }
-              }}
-            >
-              Announcements
-            </Button>
-            {role !== "commissioner" && (
-              <Button 
-              color="inherit" 
-              href={`/team/${teamId}`}
-              sx={{ 
-                color: isCurrentPage(`/team/${teamId}`) ? MCMASTER_COLOURS.gold : 'inherit',
-                '&:hover': {
-                  color: isCurrentPage(`/team/${teamId}`) ? MCMASTER_COLOURS.gold : 'inherit',
-                }
-              }}
-            >
-                My Team
+          {isMobile ? (
+            // Mobile: Drawer Button
+            <>
+              <IconButton
+                color="inherit"
+                size="large"
+                onClick={() => toggleDrawer(true)}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Drawer
+                anchor="left"
+                open={drawerOpen}
+                onClose={() => toggleDrawer(false)}
+                sx={{
+                  "& .MuiDrawer-paper": {
+                    backgroundColor: MCMASTER_COLOURS.maroon,
+                    color: "white", // This ensures the text color is white
+                  },
+                  "& .MuiListItemText-root": {
+                    color: "white", // Ensure text inside list items is white
+                  },
+                  "& .MuiTypography-root": {
+                    color: "white", // Ensure any Typography components inside the drawer are white
+                  },
+                }}
+              >
+                {drawerItems}
+              </Drawer>
+            </>
+          ) : (
+            // Desktop: Regular Navigation Buttons
+            <Box sx={{ display: "flex", gap: 3 }}>
+              <Button
+                color="inherit"
+                href="/home"
+                sx={{
+                  color: isCurrentPage("/home")
+                    ? MCMASTER_COLOURS.gold
+                    : "inherit",
+                }}
+              >
+                Home
               </Button>
-            )}
-            <Button 
-              color="inherit" 
-              href="/schedule"
-              sx={{ 
-                color: isCurrentPage('/schedule') ? MCMASTER_COLOURS.gold : 'inherit',
-                '&:hover': {
-                  color: isCurrentPage('/schedule') ? MCMASTER_COLOURS.gold : 'inherit',
-                }
-              }}
-            >
-              Schedule
-            </Button>
-            <Button 
-              color="inherit" 
-              href="/standings"
-              sx={{ 
-                color: isCurrentPage('/standings') ? MCMASTER_COLOURS.gold : 'inherit',
-                '&:hover': {
-                  color: isCurrentPage('/standings') ? MCMASTER_COLOURS.gold : 'inherit',
-                }
-              }}
-            >
-              Standings
-            </Button>
-            <Button 
-              color="inherit" 
-              href="/info"
-              sx={{ 
-                color: isCurrentPage('/info') ? MCMASTER_COLOURS.gold : 'inherit',
-                '&:hover': {
-                  color: isCurrentPage('/info') ? MCMASTER_COLOURS.gold : 'inherit',
-                }
-              }}
-            >
-              Useful Info
-            </Button>
-            <Button 
-              color="inherit" 
-              href="/documentation"
-              sx={{ 
-                color: isCurrentPage('/documentation') ? MCMASTER_COLOURS.gold : 'inherit',
-                '&:hover': {
-                  color: isCurrentPage('/documentation') ? MCMASTER_COLOURS.gold : 'inherit',
-                }
-              }}
-            >
-              FAQ
-            </Button>
-            {role === "commissioner" && (
-              <Button 
-              color="inherit" 
-              href="/manage"
-              sx={{ 
-                color: isCurrentPage('/manage') ? MCMASTER_COLOURS.gold : 'inherit',
-                '&:hover': {
-                  color: isCurrentPage('/manage') ? MCMASTER_COLOURS.gold : 'inherit',
-                }
-              }}
-            >
-                Manage
+              <Button
+                color="inherit"
+                href="/announcements"
+                sx={{
+                  color: isCurrentPage("/announcements")
+                    ? MCMASTER_COLOURS.gold
+                    : "inherit",
+                }}
+              >
+                Announcements
               </Button>
-            )}
-          </Box>
+              {role !== "commissioner" && (
+                <Button
+                  color="inherit"
+                  href={`/team/${teamId}`}
+                  sx={{
+                    color: isCurrentPage(`/team/${teamId}`)
+                      ? MCMASTER_COLOURS.gold
+                      : "inherit",
+                  }}
+                >
+                  My Team
+                </Button>
+              )}
+              <Button
+                color="inherit"
+                href="/schedule"
+                sx={{
+                  color: isCurrentPage("/schedule")
+                    ? MCMASTER_COLOURS.gold
+                    : "inherit",
+                }}
+              >
+                Schedule
+              </Button>
+              <Button
+                color="inherit"
+                href="/standings"
+                sx={{
+                  color: isCurrentPage("/standings")
+                    ? MCMASTER_COLOURS.gold
+                    : "inherit",
+                }}
+              >
+                Standings
+              </Button>
+              <Button
+                color="inherit"
+                href="/info"
+                sx={{
+                  color: isCurrentPage("/info")
+                    ? MCMASTER_COLOURS.gold
+                    : "inherit",
+                }}
+              >
+                Useful Info
+              </Button>
+              <Button
+                color="inherit"
+                href="/documentation"
+                sx={{
+                  color: isCurrentPage("/documentation")
+                    ? MCMASTER_COLOURS.gold
+                    : "inherit",
+                }}
+              >
+                FAQ
+              </Button>
+              {role === "commissioner" && (
+                <Button
+                  color="inherit"
+                  href="/manage"
+                  sx={{
+                    color: isCurrentPage("/manage")
+                      ? MCMASTER_COLOURS.gold
+                      : "inherit",
+                  }}
+                >
+                  Manage
+                </Button>
+              )}
+            </Box>
+          )}
+
+          {/* Profile Icon */}
           <Box sx={{ ml: "auto" }}>
             <IconButton color="inherit" size="large" onClick={handleIconClick}>
               <Typography sx={{ mr: 1 }}>
