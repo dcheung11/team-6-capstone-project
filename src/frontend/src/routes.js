@@ -25,23 +25,23 @@ import WaiverPage from "./views/MyTeam/WaiverPage";
 // The routes are used in the App.js file to set up the routing for the application.
 
 const routes = [
-  { path: "/home", component: HomePage },
+  { path: "/home", component: HomePage, private: true },
   { path: "/", component: LoginPage },
-  { path: "/team/", component: MyTeamPage },
-  { path: "/team/:id", component: MyTeamPage },
-  { path: "/standings", component: StandingsPage },
+  { path: "/team/", component: MyTeamPage, private: true },
+  { path: "/team/:id", component: MyTeamPage, private: true },
+  { path: "/standings", component: StandingsPage, private: true },
   { path: "/manage", component: LeagueManagementPage, private: true },
-  { path: "/announcements", component: AnnouncementsPage },
-  { path: "/announcements/edit/:id", component: EditAnnouncementsPage }, // private: true },
-  { path: "/announcements/create", component: CreateAnnouncementsPage }, // private: true },
-  { path: "/registerteam/:id", component: RegisterTeamPage },
-  { path: "/players", component: PlayersPage },
-  { path: "/profile", component: ProfilePage },
+  { path: "/announcements", component: AnnouncementsPage, private: true },
+  { path: "/announcements/edit/:id", component: EditAnnouncementsPage, private: true },
+  { path: "/announcements/create", component: CreateAnnouncementsPage, private: true },
+  { path: "/registerteam/:id", component: RegisterTeamPage, private: true },
+  { path: "/players", component: PlayersPage, private: true },
+  { path: "/profile", component: ProfilePage, private: true },
   { path: "/info", component: InfoPage },
-  { path: "/schedule", component: ScheduleView },
-  { path: "/notifications/:notificationId/reschedule-requests/:rescheduleRequestId", component: RescheduleResponsePage },
+  { path: "/schedule", component: ScheduleView, private: true },
+  { path: "/notifications/:notificationId/reschedule-requests/:rescheduleRequestId", component: RescheduleResponsePage, private: true },
   { path: "/documentation", component: DocumentationPage },
-  { path: "/waiver", component: WaiverPage },
+  { path: "/waiver", component: WaiverPage, private: true },
 ];
 
 export default routes;
