@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
-const REACT_APP_API_BASE_URL = "http://localhost:3001/api"; // replace with your backend port
+const REACT_APP_API_BASE_URL = process.env.REACT_APP_API_BASE_URL; // replace with your backend port
 
 // AuthProvider component: Provides authentication context to the application
 // It manages the authentication state, including login and logout functionality
