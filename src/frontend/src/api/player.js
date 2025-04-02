@@ -2,7 +2,7 @@
 // Description: API functions for managing players
 // Last Modified: 2025-03-25
 
-import { REACT_APP_API_BASE_URL } from "../utils/Constants";
+const REACT_APP_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 // Signup function for player registration/creation
 export async function signup(firstName, lastName, email, password) {
@@ -136,4 +136,3 @@ export const updatePlayerInfo = async (playerId, updatedData) => {
     throw error;
   }
 };
-

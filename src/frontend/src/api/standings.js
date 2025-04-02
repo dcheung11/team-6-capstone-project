@@ -1,8 +1,8 @@
 // Author: Emma Wigglesworth
-// Description: Functions to interact with the standings API 
+// Description: Functions to interact with the standings API
 // Last Modified: 2025-03-21
 
-import { REACT_APP_API_BASE_URL } from "../utils/Constants";
+const REACT_APP_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 // Fetch standings by division ID
 export const getStandingsByDivision = async (divisionId) => {

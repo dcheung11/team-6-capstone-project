@@ -1,22 +1,19 @@
 // Author: Damien Cheung
-// Description: Functions to interact with the schedule API 
+// Description: Functions to interact with the schedule API
 // Last Modified: 2025-03-21
 
-import { REACT_APP_API_BASE_URL } from "../utils/Constants";
+const REACT_APP_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 // generate schedule for a season
 export const generateSchedule = async (seasonId) => {
   try {
-    const response = await fetch(
-      `${REACT_APP_API_BASE_URL}/schedules/generate`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ seasonId }),
-      }
-    );
+    const response = await fetch(`${REACT_APP_API_BASE_URL}/schedules/generate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ seasonId }),
+    });
 
     if (!response.ok) {
       throw new Error("Failed to generate schedule");
@@ -31,15 +28,12 @@ export const generateSchedule = async (seasonId) => {
 // get schedule by season id
 export const getScheduleBySeasonId = async (seasonId) => {
   try {
-    const response = await fetch(
-      `${REACT_APP_API_BASE_URL}/schedules/season/${seasonId}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(`${REACT_APP_API_BASE_URL}/schedules/season/${seasonId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (!response.ok) {
       throw new Error("Failed to get schedule");
@@ -50,4 +44,3 @@ export const getScheduleBySeasonId = async (seasonId) => {
     throw error;
   }
 };
-

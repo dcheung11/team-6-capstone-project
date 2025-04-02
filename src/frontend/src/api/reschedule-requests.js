@@ -2,7 +2,7 @@
 // Description: API functions for interacting with reschedule requests
 // Last Modified: 2025-03-21
 
-import { REACT_APP_API_BASE_URL } from "../utils/Constants";
+const REACT_APP_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const API_URL = `${REACT_APP_API_BASE_URL}/reschedule-requests`;
 
@@ -12,11 +12,11 @@ export const swapSlots = async (slot1Id, slot2Id) => {
     const response = await fetch(`${API_URL}/swap`, {
       method: "PUT",
       headers: {
-      "Content-Type": "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ slot1Id, slot2Id }),
     });
-    
+
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Reschedule request creation failed");
@@ -50,7 +50,8 @@ export const getAvailableGameslots = async () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-    }});
+      },
+    });
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -73,7 +74,7 @@ export const createRescheduleRequest = async (requestData) => {
       },
       body: JSON.stringify(requestData),
     });
-    
+
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Reschedule request creation failed");
