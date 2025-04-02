@@ -2,7 +2,7 @@
 // Description: Announcement API functions: Fetch, create, edit, and delete announcements.
 // Last Modified: 2025-03-25
 
-import { REACT_APP_API_BASE_URL } from "../utils/Constants";
+const REACT_APP_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 // Fetch all announcements
 export async function getAnnouncements() {

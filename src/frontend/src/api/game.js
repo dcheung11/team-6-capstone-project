@@ -2,8 +2,7 @@
 // Description: API functions for updating game scores
 // Last Modified: 2025-03-25
 
-
-import { REACT_APP_API_BASE_URL } from "../utils/Constants";
+const REACT_APP_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 // Updating scores for a game
 export async function updateScore(gameId, homeScore, awayScore, defaultLossTeam) {

@@ -2,7 +2,7 @@
 // Description: API functions for managing notifications
 // Last Modified: 2025-03-25
 
-import { REACT_APP_API_BASE_URL } from "../utils/Constants";
+const REACT_APP_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const API_URL = `${REACT_APP_API_BASE_URL}/notifications`;
 
@@ -22,10 +22,7 @@ export const getNotificationsByTeamId = async (teamId) => {
 
     return await response.json();
   } catch (error) {
-    console.error(
-      `Error fetching notifications for team with ID ${teamId}:`,
-      error
-    );
+    console.error(`Error fetching notifications for team with ID ${teamId}:`, error);
     throw error;
   }
 };
@@ -86,7 +83,7 @@ export const updateNotificationStatus = async (id, status) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ status })
+      body: JSON.stringify({ status }),
     });
     if (!response.ok) {
       throw new Error("Network response was not ok");

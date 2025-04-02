@@ -2,7 +2,7 @@
 // Description: This file contains functions to interact with the backend API for team-related operations.
 // Last Modified: 2025-03-21
 
-import { REACT_APP_API_BASE_URL } from "../utils/Constants";
+const REACT_APP_API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 // Function to register a team to a season
 export async function registerTeam(body) {
