@@ -53,9 +53,10 @@ urlcolor=cyan          % color of external links
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
   \toprule {\bf Date} & {\bf Version} & {\bf Notes}                                  \\
   \midrule
-  Jan 3               & 1.0           & Added MIS for TeamT, GameT, PlayerT, Backend \\
-  Jan 14              & 1.1          & Added MIS for Season and Standing Record Modules           \\
-  Jan 17              & 1.2          & Added sections 2,3,4                                        \\
+  Jan 3, 2024               & 1.0           & Added MIS for TeamT, GameT, PlayerT, Backend \\
+  Jan 14, 2024              & 1.1          & Added MIS for Season and Standing Record Modules           \\
+  Jan 17, 2024              & 1.2          & Added sections 2,3,4                                        \\
+  Apr 4, 2025               & 1.3          & Rev1 Revisions From Feedback                                       \\
   \bottomrule
 \end{tabularx}
 
@@ -423,50 +424,50 @@ TeamT
 
 \noindent PlayerT(id, n, e, p, w, t):
 \begin{itemize}
-  \item transition: $playerId, name, email, password, waiverStatus, team := id, n, e, p, w, t$
-  \item output: $out := self$
+  \item transition: playerId, name, email, password, waiverStatus, team $:= \text{id}, n, e, p, w, t$
+  \item output: out := self
   \item exception: None
 \end{itemize}
 
 \noindent getPlayerId():
 \begin{itemize}
-  \item output: $out := playerId$
+  \item output: out := playerId
   \item exception: None
 \end{itemize}
 
 \noindent getName():
 \begin{itemize}
-  \item output: $out := name$
+  \item output: out := name
   \item exception: None
 \end{itemize}
 
 \noindent getEmail():
 \begin{itemize}
-  \item output: $out := email$
+  \item output: out := email
   \item exception: None
 \end{itemize}
 
 \noindent getWaiverStatus():
 \begin{itemize}
-  \item output: $out := waiverStatus$
+  \item output: out := waiverStatus
   \item exception: None
 \end{itemize}
 
 \noindent getTeam():
 \begin{itemize}
-  \item output: $out := team$
+  \item output: out := team
   \item exception: None
 \end{itemize}
 
 \noindent setTeam(t):
 \begin{itemize}
-  \item transition: $team := t$
+  \item transition: team := t
   \item exception: None
 \end{itemize}
 
 \noindent setWaiverStatus(w):
 \begin{itemize}
-  \item transition: $waiverStatus := w$
+  \item transition: waiverStatus := w
   \item exception: None
 \end{itemize}
 
@@ -489,22 +490,22 @@ TeamT
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-  \begin{tabular}{|p{4cm}| p{4cm}| p{4cm} | p{3cm}|}
-    \hline
-    \textbf{Name}  & \textbf{In}                                                    & \textbf{Out} & \textbf{Exceptions} \\
-    \hline
-    GameT          & String, String, Date, String, String, Integer, Integer, String & -            & -                   \\
-    getGameId      &                                                                & String       & -                   \\
-    getTeamsInGame &                                                                & TeamT[]      & GameNotFound        \\
-    getGameDetails &                                                                & Object       & GameNotFound        \\
-    getStatus      &                                                                & String       & GameNotFound        \\
-    getField       &                                                                & String       & GameNotFound        \\
-    setStatus      & String                                                         & -            & InvalidStatus       \\
-    setField       & String                                                         & -            & InvalidField        \\
-    setScore       & Integer, Integer                                               & -            & InvalidScore        \\
-    \hline
-  \end{tabular}
-\end{center}
+  \begin{tabularx}{\textwidth}{@{}lXlX@{}}
+  \toprule
+  \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+  \midrule
+  \texttt{GameT} & \texttt{String, String, Date, String, String, Integer, Integer, String} & -- & -- \\
+  \texttt{getGameId} & -- & \texttt{String} & -- \\
+  \texttt{getTeamsInGame} & -- & \texttt{TeamT[]} & \texttt{GameNotFound} \\
+  \texttt{getGameDetails} & -- & \texttt{Object} & \texttt{GameNotFound} \\
+  \texttt{getStatus} & -- & \texttt{String} & \texttt{GameNotFound} \\
+  \texttt{getField} & -- & \texttt{String} & \texttt{GameNotFound} \\
+  \texttt{setStatus} & \texttt{String} & -- & \texttt{InvalidStatus} \\
+  \texttt{setField} & \texttt{String} & -- & \texttt{InvalidField} \\
+  \texttt{setScore} & \texttt{Integer, Integer} & -- & \texttt{InvalidScore} \\
+  \bottomrule
+  \end{tabularx}
+  \end{center}
 
 \subsection{Semantics}
 
@@ -525,56 +526,56 @@ None
 
 \noindent GameT(id, t1, t2, d, t, s1, s2, f):
 \begin{itemize}
-  \item transition: $gameId, team1Id, team2Id, gameDate, gameTime, scoreTeam1, scoreTeam2, field := id, t1, t2, d, t, s1, s2, f$
-  \item output: $out := self$
+  \item transition: gameId, team1Id, team2Id, gameDate, gameTime, scoreTeam1, scoreTeam2, field := id, t1, t2, d, t, s1, s2, f
+  \item output: out := self
   \item exception: None
 \end{itemize}
 
 \noindent getGameId():
 \begin{itemize}
-  \item output: $out := gameId$
+  \item output: out := gameId
   \item exception: None
 \end{itemize}
 
 \noindent getGameDetails():
 \begin{itemize}
-  \item output: $out := \text{Object containing game details: } gameId, team1Id, team2Id, gameDate, gameTime, scoreTeam1, scoreTeam2, status, field$
+  \item output: out := \text{Object containing game details: } gameId, team1Id, team2Id, gameDate, gameTime, scoreTeam1, scoreTeam2, status, field
   \item exception: Game not found if the game ID does not exist.
 \end{itemize}
 
 \noindent getTeamsInGame():
 \begin{itemize}
-  \item output: $out := \text{Array of Teams participating in the game}$
+  \item output: out := \text{Array of Teams participating in the game}
   \item exception: Game not found if the game ID does not exist.
 \end{itemize}
 
 \noindent getStatus():
 \begin{itemize}
-  \item output: $out := status$
+  \item output: out := status
   \item exception: Game not found if the game ID does not exist.
 \end{itemize}
 
 \noindent getField():
 \begin{itemize}
-  \item output: $out := field$
+  \item output: out := field
   \item exception: Game not found if the game ID does not exist.
 \end{itemize}
 
 \noindent setStatus(status):
 \begin{itemize}
-  \item transition: $status := status$
+  \item transition: status := status
   \item exception: Invalid status if the provided status is not valid.
 \end{itemize}
 
 \noindent setField(field):
 \begin{itemize}
-  \item transition: $field := field$
+  \item transition: field := field
   \item exception: Invalid field if the provided field is not valid.
 \end{itemize}
 
 \noindent setScore(score1, score2):
 \begin{itemize}
-  \item transition: $scoreTeam1 := score1, scoreTeam2 := score2$
+  \item transition: scoreTeam1 := score1, scoreTeam2 := score2
   \item exception: Invalid score if the provided scores are not valid integers.
 \end{itemize}
 
@@ -598,21 +599,22 @@ PlayerT, GameT
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-  \begin{tabular}{|p{4cm}| p{4cm}| p{4cm} | p{3cm}|}
-    \hline
-    \textbf{Name} & \textbf{In}                                & \textbf{Out} & \textbf{Exceptions} \\
-    \hline
-    TeamT         & String, String, String, PlayerT[], PlayerT & -            & -                   \\
-    getTeamId     &                                            & String       & -                   \\
-    getTeamName   &                                            & String       & -                   \\
-    getDivision   &                                            & String       & -                   \\
-    getRoster     &                                            & PlayerT[]    & -                   \\
-    getCaptain    &                                            & PlayerT      & -                   \\
-    addPlayer     & PlayerT                                    & -            & InvalidPlayer       \\
-    removePlayer  & PlayerT                                    & -            & PlayerNotFound      \\
-    \hline
+  \begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
+    \toprule
+    \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+    \midrule
+    \texttt{TeamT}         & \texttt{String, String, String, PlayerT[], PlayerT} & -            & -                   \\
+    \texttt{getTeamId}     & -                                                  & \texttt{String}       & -                   \\
+    \texttt{getTeamName}   & -                                                  & \texttt{String}       & -                   \\
+    \texttt{getDivision}   & -                                                  & \texttt{String}       & -                   \\
+    \texttt{getRoster}     & -                                                  & \texttt{PlayerT[]}    & -                   \\
+    \texttt{getCaptain}    & -                                                  & \texttt{PlayerT}      & -                   \\
+    \texttt{addPlayer}     & \texttt{PlayerT}                                   & -            & \texttt{InvalidPlayer}       \\
+    \texttt{removePlayer}  & \texttt{PlayerT}                                   & -            & \texttt{PlayerNotFound}      \\
+    \bottomrule
   \end{tabular}
 \end{center}
+
 
 \subsection{Semantics}
 
@@ -632,50 +634,50 @@ None
 
 \noindent TeamT(id, n, d, r, c):
 \begin{itemize}
-  \item transition: $teamId, teamName, division, roster, captain := id, n, d, r, c$
-  \item output: $out := self$
+  \item transition: teamId, teamName, division, roster, captain := id, n, d, r, c
+  \item output: out := self
   \item exception: None
 \end{itemize}
 
 \noindent getTeamId():
 \begin{itemize}
-  \item output: $out := teamId$
+  \item output: out := teamId
   \item exception: None
 \end{itemize}
 
 \noindent getTeamName():
 \begin{itemize}
-  \item output: $out := teamName$
+  \item output: out := teamName
   \item exception: None
 \end{itemize}
 
 \noindent getDivision():
 \begin{itemize}
-  \item output: $out := division$
+  \item output: out := division
   \item exception: None
 \end{itemize}
 
 \noindent getRoster():
 \begin{itemize}
-  \item output: $out := roster$
+  \item output: out := roster
   \item exception: None
 \end{itemize}
 
 \noindent getCaptain():
 \begin{itemize}
-  \item output: $out := captain$
+  \item output: out := captain
   \item exception: None
 \end{itemize}
 
 \noindent addPlayer(player):
 \begin{itemize}
-  \item transition: $roster := roster + player$
+  \item transition: roster := roster + player
   \item exception: Invalid player if the player is invalid or already in the roster.
 \end{itemize}
 
 \noindent removePlayer(player):
 \begin{itemize}
-  \item transition: $roster := roster - player$
+  \item transition: roster := roster - player
   \item exception: Player not found if the player is not in the roster.
 \end{itemize}
 
@@ -698,27 +700,28 @@ PlayerT, GameT, TeamT
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-  \begin{tabular}{|p{4cm}| p{4cm}| p{4cm} | p{3cm}|}
-    \hline
-    \textbf{Name}        & \textbf{In}                                                    & \textbf{Out} & \textbf{Exceptions} \\
-    \hline
-    createPlayer         & String, String, String, String, Bool, String                   & -            & PlayerCreationError \\
-    getPlayer            & String                                                         & PlayerT      & PlayerNotFound      \\
-    updatePlayer         & String, String, String, String, Bool, String                   & -            & PlayerNotFound      \\
-    deletePlayer         & String                                                         & -            & PlayerNotFound      \\
-    createTeam           & String, String, String, PlayerT[], PlayerT                     & -            & TeamCreationError   \\
-    getTeam              & String                                                         & TeamT        & TeamNotFound        \\
-    updateTeam           & String, String, String, PlayerT[], PlayerT                     & -            & TeamCreationError   \\
-    deleteTeam           & String                                                         & -            & TeamNotFound        \\
-    createGame           & String, String, Date, String, String, Integer, Integer, String & -            & GameCreationError   \\
-    getGame              & String                                                         & GameT        & GameNotFound        \\
-    updateGame           & String, String, Date, String, String, Integer, Integer, String & -            & GameCreationError   \\
-    deleteGame           & String                                                         & -            & GameNotFound        \\
-    getAllPlayersForTeam & String                                                         & PlayerT[]    & TeamNotFound        \\
-    getAllGamesForTeam   & String                                                         & GameT[]      & TeamNotFound        \\
-    \hline
+  \begin{tabular}{p{4cm} p{4cm} p{4cm} p{4cm}}
+    \toprule
+    \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+    \midrule
+    \texttt{createPlayer}         & \texttt{String, String, String, String, Bool, String}                   & -            & \texttt{PlayerCreationError} \\
+    \texttt{getPlayer}            & \texttt{String}                                                         & \texttt{PlayerT}      & \texttt{PlayerNotFound}      \\
+    \texttt{updatePlayer}         & \texttt{String, String, String, String, Bool, String}                   & -            & \texttt{PlayerNotFound}      \\
+    \texttt{deletePlayer}         & \texttt{String}                                                         & -            & \texttt{PlayerNotFound}      \\
+    \texttt{createTeam}           & \texttt{String, String, String, PlayerT[], PlayerT}                     & -            & \texttt{TeamCreationError}   \\
+    \texttt{getTeam}              & \texttt{String}                                                         & \texttt{TeamT}        & \texttt{TeamNotFound}        \\
+    \texttt{updateTeam}           & \texttt{String, String, String, PlayerT[], PlayerT}                     & -            & \texttt{TeamCreationError}   \\
+    \texttt{deleteTeam}           & \texttt{String}                                                         & -            & \texttt{TeamNotFound}        \\
+    \texttt{createGame}           & \texttt{String, String, Date, String, String, Integer, Integer, String} & -            & \texttt{GameCreationError}   \\
+    \texttt{getGame}              & \texttt{String}                                                         & \texttt{GameT}        & \texttt{GameNotFound}        \\
+    \texttt{updateGame}           & \texttt{String, String, Date, String, String, Integer, Integer, String} & -            & \texttt{GameCreationError}   \\
+    \texttt{deleteGame}           & \texttt{String}                                                         & -            & \texttt{GameNotFound}        \\
+    \texttt{getAllPlayersForTeam} & \texttt{String}                                                         & \texttt{PlayerT[]}    & \texttt{TeamNotFound}        \\
+    \texttt{getAllGamesForTeam}   & \texttt{String}                                                         & \texttt{GameT[]}      & \texttt{TeamNotFound}        \\
+    \bottomrule
   \end{tabular}
 \end{center}
+
 
 \subsection{Semantics}
 
@@ -740,85 +743,85 @@ None
 
 \noindent createPlayer(name, email, password, waiverStatus, team):
 \begin{itemize}
-  \item transition: $playerId, name, email, password, waiverStatus, team := name, email, password, waiverStatus, team$
+  \item transition: playerId, name, email, password, waiverStatus, team := name, email, password, waiverStatus, team
   \item exception: "Player Creation Error" if player cannot be created
 \end{itemize}
 
 \noindent getPlayer(playerId):
 \begin{itemize}
-  \item output: $out := player$ (retrieves player object based on playerId)
+  \item output: out := player (retrieves player object based on playerId)
   \item exception: "Player Not Found" if player does not exist
 \end{itemize}
 
 \noindent updatePlayer(playerId, name, email, password, waiverStatus, team):
 \begin{itemize}
-  \item transition: $name, email, password, waiverStatus, team := name, email, password, waiverStatus, team$ (updates player's details)
+  \item transition: name, email, password, waiverStatus, team := name, email, password, waiverStatus, team (updates player's details)
   \item exception: "Player Not Found" if player does not exist
 \end{itemize}
 
 \noindent deletePlayer(playerId):
 \begin{itemize}
-  \item transition: $player := null$ (deletes the player from the database)
+  \item transition: player := null (deletes the player from the database)
   \item exception: "Player Not Found" if player does not exist
 \end{itemize}
 
 \noindent createTeam(teamName, division, captain, roster):
 \begin{itemize}
-  \item transition: $teamId, teamName, division, captain, roster := teamName, division, captain, roster$
+  \item transition: teamId, teamName, division, captain, roster := teamName, division, captain, roster
   \item exception: "Team Creation Error" if team cannot be created
 \end{itemize}
 
 \noindent getTeam(teamId):
 \begin{itemize}
-  \item output: $out := team$ (retrieves team object based on teamId)
+  \item output: out := team (retrieves team object based on teamId)
   \item exception: "Team Not Found" if team does not exist
 \end{itemize}
 
 \noindent updateTeam(teamId, teamName, division, roster):
 \begin{itemize}
-  \item transition: $teamName, division, roster := teamName, division, roster$ (updates team's details)
+  \item transition: teamName, division, roster := teamName, division, roster (updates team's details)
   \item exception: "Team Not Found" if team does not exist
 \end{itemize}
 
 \noindent deleteTeam(teamId):
 \begin{itemize}
-  \item transition: $team := null$ (deletes the team from the database)
+  \item transition: team := null (deletes the team from the database)
   \item exception: "Team Not Found" if team does not exist
 \end{itemize}
 
 \noindent createGame(teams, date, time, field, score):
 \begin{itemize}
-  \item transition: $gameId, teams, date, time, field, score := teams, date, time, field, score$ (creates a new game)
+  \item transition: gameId, teams, date, time, field, score := teams, date, time, field, score (creates a new game)
   \item exception: "Game Creation Error" if game cannot be created (e.g., scheduling conflict)
 \end{itemize}
 
 \noindent getGame(gameId):
 \begin{itemize}
-  \item output: $out := game$ (retrieves game object based on gameId)
+  \item output: out := game (retrieves game object based on gameId)
   \item exception: "Game Not Found" if game does not exist
 \end{itemize}
 
 \noindent updateGame(gameId, updates):
 \begin{itemize}
-  \item transition: $gameId, updates := gameId, updates$ (updates the game's details)
+  \item transition: gameId, updates := gameId, updates (updates the game's details)
   \item exception: "Game Not Found" if game does not exist
 \end{itemize}
 
 \noindent deleteGame(gameId):
 \begin{itemize}
-  \item transition: $game := null$ (deletes the game from the database)
+  \item transition: game := null (deletes the game from the database)
   \item exception: "Game Not Found" if game does not exist
 \end{itemize}
 
 \noindent getAllPlayersForTeam(teamId):
 \begin{itemize}
-  \item output: $out := players$ (retrieves all players associated with the team)
+  \item output: out := players (retrieves all players associated with the team)
   \item exception: "Team Not Found" if team does not exist
 \end{itemize}
 
 \noindent getAllGamesForTeam(teamId):
 \begin{itemize}
-  \item output: $out := games$ (retrieves all games associated with the team)
+  \item output: out := games (retrieves all games associated with the team)
   \item exception: "Team Not Found" if team does not exist
 \end{itemize}
 
@@ -849,16 +852,18 @@ Waiver
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-  \begin{tabular}{|p{3cm}|p{4cm}|p{4cm}|p{4cm}|}
-    \hline
+  \begin{tabular}{p{3cm} p{4cm} p{4cm} p{5cm}}
+    \toprule
     \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-    \hline
-    \texttt{createWaiver} & Waiver details & Waiver ID & InvalidInputException \\
-    \texttt{getWaiver} & Waiver ID & Waiver details & WaiverNotFoundException \\
-    \texttt{signWaiver} & User ID, Waiver ID & Boolean & WaiverNotFoundException, AlreadySignedException \\
-    \texttt{listWaivers} & User ID & List of waivers & - \\
+    \midrule
+    \texttt{createWaiver} & \texttt{Waiver details} & \texttt{Waiver ID} & \texttt{InvalidInputException} \\
+    \texttt{getWaiver}    & \texttt{Waiver ID}      & \texttt{Waiver details} & \texttt{WaiverNotFoundException} \\
+    \texttt{signWaiver}   & \texttt{User ID, Waiver ID} & \texttt{Boolean} & \texttt{WaiverNotFoundException, AlreadySignedException} \\
+    \texttt{listWaivers}  & \texttt{User ID}         & \texttt{List of waivers} & - \\
+    \bottomrule
   \end{tabular}
 \end{center}
+
 
 \subsection{Semantics}
 
@@ -935,18 +940,17 @@ Notification
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-\texttt{send} & NotificationID, playerID & Boolean & InvalidPlayerID, SendFailure \\
-\hline
-\texttt{schedule} & NotificationID, DateTime & Boolean & InvalidDateTime \\
-\hline
-\texttt{status} & NotificationID & Status & InvalidNotificationID \\
-\hline
-\end{tabular}
+  \begin{tabular}{p{2cm} p{4cm} p{4cm} p{4.5cm}}
+    \toprule
+    \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+    \midrule
+    \texttt{send}     & \texttt{NotificationID}, \texttt{\text{playerID}} & \texttt{Boolean} & \texttt{InvalidPlayerID}, \texttt{SendFailure} \\
+    \texttt{schedule} & \texttt{NotificationID}, \texttt{DateTime}        & \texttt{Boolean} & \texttt{InvalidDateTime} \\
+    \texttt{status}   & \texttt{NotificationID}                           & \texttt{Status}  & \texttt{InvalidNotificationID} \\
+    \bottomrule
+  \end{tabular}
 \end{center}
+  
 
 \subsection{Semantics}
 
@@ -1235,15 +1239,15 @@ Announcements
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-\begin{tabular}{|p{3.2cm}|p{4cm}|p{3.5cm}|p{4cm}|}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-\texttt{sendAnnouncement} & Announcement details (text, type) & Announcement ID & InvalidInput \\
-\texttt{updateAnnouncement} & Announcement ID & Boolean & AnnouncementNotFound, InvalidUpdate \\
-\texttt{deleteAnnouncement} & Announcement ID & Boolean & AnnouncementNotFound \\
-\hline
-\end{tabular}
+  \begin{tabular}{p{4cm} p{4cm} p{3.5cm} p{4.5cm}}
+    \toprule
+    \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+    \midrule
+    \texttt{sendAnnouncement}     & \texttt{Announcement} details (\texttt{text}, \texttt{type}) & \texttt{AnnouncementID} & \texttt{InvalidInput} \\
+    \texttt{updateAnnouncement}   & \texttt{AnnouncementID}                                      & \texttt{Boolean}         & \texttt{AnnouncementNotFound}, \texttt{InvalidUpdate} \\
+    \texttt{deleteAnnouncement}   & \texttt{AnnouncementID}                                      & \texttt{Boolean}         & \texttt{AnnouncementNotFound} \\
+    \bottomrule
+  \end{tabular}
 \end{center}
 
 \subsection{Semantics}
