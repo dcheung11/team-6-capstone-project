@@ -42,7 +42,7 @@
         \textbf{}                 & \textbf{Developer(s)} & \textbf{Change}   \\
         \midrule
         \date{October 25th, 2024} & Entire Team           & Inital Completion \\
-        \date{April 4th, 2025} & Jad Haytaoglu           & Final Revision \\
+        \date{April 4th, 2025}    & Jad Haytaoglu         & Final Revision    \\
         \bottomrule
     \end{tabularx}
 \end{table}
@@ -206,7 +206,7 @@ The goal is to identify potential risks that could affect system safety, securit
 \section{Safety and Security Requirements}
 
 \begin{enumerate}
-    \item User Authentication
+    \item[SAF1] User Authentication
           \begin{itemize}
               \item Requirement: Ensure authentication for higher-role users (league administrators).
               \item Rationale: Prevent unauthorized access to manage the league.
@@ -217,7 +217,7 @@ The goal is to identify potential risks that could affect system safety, securit
                         \item Authentication attempts must be logged, and the logs must show 100\% successful tracking of both successful and failed attempts during security testing.
                     \end{itemize}
           \end{itemize}
-    \item Data Encryption
+    \item[SEC1] Data Encryption
           \begin{itemize}
               \item Requirement: Ensure all sensitive data, such as personal emails, phone numbers, etc. is encrypted.
               \item Rationale: We must protect user data and maintain privacy to avoid legal issues and uphold respectable engineering ethics.
@@ -227,7 +227,7 @@ The goal is to identify potential risks that could affect system safety, securit
                         \item The system must undergo a security audit every season to verify that no unencrypted sensitive data is stored or transmitted.
                     \end{itemize}
           \end{itemize}
-    \item Role-Based Access Control (RBAC)
+    \item[SEC2] Role-Based Access Control (RBAC)
           \begin{itemize}
               \item Requirement: Define access levels (players, team managers, administrators) with varying permissions.
               \item Rationale: These access levels ensure that users only have access to data related to their role. For example, only team managers can manage their team and invite users to their roster.
@@ -240,7 +240,7 @@ The goal is to identify potential risks that could affect system safety, securit
 \end{enumerate}
 \subsection{Newly Discovered Requirements}
 \begin{enumerate}
-    \item[4.] Data Integrity and Backup
+    \item[DI1] Data Integrity and Backup
           \begin{itemize}
               \item Requirement: Schedule regular data backups and integrity checks to prevent data (game results, standings, etc.)  from being lost in worst-case scenarios, like corrupted data.
               \item Rationale: Guarantee that the platform can recover from any potential data loss or corruption in case of system failures or web attacks.
@@ -252,7 +252,7 @@ The goal is to identify potential risks that could affect system safety, securit
                         \item Backup and recovery processes must be tested every season with a full system restore from backup to ensure data integrity and recovery procedures are functional.
                     \end{itemize}
           \end{itemize}
-    \item[5.] Session Management and Timeouts
+    \item[SEC3] Session Management and Timeouts
           \begin{itemize}
               \item Requirement: Implement session timeouts when users are inactive for some time to prevent malicious unauthorized access.
               \item Rationale: Reduce the risk of someone accessing the account if a user leaves their session open on a shared device.
@@ -262,7 +262,7 @@ The goal is to identify potential risks that could affect system safety, securit
                         \item After a session timeout, users must be required to re-authenticate with their credentials, ensuring that no session remains active without proper verification.
                     \end{itemize}
           \end{itemize}
-    \item[6.] Audit Logging
+    \item[OP1] Audit Logging
           \begin{itemize}
               \item Requirement: Implement an audit to log and track actions to the system, such as login attempts, changes to the schedule, team roster updates, etc.
               \item Rationale: Assist in troubleshooting, and detecting suspicious activity, and encourage transparency in system actions.
@@ -276,7 +276,7 @@ The goal is to identify potential risks that could affect system safety, securit
                         \item The audit logging mechanism must be tested regularly for coverage and completeness, with 100\% of critical actions being logged during system testing.
                     \end{itemize}
           \end{itemize}
-    \item[7.] End-to-End Testing for Security
+    \item[SEC4] End-to-End Testing for Security
           \begin{itemize}
               \item Requirement: Perform testing to identify potential security vulnerabilities.
               \item Rationale: Ensures that the platform performs securely as expected under various scenarios, especially when exposed to potential threats.
@@ -286,12 +286,12 @@ The goal is to identify potential risks that could affect system safety, securit
                         \item The testing process must be automated to ensure that it is consistently applied after every major update or system change.
                     \end{itemize}
           \end{itemize}
-    \item[8.] Automated Verification checks
+    \item[OP2] Automated Verification checks
           \begin{itemize}
               \item Requirement: Perform automated verficaion of schedule completeness after generation to ensure all games are correctly scheduled.
               \item Rationale: Improve data accuracy and prevent user dissatisfaction caused by missing games due to incomplete scheduling logic.
           \end{itemize}
-    \item[9.] Retry Mechanisms
+    \item[OP3] Retry Mechanisms
           \begin{itemize}
               \item Requirement: Implement easy retry mechanisms to prevent conflicts from race conditions or simultaneous requests.
               \item Rationale: Reduce errors caused by failed or incomplete request processing, ensuring seamless updates.
