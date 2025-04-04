@@ -61,7 +61,9 @@ REV1.2 & Modified IP to Protect: Updated description to provide more in-depth ex
 \hline
 REV1.3 & Copyright License: Added package to make link work & Section 3 & Issue \#520 \\
 \hline
-REV1.4 & Modified explanation of testing: Unit and Manual Testing instead of using Playwright & Section 10.6 & Issue \#519 \\
+REV1.4 & Added Prototype Iteration Section: Explicitly explained the iterative cycle to develop the platform & Section 10 & Issue \#521 \\
+\hline
+REV1.5 & Modified explanation of testing: Unit and Manual Testing instead of using Playwright & Section 11.6 & Issue \#519 \\
 \hline
 .. & .. & .. & .. \\
 \end{longtable}
@@ -364,7 +366,7 @@ Version control such as git, GitHub, and GitHub projects is mandatory to avoid c
 \subsection{Authentication}
 JWT (JSON Web Tokens) is the standard for secure user authentication and we can use this to vary access control depending on the user role. For our platform, permissions will be different for players, captains, and commissioners.
 
-\subsection{DevOps \& Deployment}
+\subsection{DevOps \& Deployment (CI/CD)}
 We will use GitHub Actions to set up Continuous Integration (CI) and Continuous Deployment (CD). GitHub provides documentation that we can follow to learn more about its features.
 
 Since the current website is already being hosted in some domain, we can reuse the same domain for our production. We do not need other deployments.
