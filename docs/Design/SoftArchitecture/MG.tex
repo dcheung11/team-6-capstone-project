@@ -717,16 +717,18 @@ The communication protocols for the GSA Softball League platform are designed to
 \begin{itemize}
   \item \textbf{Protocol}: HTTPS (Hypertext Transfer Protocol Secure)
   \item \textbf{Description}:
-        \begin{itemize}
-          \item All communication between the frontend and backend is secured using HTTPS, ensuring data integrity and confidentiality.
-          \item RESTful APIs handle requests such as login, data retrieval, schedule updates, and notifications.
-        \end{itemize}
+  \begin{itemize}
+      \item All communication between the frontend and backend is secured using HTTPS, ensuring data integrity and confidentiality.
+      \item RESTful APIs handle actions on the backend. The HTTP methods (GET, POST, DELETE, etc.) indicate the operation to perform.
+  \end{itemize}
   \item \textbf{Endpoints}:
-        \begin{itemize}
-          \item \texttt{/api/login}: Handles user authentication.
-          \item \texttt{/api/schedule}: Retrieves game schedules.
-          \item \texttt{/api/report}: Submits match results.
-        \end{itemize}
+  \begin{itemize}
+      \item \texttt{POST /api/sessions}: Creates a new session (login).
+      \item \texttt{DELETE /api/sessions}: Ends a session (logout).
+      \item \texttt{POST /api/users}: Registers a new user.
+      \item \texttt{GET /api/schedules}: Retrieves game schedules.
+      \item \texttt{POST /api/games}: Submits new game records.
+  \end{itemize}
 \end{itemize}
 
 \subsubsection*{Backend to Database Communication}
