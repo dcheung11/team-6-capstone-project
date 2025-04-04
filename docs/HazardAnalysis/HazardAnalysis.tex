@@ -42,7 +42,7 @@
         \textbf{}                 & \textbf{Developer(s)} & \textbf{Change}   \\
         \midrule
         \date{October 25th, 2024} & Entire Team           & Inital Completion \\
-        ...                       & ...                   & ...               \\
+        \date{April 4th, 2025} & Jad Haytaoglu           & Final Revision \\
         \bottomrule
     \end{tabularx}
 \end{table}
@@ -60,13 +60,21 @@
 A hazard analysis identifies potential risks associated with software, assessing how they might impact safety, security, and performance. This process aims to prevent accidents, reduce risks, and ensure the reliability of the platform. For the McMaster GSA Softball League Platform, the analysis will focus on potential issues like user interactions, data handling, scheduling conflicts, and access controls, aiming to create a safe and dependable user experience.
 
 \section{Scope and Purpose of Hazard Analysis}
-The hazard analysis for the McMaster GSA Softball League Platform covers the entire software system, with a focus on user interactions, scheduling algorithms, data management, and access controls. The goal is to identify potential risks that could affect system safety, security, and user satisfaction. Specifically, the analysis aims to address:\begin{itemize}
-    \item \textbf{Data Loss:} Unintentional loss of user data, schedules, or game results.
-    \item \textbf{Security Breaches:} Unauthorized access to sensitive information, like player details or team data.
-    \item \textbf{Operational Disruptions:} Scheduling errors or system failures that cause conflicts or missed games.
-    \item \textbf{User Frustration:} Confusing navigation, input errors, or difficulties in tracking payment status.
+The hazard analysis for the McMaster GSA Softball League Platform encompasses the entire software system, focusing on three primary areas:
+
+\begin{enumerate}
+    \item \textbf{User Interaction Hazards:} Risks associated with user authentication, role-based access, and data input processes.
+    \item \textbf{System Operation Hazards:} Risks related to scheduling algorithms, game management, and system availability.
+    \item \textbf{Data Management Hazards:} Risks concerning data integrity, security, and backup procedures.
+\end{enumerate}
+
+The goal is to identify potential risks that could affect system safety, security, and user satisfaction. Specifically, the analysis addresses:
+\begin{itemize}
+    \item \textbf{Data Loss:} Unintentional loss of user data, schedules, or game results, as detailed in the Database component analysis (Table~\ref{FMEA}).
+    \item \textbf{Security Breaches:} Unauthorized access to sensitive information, like player details or team data, which is addressed through both User Authentication and Database security measures (Table~\ref{FMEA}).
+    \item \textbf{Operational Disruptions:} Scheduling errors or system failures that cause conflicts or missed games, as outlined in the Game Scheduling component analysis (Table~\ref{FMEA}).
+    \item \textbf{User Frustration:} Confusing navigation, input errors, or difficulties in tracking payment status, which are mitigated through various system components (Table~\ref{FMEA}).
 \end{itemize}
-By addressing these risks early, we aim to make the platform safer, more reliable, and user-friendly.
 
 \section{System Boundaries and Components}
 
