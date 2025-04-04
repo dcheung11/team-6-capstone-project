@@ -128,7 +128,7 @@ The goal is to identify potential risks that could affect system safety, securit
                 \end{itemize}
                                           &
                 \begin{itemize}[nosep,leftmargin=*]
-                    \item Games may be scheduled at conflicting times or locations
+                    \item Games may be scheduled at conflicting times or locations and an "infeasible schedule" error will be shown.
                     \item Some games may not be scheduled, causing dissatisfaction
                     \item Unbalanced league experience
                     \item Teams are not aware of reschedule request
@@ -142,7 +142,7 @@ The goal is to identify potential risks that could affect system safety, securit
                 \end{itemize}
                                           &
                 \begin{itemize}[nosep,leftmargin=*]
-                    \item Implement schedule conflict resolution checks
+                    \item Implement a view to show commissioner where the schedule conflicts are and allow manual override or regeneration.
                     \item Automate schedule verification
                     \item Conduct pre-release schedule check
                     \item Implement algorithm to handle concurrent requests
@@ -189,7 +189,7 @@ The goal is to identify potential risks that could affect system safety, securit
                                           & 4                                       & H5.1-2                                                                                                                                                                                                                                                                                                                                        \\
                 \midrule
 
-                Announcement System       & Failed announcement delivery            & Players may miss important updates such as game cancellations                           & Form validation errors, server timeouts                          & Implement multiple announcement delivery methods (site announcements, email), display error message on announcement failures, allow easy retries & 6             & H6            \\
+                Announcement System       & Failed announcement creation or display            & Players may miss important updates such as game cancellations                           & Server timeouts, database corruption, code bugs                          & Implement multiple announcement delivery methods (site announcements, email), display error message on announcement creation or display failures, allow easy creation retries & 6             & H6            \\
                 \midrule
 
                 External Payment Tracking & Incorrect payment status recorded       & Players marked as unpaid despite paying (or vice versa), leading to disputes            & Payment record synchronization issues; delayed or failed updates & Ensure payment status synchronization and require validation to be accepted                                                                      & 5, 6, 7       & H7            \\
