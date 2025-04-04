@@ -7,6 +7,7 @@
 \usepackage{array}
 \usepackage{pdflscape}
 \usepackage{multirow}
+\usepackage{enumitem}
 
 \hypersetup{
     colorlinks=true,       % false: boxed links; true: colored links
@@ -35,15 +36,15 @@
 \pagenumbering{roman}
 
 \begin{table}[hp]
-\caption{Revision History} \label{TblRevisionHistory}
-\begin{tabularx}{\textwidth}{llX}
-\toprule
-\textbf{} & \textbf{Developer(s)} & \textbf{Change}\\
-\midrule
-\date{October 25th, 2024} & Entire Team & Inital Completion\\
-... & ... & ...\\
-\bottomrule
-\end{tabularx}
+    \caption{Revision History} \label{TblRevisionHistory}
+    \begin{tabularx}{\textwidth}{llX}
+        \toprule
+        \textbf{}                 & \textbf{Developer(s)} & \textbf{Change}   \\
+        \midrule
+        \date{October 25th, 2024} & Entire Team           & Inital Completion \\
+        ...                       & ...                   & ...               \\
+        \bottomrule
+    \end{tabularx}
 \end{table}
 
 ~\newpage
@@ -87,67 +88,110 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
     \item \textbf{External Payment System}: It is assumed that external payment tracking will be accurate, and users will report their payment status honestly, as payment processing is outside the scope of the system.
     \item \textbf{Internet Connectivity}: The platform assumes that all users (commissioners, captains, players) have stable internet access to interact with the system, especially when accessing schedules and reporting game results.
     \item \textbf{Manual Input of Game Results}: Captains are responsible for entering accurate game scores and results.
-    While the system assumes that captains will input scores correctly, it is possible that the score could be inputted incorrectly due to human error. To address this, the system must include a mechanism that will allow captains to review and correct submitted scores within a defined timeframe. This approach ensures data integrity and provides an extra layer of security against the impact of manual errors. Any further discrepancies will be addressed through manual oversight.
-    % \item \textbf{Data Integrity}: It is assumed that the database will maintain data integrity during read/write operations, especially when updating schedules, standings, and user details.
-    % \item \textbf{System Availability}: The platform assumes that the hosting server will remain consistently available, with minimal downtime, to ensure uninterrupted access for users.
+          While the system assumes that captains will input scores correctly, it is possible that the score could be inputted incorrectly due to human error. To address this, the system must include a mechanism that will allow captains to review and correct submitted scores within a defined timeframe. This approach ensures data integrity and provides an extra layer of security against the impact of manual errors. Any further discrepancies will be addressed through manual oversight.
+          % \item \textbf{Data Integrity}: It is assumed that the database will maintain data integrity during read/write operations, especially when updating schedules, standings, and user details.
+          % \item \textbf{System Availability}: The platform assumes that the hosting server will remain consistently available, with minimal downtime, to ensure uninterrupted access for users.
 \end{itemize}
 
 \section{Failure Mode and Effect Analysis}
 
 \newgeometry{left=0.25in,right=0.25in,top=0.25in,bottom=0.25in}
 \begin{landscape}
-\begin{table}[hp]
-    \caption{FMEA} \label{FMEA}
-    \centering
-    \begin{footnotesize}
-    \begin{tabular}{|p{1in}|p{1in}|p{1in}|p{1.5in}|p{2.5in}|p{0.2in}|p{0.2in}|}
-        \toprule
-        \textbf{Component} & \textbf{Failure Modes} & \textbf{Effects of Failure} &\textbf{Causes of Failure}&\textbf{Recommended Action} &\textbf{Req.} &\textbf{Ref.} \\
-        \bottomrule
-        \hline
-        
-        User Authentication & 
-        Fails to authenticate/register user
-        & Access denied to league members & Error in credentials or input, server issues, database connectivity & Allow credential recovery and auth retry & 1, 2, 3 & H1 \\
-        \hline
-        Game Scheduling  & Fails to generate valid schedule & Games may be scheduled at conflicting times or locations, affecting the season & Bugs or logical errors in the scheduling algorithm, conflicting team preferences or time/location constraints & Implement schedule conflict resolution checks, allow reschedule requests & 4, 8 & H2.1 \\
-        \hline
-        Game Scheduling  & Missing games in the schedule & Some games may not be scheduled, causing dissatisfaction & Incomplete automation in schedule generation; not handling edge cases, inclusion of blacklisted time slots & Automate schedule verification to ensure coverage for all teams & 4, 8 & H2.2 \\
-        \hline
-        Game Scheduling  &  Teams end up with either different games compared to others & Unbalanced league experience, as some teams may not get enough playtime while others may feel fatigued & Scheduling algorithm fails to equally distribute games across teams, lack of enforcement of fairness constraints (e.g. max games per week) & Conduct a pre-release schedule check to ensure fair game distribution among all teams, and introduce byes for unavoidable discrepancies & 4, 8 & H2.3 \\
-        \hline
-        Game Scheduling  & Rescheduling requests not processed or applied correctly  & Teams are not aware of reschedule request which prevents schedule conflict avoidance which can lead to game no-shows & Errors in reschedule approval or processing steps,  or race conditions caused by simultaneous reschedule requests & Implement algorithm to handly many concurrent requests, log error messages, allow easy retries  & 4, 9 & H2.4 \\
-        \hline
-        Game Result Reporting & Failed score reporting & League standings incorrect or not updated on time & Network issues, missing auto-save functionality & Implement auto-save and score-reporting validation checks & 4, 6 & H3 \\
-        \hline
-        Team/Player Management & Failure to register player to team & Player participation impacted & Form validation errors, server timeouts & Ensure robust signup and error handling mechanisms, logging errors and allowing retries & 4, 6 & H4.1 \\
-        \hline
-        Team/Player Management & Failure to register team to league & Team participation impacted & Form validation errors, server timeouts & Ensure robust signup and error handling mechanisms, logging errors and allowing retries & 4, 6 & H4.2 \\
-        \hline
-        % Team/Player Management & Duplicate player or team entries & Multiple instances of the same team or player, causing confusion & Missing uniqueness checks during signup & Validate player and team uniqueness during registration & PR2 & H5.2 \\
-        % \hline
-        Database & Data corruption & Loss of team, player, or league data, disrupting league operations & Server malfunction, database corruption & Implement regular backups and database health monitoring & 4 & H5.1 \\
-        \hline
+    \begin{table}[hp]
+        \caption{FMEA} \label{FMEA}
+        \centering
+        \begin{footnotesize}
+            \begin{tabular}{>{\raggedright\arraybackslash}p{1in}>{\raggedright\arraybackslash}p{1in}>{\raggedright\arraybackslash}p{1in}>{\raggedright\arraybackslash}p{1.5in}>{\raggedright\arraybackslash}p{2.5in}>{\centering\arraybackslash}p{0.2in}>{\centering\arraybackslash}p{0.2in}}
+                \toprule
+                \textbf{Component}        & \textbf{Failure Modes}                  & \textbf{Effects of Failure}                                                             & \textbf{Causes of Failure}                                       & \textbf{Recommended Action}                                                                                                                      & \textbf{Req.} & \textbf{Ref.} \\
+                \midrule
 
-        Database & Unauthorized access to data & Data breach, exposing sensitive player or league information & Weak access control measures or database vulnerabilities  & Implement strong access controls and potentially database encryption for confidential information (if required) & 4 & H5.2 \\
-        \hline
+                User Authentication       &
+                Fails to authenticate/register user
+                                          & Access denied to league members         & Error in credentials or input, server issues, database connectivity                     & Allow credential recovery and auth retry                         & 1, 2, 3                                                                                                                                          & H1                            \\
+                \midrule
 
-        Announcement System & Failed announcement delivery & Players may miss important updates such as game cancellations creating risks & Form validation errors, server timeouts & Implement multiple announcement delivery methods (site announcements, email), display error message on announcement failures, allow easy retries  & 6 & H6 \\
-        \hline
-      
-        External Payment Tracking & Incorrect payment status recorded & Players marked as unpaid despite paying (or vice versa), leading to disputes & Payment record synchronization issues; delayed or failed updates & Ensure payment status synchronization and require validation to be accepted & 5, 6, 7& H7 \\
-        \hline
-        
-        System Availability & Server downtime & Users unable to access the platform & Hosting server issues, lack of redundancy & Implement server redundancy, monitor uptime, and create a disaster recovery plan & 4 & H1 \\ 
-        \hline
+                Game Scheduling           &
+                \begin{itemize}[nosep,leftmargin=*]
+                    \item Fails to generate valid schedule
+                    \item Missing games in the schedule
+                    \item Teams end up with either different games compared to others
+                    \item Rescheduling requests not processed or applied correctly
+                \end{itemize}
+                                          &
+                \begin{itemize}[nosep,leftmargin=*]
+                    \item Games may be scheduled at conflicting times or locations
+                    \item Some games may not be scheduled, causing dissatisfaction
+                    \item Unbalanced league experience
+                    \item Teams are not aware of reschedule request
+                \end{itemize}
+                                          &
+                \begin{itemize}[nosep,leftmargin=*]
+                    \item Bugs or logical errors in the scheduling algorithm
+                    \item Incomplete automation in schedule generation
+                    \item Scheduling algorithm fails to equally distribute games
+                    \item Errors in reschedule approval or processing steps
+                \end{itemize}
+                                          &
+                \begin{itemize}[nosep,leftmargin=*]
+                    \item Implement schedule conflict resolution checks
+                    \item Automate schedule verification
+                    \item Conduct pre-release schedule check
+                    \item Implement algorithm to handle concurrent requests
+                \end{itemize}
+                                          & 4, 8, 9                                 & H2.1-4                                                                                                                                                                                                                                                                                                                                        \\
+                \midrule
 
-        Database & Data corruption & Loss of key league data & Server malfunction, database errors & Regular database backups and integrity checks & 4 & H2 \\
-        \hline
+                Game Result Reporting     & Failed score reporting                  & League standings incorrect or not updated on time                                       & Network issues, missing auto-save functionality                  & Implement auto-save and score-reporting validation checks                                                                                        & 4, 6          & H3            \\
+                \midrule
 
-        \bottomrule
-    \end{tabular}
-    \end{footnotesize}
-\end{table}
+                Team/Player Management    &
+                \begin{itemize}[nosep,leftmargin=*]
+                    \item Failure to register player to team
+                    \item Failure to register team to league
+                \end{itemize}
+                                          &
+                \begin{itemize}[nosep,leftmargin=*]
+                    \item Player participation impacted
+                    \item Team participation impacted
+                \end{itemize}
+                                          & Form validation errors, server timeouts & Ensure robust signup and error handling mechanisms, logging errors and allowing retries & 4, 6                                                             & H4.1-2                                                                                                                                                                           \\
+                \midrule
+
+                Database                  &
+                \begin{itemize}[nosep,leftmargin=*]
+                    \item Data corruption
+                    \item Unauthorized access to data
+                \end{itemize}
+                                          &
+                \begin{itemize}[nosep,leftmargin=*]
+                    \item Loss of team, player, or league data
+                    \item Data breach, exposing sensitive information
+                \end{itemize}
+                                          &
+                \begin{itemize}[nosep,leftmargin=*]
+                    \item Server malfunction, database corruption
+                    \item Weak access control measures
+                \end{itemize}
+                                          &
+                \begin{itemize}[nosep,leftmargin=*]
+                    \item Implement regular backups and database health monitoring
+                    \item Implement strong access controls and database encryption
+                \end{itemize}
+                                          & 4                                       & H5.1-2                                                                                                                                                                                                                                                                                                                                        \\
+                \midrule
+
+                Announcement System       & Failed announcement delivery            & Players may miss important updates such as game cancellations                           & Form validation errors, server timeouts                          & Implement multiple announcement delivery methods (site announcements, email), display error message on announcement failures, allow easy retries & 6             & H6            \\
+                \midrule
+
+                External Payment Tracking & Incorrect payment status recorded       & Players marked as unpaid despite paying (or vice versa), leading to disputes            & Payment record synchronization issues; delayed or failed updates & Ensure payment status synchronization and require validation to be accepted                                                                      & 5, 6, 7       & H7            \\
+                \midrule
+
+                System Availability       & Server downtime                         & Users unable to access the platform                                                     & Hosting server issues, lack of redundancy                        & Implement server redundancy, monitor uptime, and create a disaster recovery plan                                                                 & 4             & H1            \\
+                \bottomrule
+            \end{tabular}
+        \end{footnotesize}
+    \end{table}
 \end{landscape}
 \restoregeometry
 
@@ -155,174 +199,174 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
 
 \begin{enumerate}
     \item User Authentication
-        \begin{itemize}
-            \item Requirement: Ensure authentication for higher-role users (league administrators).
-            \item Rationale: Prevent unauthorized access to manage the league.
-            \item Fit Criterion:
-            \begin{itemize}
-                \item League administrators must authenticate using multi-factor authentication (MFA), combining a password and a time-based one-time password (TOTP).
-                \item The system must lock out a user after 5 consecutive failed login attempts and send a notification to the registered email address.
-                \item Authentication attempts must be logged, and the logs must show 100\% successful tracking of both successful and failed attempts during security testing.
-            \end{itemize}
-        \end{itemize}
+          \begin{itemize}
+              \item Requirement: Ensure authentication for higher-role users (league administrators).
+              \item Rationale: Prevent unauthorized access to manage the league.
+              \item Fit Criterion:
+                    \begin{itemize}
+                        \item League administrators must authenticate using multi-factor authentication (MFA), combining a password and a time-based one-time password (TOTP).
+                        \item The system must lock out a user after 5 consecutive failed login attempts and send a notification to the registered email address.
+                        \item Authentication attempts must be logged, and the logs must show 100\% successful tracking of both successful and failed attempts during security testing.
+                    \end{itemize}
+          \end{itemize}
     \item Data Encryption
-        \begin{itemize}
-            \item Requirement: Ensure all sensitive data, such as personal emails, phone numbers, etc. is encrypted.
-            \item Rationale: We must protect user data and maintain privacy to avoid legal issues and uphold respectable engineering ethics.
-            \item Fit Criterion:
-            \begin{itemize}
-                \item Encryption must be validated using automated security testing tools to ensure 100\% compliance with the encryption standard.
-                \item The system must undergo a security audit every season to verify that no unencrypted sensitive data is stored or transmitted.
-            \end{itemize}
-        \end{itemize}
+          \begin{itemize}
+              \item Requirement: Ensure all sensitive data, such as personal emails, phone numbers, etc. is encrypted.
+              \item Rationale: We must protect user data and maintain privacy to avoid legal issues and uphold respectable engineering ethics.
+              \item Fit Criterion:
+                    \begin{itemize}
+                        \item Encryption must be validated using automated security testing tools to ensure 100\% compliance with the encryption standard.
+                        \item The system must undergo a security audit every season to verify that no unencrypted sensitive data is stored or transmitted.
+                    \end{itemize}
+          \end{itemize}
     \item Role-Based Access Control (RBAC)
-        \begin{itemize}
-            \item Requirement: Define access levels (players, team managers, administrators) with varying permissions.
-            \item Rationale: These access levels ensure that users only have access to data related to their role. For example, only team managers can manage their team and invite users to their roster.
-            \item Fit Criterion:
-            \begin{itemize}
-                \item The system must restrict access to resources outside the assigned role, verified by attempting 50 test cases with an automated tool and user acceptance testing. Unauthorized access attempts must fail 100\% of the time.
-                \item Administrators must have the ability to review and modify role permissions through a secure administrative interface.
-            \end{itemize}    
-        \end{itemize}
+          \begin{itemize}
+              \item Requirement: Define access levels (players, team managers, administrators) with varying permissions.
+              \item Rationale: These access levels ensure that users only have access to data related to their role. For example, only team managers can manage their team and invite users to their roster.
+              \item Fit Criterion:
+                    \begin{itemize}
+                        \item The system must restrict access to resources outside the assigned role, verified by attempting 50 test cases with an automated tool and user acceptance testing. Unauthorized access attempts must fail 100\% of the time.
+                        \item Administrators must have the ability to review and modify role permissions through a secure administrative interface.
+                    \end{itemize}
+          \end{itemize}
 \end{enumerate}
 \subsection{Newly Discovered Requirements}
 \begin{enumerate}
     \item[4.] Data Integrity and Backup
-        \begin{itemize}
-            \item Requirement: Schedule regular data backups and integrity checks to prevent data (game results, standings, etc.)  from being lost in worst-case scenarios, like corrupted data.
-            \item Rationale: Guarantee that the platform can recover from any potential data loss or corruption in case of system failures or web attacks.
-            \item Fit Criterion:
-            \begin{itemize}
-                \item Data backups must occur at least once daily during the season, with verification that all critical data (game results, standings, user profiles) is included in the backup.
-                \item Backup data must be stored in another location to ensure security and retainment of data.
-                \item In the event of a system failure, the system must allow data restoration from the latest backup.
-                \item Backup and recovery processes must be tested every season with a full system restore from backup to ensure data integrity and recovery procedures are functional.
-            \end{itemize}
-        \end{itemize}
+          \begin{itemize}
+              \item Requirement: Schedule regular data backups and integrity checks to prevent data (game results, standings, etc.)  from being lost in worst-case scenarios, like corrupted data.
+              \item Rationale: Guarantee that the platform can recover from any potential data loss or corruption in case of system failures or web attacks.
+              \item Fit Criterion:
+                    \begin{itemize}
+                        \item Data backups must occur at least once daily during the season, with verification that all critical data (game results, standings, user profiles) is included in the backup.
+                        \item Backup data must be stored in another location to ensure security and retainment of data.
+                        \item In the event of a system failure, the system must allow data restoration from the latest backup.
+                        \item Backup and recovery processes must be tested every season with a full system restore from backup to ensure data integrity and recovery procedures are functional.
+                    \end{itemize}
+          \end{itemize}
     \item[5.] Session Management and Timeouts
-        \begin{itemize}
-            \item Requirement: Implement session timeouts when users are inactive for some time to prevent malicious unauthorized access.
-            \item Rationale: Reduce the risk of someone accessing the account if a user leaves their session open on a shared device.
-            \item Fit Criterion:
-            \begin{itemize}
-                \item The system must automatically log out users after 10 minutes of inactivity, with a visible countdown and warning message starting 1 minute before logout.
-                \item After a session timeout, users must be required to re-authenticate with their credentials, ensuring that no session remains active without proper verification.
-            \end{itemize}
-        \end{itemize}
+          \begin{itemize}
+              \item Requirement: Implement session timeouts when users are inactive for some time to prevent malicious unauthorized access.
+              \item Rationale: Reduce the risk of someone accessing the account if a user leaves their session open on a shared device.
+              \item Fit Criterion:
+                    \begin{itemize}
+                        \item The system must automatically log out users after 10 minutes of inactivity, with a visible countdown and warning message starting 1 minute before logout.
+                        \item After a session timeout, users must be required to re-authenticate with their credentials, ensuring that no session remains active without proper verification.
+                    \end{itemize}
+          \end{itemize}
     \item[6.] Audit Logging
-        \begin{itemize}
-            \item Requirement: Implement an audit to log and track actions to the system, such as login attempts, changes to the schedule, team roster updates, etc.
-            \item Rationale: Assist in troubleshooting, and detecting suspicious activity, and encourage transparency in system actions.
-            \item Fit Criterion:
-            \begin{itemize}
-                \item The system must log all critical actions, including user logins, schedule changes, team roster updates, and permission changes, with the following details: user ID, action timestamp, and action description.
-                \item Logs must be stored securely in an encrypted format and accessible only to authorized users, such as administrators.
-                \item Audit logs must be retained for a minimum of 90 days and be automatically archived after this period, ensuring compliance with data retention policies.
-                \item The system must allow administrators to search and filter logs by user, action type, and date range for efficient analysis.
-                \item The logging system must generate alerts for suspicious activities (e.g., multiple failed login attempts, unauthorized changes to schedules) and notify administrators in real-time.
-                \item The audit logging mechanism must be tested regularly for coverage and completeness, with 100\% of critical actions being logged during system testing.
-            \end{itemize}
-        \end{itemize}
+          \begin{itemize}
+              \item Requirement: Implement an audit to log and track actions to the system, such as login attempts, changes to the schedule, team roster updates, etc.
+              \item Rationale: Assist in troubleshooting, and detecting suspicious activity, and encourage transparency in system actions.
+              \item Fit Criterion:
+                    \begin{itemize}
+                        \item The system must log all critical actions, including user logins, schedule changes, team roster updates, and permission changes, with the following details: user ID, action timestamp, and action description.
+                        \item Logs must be stored securely in an encrypted format and accessible only to authorized users, such as administrators.
+                        \item Audit logs must be retained for a minimum of 90 days and be automatically archived after this period, ensuring compliance with data retention policies.
+                        \item The system must allow administrators to search and filter logs by user, action type, and date range for efficient analysis.
+                        \item The logging system must generate alerts for suspicious activities (e.g., multiple failed login attempts, unauthorized changes to schedules) and notify administrators in real-time.
+                        \item The audit logging mechanism must be tested regularly for coverage and completeness, with 100\% of critical actions being logged during system testing.
+                    \end{itemize}
+          \end{itemize}
     \item[7.] End-to-End Testing for Security
-        \begin{itemize}
-            \item Requirement: Perform testing to identify potential security vulnerabilities.
-            \item Rationale: Ensures that the platform performs securely as expected under various scenarios, especially when exposed to potential threats.
-            \item Fit Criterion:
-            \begin{itemize}
-                \item Conduct comprehensive end-to-end security testing to identify potential security issues such as SQL injection.
-                \item The testing process must be automated to ensure that it is consistently applied after every major update or system change.
-            \end{itemize}
-        \end{itemize}
+          \begin{itemize}
+              \item Requirement: Perform testing to identify potential security vulnerabilities.
+              \item Rationale: Ensures that the platform performs securely as expected under various scenarios, especially when exposed to potential threats.
+              \item Fit Criterion:
+                    \begin{itemize}
+                        \item Conduct comprehensive end-to-end security testing to identify potential security issues such as SQL injection.
+                        \item The testing process must be automated to ensure that it is consistently applied after every major update or system change.
+                    \end{itemize}
+          \end{itemize}
     \item[8.] Automated Verification checks
-        \begin{itemize}
-            \item Requirement: Perform automated verficaion of schedule completeness after generation to ensure all games are correctly scheduled.
-            \item Rationale: Improve data accuracy and prevent user dissatisfaction caused by missing games due to incomplete scheduling logic.
-        \end{itemize}
+          \begin{itemize}
+              \item Requirement: Perform automated verficaion of schedule completeness after generation to ensure all games are correctly scheduled.
+              \item Rationale: Improve data accuracy and prevent user dissatisfaction caused by missing games due to incomplete scheduling logic.
+          \end{itemize}
     \item[9.] Retry Mechanisms
-        \begin{itemize}
-            \item Requirement: Implement easy retry mechanisms to prevent conflicts from race conditions or simultaneous requests.
-            \item Rationale: Reduce errors caused by failed or incomplete request processing, ensuring seamless updates.
-        \end{itemize}
+          \begin{itemize}
+              \item Requirement: Implement easy retry mechanisms to prevent conflicts from race conditions or simultaneous requests.
+              \item Rationale: Reduce errors caused by failed or incomplete request processing, ensuring seamless updates.
+          \end{itemize}
 \end{enumerate}
 
 \subsection{Rationale Design Process (Faking It)}
 \begin{itemize}
     \item Mock Multi-Factor Authentication (MFA): Implement a placeholder where a user would receive a fake code (without actually sending one) to simulate a multi-factor authentication scenario.
-    \item Simulated Encryption: Show that data is being encrypted by visualizing a password to jumbled text. 
+    \item Simulated Encryption: Show that data is being encrypted by visualizing a password to jumbled text.
     \item Audit Logs: Keep simple text-based logs of actions that are done by our mock system.
 \end{itemize}
 
 \section{Roadmap}
 
 \begin{enumerate}
-	\item Capstone Timeline Requirements
-		\begin{itemize}
-			\item \textbf{User Authentication:} This will include the username and password authentication for the league administrators and team captains.
-			\begin{itemize}
-				\item Authentication system setup (login, logout, etc.).
-				\item Store sensitive information (password) in  the database.
-				\item Unique authentication methods for various roles (team members, team captains, admin, etc.)
-			\end{itemize}
-			\item \textbf{Role-Based Access Control (RBAC):} Implement basic roles to differentiate roles (team members, team captains, admin, etc.)
-			\begin{itemize}
-				\item Create and assign roles with their corresponding permissions.
-				\item Limit features based on user roles.
-				\item Create test for user access restrictions.
-			\end{itemize}
-			\item \textbf{Session Management and Timeouts:} Implement basic timeout functionalities for inactive user to provide improved security.
-			\begin{itemize}
-				\item Track user activity with session handling system.
-				\item Set time for session expiration when users are inactive.
-				\item Inform users before timeout occurs.
-			\end{itemize}
-			\item \textbf{Data Encryption:} Ensure secure communication by using SSL/TLS to encrypt data during communication.
-			\begin{itemize}
-				\item Enable HTTPS to secure HTTP communications.
-				\item Encrypt sensitive data during transit to provide better security.
-				\item Ensure an SSL/TLS certificate is obtained for the platform.
-			\end{itemize}
-		\end{itemize}
-	\item Future Requirements
-		\begin{itemize}
-			\item \textbf{Multi-Factor Authentication:} This will include a full implementation of an MFA system for critical user accounts.
-			\begin{itemize}
-				\item Develop a system for further authentication via verification codes sent over text, email, etc.
-				\item Implement support for app-based authentication systems (Microsoft authenicator, duo, etc.).
-				\item Include the option for users to enable/disable MFA.
-			\end{itemize}
-			\item \textbf{Audit logging:} Implement a logging system to track user activity and review system performance.
-			\begin{itemize}
-				\item Implement system that creates a detailed log of user actions across the system.
-				\item Create a dashboard to review logs and user activities statistics.
-				\item Set up alert for errors and suspicious activity across the system.
-			\end{itemize}
-			\item \textbf{Data Ecryption (At Rest):} Full encryption of all sensitive data stored in the system's database.
-			\begin{itemize}
-				\item Implement an encryption system to properly secure sensitive information that is stored.
-				\item Ensure security of stored keys.
-				\item Test the encryption system to confirm security of the data that is stored (Ensure data cannot be accessed without valid decryption).
-			\end{itemize}
-			\item \textbf{Data Breach Response Plan:} Develop a formal response for data breaches , including proper notification mechanisms.
-			\begin{itemize}
-				\item Create a standard for the detection, response, and mitigation of data breaches.
-				\item Implement a proper system for informing users in the case of a data breach.
-				\item Ensure data protection laws and policies are followed.
-			\end{itemize}
-            \item \textbf{Retry Mechanism for Scheduling Conlficts:} Implement a retry mechanism to ensure scheduling requests are processed smoothly, even in cases of failure.
-			\begin{itemize}
-				\item Design logic for detecting and handling conflicts in scheduling requests.
-				\item Enable automatic retries for failed requests, such as due to unavailable time slots.
-				\item Provide clear error messages and an option for users to retry manually if the automatic retry fails.
-			\end{itemize}
-            \item \textbf{Automated Verification of Scheduling} Ensure the accuracy and fairness of generated schedules automatically.
-			\begin{itemize}
-				\item Develop a verification system that checks generated schedules for missing games or conflicts.
-				\item Automate adjustments to resolve detected issues, such as scheduling overlaps or unassigned games.
-				\item Test the verification system thoroughly with real-world data.
-			\end{itemize}
+    \item Capstone Timeline Requirements
+          \begin{itemize}
+              \item \textbf{User Authentication:} This will include the username and password authentication for the league administrators and team captains.
+                    \begin{itemize}
+                        \item Authentication system setup (login, logout, etc.).
+                        \item Store sensitive information (password) in  the database.
+                        \item Unique authentication methods for various roles (team members, team captains, admin, etc.)
+                    \end{itemize}
+              \item \textbf{Role-Based Access Control (RBAC):} Implement basic roles to differentiate roles (team members, team captains, admin, etc.)
+                    \begin{itemize}
+                        \item Create and assign roles with their corresponding permissions.
+                        \item Limit features based on user roles.
+                        \item Create test for user access restrictions.
+                    \end{itemize}
+              \item \textbf{Session Management and Timeouts:} Implement basic timeout functionalities for inactive user to provide improved security.
+                    \begin{itemize}
+                        \item Track user activity with session handling system.
+                        \item Set time for session expiration when users are inactive.
+                        \item Inform users before timeout occurs.
+                    \end{itemize}
+              \item \textbf{Data Encryption:} Ensure secure communication by using SSL/TLS to encrypt data during communication.
+                    \begin{itemize}
+                        \item Enable HTTPS to secure HTTP communications.
+                        \item Encrypt sensitive data during transit to provide better security.
+                        \item Ensure an SSL/TLS certificate is obtained for the platform.
+                    \end{itemize}
+          \end{itemize}
+    \item Future Requirements
+          \begin{itemize}
+              \item \textbf{Multi-Factor Authentication:} This will include a full implementation of an MFA system for critical user accounts.
+                    \begin{itemize}
+                        \item Develop a system for further authentication via verification codes sent over text, email, etc.
+                        \item Implement support for app-based authentication systems (Microsoft authenicator, duo, etc.).
+                        \item Include the option for users to enable/disable MFA.
+                    \end{itemize}
+              \item \textbf{Audit logging:} Implement a logging system to track user activity and review system performance.
+                    \begin{itemize}
+                        \item Implement system that creates a detailed log of user actions across the system.
+                        \item Create a dashboard to review logs and user activities statistics.
+                        \item Set up alert for errors and suspicious activity across the system.
+                    \end{itemize}
+              \item \textbf{Data Ecryption (At Rest):} Full encryption of all sensitive data stored in the system's database.
+                    \begin{itemize}
+                        \item Implement an encryption system to properly secure sensitive information that is stored.
+                        \item Ensure security of stored keys.
+                        \item Test the encryption system to confirm security of the data that is stored (Ensure data cannot be accessed without valid decryption).
+                    \end{itemize}
+              \item \textbf{Data Breach Response Plan:} Develop a formal response for data breaches , including proper notification mechanisms.
+                    \begin{itemize}
+                        \item Create a standard for the detection, response, and mitigation of data breaches.
+                        \item Implement a proper system for informing users in the case of a data breach.
+                        \item Ensure data protection laws and policies are followed.
+                    \end{itemize}
+              \item \textbf{Retry Mechanism for Scheduling Conlficts:} Implement a retry mechanism to ensure scheduling requests are processed smoothly, even in cases of failure.
+                    \begin{itemize}
+                        \item Design logic for detecting and handling conflicts in scheduling requests.
+                        \item Enable automatic retries for failed requests, such as due to unavailable time slots.
+                        \item Provide clear error messages and an option for users to retry manually if the automatic retry fails.
+                    \end{itemize}
+              \item \textbf{Automated Verification of Scheduling} Ensure the accuracy and fairness of generated schedules automatically.
+                    \begin{itemize}
+                        \item Develop a verification system that checks generated schedules for missing games or conflicts.
+                        \item Automate adjustments to resolve detected issues, such as scheduling overlaps or unassigned games.
+                        \item Test the verification system thoroughly with real-world data.
+                    \end{itemize}
 
-		\end{itemize}
+          \end{itemize}
 \end{enumerate}
 
 \newpage{}
@@ -332,30 +376,30 @@ By addressing these risks early, we aim to make the platform safer, more reliabl
 \input{../Reflection.tex}
 
 \begin{enumerate}
-    \item What went well while writing this deliverable? 
-    
-    The process of writing this deliverable allowed the team to take a deeper look at the potential impact of our software on users. We were able to generate new insights by analyzing the components from different perspectives, which helped uncover critical details for our implementation plan. The FMEA table, in particular, was a valuable tool for identifying and documenting potential risks, leading to a clearer understanding of each component's potential failures. This step has proven beneficial, as it not only clarified our next steps but also helped us identify new requirements that need to be added to the SRS.
+    \item What went well while writing this deliverable?
+
+          The process of writing this deliverable allowed the team to take a deeper look at the potential impact of our software on users. We were able to generate new insights by analyzing the components from different perspectives, which helped uncover critical details for our implementation plan. The FMEA table, in particular, was a valuable tool for identifying and documenting potential risks, leading to a clearer understanding of each component's potential failures. This step has proven beneficial, as it not only clarified our next steps but also helped us identify new requirements that need to be added to the SRS.
 
     \item What pain points did you experience during this deliverable, and how
-    did you resolve them?
+          did you resolve them?
 
-    One of the main challenges was aligning our understanding of hazards with the software components and translating these into a detailed FMEA table. Initially, it was difficult to distinguish between critical issues and minor potential problems, which led to some confusion. We resolved this by holding focused discussions among team members, drawing from our combined experiences, and revisiting key sections of the SRS to ensure proper traceability.
+          One of the main challenges was aligning our understanding of hazards with the software components and translating these into a detailed FMEA table. Initially, it was difficult to distinguish between critical issues and minor potential problems, which led to some confusion. We resolved this by holding focused discussions among team members, drawing from our combined experiences, and revisiting key sections of the SRS to ensure proper traceability.
 
     \item Which of your listed risks had your team thought of before this
-    deliverable, and which did you think of while doing this deliverable? For
-    the latter ones (ones you thought of while doing the Hazard Analysis), how
-    did they come about?
+          deliverable, and which did you think of while doing this deliverable? For
+          the latter ones (ones you thought of while doing the Hazard Analysis), how
+          did they come about?
 
-    Before working on this deliverable, the team had already considered general risks like data breaches and scheduling conflicts. However, during the hazard analysis, we identified additional risks, such as incomplete game result reporting, missing notifications, and specific user interface issues that could affect user satisfaction. These new insights came about by breaking down each component and examining potential failure modes.
+          Before working on this deliverable, the team had already considered general risks like data breaches and scheduling conflicts. However, during the hazard analysis, we identified additional risks, such as incomplete game result reporting, missing notifications, and specific user interface issues that could affect user satisfaction. These new insights came about by breaking down each component and examining potential failure modes.
 
     \item Other than the risk of physical harm (some projects may not have any
-    appreciable risks of this form), list at least 2 other types of risk in
-    software products. Why are they important to consider?
+          appreciable risks of this form), list at least 2 other types of risk in
+          software products. Why are they important to consider?
 
-    \begin{itemize}
-        \item \textbf{Data Integrity Risks}: Data integrity issues can arise from incorrect data handling, database failures, or corruption. These risks are critical to consider because they can lead to incorrect information being presented to users or complete loss of essential data, undermining trust and reliability.
-        \item \textbf{Security Risks}: Security risks include unauthorized access, weak password policies, and vulnerabilities to hacking attempts. These are important to consider because they can lead to breaches that compromise user privacy, resulting in legal and ethical consequences, as well as damage to the platform's reputation. The platform is to be used by all members each annual season, so solid security and a good reputation is important to maintain.
-    \end{itemize}
+          \begin{itemize}
+              \item \textbf{Data Integrity Risks}: Data integrity issues can arise from incorrect data handling, database failures, or corruption. These risks are critical to consider because they can lead to incorrect information being presented to users or complete loss of essential data, undermining trust and reliability.
+              \item \textbf{Security Risks}: Security risks include unauthorized access, weak password policies, and vulnerabilities to hacking attempts. These are important to consider because they can lead to breaches that compromise user privacy, resulting in legal and ethical consequences, as well as damage to the platform's reputation. The platform is to be used by all members each annual season, so solid security and a good reputation is important to maintain.
+          \end{itemize}
 
 \end{enumerate}
 
