@@ -27,8 +27,6 @@
     urlcolor=cyan           % color of external links
 }
 
-\newcommand{\lips}{\textit{Insert your content here.}}
-
 \input{../Comments}
 \input{../Common}
 
@@ -67,6 +65,9 @@ Oct 11, 2023 & 1.0 & Initial Creation \\
 \subsection{Revision 1 Traceability}
 The following table tracks all significant changes made to the SRS based on feedback, requirements changes, and improvements:
 
+% Github issue links
+\newcommand{\issueLink}[1]{\href{https://github.com/dcheung11/team-6-capstone-project/issues/#1}{Issue #1}}
+
 \begin{longtable}{|p{0.15\textwidth}|p{0.35\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|}
 \caption{Traceability of Revision 1 Changes} \label{tab:revision_traceability} \\
 \hline
@@ -86,39 +87,39 @@ The following table tracks all significant changes made to the SRS based on feed
 \hline
 \endlastfoot
 
-REV1.1 & Modified team joining process: Only captains can invite players & Functional Requirements \#6 & Issue \#468 \\
+REV1.1 & Modified team joining process: Only captains can invite players & Functional Requirements & \issueLink{468} \\
 \hline
-REV1.2 & Enhanced schedule view requirements: Added specific views & Functional Requirements \#3 & Issue \#469 \\
+REV1.2 & Enhanced schedule view requirements: Added specific views & Functional Requirements & \issueLink{469} \\
 \hline
-REV1.3 & Added player profile page requirement & Functional Requirements & Issue \#470 \\
+REV1.3 & Added player profile page requirement & Functional Requirements & \issueLink{470} \\
 \hline
-REV1.4 & Update requirements to align with HA document & Non-Functional Requirements & Issue \#473 \\
+REV1.4 & Update requirements to align with HA document & Non-Functional Requirements & \issueLink{473} \\
 \hline
-REV1.5 & Added formal specifications with state machine model & Formal Specifications & Issue \#474 \\
+REV1.5 & Added formal specifications with state machine model & Formal Specifications & \issueLink{474} \\
 \hline
-REV1.6 & Enhanced data dictionary with detailed attributes & Business Data Model & Issue \#476 \\
+REV1.6 & Enhanced data dictionary with detailed attributes & Business Data Model & \issueLink{476} \\
 \hline
-REV1.7 & Expanded introduction with clearer context & Introduction & Issue \#478 \\
+REV1.7 & Expanded introduction with clearer context & Introduction & \issueLink{478} \\
 \hline
-REV1.8 & Implemented consistent requirement numbering (UC1, FR1, NFR-LF1) & All Requirements & Issue \#477 \\
+REV1.8 & Implemented consistent requirement numbering (UC1, FR1, NFR-LF1) & All Requirements & \issueLink{477} \\
 \hline
-REV1.9 & Replaced magic numbers with symbolic constants & All & Issue \#471 \\
+REV1.9 & Replaced magic numbers with symbolic constants & All & \issueLink{471} \\
 \hline
-REV1.10 & Added introductory text to all sections & All & Issue \#485 \\
+REV1.10 & Added introductory text to all sections & All & \issueLink{485} \\
 \hline
-REV1.11 & Added comprehensive traceability matrices & Traceability & Issue \#486 \\
+REV1.11 & Added comprehensive traceability matrices & Traceability & \issueLink{486} \\
 \hline
-REV1.12 & Enhanced diagram descriptions and references & All & Issue \#487 \\
+REV1.12 & Enhanced diagram descriptions and references & All & \issueLink{487} \\
 \hline
-REV1.13 & Add hyperlinks to table and figure references & All & Issue \#488 \\
+REV1.13 & Add hyperlinks to table and figure references & All & \issueLink{488} \\
 \hline
-REV1.14 & Enhanced persona descriptions & Stakeholders & Issue \#489 \\
+REV1.14 & Enhanced persona descriptions & Stakeholders & \issueLink{489} \\
 \hline
-REV1.15 & Added quantifiable fit criteria to NFRs & Non-Functional Requirements & Issue \#472 \\
+REV1.15 & Added quantifiable fit criteria to NFRs & Non-Functional Requirements & \issueLink{472} \\
 \hline
-REV1.16 & Identify requirements that are likely/unlikely to change & Likely Changes & Issue \#505 \\
+REV1.16 & Identify requirements that are likely/unlikely to change & Likely Changes & \issueLink{505} \\
 \hline
-REV1.17 & Identify template and changes made & Template Information & Issue \#506 \\
+REV1.17 & Identify template and changes made & Template Information & \issueLink{506} \\
 \hline
 \end{longtable}
 
@@ -189,7 +190,6 @@ Hands-on users include the players, captains, and commissioners who will interac
         \item \textbf{Technical Proficiency:} Moderate, comfortable with basic web applications
         \item \textbf{Goals:}
         \begin{itemize}
-            \item Find and join a team that matches her skill level
             \item Easily check game schedules around her lab work
             \item Track her team's progress throughout the season
         \end{itemize}
@@ -206,7 +206,7 @@ Hands-on users include the players, captains, and commissioners who will interac
         \item \textbf{Goals:}
         \begin{itemize}
             \item Efficiently manage team roster and communications
-            \item Handle game scheduling and rescheduling requests
+            \item Handle game rescheduling requests
             \item Track team performance and player attendance
         \end{itemize}
         \item \textbf{Pain Points:}
@@ -1140,6 +1140,188 @@ Personal user data such as emails, phone numbers, etc., should be protected by e
 \end{itemize}
 \textbf{Fit Criterion:} All specified best practices must be implemented and verified through testing.
 
+\section{Traceability Matrices}
+This section provides comprehensive traceability between different aspects of the system requirements.
+
+\subsection{Requirements to Use Cases Matrix}
+The following matrix maps functional requirements to their corresponding use cases, showing which requirements are satisfied by which use cases.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{0.2\textwidth}|p{0.7\textwidth}|}
+\hline
+\textbf{Requirement ID} & \textbf{Related Use Cases} \\
+\hline
+FR1 (Login) & UC1 (Login) \\
+\hline
+FR2 (Role Access) & UC1 (Login) \\
+\hline
+FR3 (Schedule View) & UC2 (View Schedule) \\
+\hline
+FR4 (Standings) & UC3 (View Standings) \\
+\hline
+FR5 (Team Creation) & UC4 (Create Team) \\
+\hline
+FR6 (Team Joining) & UC5 (Join Team) \\
+\hline
+FR7 (Schedule Generation) & UC6 (Create Schedule) \\
+\hline
+FR8 (Reschedule Request) & UC7 (Request Reschedule) \\
+\hline
+FR9 (View Announcements) & UC8 (View Announcements) \\
+\hline
+FR10 (Post Announcements) & UC9 (Post Announcements) \\
+\hline
+FR11 (Override) & UC10 (Rain Cancellation/Override) \\
+\hline
+FR12 (Report Results) & UC11 (Report Results) \\
+\hline
+FR13 (Profile Management) & UC8 (View Announcements) \\
+\hline
+\end{tabular}
+\caption{Requirements to Use Cases Traceability}
+\label{tab:req_usecase_matrix}
+\end{table}
+
+\hyperref[tab:req_usecase_matrix]{Table~\ref{tab:req_usecase_matrix}} shows the mapping between requirements and use cases.
+
+\subsection{Requirements to Hazards Matrix}
+This matrix illustrates how requirements address specific hazards identified in the hazard analysis, helping ensure all safety concerns are properly mitigated.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{0.2\textwidth}|p{0.7\textwidth}|}
+\hline
+\textbf{Requirement ID} & \textbf{Related Hazards} \\
+\hline
+FR1, FR2 & H1 (Authentication Failure) \\
+\hline
+FR3, FR4, FR7 & H2.1 (Invalid Schedule Generation), H2.2 (Missing Games) \\
+\hline
+FR12 & H3 (Failed Score Reporting) \\
+\hline
+FR5, FR6 & H4.1, H4.2 (Team/Player Registration Failures) \\
+\hline
+All & H5.1, H5.2 (Data Corruption/Unauthorized Access) \\
+\hline
+FR9, FR10 & H6 (Failed Announcement Delivery) \\
+\hline
+\end{tabular}
+\caption{Requirements to Hazards Traceability}
+\label{tab:req_hazard_matrix}
+\end{table}
+
+As shown in \hyperref[tab:req_hazard_matrix]{Table~\ref{tab:req_hazard_matrix}}, requirements are mapped to specific hazards.
+
+\subsection{Requirements Dependencies Matrix}
+The dependencies matrix shows which requirements rely on other requirements, helping to plan implementation order and identify potential bottlenecks.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{0.2\textwidth}|p{0.7\textwidth}|}
+\hline
+\textbf{Requirement ID} & \textbf{Dependencies} \\
+\hline
+FR2-FR13 & FR1 (Login System) \\
+\hline
+FR3 & FR5 (Team Creation) \\
+\hline
+FR4 & FR12 (Score Reporting) \\
+\hline
+FR6 & FR5 (Team Creation) \\
+\hline
+FR8 & FR7 (Schedule Generation) \\
+\hline
+\end{tabular}
+\caption{Requirements Dependencies}
+\label{tab:req_dependencies}
+\end{table}
+
+\hyperref[tab:req_dependencies]{Table~\ref{tab:req_dependencies}} illustrates the dependencies between requirements.
+
+\section{Likely Changes}
+This section identifies requirements that are likely or unlikely to change over time, helping to guide future maintenance and development efforts.
+
+\subsection{Requirements Likely to Change}
+The following requirements are anticipated to evolve as the league grows and technology advances:
+
+\begin{itemize}
+    \item \textbf{Team Capacity} (FR5, NFR-P5)
+    \begin{itemize}
+        \item The maximum number of teams (\hyperref[MAX_TEAMS]{\texttt{MAX\_TEAMS}}) may need to increase as the league grows
+        \item Team roster size limits may need adjustment based on participation trends
+    \end{itemize}
+
+    \item \textbf{Schedule Management} (FR7, FR8)
+    \begin{itemize}
+        \item Scheduling algorithms may need enhancement to accommodate new game formats
+        \item Rescheduling policies (\hyperref[RESCHEDULE_NOTICE_HOURS]{\texttt{RESCHEDULE\_NOTICE\_HOURS}}) may be adjusted based on user feedback
+    \end{itemize}
+
+    \item \textbf{User Interface} (NFR-LF1, NFR-LF2)
+    \begin{itemize}
+        \item Visual design elements may need updates to stay modern
+        \item New accessibility requirements may emerge
+        \item Mobile interface may need optimization for new devices
+    \end{itemize}
+
+    \item \textbf{Performance Requirements} (NFR-P1)
+    \begin{itemize}
+        \item Response time requirements (\hyperref[MAX_RESPONSE_TIME]{\texttt{MAX\_RESPONSE\_TIME}}) may become stricter
+        \item Concurrent user capacity may need to increase
+    \end{itemize}
+
+    \item \textbf{Security Standards} (NFR-S1, NFR-S3)
+    \begin{itemize}
+        \item Authentication methods may need updates for new security threats
+        \item Data protection requirements may evolve with new regulations
+    \end{itemize}
+\end{itemize}
+
+\subsection{Requirements Unlikely to Change}
+The following requirements are expected to remain stable:
+
+\begin{itemize}
+    \item \textbf{Core Game Logic} (FR12)
+    \begin{itemize}
+        \item Basic softball scoring and standings calculations
+        \item Win/loss/tie determination rules
+    \end{itemize}
+
+    \item \textbf{Role Hierarchy} (FR1, FR2)
+    \begin{itemize}
+        \item Basic roles (commissioner, captain, player)
+        \item Core permission structure
+    \end{itemize}
+
+    \item \textbf{Data Model Fundamentals} (Business Data Model)
+    \begin{itemize}
+        \item Basic entity relationships (teams, players, games)
+        \item Core data attributes for each entity
+    \end{itemize}
+
+    \item \textbf{Communication Flow} (FR9, FR10)
+    \begin{itemize}
+        \item Basic announcement structure
+        \item Team-player communication channels
+    \end{itemize}
+
+    \item \textbf{Compliance Requirements} (NFR-L1)
+    \begin{itemize}
+        \item User data privacy rights
+        \item Basic legal compliance needs
+    \end{itemize}
+\end{itemize}
+
+\subsection{Impact Analysis}
+Understanding which requirements are likely to change helps in:
+\begin{itemize}
+    \item Designing flexible architecture that can accommodate future changes
+    \item Planning maintenance schedules and resource allocation
+    \item Prioritizing modular development for components likely to change
+    \item Establishing stable core functionality that can support evolving features
+\end{itemize}
+
 \section{Open Issues}
 This section details the open issues that are still under discussion.
 \begin{itemize}
@@ -1301,7 +1483,6 @@ Players who sign up without a pre-formed team will be placed in a waiting room, 
 
 Therefore, we need a database to hold the status of each player in the waiting room. On the front user interface, the waiting room should be displayed to all users, so teams can see available free agents. For users with team manager permissions, they will be able to invite free agents from the waiting room to their teams if desired.
 
-
 \newpage{}
 \section*{Appendix --- Reflection}
 
@@ -1330,105 +1511,6 @@ Therefore, we need a database to hold the status of each player in the waiting r
 
 \bibitem{rest2023} Fielding, R. T. (2023). REST API Design Standards. \url{https://restfulapi.net/}
 \end{thebibliography}
-
-\section{Traceability Matrices}
-This section provides comprehensive traceability between different aspects of the system requirements.
-
-\subsection{Requirements to Use Cases Matrix}
-The following matrix maps functional requirements to their corresponding use cases, showing which requirements are satisfied by which use cases.
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{0.2\textwidth}|p{0.7\textwidth}|}
-\hline
-\textbf{Requirement ID} & \textbf{Related Use Cases} \\
-\hline
-FR1 (Login) & UC1 (Login) \\
-\hline
-FR2 (Role Access) & UC1 (Login) \\
-\hline
-FR3 (Schedule View) & UC2 (View Schedule) \\
-\hline
-FR4 (Standings) & UC3 (View Standings) \\
-\hline
-FR5 (Team Creation) & UC4 (Create Team) \\
-\hline
-FR6 (Team Joining) & UC5 (Join Team) \\
-\hline
-FR7 (Schedule Generation) & UC6 (Create Schedule) \\
-\hline
-FR8 (Reschedule Request) & UC7 (Request Reschedule) \\
-\hline
-FR9 (View Announcements) & UC8 (View Announcements) \\
-\hline
-FR10 (Post Announcements) & UC9 (Post Announcements) \\
-\hline
-FR11 (Override) & UC10 (Rain Cancellation/Override) \\
-\hline
-FR12 (Report Results) & UC11 (Report Results) \\
-\hline
-FR13 (Profile Management) & UC8 (View Announcements) \\
-\hline
-\end{tabular}
-\caption{Requirements to Use Cases Traceability}
-\label{tab:req_usecase_matrix}
-\end{table}
-
-\hyperref[tab:req_usecase_matrix]{Table~\ref{tab:req_usecase_matrix}} shows the mapping between requirements and use cases.
-
-\subsection{Requirements to Hazards Matrix}
-This matrix illustrates how requirements address specific hazards identified in the hazard analysis, helping ensure all safety concerns are properly mitigated.
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{0.2\textwidth}|p{0.7\textwidth}|}
-\hline
-\textbf{Requirement ID} & \textbf{Related Hazards} \\
-\hline
-FR1, FR2 & H1 (Authentication Failure) \\
-\hline
-FR3, FR4, FR7 & H2.1 (Invalid Schedule Generation), H2.2 (Missing Games) \\
-\hline
-FR12 & H3 (Failed Score Reporting) \\
-\hline
-FR5, FR6 & H4.1, H4.2 (Team/Player Registration Failures) \\
-\hline
-All & H5.1, H5.2 (Data Corruption/Unauthorized Access) \\
-\hline
-FR9, FR10 & H6 (Failed Announcement Delivery) \\
-\hline
-\end{tabular}
-\caption{Requirements to Hazards Traceability}
-\label{tab:req_hazard_matrix}
-\end{table}
-
-As shown in \hyperref[tab:req_hazard_matrix]{Table~\ref{tab:req_hazard_matrix}}, requirements are mapped to specific hazards.
-
-\subsection{Requirements Dependencies Matrix}
-The dependencies matrix shows which requirements rely on other requirements, helping to plan implementation order and identify potential bottlenecks.
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{0.2\textwidth}|p{0.7\textwidth}|}
-\hline
-\textbf{Requirement ID} & \textbf{Dependencies} \\
-\hline
-FR2-FR13 & FR1 (Login System) \\
-\hline
-FR3 & FR5 (Team Creation) \\
-\hline
-FR4 & FR12 (Score Reporting) \\
-\hline
-FR6 & FR5 (Team Creation) \\
-\hline
-FR8 & FR7 (Schedule Generation) \\
-\hline
-\end{tabular}
-\caption{Requirements Dependencies}
-\label{tab:req_dependencies}
-\end{table}
-
-\hyperref[tab:req_dependencies]{Table~\ref{tab:req_dependencies}} illustrates the dependencies between requirements.
 
 \section{Appendix}
 
@@ -1461,88 +1543,5 @@ Their values are defined in this section for easy maintenance.
     \texttt{PAGE\_LOAD\_TIME\_SECONDS}\label{PAGE_LOAD_TIME_SECONDS} & 3 & s & maximum acceptable page load time \\ \hline
     \texttt{DATABASE\_QUERY\_TIME\_MS}\label{DATABASE_QUERY_TIME_MS} & 100 & ms & maximum acceptable database query response time \\ \hline
 \end{longtable}
-
-\section{Likely Changes}
-This section identifies requirements that are likely or unlikely to change over time, helping to guide future maintenance and development efforts.
-
-\subsection{Requirements Likely to Change}
-The following requirements are anticipated to evolve as the league grows and technology advances:
-
-\begin{itemize}
-    \item \textbf{Team Capacity} (FR5, NFR-P5)
-    \begin{itemize}
-        \item The maximum number of teams (\hyperref[MAX_TEAMS]{\texttt{MAX\_TEAMS}}) may need to increase as the league grows
-        \item Team roster size limits may need adjustment based on participation trends
-    \end{itemize}
-
-    \item \textbf{Schedule Management} (FR7, FR8)
-    \begin{itemize}
-        \item Scheduling algorithms may need enhancement to accommodate new game formats
-        \item Rescheduling policies (\hyperref[RESCHEDULE_NOTICE_HOURS]{\texttt{RESCHEDULE\_NOTICE\_HOURS}}) may be adjusted based on user feedback
-    \end{itemize}
-
-    \item \textbf{User Interface} (NFR-LF1, NFR-LF2)
-    \begin{itemize}
-        \item Visual design elements may need updates to stay modern
-        \item New accessibility requirements may emerge
-        \item Mobile interface may need optimization for new devices
-    \end{itemize}
-
-    \item \textbf{Performance Requirements} (NFR-P1)
-    \begin{itemize}
-        \item Response time requirements (\hyperref[MAX_RESPONSE_TIME]{\texttt{MAX\_RESPONSE\_TIME}}) may become stricter
-        \item Concurrent user capacity may need to increase
-    \end{itemize}
-
-    \item \textbf{Security Standards} (NFR-S1, NFR-S3)
-    \begin{itemize}
-        \item Authentication methods may need updates for new security threats
-        \item Data protection requirements may evolve with new regulations
-    \end{itemize}
-\end{itemize}
-
-\subsection{Requirements Unlikely to Change}
-The following requirements are expected to remain stable:
-
-\begin{itemize}
-    \item \textbf{Core Game Logic} (FR12)
-    \begin{itemize}
-        \item Basic softball scoring and standings calculations
-        \item Win/loss/tie determination rules
-    \end{itemize}
-
-    \item \textbf{Role Hierarchy} (FR1, FR2)
-    \begin{itemize}
-        \item Basic roles (commissioner, captain, player)
-        \item Core permission structure
-    \end{itemize}
-
-    \item \textbf{Data Model Fundamentals} (Business Data Model)
-    \begin{itemize}
-        \item Basic entity relationships (teams, players, games)
-        \item Core data attributes for each entity
-    \end{itemize}
-
-    \item \textbf{Communication Flow} (FR9, FR10)
-    \begin{itemize}
-        \item Basic announcement structure
-        \item Team-player communication channels
-    \end{itemize}
-
-    \item \textbf{Compliance Requirements} (NFR-L1)
-    \begin{itemize}
-        \item User data privacy rights
-        \item Basic legal compliance needs
-    \end{itemize}
-\end{itemize}
-
-\subsection{Impact Analysis}
-Understanding which requirements are likely to change helps in:
-\begin{itemize}
-    \item Designing flexible architecture that can accommodate future changes
-    \item Planning maintenance schedules and resource allocation
-    \item Prioritizing modular development for components likely to change
-    \item Establishing stable core functionality that can support evolving features
-\end{itemize}
 
 \end{document}
