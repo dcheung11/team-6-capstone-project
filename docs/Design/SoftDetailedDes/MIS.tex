@@ -1753,6 +1753,9 @@ graduate attribute of Problem Analysis and Design.
         For example, instead of using normal CSS, we chose to use Material UI as it is a library that is continuously up to date and won’t be disappearing any time soon. By using this react component library, we save time and efficiency by not needing to reinvent the wheel every time we want to style a component. We wanted to create the other design solutions from scratch, such as the game scheduling algorithm, as that would be the best possible solution to prevent raised concerns about the long-term sustainability of the project.
 
         Other design solutions will be created with an open mind so that the platform can evolve according to specific league requirements. For example, we could choose to hard code the minimum or maximum number of players on the team, in case the client wants to easily change it in the future by replacing the value with another value. It is something that a new developer can easily understand and acknowledge, instead of needing to dive into reading documentation or in the worst case, the entire code base.
+
+        In addition to these decisions, we carefully decomposed our system into distinct logical modules—such as the announcements module, scheduling module, team management module, and user authentication module. This modular approach allowed us to focus on solving specific problems in isolation, streamline the development process, and plan for long-term maintainability. Compared to a monolithic design or a microservices approach, our MVC-based modular decomposition struck the right balance between simplicity and flexibility, ensuring that each component could be updated independently without impacting the entire system. This design choice was driven by our goal to maintain autonomy for our client, allowing them to operate and extend the system independently over time.
+
 \end{enumerate}
 
 
