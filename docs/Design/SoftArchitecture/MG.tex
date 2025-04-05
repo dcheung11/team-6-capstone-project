@@ -4,6 +4,8 @@
 \usepackage[round]{natbib}
 \usepackage{multirow}
 \usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{siunitx}
 \usepackage{tabularx}
 \usepackage{graphicx}
 \usepackage{float}
@@ -975,5 +977,34 @@ More info can be found \href{https://github.com/dcheung11/team-6-capstone-projec
 \bibliography{../../../refs/References}
 
 \newpage{}
+
+\subsection{Revision 1 Traceability}
+The following table tracks all significant changes made to the document based on feedback, requirements changes, and improvements:
+
+\newcommand{\issueLink}[1]{\href{https://github.com/dcheung11/team-6-capstone-project/issues/#1}{Issue #1}}
+
+\begin{longtable}{|p{0.15\textwidth}|p{0.35\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|}
+  \caption{Traceability of Revision 1 Changes} \label{tab:revision_traceability}                                                                             \\
+  \hline
+  \textbf{Change ID} & \textbf{Description of Change}                                                 & \textbf{Affected Section(s)} & \textbf{GitHub Issue} \\
+  \hline
+  \endfirsthead
+
+  \multicolumn{4}{c}{\tablename\ \thetable{} -- Continued from previous page}                                                                                \\
+  \hline
+  \textbf{Change ID} & \textbf{Description of Change}                                                 & \textbf{Affected Section(s)} & \textbf{GitHub Issue} \\
+  \hline
+  \endhead
+
+  \hline \multicolumn{4}{r}{Continued on next page}                                                                                                          \\
+  \endfoot
+
+  \hline
+  \endlastfoot
+
+  REV1.1             & Added explanations to AC/UCs                                            & 4 - Anticipated and Unlikely Changes    & \issueLink{511}          \\
+  REV1.2             & Changed Protocols to use noun endpoints and HTTP requests explain actions & 11 - Design of Communication Protocols                      &
+  \issueLink{511}                                                                                                                                               \\
+\end{longtable}
 
 \end{document}
