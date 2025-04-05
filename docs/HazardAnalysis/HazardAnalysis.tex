@@ -118,14 +118,14 @@ The goal is to identify potential risks that could affect system safety, securit
 
                 User Authentication       &
                 Fails to authenticate/register user
-                                          & Access denied to league members         & Error in credentials or input, server issues, database connectivity                     & Allow credential recovery and auth retry                         & 1, 2, 3                                                                                                                                                                       & H1                            \\
+                                          & Access denied to league members         & Error in credentials or input, server issues, database connectivity                     & Allow credential recovery and auth retry                         & FR1, FR2                                                                                                                                                                      & H1                            \\
                 \midrule
 
                 Game Scheduling           &
                 \begin{itemize}[nosep,leftmargin=*]
                     \item Fails to generate valid schedule
                     \item Missing games in the schedule
-                    \item Teams end up with either different games compared to others
+                    \item Teams end up with significantly different number of games compared to others
                     \item Rescheduling requests not processed or applied correctly
                 \end{itemize}
                                           &
@@ -149,10 +149,10 @@ The goal is to identify potential risks that could affect system safety, securit
                     \item Conduct pre-release schedule check
                     \item Implement algorithm to handle concurrent requests
                 \end{itemize}
-                                          & 4, 8, 9                                 & H2.1-4                                                                                                                                                                                                                                                                                                                                                                     \\
+                                          & FR3, FR4, FR7, FR8                                 & H2.1-4                                                                                                                                                                                                                                                                                                                                                                     \\
                 \midrule
 
-                Game Result Reporting     & Failed score reporting                  & League standings incorrect or not updated on time                                       & Network issues, missing auto-save functionality                  & Implement auto-save and score-reporting validation checks                                                                                                                     & 4, 6          & H3            \\
+                Game Result Reporting     & Failed score reporting                  & League standings incorrect or not updated on time                                       & Network issues, missing auto-save functionality                  & Implement auto-save and score-reporting validation checks                                                                                                                     & FR4, FR12         & H3            \\
                 \midrule
 
                 Team/Player Management    &
@@ -165,7 +165,7 @@ The goal is to identify potential risks that could affect system safety, securit
                     \item Player participation impacted
                     \item Team participation impacted
                 \end{itemize}
-                                          & Form validation errors, server timeouts & Ensure robust signup and error handling mechanisms, logging errors and allowing retries & 4, 6                                                             & H4.1-2                                                                                                                                                                                                        \\
+                                          & Form validation errors, server timeouts & Ensure robust signup and error handling mechanisms, logging errors and allowing retries & FR5, FR6                                                             & H4.1-2                                                                                                                                                                                                        \\
                 \midrule
 
                 Database                  &
@@ -188,16 +188,13 @@ The goal is to identify potential risks that could affect system safety, securit
                     \item Implement regular backups and database health monitoring
                     \item Implement strong access controls and database encryption
                 \end{itemize}
-                                          & 4                                       & H5.1-2                                                                                                                                                                                                                                                                                                                                                                     \\
+                                          & all                                       & H5.1-2                                                                                                                                                                                                                                                                                                                                                                     \\
                 \midrule
 
-                Announcement System       & Failed announcement creation or display & Players may miss important updates such as game cancellations                           & Server timeouts, database corruption, code bugs                  & Implement multiple announcement delivery methods (site announcements, email), display error message on announcement creation or display failures, allow easy creation retries & 6             & H6            \\
+                Announcement System       & Failed announcement creation or display & Players may miss important updates such as game cancellations                           & Server timeouts, database corruption, code bugs                  & Implement multiple announcement delivery methods (site announcements, email), display error message on announcement creation or display failures, allow easy creation retries & FR9, FR10             & H6            \\
                 \midrule
 
-                External Payment Tracking & Incorrect payment status recorded       & Players marked as unpaid despite paying (or vice versa), leading to disputes            & Payment record synchronization issues; delayed or failed updates & Ensure payment status synchronization and require validation to be accepted                                                                                                   & 5, 6, 7       & H7            \\
-                \midrule
-
-                System Availability       & Server downtime                         & Users unable to access the platform                                                     & Hosting server issues, lack of redundancy                        & Implement server redundancy, monitor uptime, and create a disaster recovery plan                                                                                              & 4             & H1            \\
+                System Availability       & Server downtime                         & Users unable to access the platform                                                     & Hosting server issues, lack of redundancy                        & Implement server redundancy, monitor uptime, and create a disaster recovery plan                                                                                              & all             & H8            \\
                 \bottomrule
             \end{tabular}
         \end{footnotesize}
@@ -413,7 +410,7 @@ The goal is to identify potential risks that could affect system safety, securit
 
 \end{enumerate}
 
-\subsection{Revision 1 Traceability}
+\section{Revision 1 Traceability}
 The following table tracks all significant changes made to the document based on feedback, requirements changes, and improvements:
 
 \newcommand{\issueLink}[1]{\href{https://github.com/dcheung11/team-6-capstone-project/issues/#1}{Issue #1}}
@@ -441,6 +438,7 @@ The following table tracks all significant changes made to the document based on
     REV1.2             & Added scope to hazards                  & 2 - Introduction             & \issueLink{510}       \\
     REV1.3             & Added abbreviations to new requirements & 6.1                          & \issueLink{510}       \\
     REV1.4             & Changed some unclear things with schedule feasibility and announcement failures   & 5 - FMEA Table    & \issueLink{510}       \\
+    REV1.5             & Removed an incorrect hazard from the FMEA table (was payment tracking which is out of scope) and updated requirement traceability  & 5 - FMEA Table    & \issueLink{510}       \\
 \end{longtable}
 
 \end{document}
