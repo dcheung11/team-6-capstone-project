@@ -598,8 +598,7 @@ requirements and between the modules and the anticipated changes.
     \acref{acDbSchema}      & \mref{mAuth}, \mref{mTeamManagement}, \mref{mStandings}, \mref{mBackend} \\
     \acref{acUIEnhance}     & \mref{mUI}, \mref{mNotification}                                         \\
     \acref{acNewAlg}        & \mref{mScheduling}, \mref{mAlgo}                                         \\
-    \acref{acDataSecurity}  & \mref{mAuth}, \mref{mStandings}, \mref{mBackend}                         \\
-    \acref{acNotifSystem}   & \mref{mNotification}, \mref{mBackend}                                    \\
+    \acref{acDataSecurity}  & \mref{mAuth}, \mref{mStandings}, \mref{mBackend}                         \\                              \\
     \bottomrule
   \end{tabular}
   \caption{Trace Between Anticipated Changes and Modules}
@@ -621,7 +620,7 @@ because they use modules from the lower levels.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1.1\textwidth]{module-decomp.png}
+  \includegraphics[scale=0.7]{module-decomp.pdf}
   \caption{Use hierarchy among modules}
   \textit{Note: Backend Module uses several record modules that represent data entities including Game, Type, Player, Season, Standing, Division, etc. The schemas for these record modules will be further specified in the MIS.pdf}
   \label{FigUH}
@@ -642,7 +641,7 @@ The login view allows users to securely log in to the system using their credent
 
 \begin{figure}[H]
   \centering
-  \includegraphics[scale=0.25]{loginpage.png}
+  \includegraphics[scale=0.7]{loginpage.pdf}
   \caption{Login View}
   \label{fig:login_view}
 \end{figure}
@@ -654,7 +653,7 @@ The homepage view provides users with a dashboard that displays key information,
 
 \begin{figure}[H]
   \centering
-  \includegraphics[scale=0.22]{LeagueHomeView.png}
+  \includegraphics[scale=0.7]{LeagueHomeView.pdf}
   \caption{Homepage View}
   \label{fig:homepage_view}
 \end{figure}
@@ -666,7 +665,7 @@ The team management view players to view their team information, including upcom
 
 \begin{figure}[H]
   \centering
-  \includegraphics[scale=0.25]{TeamHomeView.png}
+  \includegraphics[scale=0.7]{TeamHomeView.pdf}
   \caption{Team Management View}
   \label{fig:team_management_view}
 \end{figure}
@@ -678,7 +677,7 @@ The scheduling view allows users to view the season's game schedule.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[scale=0.25]{TeamScheduleView.png}
+  \includegraphics[scale=0.7]{TeamScheduleView.pdf}
   \caption{Scheduling View}
   \label{fig:scheduling_view}
 \end{figure}
@@ -690,7 +689,7 @@ The standings view displays the league rankings, win-loss records, and statistic
 
 \begin{figure}[H]
   \centering
-  \includegraphics[scale=0.25]{StandingsView.png}
+  \includegraphics[scale=0.7]{StandingsView.pdf}
   \caption{Standings View}
   \label{fig:standings_view}
 \end{figure}
@@ -1003,8 +1002,8 @@ The following table tracks all significant changes made to the document based on
   \endlastfoot
 
   REV1.1             & Added explanations to AC/UCs                                            & 4 - Anticipated and Unlikely Changes    & \issueLink{511}          \\
-  REV1.2             & Changed Protocols to use noun endpoints and HTTP requests explain actions & 11 - Design of Communication Protocols                      &
-  \issueLink{511}                                                                                                                                               \\
+  REV1.2             & Changed Protocols to use noun endpoints and HTTP requests explain actions & 11 - Design of Communication Protocols  & \issueLink{511}                    \\
+  REV1.3             & Changed image attachments to pdfs                        & 9, 10                         & \issueLink{511}          \\
 \end{longtable}
 
 \end{document}
