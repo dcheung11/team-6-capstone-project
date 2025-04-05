@@ -3,15 +3,13 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{parskip}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{array}
 
-\title{Development Plan\\\progname}
-
-\author{\authname}
+\title{Development Plan}
 
 \date{}
-
-\input{../Comments}
-\input{../Common}
 
 \begin{document}
 
@@ -23,6 +21,7 @@
 \toprule
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
+April 4, 2025 & Derek Li & Final Revision\\
 October 28, 2024 & Damien Cheung & Revision of 9\\
 September 24, 2024 & Emma Wigglesworth & Completion of 1, 2, 3, 4, 5, 6, 7, and final edits to all sections\\
 September 21, 2024 & Temituoyo Ugborogho & Completion of 8, Appendix\\
@@ -32,19 +31,55 @@ September 21, 2024 & Derek Li & Completion of 10, 11\\
 \end{tabularx}
 \end{table}
 
+\subsection{Revision 1 Traceability}
+The following table tracks all significant changes made to the SRS based on feedback, requirements changes, and improvements:
+
+\newcommand{\issueLink}[1]{\href{https://github.com/dcheung11/team-6-capstone-project/issues/#1}{Issue #1}}
+
+\begin{longtable}{|p{0.15\textwidth}|p{0.35\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|}
+\caption{Traceability of Revision 1 Changes} \label{tab:revision_traceability} \\
+\hline
+\textbf{Change ID} & \textbf{Description of Change} & \textbf{Affected Section(s)} & \textbf{GitHub Issue} \\
+\hline
+\endfirsthead
+
+\multicolumn{4}{c}{\tablename\ \thetable{} -- Continued from previous page} \\
+\hline
+\textbf{Change ID} & \textbf{Description of Change} & \textbf{Affected Section(s)} & \textbf{GitHub Issue} \\
+\hline
+\endhead
+
+\hline \multicolumn{4}{r}{Continued on next page} \\
+\endfoot
+
+\hline
+\endlastfoot
+
+REV1.1 & Modified confidential information: Platform handles some confidential information, gave more in-depth description & Section 1 & \issueLink{517} \\
+\hline
+REV1.2 & Modified IP to Protect: Updated description to provide more in-depth explanation & Section 2 & \issueLink{518} \\
+\hline
+REV1.3 & Copyright License: Added package to make link work & Section 3 &\issueLink{520} \\
+\hline
+REV1.4 & Added Prototype Iteration Section: Explicitly explained the iterative cycle to develop the platform & Section 10 & \issueLink{521} \\
+\hline
+REV1.5 & Modified explanation of testing: Unit and Manual Testing instead of using Playwright & Section 11.6 & \issueLink{519} \\
+\hline
+.. & .. & .. & .. \\
+\end{longtable}
 \newpage{}
 
 \subsubsection*{\raggedright{Capstone Project: McMaster Softball League Online Scheduling and League Management Platform}}
 This development plan outlines the approach Team 6 will take to ensure the successful completion of our capstone project. The document covers key areas such as team roles, meeting schedules, and communication strategies to promote effective collaboration. It also details the tools, technologies, and workflows we will use to manage tasks, track progress, and maintain code quality. Additionally, the plan includes a breakdown of project milestones, scheduling, and potential risks. By following this plan, our team aims to stay organized, meet deadlines, and deliver a high-quality final product.
 
 \section{Confidential Information}
-There is no confidential information to protect.
+The platform will handle some confidential information, such as players' email addresses and phone numbers. To protect user privacy, this information will only be visible to members of the same team and the league commissioner, who may need access for coordination and communication purposes. It is not accessible to other users or the public. We will ensure that sensitive data is stored securely and only shared when necessary to support team communication and platform functionality.
 
 \section{IP to Protect}
-There is no IP to protect.
+The platform will not store or expose any sensitive IP (Internet Protocol) address information. There are no specific IP-related protections required beyond standard network security practices.
 
 \section{Copyright License}
-Our team will use the \href{https://github.com/dcheung11/team-6-capstone-project/blob/main/LICENSE}{MIT License}.
+Our team will use the following \href{https://github.com/dcheung11/team-6-capstone-project/blob/main/LICENSE}{MIT License}.
 
 \section{Team Meeting Plan}
 The team will meet twice a week, with a strong emphasis on maintaining at least one in-person meeting whenever possible. Physical meeting locations and continuous discussion outside of meeting times will be communicated internally over text messaging or the team’s designated communication platform (Discord).
@@ -299,6 +334,10 @@ To address these risks, the PoC demonstration will focus on the following key ar
 
 \end{enumerate}
 
+\section{Prototype Iteration}
+
+Our team will follow an iterative approach to design and development, with each cycle focused on refining the platform based on feedback and testing. We plan to begin each iteration by creating draft designs using Figma to map out user flows and interface elements. These designs will be reviewed with our supervisor to gather initial feedback. Based on their input, we will adjust the designs as needed and then move forward with implementing the changes in code. After development, we will perform functional testing and conduct usability surveys to evaluate how users interact with the platform. For best results, we will select users who have experience with McMaster IMLeagues, which is the platform used for McMaster Intramurals. The results from testing and surveys will be discussed with our supervisor to guide further improvements. This iterative cycle will repeat throughout development, aligning us closer with the actual user scenarios described by our supervisor.
+
 \section{Expected Technology}
 Since the McMaster Softball League Platform will be a full-stack web development project, it is best to use technologies that are popular in the industry and ones that we are already familiar with. We choose to use modern frameworks so that this project can be easily picked up by someone else in the future if updates or modifications are needed. Our project needs to be highly maintainable and able to scale in size for long-term use.
 
@@ -330,13 +369,13 @@ Version control such as git, GitHub, and GitHub projects is mandatory to avoid c
 \subsection{Authentication}
 JWT (JSON Web Tokens) is the standard for secure user authentication and we can use this to vary access control depending on the user role. For our platform, permissions will be different for players, captains, and commissioners.
 
-\subsection{DevOps \& Deployment}
+\subsection{DevOps \& Deployment (CI/CD)}
 We will use GitHub Actions to set up Continuous Integration (CI) and Continuous Deployment (CD). GitHub provides documentation that we can follow to learn more about its features.
 
 Since the current website is already being hosted in some domain, we can reuse the same domain for our production. We do not need other deployments.
 
 \subsection{Testing}
-Playwright is the most popular and modern framework for end-to-end web testing. It provides fast execution times and provides many configuration options, such as running test cases in parallel. The platform also works well across different devices and user scenarios. The syntax is very intuitive and the documentation for this framework is very straightforward. Unlike Selenium, there is no need to install any web drivers and struggle with difficult setups.
+We will use a combination of automated and manual testing to ensure the platform works reliably. Simple unit tests will be written to verify that core backend functionalities, such as user account creation, correctly handle and store inputs like name, email, and password. In addition to this, we will perform a lot of manual testing by navigating through the website ourselves, interacting with various features, and checking that everything behaves as expected from a user's perspective. This hands-on approach will help us quickly catch usability issues and edge cases that automated tests might miss.
 
 \section{Coding Standard}
 Similar to any engineering project, there are practices and rules that our web development project must adhere to. This list will contain the rules that we want to follow to make our project maintainable and scalable long-term for the present and future.
