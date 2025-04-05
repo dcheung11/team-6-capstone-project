@@ -1277,28 +1277,119 @@ The test execution process will be managed as follows:
     \end{itemize}
 \end{itemize}
 
-\subsection{Usability Testing Plan}
-A usability study will be conducted with 5 participants to evaluate the platform's navigation and user experience:
+\section{Unit Testing Summary}
 
+\subsection{Backend Unit Testing}
+
+Our backend unit testing is conducted using Jest and executed via npm test in the backend directory. The test files are located in the backend/test folder. These unit tests focus on verifying the fundamental functionality of our backend models, ensuring they behave as expected when interacting with MongoDB.
+
+\subsubsection{Player Model Tests}
 \begin{itemize}
-    \item \textbf{Test Participants:} 5 individuals with varying levels of technical experience
-    \item \textbf{Test Scenarios:}
-    \begin{itemize}
-        \item Account creation and login
-        \item Team registration process
-        \item Game schedule viewing
-        \item Team management tasks
-    \end{itemize}
-    \item \textbf{Data Collection:}
-    \begin{itemize}
-        \item Time taken to complete each task
-        \item Number of errors encountered
-        \item User feedback through surveys
-        \item Observations of user behavior
-    \end{itemize}
+    \item \textbf{test-player-creation}: Verifies that the player model can be created with valid input and default fields are set correctly.
+    \item \textbf{test-player-uniqueness}: Verifies that the player model enforces uniqueness for the email field.
+    \item \textbf{test-player-validation}: Ensures proper validation of required fields and data types.
 \end{itemize}
 
-\subsection{Test Maintenance}
+\subsubsection{Team Model Tests}
+\begin{itemize}
+    \item \textbf{test-team-creation}: Verifies that the team model can be created with valid input and default fields are set correctly.
+    \item \textbf{test-team-uniqueness}: Ensures team names are unique within a season.
+    \item \textbf{test-team-validation}: Validates required fields and data types.
+\end{itemize}
+
+\subsubsection{Game Model Tests}
+\begin{itemize}
+    \item \textbf{test-game-creation}: Verifies that a game can be created with valid input and default fields are set correctly.
+    \item \textbf{test-game-validation}: Ensures proper validation of game-related fields.
+    \item \textbf{test-game-updates}: Verifies that game updates (scores, status) are handled correctly.
+\end{itemize}
+
+\subsubsection{Schedule Model Tests}
+\begin{itemize}
+    \item \textbf{test-schedule-creation}: Verifies that a schedule can be created with valid input.
+    \item \textbf{test-schedule-validation}: Ensures proper validation of schedule-related fields.
+    \item \textbf{test-schedule-updates}: Verifies that schedule updates are handled correctly.
+\end{itemize}
+
+\subsection{Frontend Unit Testing}
+
+Our frontend unit testing is conducted using Jest and React Testing Library. The test files are located in the frontend/src/test directory.
+
+\subsubsection{Component Tests}
+\begin{itemize}
+    \item \textbf{test-login-component}: Verifies that the login form renders correctly and handles user input.
+    \item \textbf{test-team-management}: Ensures team management components function as expected.
+    \item \textbf{test-schedule-view}: Verifies that the schedule view renders and updates correctly.
+\end{itemize}
+
+\subsubsection{Integration Tests}
+\begin{itemize}
+    \item \textbf{test-authentication-flow}: Verifies the complete authentication process.
+    \item \textbf{test-team-creation-flow}: Ensures the team creation process works end-to-end.
+    \item \textbf{test-game-scheduling-flow}: Verifies the game scheduling process.
+\end{itemize}
+
+\section{Feedback and Changes Documentation}
+
+\subsection{Supervisor Feedback Implementation}
+
+\begin{itemize}
+    \item \textbf{Team Invitation System}: Based on supervisor feedback, we modified the team joining process to only allow captains to invite players, rather than allowing players to request to join teams. This change was implemented to prevent spam and improve the user experience for captains.
+    \item \textbf{Game Result Submission}: Simplified the game result submission process by removing the need for captains to manually input game results (Win/Lose/Tie). Instead, results are automatically calculated based on scores.
+    \item \textbf{User Interface Consistency}: Addressed feedback regarding inconsistent color usage (yellow appearing randomly) by implementing a standardized color scheme across all views.
+\end{itemize}
+
+\subsection{User Testing Feedback Implementation}
+
+\begin{itemize}
+    \item \textbf{Navigation Flow}: Based on feedback from 5 test users, we improved the navigation flow to ensure all main views are accessible within \texttt{MAX\_NAVTIME} seconds.
+    \item \textbf{Mobile Responsiveness}: Enhanced mobile responsiveness based on user feedback, ensuring consistent experience across devices.
+    \item \textbf{Form Validation}: Implemented stricter validation for email addresses and other form fields based on user testing feedback.
+\end{itemize}
+
+\subsection{Team Feedback Implementation}
+
+\begin{itemize}
+    \item \textbf{Testing Strategy}: Modified our testing approach based on team feedback, focusing more on manual testing for certain features where it proved more effective than automated testing.
+    \item \textbf{Documentation Updates}: Enhanced documentation based on team feedback to ensure clarity and completeness.
+    \item \textbf{Code Organization}: Restructured code organization based on team feedback to improve maintainability.
+\end{itemize}
+
+\subsection{TA/Instructor Feedback Implementation}
+
+\begin{itemize}
+    \item \textbf{Test Coverage}: Increased test coverage based on feedback, particularly for edge cases and error handling.
+    \item \textbf{Documentation Standards}: Improved documentation to meet the required standards for clarity and completeness.
+    \item \textbf{Code Quality}: Enhanced code quality through implementation of suggested improvements in error handling and validation.
+\end{itemize}
+
+\subsection{Traceability of Changes}
+
+\begin{longtable}{|p{0.33\textwidth}|p{0.33\textwidth}|p{0.33\textwidth}|}
+    \caption{Traceability of Changes to Feedback Sources}\\ \hline
+    \textbf{Change} & \textbf{Feedback Source} & \textbf{Reason for Change} \\ \hline
+    \endfirsthead
+    \multicolumn{3}{c}%
+    {{\bfseries Table -- Continued}} \\ \hline
+    \textbf{Change} & \textbf{Feedback Source} & \textbf{Reason for Change} \\ \hline
+    \endhead
+    \hline \multicolumn{3}{r}{{Continued on next page}} \\ \hline
+    \endfoot
+    \hline
+    \endlastfoot
+    
+    Modified team joining process & Supervisor & Prevent spam and improve captain experience \\ \hline
+    Simplified game result submission & Team & Improve user experience and reduce errors \\ \hline
+    Standardized color scheme & User Testing & Address visual consistency issues \\ \hline
+    Enhanced mobile responsiveness & User Testing & Improve cross-device experience \\ \hline
+    Improved form validation & User Testing & Prevent invalid data entry \\ \hline
+    Modified testing strategy & Team & Optimize testing efficiency \\ \hline
+    Increased test coverage & TA/Instructor & Ensure comprehensive testing \\ \hline
+    Enhanced documentation & TA/Instructor & Meet documentation standards \\ \hline
+\end{longtable}
+
+\section{Test Maintenance}
+
 The test suite will be maintained through the following processes:
 
 \begin{itemize}
