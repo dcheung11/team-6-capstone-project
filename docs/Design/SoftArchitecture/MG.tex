@@ -4,6 +4,8 @@
 \usepackage[round]{natbib}
 \usepackage{multirow}
 \usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{siunitx}
 \usepackage{tabularx}
 \usepackage{graphicx}
 \usepackage{float}
@@ -33,7 +35,7 @@
 
 \begin{document}
 
-\title{Module Guide for \progname{}} 
+\title{Module Guide for \progname{}}
 \author{\authname}
 \date{\today}
 
@@ -44,14 +46,14 @@
 \section{Revision History}
 
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
-\midrule
-Dec 23 & 1.0 & Module Decomp\\
-Jan 3 & 1.1 & Added Type Modules\\
-Jan 14 & 1.2 & Revised diagram to acknowledge Record Modules\\
-Jan 17 & 1.3 & Added User Interfaces \\
+  \toprule {\bf Date} & {\bf Version} & {\bf Notes}                                   \\
+  \midrule
+  Dec 23              & 1.0           & Module Decomp                                 \\
+  Jan 3               & 1.1           & Added Type Modules                            \\
+  Jan 14              & 1.2           & Revised diagram to acknowledge Record Modules \\
+  Jan 17              & 1.3           & Added User Interfaces                         \\
 
-\bottomrule
+  \bottomrule
 \end{tabularx}
 
 \newpage
@@ -63,27 +65,27 @@ This section records information for easy reference.
 \subsection{Abbreviations and Acronyms}
 
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{l l} 
-  \toprule		
-  \textbf{symbol} & \textbf{description}\\
-  \midrule 
-  AC & Anticipated Change\\
-  DAG & Directed Acyclic Graph \\
-  M & Module \\
-  MG & Module Guide \\
-  OS & Operating System \\
-  R & Requirement\\
-  SC & Scientific Computing \\
-  SRS & Software Requirements Specification\\
-  \progname & Explanation of program name\\
-  UC & Unlikely Change \\
-  RBAC & Role-Based Access Control \\
-  HTTP & HyperText Transfer Protocol \\
-  HTTPS & HyperText Transfer Protocol Secure \\
-  SSL & Secure Sockets Layers \\
-  TLS & Transport Layer Security \\
-  JWT & JSON Web Security \\
-  API & Application Programming Interface \\
+\begin{tabular}{l l}
+  \toprule
+  \textbf{symbol} & \textbf{description}                      \\
+  \midrule
+  AC              & Anticipated Change                        \\
+  DAG             & Directed Acyclic Graph                    \\
+  M               & Module                                    \\
+  MG              & Module Guide                              \\
+  OS              & Operating System                          \\
+  R               & Requirement                               \\
+  SC              & Scientific Computing                      \\
+  SRS             & Software Requirements Specification       \\
+  \progname       & The Design and Implementation of software \\
+  UC              & Unlikely Change                           \\
+  RBAC            & Role-Based Access Control                 \\
+  HTTP            & HyperText Transfer Protocol               \\
+  HTTPS           & HyperText Transfer Protocol Secure        \\
+  SSL             & Secure Sockets Layers                     \\
+  TLS             & Transport Layer Security                  \\
+  JWT             & JSON Web Security                         \\
+  API             & Application Programming Interface         \\
   \bottomrule
 \end{tabular}\\
 
@@ -108,15 +110,15 @@ based on the principle of information hiding~\citep{Parnas1972a}.  This
 principle supports design for change, because the ``secrets'' that each module
 hides represent likely future changes.  Design for change is valuable in SC,
 where modifications are frequent, especially during initial development as the
-solution space is explored.  
+solution space is explored.
 
 Our design follows the rules layed out by \citet{ParnasEtAl1984}, as follows:
 \begin{itemize}
-\item System details that are likely to change independently should be the
-  secrets of separate modules.
-\item Each data structure is implemented in only one module.
-\item Any other program that requires information stored in a module's data
-  structures must obtain it by calling access programs belonging to that module.
+  \item System details that are likely to change independently should be the
+        secrets of separate modules.
+  \item Each data structure is implemented in only one module.
+  \item Any other program that requires information stored in a module's data
+        structures must obtain it by calling access programs belonging to that module.
 \end{itemize}
 
 After completing the first stage of the design, the Software Requirements
@@ -126,17 +128,17 @@ designers and maintainers to easily identify the parts of the software.  The
 potential readers of this document are as follows:
 
 \begin{itemize}
-\item New project members: This document can be a guide for a new project member
-  to easily understand the overall structure and quickly find the
-  relevant modules they are searching for.
-\item Maintainers: The hierarchical structure of the module guide improves the
-  maintainers' understanding when they need to make changes to the system. It is
-  important for a maintainer to update the relevant sections of the document
-  after changes have been made.
-\item Designers: Once the module guide has been written, it can be used to
-  check for consistency, feasibility, and flexibility. Designers can verify the
-  system in various ways, such as consistency among modules, feasibility of the
-  decomposition, and flexibility of the design.
+  \item New project members: This document can be a guide for a new project member
+        to easily understand the overall structure and quickly find the
+        relevant modules they are searching for.
+  \item Maintainers: The hierarchical structure of the module guide improves the
+        maintainers' understanding when they need to make changes to the system. It is
+        important for a maintainer to update the relevant sections of the document
+        after changes have been made.
+  \item Designers: Once the module guide has been written, it can be used to
+        check for consistency, feasibility, and flexibility. Designers can verify the
+        system in various ways, such as consistency among modules, feasibility of the
+        decomposition, and flexibility of the design.
 \end{itemize}
 
 The rest of the document is organized as follows. Section
@@ -166,13 +168,18 @@ adapted here is called design for
 change.
 
 \begin{description}
-\item[\refstepcounter{acnum} \actheacnum \label{acEnhancedAuth}:] Enhanced Authentication Features.
-\item[\refstepcounter{acnum} \actheacnum \label{acSessionUpdate}:] Session Management Updates.
-\item[\refstepcounter{acnum} \actheacnum \label{acDbSchema}:] Database Schema Adjustments.
-\item[\refstepcounter{acnum} \actheacnum \label{acUIEnhance}:] User Interface (UI) Enhancements.
-\item[\refstepcounter{acnum} \actheacnum \label{acNewAlg}:] Integration of New Scheduling Algorithms.
-\item[\refstepcounter{acnum} \actheacnum \label{acDataSecurity}:] Data Security and Privacy Updates.
-\item[\refstepcounter{acnum} \actheacnum \label{acNotifSystem}:] Improved Notification System. 
+  \item[\refstepcounter{acnum} \actheacnum \label{acEnhancedAuth}:] Enhanced Authentication Features.
+        External security policies or requirements may require updates to the authentication methods.
+  \item[\refstepcounter{acnum} \actheacnum \label{acSessionUpdate}:] Session Management Updates.
+        Changes in performance or other requirements might lead to adjustments in how sessions are managed.
+  \item[\refstepcounter{acnum} \actheacnum \label{acDbSchema}:] Database Schema Adjustments.
+        As requirements or third-party database versions evolve, modifications to the schema may be necessary.
+  \item[\refstepcounter{acnum} \actheacnum \label{acUIEnhance}:] User Interface (UI) Enhancements.
+        Usability data and accessibility standards can drive UI updates.
+  \item[\refstepcounter{acnum} \actheacnum \label{acNewAlg}:] Integration of New Scheduling Algorithms.
+        External research or industry innovations may lead to adopting improved scheduling strategies.
+  \item[\refstepcounter{acnum} \actheacnum \label{acDataSecurity}:] Data Security and Privacy Updates.
+        Evolving threats and best practices in data security may require updating encryption or privacy measures.
 \end{description}
 
 \subsection{Unlikely Changes} \label{SecUchange}
@@ -185,13 +192,19 @@ will potentially need to be modified. Hence, it is not intended that these
 decisions will be changed.
 
 \begin{description}
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucTechStack}:] Complete Redesign of the Technology Stack.
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucAuthFeatures}:] Elimination of Authentication Features.
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucDataStores}:] Replacement of Database Storage.
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucRBAC}:] Removal of Role-Based Access Control (RBAC).
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucSchedLogic}:] Simplification of Scheduling Logic.
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucEncryptStandard}:] Discontinuation of Encryption Standards.
-\end{description}
+  \item[\refstepcounter{ucnum} \uctheucnum \label{ucTechStack}:] Complete Redesign of the Technology Stack.  
+    While updates to components may occur, a full redesign of the technology stack is considered highly unlikely due to cost and stability concerns.
+  \item[\refstepcounter{ucnum} \uctheucnum \label{ucAuthFeatures}:] Elimination of Authentication Features.  
+    Removing authentication would fundamentally change system security and is not expected.
+  \item[\refstepcounter{ucnum} \uctheucnum \label{ucDataStores}:] Replacement of Database Storage.  
+    Although schema changes may occur, the overall choice of a database storage system is a core decision.
+  \item[\refstepcounter{ucnum} \uctheucnum \label{ucRBAC}:] Removal of Role-Based Access Control (RBAC).  
+    The RBAC model is a key part of the system’s security and is unlikely to be removed.
+  \item[\refstepcounter{ucnum} \uctheucnum \label{ucSchedLogic}:] Simplification of Scheduling Logic.  
+    Although scheduling algorithms may be updated, the core complexity is a design choice.
+  \item[\refstepcounter{ucnum} \uctheucnum \label{ucEncryptStandard}:] Discontinuation of Encryption Standards.  
+    While encryption methods might be updated (as reflected in AC Data Security), completely discontinuing encryption standards is unlikely.
+  \end{description}
 
 \section{Module Hierarchy} \label{SecMH}
 
@@ -201,61 +214,60 @@ below, which are leaves in the hierarchy tree, are the modules that will
 actually be implemented.
 
 \begin{description}
-\item [\refstepcounter{mnum} \mthemnum \label{mUI}:] User Interface Module
-\item [\refstepcounter{mnum} \mthemnum \label{mAuth}:] Authentication Module
-\item [\refstepcounter{mnum} \mthemnum \label{mTeamManagement}:] Team Management Module
-\item [\refstepcounter{mnum} \mthemnum \label{mGameManagement}:] Game Management Module
-\item [\refstepcounter{mnum} \mthemnum \label{mAnnouncements}:] Announcements Module
-\item [\refstepcounter{mnum} \mthemnum \label{mStandings}:] Standings Module
-\item [\refstepcounter{mnum} \mthemnum \label{mScheduling}:] Scheduling Module
-\item [\refstepcounter{mnum} \mthemnum \label{mWaiver}:] Waiver Module
-\item [\refstepcounter{mnum} \mthemnum \label{mPlayerT}:] PlayerT Module
-\item [\refstepcounter{mnum} \mthemnum \label{mTeamT}:] TeamT Module
-\item [\refstepcounter{mnum} \mthemnum \label{mGameT}:] GameT Module
-\item [\refstepcounter{mnum} \mthemnum \label{mNotification}:] Notification Module
-\item [\refstepcounter{mnum} \mthemnum \label{mBackend}:] Backend Module
-\item [\refstepcounter{mnum} \mthemnum \label{mAlgo}:] Scheduling Algorithm Module
-\item [\refstepcounter{mnum} \mthemnum \label{mGameslotT}:] GameslotT Module
-\item [\refstepcounter{mnum} \mthemnum \label{mDivisionT}:] DivisonT Module
-\item [\refstepcounter{mnum} \mthemnum \label{mStandingT}:] StandingT Module
-\item [\refstepcounter{mnum} \mthemnum \label{mSeasonT}:] SeasonT Module
-\item [\refstepcounter{mnum} \mthemnum \label{mRR}:] Reschedule Request Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mUI}:] User Interface Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mAuth}:] Authentication Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mTeamManagement}:] Team Management Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mGameManagement}:] Game Management Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mAnnouncements}:] Announcements Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mStandings}:] Standings Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mScheduling}:] Scheduling Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mWaiver}:] Waiver Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mPlayerT}:] PlayerT Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mTeamT}:] TeamT Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mGameT}:] GameT Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mNotification}:] Notification Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mBackend}:] Backend Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mAlgo}:] Scheduling Algorithm Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mGameslotT}:] GameslotT Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mDivisionT}:] DivisonT Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mStandingT}:] StandingT Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mSeasonT}:] SeasonT Module
+  \item [\refstepcounter{mnum} \mthemnum \label{mRR}:] Reschedule Request Module
 
 
 \end{description}
 
 
 \begin{table}[h!]
-\centering
-\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{Level 1} & \textbf{Level 2}\\
-\midrule
+  \centering
+  \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+    \toprule
+    \textbf{Level 1}                                      & \textbf{Level 2}              \\
+    \midrule
 
-{Hardware-Hiding Module} & ~ \\
-\midrule
+    {Hardware-Hiding Module}                              & ~                             \\
+    \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & User Interface Module\\
-& Authentication Module\\
-& Team Management Module\\
-& Game Management Module\\
-& Announcements Module\\
-& Scheduling Module\\
-& Standings Module\\
-& Waiver Module\\
-& PlayerT Module\\
-& TeamT Module\\
-& GameT Module\\
-\midrule
+    \multirow{7}{0.3\textwidth}{Behaviour-Hiding Module}  & User Interface Module         \\
+                                                          & Authentication Module         \\
+                                                          & Team Management Module        \\
+                                                          & Game Management Module        \\
+                                                          & Announcements Module          \\
+                                                          & Scheduling Module             \\
+                                                          & Standings Module              \\
+                                                          & Waiver Module                 \\
+                                                          & PlayerT Module                \\
+                                                          & TeamT Module                  \\
+                                                          & GameT Module                  \\
+    \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision Module} & {Database Module}\\
-& {Notification Module}\\
-& {Scheduling Algorithm Module}\\
-\bottomrule
-
-\end{tabular}
-\caption{Module Hierarchy}
-\label{TblMH}
+    \multirow{3}{0.3\textwidth}{Software Decision Module} & {Database Module}             \\
+                                                          & {Notification Module}         \\
+                                                          & {Scheduling Algorithm Module} \\
+    \bottomrule
+  \end{tabular}
+  \caption{Module Hierarchy}
+  \label{TblMH}
 \end{table}
 
 \section{Connection Between Requirements and Design} \label{SecConnection}
@@ -285,172 +297,172 @@ to be implemented.
 \subsubsection{User Interface Module (\mref{mUI})}
 
 \begin{description}
-\item[Secrets]: 
-    \begin{itemize}
-        \item The structure of inputs (e.g., username, password, team names, game scores, and scheduling information). 
-        \item User interface components, logic, and states.
-    \end{itemize}
-    
-\item[Services]: 
-    \begin{itemize}
-        \item Rendering views, collecting user input, and displaying data retrieved from the backend.
-        \item Backend interactions to fetch data and send requests.
-        \item Manages user role-based views.
-    \end{itemize}
+  \item[Secrets]:
+        \begin{itemize}
+          \item The structure of inputs (e.g., username, password, team names, game scores, and scheduling information).
+          \item User interface components, logic, and states.
+        \end{itemize}
 
-\item[Implemented By:] Team 6
-    
-\item[Type of Module:] Interface.
+  \item[Services]:
+        \begin{itemize}
+          \item Rendering views, collecting user input, and displaying data retrieved from the backend.
+          \item Backend interactions to fetch data and send requests.
+          \item Manages user role-based views.
+        \end{itemize}
+
+  \item[Implemented By:] Team 6
+
+  \item[Type of Module:] Interface.
 
 \end{description}
 
 \subsubsection{Authentication Module (\mref{mAuth})}
 
 \begin{description}
-\item[Secrets:] The implementation details of password encryption, token generation, and user session management.
+  \item[Secrets:] The implementation details of password encryption, token generation, and user session management.
 
-\item[Services:] Handles the following:
-  \begin{itemize}
-    \item User authentication, including login, registration, and logout.
-    \item Verification of user credentials and assignment of roles (player, captain, administrator).
-    \item Management of access tokens for secure API interactions.
-  \end{itemize}
+  \item[Services:] Handles the following:
+        \begin{itemize}
+          \item User authentication, including login, registration, and logout.
+          \item Verification of user credentials and assignment of roles (player, captain, administrator).
+          \item Management of access tokens for secure API interactions.
+        \end{itemize}
 
-\item[Implemented By:] Team 6
+  \item[Implemented By:] Team 6
 
-\item[Type of Module:] Abstract Object
+  \item[Type of Module:] Abstract Object
 \end{description}
 
 \subsubsection{Team Management Module (\mref{mTeamManagement})}
 
 \begin{description}
-\item[Secrets]: 
-    \begin{itemize}
-        \item Team creation for Captains and team joining joining processes and data for players.
-        \item Waiver acceptance states and data.
-    \end{itemize}
-    
-\item[Services]: 
-    \begin{itemize}
-        \item Handles captain input for team creation.
-        \item Manages user-team associations (joining teams), and processing waiver sign-offs.
-        \item Provides interface for captains to manage their teams (e.g., adding/removing players) and roster validation.
-    \end{itemize}
+  \item[Secrets]:
+        \begin{itemize}
+          \item Team creation for Captains and team joining joining processes and data for players.
+          \item Waiver acceptance states and data.
+        \end{itemize}
 
-\item[Implemented By:] Team 6
-    
-\item[Type of Module:] Abstract Object
+  \item[Services]:
+        \begin{itemize}
+          \item Handles captain input for team creation.
+          \item Manages user-team associations (joining teams), and processing waiver sign-offs.
+          \item Provides interface for captains to manage their teams (e.g., adding/removing players) and roster validation.
+        \end{itemize}
+
+  \item[Implemented By:] Team 6
+
+  \item[Type of Module:] Abstract Object
 \end{description}
 
 \subsubsection{Game Management Module (\mref{mGameManagement})}
 
 \begin{description}
-  \item[Secrets] : 
-  \begin{itemize}
-      \item The structure of the input data includes game details (game ID, teams, scores, and status).
-      \item Game record verification.
-      \item Game statuses processes (e.g., scheduled, completed, canceled).
-  \end{itemize}
-  
-\item[Services]: 
-  \begin{itemize}
-      \item Enables game score reporting and updating game statuses for appropriate roles.
-      \item Updates store and retrieve game results to trigger standing updates.
-  \end{itemize}
+  \item[Secrets] :
+        \begin{itemize}
+          \item The structure of the input data includes game details (game ID, teams, scores, and status).
+          \item Game record verification.
+          \item Game statuses processes (e.g., scheduled, completed, canceled).
+        \end{itemize}
+
+  \item[Services]:
+        \begin{itemize}
+          \item Enables game score reporting and updating game statuses for appropriate roles.
+          \item Updates store and retrieve game results to trigger standing updates.
+        \end{itemize}
   \item[Implemented By:] Team 6
-    
+
   \item[Type of Module:] Abstract Object
-  \end{description}
+\end{description}
 \subsubsection{Announcements Module (\mref{mAnnouncements})}
 
 \begin{description}
   \item[Secrets:] The structure of announcements, including title, message content, timestamps, as well as how announcements are stored, retrieved, and delivered to users, notifying them.
 
-\item[Services]: 
-  \begin{itemize}
-      \item Allows admin to create, edit, and delete announcements for the league.
-      \item Enables users to view announcements and ensures announcnement delivery via notifications.
-  \end{itemize}
+  \item[Services]:
+        \begin{itemize}
+          \item Allows admin to create, edit, and delete announcements for the league.
+          \item Enables users to view announcements and ensures announcnement delivery via notifications.
+        \end{itemize}
 
-\item[Implemented By:] Team 6
-    
-\item[Type of Module:] Abstract Object
+  \item[Implemented By:] Team 6
+
+  \item[Type of Module:] Abstract Object
 \end{description}
-  
+
 \subsubsection{Standings Module (\mref{mStandings})}
 
 \begin{description}
   \item[Secrets:] The formulas for calculating rankings, win-loss records, and tie-breaking rules.
-  
+
   \item[Services:] Handles the following:
-    \begin{itemize}
-      \item Tracks and updates league standings based on game results.
-      \item Displays rankings, win-loss records, and statistical summaries for all teams.
-      \item Supports tie-breaking scenarios and rankings by division.
-    \end{itemize}
-  
+        \begin{itemize}
+          \item Tracks and updates league standings based on game results.
+          \item Displays rankings, win-loss records, and statistical summaries for all teams.
+          \item Supports tie-breaking scenarios and rankings by division.
+        \end{itemize}
+
   \item[Implemented By:] Team 6
-  
+
   \item[Type of Module:] Abstract Object
-  \end{description}
+\end{description}
 
-  \subsubsection{Scheduling Module (\mref{mScheduling})}
+\subsubsection{Scheduling Module (\mref{mScheduling})}
 
-  \begin{description}
-    \item[Secrets:] Schedule management, including data structures and communication with the scheduling algorithm.
-    
-    \item[Services]: 
-      \begin{itemize}
-        \item Handles game schedule creation and updates.
-        \item Manages scheduling constraints like team preferences.
-        \item Integrates with the Scheduling Algorithm Module for optimization.
-      \end{itemize}
-    \item[Implemented By:] Team 6
-    \item[Type of Module:] Abstract Object
-    \end{description}
+\begin{description}
+  \item[Secrets:] Schedule management, including data structures and communication with the scheduling algorithm.
 
-  \subsubsection{Waiver Module (\mref{mWaiver})}
+  \item[Services]:
+        \begin{itemize}
+          \item Handles game schedule creation and updates.
+          \item Manages scheduling constraints like team preferences.
+          \item Integrates with the Scheduling Algorithm Module for optimization.
+        \end{itemize}
+  \item[Implemented By:] Team 6
+  \item[Type of Module:] Abstract Object
+\end{description}
 
-  \begin{description}
-    \item[Secrets:] Waiver completion data.
-    \item[Services] :
-      \begin{itemize}
-        \item Manages waiver access and completion.
-        \item Tracks waiver status for players.
-        \item Integrates with user accounts to validate players.
-      \end{itemize}
-    \item[Implemented By:] Team 6
-    \item[Type of Module:] Abstract Object
-    \end{description}
+\subsubsection{Waiver Module (\mref{mWaiver})}
 
-  \subsubsection{PlayerT Module (\mref{mPlayerT})}
+\begin{description}
+  \item[Secrets:] Waiver completion data.
+  \item[Services] :
+        \begin{itemize}
+          \item Manages waiver access and completion.
+          \item Tracks waiver status for players.
+          \item Integrates with user accounts to validate players.
+        \end{itemize}
+  \item[Implemented By:] Team 6
+  \item[Type of Module:] Abstract Object
+\end{description}
 
-  \begin{description}
-    \item[Secrets:] The data structure used to represent a player.
-    \item[Services:] Holds the data of a player.
-    \item[Implemented By:] Team 6
-    \item[Type of Module:] Abstract Data Type
-  \end{description}
+\subsubsection{PlayerT Module (\mref{mPlayerT})}
 
-  \subsubsection{TeamT Module (\mref{mTeamT})}
+\begin{description}
+  \item[Secrets:] The data structure used to represent a player.
+  \item[Services:] Holds the data of a player.
+  \item[Implemented By:] Team 6
+  \item[Type of Module:] Abstract Data Type
+\end{description}
 
-  \begin{description}
-    \item[Secrets:] The data structure used to represent a team.
-    \item[Services:] Holds the data of a team.
-    \item[Implemented By:] Team 6
-    \item[Type of Module:] Abstract Data Type
-  \end{description}
-    
-  \subsubsection{GameT Module (\mref{mGameT})}
+\subsubsection{TeamT Module (\mref{mTeamT})}
 
-  \begin{description}
-    \item[Secrets:] The data structure used to represent a game.
-    \item[Services:] Holds the data of a game.
-    \item[Implemented By:] Team 6
-    \item[Type of Module:] Abstract Data Type
-  \end{description}
+\begin{description}
+  \item[Secrets:] The data structure used to represent a team.
+  \item[Services:] Holds the data of a team.
+  \item[Implemented By:] Team 6
+  \item[Type of Module:] Abstract Data Type
+\end{description}
 
-  \subsubsection{GameslotT Module (\mref{mGameslotT})}
+\subsubsection{GameT Module (\mref{mGameT})}
+
+\begin{description}
+  \item[Secrets:] The data structure used to represent a game.
+  \item[Services:] Holds the data of a game.
+  \item[Implemented By:] Team 6
+  \item[Type of Module:] Abstract Data Type
+\end{description}
+
+\subsubsection{GameslotT Module (\mref{mGameslotT})}
 
 \begin{description}
   \item[Secrets:] The data structure used to represent a game slot.
@@ -518,30 +530,30 @@ to be implemented.
 
 
 
-  \subsubsection{Backend Module (\mref{mBackend})}
-  \begin{description}
-    \item[Secrets:] The architecture, database schema, and integration logic for backend services.
-    \item[Services]: 
-      \begin{itemize}
-        \item Manages server-side logic and handles API requests and responses.
-        \item Database to storage and data retrieval (e.g., user data, schedules, game results, etc).
-        \item Secure communication between the frontend and backend.
-      \end{itemize}
-    \item[Implemented By:] Team 6
-  \end{description}
+\subsubsection{Backend Module (\mref{mBackend})}
+\begin{description}
+  \item[Secrets:] The architecture, database schema, and integration logic for backend services.
+  \item[Services]:
+        \begin{itemize}
+          \item Manages server-side logic and handles API requests and responses.
+          \item Database to storage and data retrieval (e.g., user data, schedules, game results, etc).
+          \item Secure communication between the frontend and backend.
+        \end{itemize}
+  \item[Implemented By:] Team 6
+\end{description}
 
-  \subsubsection{Scheduling Algorithm Module (\mref{mAlgo})}
-  \begin{description}
-    \item[Secrets:] The algorithm used to generate and optimize schedules, including constraints like team preferences, field availability, etc.
-    \item[Services]:
-      \begin{itemize}
-        \item Generates game schedules based on team inputs and league constraints for admin use.
-        \item Supports conflict resolution for rescheduling (e.g., double bookings, unavailable fields).
-        \item Optimizes schedules to balance fairness and preferences across teams.
-      \end{itemize}
-    \item[Implemented By:] Team 6
-  \end{description}
-  
+\subsubsection{Scheduling Algorithm Module (\mref{mAlgo})}
+\begin{description}
+  \item[Secrets:] The algorithm used to generate and optimize schedules, including constraints like team preferences, field availability, etc.
+  \item[Services]:
+        \begin{itemize}
+          \item Generates game schedules based on team inputs and league constraints for admin use.
+          \item Supports conflict resolution for rescheduling (e.g., double bookings, unavailable fields).
+          \item Optimizes schedules to balance fairness and preferences across teams.
+        \end{itemize}
+  \item[Implemented By:] Team 6
+\end{description}
+
 \section{Traceability Matrix} \label{SecTM}
 
 This section shows two traceability matrices: between the modules and the
@@ -550,48 +562,47 @@ requirements and between the modules and the anticipated changes.
 % the table should use mref, the requirements should be named, use something
 % like fref
 \begin{table}[H]
-\centering
-\begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{Req.} & \textbf{Modules}\\
-\midrule
-R1 & \mref{mUI}, \mref{mAuth}, \mref{mBackend}\\
-R2 & \mref{mUI}, \mref{mAuth}, \mref{mBackend}\\
-R3 & \mref{mUI}, \mref{mScheduling}, \mref{mAlgo}\\
-R4 & \mref{mUI}, \mref{mStandings}, \mref{mBackend}\\
-R5 & \mref{mUI}, \mref{mTeamManagement}, \mref{mBackend}\\
-R6 & \mref{mUI}, \mref{mTeamManagement}, \mref{mWaiver}, \mref{mBackend}\\
-R7 & \mref{mUI}, \mref{mTeamManagement}, \mref{mScheduling}, \mref{mAlgo}, \mref{mBackend}\\
-R8 & \mref{mUI}, \mref{mScheduling}, \mref{mAlgo}\\
-R9 & \mref{mUI}, \mref{mAnnouncements}, \mref{mNotification}\\
-R10 & \mref{mUI}, \mref{mScheduling}, \mref{mAlgo}\\
-R10 & \mref{mUI}, \mref{mScheduling}, \mref{mAlgo}\\
-R12 & \mref{mUI}, \mref{mGameManagement}, \mref{mBackend}\\
-\bottomrule
-\end{tabular}
-\caption{Trace Between Requirements and Modules}
-\textit{Note: The specific record modules are not included in traceability but are outlined in MIS.pdf}
-\label{TblRT}
+  \centering
+  \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+    \toprule
+    \textbf{Req.} & \textbf{Modules}                                                                      \\
+    \midrule
+    R1            & \mref{mUI}, \mref{mAuth}, \mref{mBackend}                                             \\
+    R2            & \mref{mUI}, \mref{mAuth}, \mref{mBackend}                                             \\
+    R3            & \mref{mUI}, \mref{mScheduling}, \mref{mAlgo}                                          \\
+    R4            & \mref{mUI}, \mref{mStandings}, \mref{mBackend}                                        \\
+    R5            & \mref{mUI}, \mref{mTeamManagement}, \mref{mBackend}                                   \\
+    R6            & \mref{mUI}, \mref{mTeamManagement}, \mref{mWaiver}, \mref{mBackend}                   \\
+    R7            & \mref{mUI}, \mref{mTeamManagement}, \mref{mScheduling}, \mref{mAlgo}, \mref{mBackend} \\
+    R8            & \mref{mUI}, \mref{mScheduling}, \mref{mAlgo}                                          \\
+    R9            & \mref{mUI}, \mref{mAnnouncements}, \mref{mNotification}                               \\
+    R10           & \mref{mUI}, \mref{mScheduling}, \mref{mAlgo}                                          \\
+    R10           & \mref{mUI}, \mref{mScheduling}, \mref{mAlgo}                                          \\
+    R12           & \mref{mUI}, \mref{mGameManagement}, \mref{mBackend}                                   \\
+    \bottomrule
+  \end{tabular}
+  \caption{Trace Between Requirements and Modules}
+  \textit{Note: The specific record modules are not included in traceability but are outlined in MIS.pdf}
+  \label{TblRT}
 \end{table}
 
 \begin{table}[H]
-\centering
-\begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{AC} & \textbf{Modules}\\
-\midrule
-% \acref{acHardware} & \mref{mHH}\\
-\acref{acEnhancedAuth} & \mref{mUI}, \mref{mAuth}, \mref{mBackend}\\
-\acref{acSessionUpdate} & \mref{mUI}, \mref{mAuth}, \mref{mBackend}\\
-\acref{acDbSchema} & \mref{mAuth}, \mref{mTeamManagement}, \mref{mStandings}, \mref{mBackend}\\
-\acref{acUIEnhance} & \mref{mUI}, \mref{mNotification}\\
-\acref{acNewAlg} & \mref{mScheduling}, \mref{mAlgo}\\
-\acref{acDataSecurity} & \mref{mAuth}, \mref{mStandings}, \mref{mBackend}\\
-\acref{acNotifSystem} & \mref{mNotification}, \mref{mBackend}\\
-\bottomrule
-\end{tabular}
-\caption{Trace Between Anticipated Changes and Modules}
-\label{TblACT}
+  \centering
+  \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+    \toprule
+    \textbf{AC}             & \textbf{Modules}                                                         \\
+    \midrule
+    % \acref{acHardware} & \mref{mHH}\\
+    \acref{acEnhancedAuth}  & \mref{mUI}, \mref{mAuth}, \mref{mBackend}                                \\
+    \acref{acSessionUpdate} & \mref{mUI}, \mref{mAuth}, \mref{mBackend}                                \\
+    \acref{acDbSchema}      & \mref{mAuth}, \mref{mTeamManagement}, \mref{mStandings}, \mref{mBackend} \\
+    \acref{acUIEnhance}     & \mref{mUI}, \mref{mNotification}                                         \\
+    \acref{acNewAlg}        & \mref{mScheduling}, \mref{mAlgo}                                         \\
+    \acref{acDataSecurity}  & \mref{mAuth}, \mref{mStandings}, \mref{mBackend}                         \\                              \\
+    \bottomrule
+  \end{tabular}
+  \caption{Trace Between Anticipated Changes and Modules}
+  \label{TblACT}
 \end{table}
 
 \section{Use Hierarchy Between Modules} \label{SecUse}
@@ -608,11 +619,11 @@ system, and modules in the higher level of the hierarchy are essentially simpler
 because they use modules from the lower levels.
 
 \begin{figure}[H]
-\centering
-\includegraphics[width=1.1\textwidth]{module-decomp.png}
-\caption{Use hierarchy among modules}
-\textit{Note: Backend Module uses several record modules that represent data entities including Game, Type, Player, Season, Standing, Division, etc. The schemas for these record modules will be further specified in the MIS.pdf}
-\label{FigUH}
+  \centering
+  \includegraphics[scale=0.7]{module-decomp.pdf}
+  \caption{Use hierarchy among modules}
+  \textit{Note: Backend Module uses several record modules that represent data entities including Game, Type, Player, Season, Standing, Division, etc. The schemas for these record modules will be further specified in the MIS.pdf}
+  \label{FigUH}
 \end{figure}
 
 %\section*{References}
@@ -629,10 +640,10 @@ The sections below provide an overview of the key views in the system with assoc
 The login view allows users to securely log in to the system using their credentials. The interface is simple and intuitive, ensuring accessibility for all users.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.25]{loginpage.png}
-    \caption{Login View}
-    \label{fig:login_view}
+  \centering
+  \includegraphics[scale=0.7]{loginpage.pdf}
+  \caption{Login View}
+  \label{fig:login_view}
 \end{figure}
 
 \newpage
@@ -641,10 +652,10 @@ The login view allows users to securely log in to the system using their credent
 The homepage view provides users with a dashboard that displays key information, such as upcoming games, announcements, and navigation options.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.22]{homepage.png}
-    \caption{Homepage View}
-    \label{fig:homepage_view}
+  \centering
+  \includegraphics[scale=0.7]{LeagueHomeView.pdf}
+  \caption{Homepage View}
+  \label{fig:homepage_view}
 \end{figure}
 
 \newpage
@@ -653,10 +664,10 @@ The homepage view provides users with a dashboard that displays key information,
 The team management view players to view their team information, including upcoming games and current statistics.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.25]{teampage.png}
-    \caption{Team Management View}
-    \label{fig:team_management_view}
+  \centering
+  \includegraphics[scale=0.7]{TeamHomeView.pdf}
+  \caption{Team Management View}
+  \label{fig:team_management_view}
 \end{figure}
 
 \newpage
@@ -665,10 +676,10 @@ The team management view players to view their team information, including upcom
 The scheduling view allows users to view the season's game schedule.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.25]{schedulepage.png}
-    \caption{Scheduling View}
-    \label{fig:scheduling_view}
+  \centering
+  \includegraphics[scale=0.7]{TeamScheduleView.pdf}
+  \caption{Scheduling View}
+  \label{fig:scheduling_view}
 \end{figure}
 
 \newpage
@@ -677,10 +688,10 @@ The scheduling view allows users to view the season's game schedule.
 The standings view displays the league rankings, win-loss records, and statistical summaries for all teams.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.25]{standingspage.png}
-    \caption{Standings View}
-    \label{fig:standings_view}
+  \centering
+  \includegraphics[scale=0.7]{StandingsView.pdf}
+  \caption{Standings View}
+  \label{fig:standings_view}
 \end{figure}
 
 \newpage
@@ -689,10 +700,10 @@ The standings view displays the league rankings, win-loss records, and statistic
 The announcements view is used to view league-wide updates and messages.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.22]{announcementpage.png}
-    \caption{Announcements View}
-    \label{fig:announcements_view}
+  \centering
+  \includegraphics[scale=0.6]{AnnouncementsView.pdf}
+  \caption{Announcements View}
+  \label{fig:announcements_view}
 \end{figure}
 
 
@@ -705,90 +716,92 @@ The communication protocols for the GSA Softball League platform are designed to
 
 \subsubsection*{Frontend to Backend Communication}
 \begin{itemize}
-    \item \textbf{Protocol}: HTTPS (Hypertext Transfer Protocol Secure)
-    \item \textbf{Description}:
-    \begin{itemize}
-        \item All communication between the frontend and backend is secured using HTTPS, ensuring data integrity and confidentiality.
-        \item RESTful APIs handle requests such as login, data retrieval, schedule updates, and notifications.
-    \end{itemize}
-    \item \textbf{Endpoints}:
-    \begin{itemize}
-        \item \texttt{/api/login}: Handles user authentication.
-        \item \texttt{/api/schedule}: Retrieves game schedules.
-        \item \texttt{/api/report}: Submits match results.
-    \end{itemize}
+  \item \textbf{Protocol}: HTTPS (Hypertext Transfer Protocol Secure)
+  \item \textbf{Description}:
+  \begin{itemize}
+      \item All communication between the frontend and backend is secured using HTTPS, ensuring data integrity and confidentiality.
+      \item RESTful APIs handle actions on the backend. The HTTP methods (GET, POST, DELETE, etc.) indicate the operation to perform.
+  \end{itemize}
+  \item \textbf{Endpoints}:
+  \begin{itemize}
+      \item \texttt{POST /api/sessions}: Creates a new session (login).
+      \item \texttt{DELETE /api/sessions}: Ends a session (logout).
+      \item \texttt{POST /api/users}: Registers a new user.
+      \item \texttt{GET /api/schedules}: Retrieves game schedules.
+      \item \texttt{POST /api/games}: Submits new game records.
+  \end{itemize}
 \end{itemize}
 
 \subsubsection*{Backend to Database Communication}
 \begin{itemize}
-    \item \textbf{Protocol}: MongoDB Wire Protocol (Over SSL/TLS)
-    \item \textbf{Description}:
-    \begin{itemize}
-        \item Secure communication between the backend and the MongoDB database is facilitated by the MongoDB Wire Protocol over SSL/TLS.
-        \item Queries include CRUD operations for users, teams, schedules, and standings.
-    \end{itemize}
+  \item \textbf{Protocol}: MongoDB Wire Protocol (Over SSL/TLS)
+  \item \textbf{Description}:
+        \begin{itemize}
+          \item Secure communication between the backend and the MongoDB database is facilitated by the MongoDB Wire Protocol over SSL/TLS.
+          \item Queries include CRUD operations for users, teams, schedules, and standings.
+        \end{itemize}
 \end{itemize}
 
 \subsubsection*{Backend to External Services}
 \begin{itemize}
-    \item \textbf{Protocol}: HTTPS with Third-Party APIs
-    \item \textbf{Description}:
-    \begin{itemize}
-        \item External services such as email or SMS notifications (e.g., Twilio, SendGrid) communicate securely using HTTPS.
-        \item APIs for notification services handle user alerts, such as schedule changes or reminders.
-    \end{itemize}
+  \item \textbf{Protocol}: HTTPS with Third-Party APIs
+  \item \textbf{Description}:
+        \begin{itemize}
+          \item External services such as email or SMS notifications (e.g., Twilio, SendGrid) communicate securely using HTTPS.
+          \item APIs for notification services handle user alerts, such as schedule changes or reminders.
+        \end{itemize}
 \end{itemize}
 
 \subsubsection*{Client to Client Communication}
 \begin{itemize}
-    \item \textbf{Protocol}: WebSockets (Optional)
-    \item \textbf{Description}:
-    \begin{itemize}
-        \item Real-time updates for users, such as live score tracking or notifications, can be implemented using WebSocket connections.
-    \end{itemize}
+  \item \textbf{Protocol}: WebSockets (Optional)
+  \item \textbf{Description}:
+        \begin{itemize}
+          \item Real-time updates for users, such as live score tracking or notifications, can be implemented using WebSocket connections.
+        \end{itemize}
 \end{itemize}
 
 \subsubsection*{User Authentication Protocol}
 \begin{itemize}
-    \item \textbf{Protocol}: JWT (JSON Web Tokens) over HTTPS
-    \item \textbf{Description}:
-    \begin{itemize}
-        \item Upon successful login, the backend issues a JWT to the client.
-        \item JWTs are used to authenticate subsequent requests securely, reducing the need to reauthenticate for every action.
-    \end{itemize}
+  \item \textbf{Protocol}: JWT (JSON Web Tokens) over HTTPS
+  \item \textbf{Description}:
+        \begin{itemize}
+          \item Upon successful login, the backend issues a JWT to the client.
+          \item JWTs are used to authenticate subsequent requests securely, reducing the need to reauthenticate for every action.
+        \end{itemize}
 \end{itemize}
 
 \subsection*{Error Handling and Fault Tolerance}
 \begin{itemize}
-    \item \textbf{Timeouts}:
-    \begin{itemize}
-        \item API requests have a timeout of 30 seconds to avoid hanging requests.
-        \item The frontend displays appropriate error messages if a timeout occurs.
-    \end{itemize}
-    \item \textbf{Retries}:
-    \begin{itemize}
-        \item Failed requests to external services are retried up to three times with exponential backoff.
-    \end{itemize}
-    \item \textbf{Error Codes}:
-    \begin{itemize}
-        \item Standardized HTTP status codes are used for API responses:
+  \item \textbf{Timeouts}:
         \begin{itemize}
-            \item \texttt{200}: Success
-            \item \texttt{400}: Bad Request
-            \item \texttt{401}: Unauthorized
-            \item \texttt{403}: Forbidden
-            \item \texttt{404}: Not Found
-            \item \texttt{500}: Internal Server Error
+          \item API requests have a timeout of 30 seconds to avoid hanging requests.
+          \item The frontend displays appropriate error messages if a timeout occurs.
         \end{itemize}
-    \end{itemize}
+  \item \textbf{Retries}:
+        \begin{itemize}
+          \item Failed requests to external services are retried up to three times with exponential backoff.
+        \end{itemize}
+  \item \textbf{Error Codes}:
+        \begin{itemize}
+          \item Standardized HTTP status codes are used for API responses:
+                \begin{itemize}
+                  \item \texttt{200}: Success
+                  \item \texttt{400}: Bad Request
+                  \item \texttt{401}: Unauthorized
+                  \item \texttt{403}: Forbidden
+                  \item \texttt{404}: Not Found
+                  \item \texttt{500}: Internal Server Error
+                \end{itemize}
+        \end{itemize}
 \end{itemize}
 
 \subsection*{Security Measures}
 \begin{itemize}
-    \item \textbf{Data Encryption}: All communication is encrypted using SSL/TLS to prevent data interception.
-    \item \textbf{Authentication Tokens}: JWTs are signed and validated to ensure they are tamper-proof.
-    \item \textbf{Input Validation}: All user inputs are validated to prevent injection attacks.
-    \item \textbf{Access Control}: Role-based access control (RBAC) ensures that only authorized users can perform specific actions.
+  \item \textbf{Data Encryption}: All communication is encrypted using SSL/TLS to prevent data interception.
+  \item \textbf{Authentication Tokens}: JWTs are signed and validated to ensure they are tamper-proof.
+  \item \textbf{Input Validation}: All user inputs are validated to prevent injection attacks.
+  \item \textbf{Access Control}: Role-based access control (RBAC) ensures that only authorized users can perform specific actions.
 \end{itemize}
 
 \section{Timeline}
@@ -798,164 +811,163 @@ Note: Weeks 1 refers to the beginning of the year 2025
 \subsection*{Phase 1: Documentation and Initial Setup (Week 1)}
 
 \begin{enumerate}
-    \item \textbf{Week 1: Finalization of Documentation}
-    \begin{itemize}
-        \item \textbf{Tasks}:
+  \item \textbf{Week 1: Finalization of Documentation}
         \begin{itemize}
-            \item Complete the \textbf{Module Interface Specification (MIS)}.
-            \item Finalize the \textbf{Module Guide}.
-            \item Create the initial sketches for the \textbf{User Interface.}
-            \item Create the \textbf{Design of Communication Protocols}.
+          \item \textbf{Tasks}:
+                \begin{itemize}
+                  \item Complete the \textbf{Module Interface Specification (MIS)}.
+                  \item Finalize the \textbf{Module Guide}.
+                  \item Create the initial sketches for the \textbf{User Interface.}
+                  \item Create the \textbf{Design of Communication Protocols}.
+                \end{itemize}
+          \item \textbf{Responsible Members}:
+                \begin{itemize}
+                  \item \textbf{Damien Cheung:} Module Hierarchy, Module Decomposition, First Traceability Matrix, Use Hierarchy Between Modules,
+                        GameT Module, TeamT Module, PlayerT Module, Backend/Database Module.
+                  \item \textbf{Temituoyo Ugborogho:} Anticipated and Unlikely Changes, Second Traceability Matrix, Design of Communication Protocols,
+                        Timeline, Authentication Module.
+                  \item \textbf{Emma Wigglesworth:} User Interface, Scheduling Module, Scheduling Algorithm Module
+                  \item \textbf{Derek Li:} Notification Module, Announcement Module, Team Management Module, Waiver Module.
+                  \item \textbf{Jad Haytaoglu:} Game Management Module, User Interface Module.
+                  \item \textbf{All Members:} Review and finalization of documents.
+                \end{itemize}
         \end{itemize}
-        \item \textbf{Responsible Members}:
-        \begin{itemize}
-            \item \textbf{Damien Cheung:} Module Hierarchy, Module Decomposition, First Traceability Matrix, Use Hierarchy Between Modules,
-            GameT Module, TeamT Module, PlayerT Module, Backend/Database Module.
-            \item \textbf{Temituoyo Ugborogho:} Anticipated and Unlikely Changes, Second Traceability Matrix, Design of Communication Protocols,
-            Timeline, Authentication Module.
-            \item \textbf{Emma Wigglesworth:} User Interface, Scheduling Module, Scheduling Algorithm Module
-            \item \textbf{Derek Li:} Notification Module, Announcement Module, Team Management Module, Waiver Module.
-            \item \textbf{Jad Haytaoglu:} Game Management Module, User Interface Module.
-            \item \textbf{All Members:} Review and finalization of documents.
-        \end{itemize}
-    \end{itemize}
 \end{enumerate}
 
 \subsection*{Phase 2: Core Module Development (Week 2)}
 
 \begin{enumerate}
-    \item \textbf{Week 2: Core Module Development}
-    \begin{itemize}
-        \item \textbf{Tasks}:
+  \item \textbf{Week 2: Core Module Development}
         \begin{itemize}
-			\item Initialize and develop the \textbf{Database}.
-            \item Develop the \textbf{Authentication Module} (login, session management, token generation).
-            \item Create the \textbf{Scheduling Module} (game allocation logic).
-            \item Implement the \textbf{Team Management Module} (team creation, roster management).
-            \item Conduct preliminary unit testing for each core module.
+          \item \textbf{Tasks}:
+                \begin{itemize}
+                  \item Initialize and develop the \textbf{Database}.
+                  \item Develop the \textbf{Authentication Module} (login, session management, token generation).
+                  \item Create the \textbf{Scheduling Module} (game allocation logic).
+                  \item Implement the \textbf{Team Management Module} (team creation, roster management).
+                  \item Conduct preliminary unit testing for each core module.
+                \end{itemize}
+          \item \textbf{Responsible Members}:
+                \begin{itemize}
+                  \item Damien Cheung and Jad Haytaoglu: Database.
+                  \item Temituoyo Ugborogho: Authentication Module.
+                  \item Emma Wigglesworth: Scheduling Module.
+                  \item Derek Li: Team Management Module.
+                \end{itemize}
         \end{itemize}
-        \item \textbf{Responsible Members}:
-        \begin{itemize}
-			\item Damien Cheung and Jad Haytaoglu: Database.
-            \item Temituoyo Ugborogho: Authentication Module.
-            \item Emma Wigglesworth: Scheduling Module.
-            \item Derek Li: Team Management Module.
-        \end{itemize}
-    \end{itemize}
 \end{enumerate}
 
 \subsection*{Phase 3: Supporting Module Development and Integration (Week 3)}
 
 \begin{enumerate}
-    \item \textbf{Week 3: Supporting Module Development and Integration}
-    \begin{itemize}
-        \item \textbf{Tasks}:
+  \item \textbf{Week 3: Supporting Module Development and Integration}
         \begin{itemize}
-            \item Develop the \textbf{Notification Module} (alerts for schedule changes, announcements).
-            \item Implement the \textbf{Game Management Module} (game data handling, score reporting).
-            \item Build the \textbf{User Profile Module} (managing user preferences and settings).
-            \item Integrate all developed modules (core and supporting) into a unified system.
-            \item Conduct basic system-level integration tests.
+          \item \textbf{Tasks}:
+                \begin{itemize}
+                  \item Develop the \textbf{Notification Module} (alerts for schedule changes, announcements).
+                  \item Implement the \textbf{Game Management Module} (game data handling, score reporting).
+                  \item Build the \textbf{User Profile Module} (managing user preferences and settings).
+                  \item Integrate all developed modules (core and supporting) into a unified system.
+                  \item Conduct basic system-level integration tests.
+                \end{itemize}
+          \item \textbf{Responsible Members}:
+                \begin{itemize}
+                  \item Derek Li: Notification Module Development.
+                  \item Jad Haytaoglu: Game Management Module Development and backend/database integration.
+                  \item Damien Cheung: Backend and Database Integration.
+                  \item All Members: Collaborative Integration Testing.
+                \end{itemize}
         \end{itemize}
-        \item \textbf{Responsible Members}:
-        \begin{itemize}
-            \item Derek Li: Notification Module Development.
-            \item Jad Haytaoglu: Game Management Module Development and backend/database integration.
-            \item Damien Cheung: Backend and Database Integration.
-            \item All Members: Collaborative Integration Testing.
-        \end{itemize}
-    \end{itemize}
 \end{enumerate}
 
 \subsection*{Phase 4: System Testing and Final Refinements (Week 4)}
 
 \begin{enumerate}
-    \item \textbf{Week 4: System Testing and Final Refinements}
-    \begin{itemize}
-        \item \textbf{Tasks}:
+  \item \textbf{Week 4: System Testing and Final Refinements}
         \begin{itemize}
-            \item Conduct end-to-end system testing for all modules.
-            \item Validate role-based access control (RBAC) functionality.
-            \item Validate encryption protocols for secure data transfer (in transit and at rest).
-            \item Prepare deployment documentation, including user guides and system setup instructions.
-            \item Conduct a final review of traceability matrices and ensure alignment with anticipated changes.
+          \item \textbf{Tasks}:
+                \begin{itemize}
+                  \item Conduct end-to-end system testing for all modules.
+                  \item Validate role-based access control (RBAC) functionality.
+                  \item Validate encryption protocols for secure data transfer (in transit and at rest).
+                  \item Prepare deployment documentation, including user guides and system setup instructions.
+                  \item Conduct a final review of traceability matrices and ensure alignment with anticipated changes.
+                \end{itemize}
+          \item \textbf{Responsible Members}:
+                \begin{itemize}
+                  \item Damien Cheung and Jad Haytaoglu: Final Database and Backend Testing.
+                  \item Damien Cheung and Temituoyo Ugborogho: Final Communication Protocols and Traceability Documentation.
+                  \item Emma Wigglesworth, Temituoyo Ugborogho and Derek Li: Collaborative System Testing.
+                  \item All Members: Deployment Review.
+                \end{itemize}
         \end{itemize}
-        \item \textbf{Responsible Members}:
-        \begin{itemize}
-            \item Damien Cheung and Jad Haytaoglu: Final Database and Backend Testing.
-            \item Damien Cheung and Temituoyo Ugborogho: Final Communication Protocols and Traceability Documentation.
-            \item Emma Wigglesworth, Temituoyo Ugborogho and Derek Li: Collaborative System Testing.
-            \item All Members: Deployment Review.
-        \end{itemize}
-    \end{itemize}
 \end{enumerate}
 
 \subsection*{Key Details}
 \begin{itemize}
-    \item \textbf{Documentation}:
-    \begin{itemize}
-        \item Week 1 is entirely focused on finalizing all project documentation to ensure clarity and direction for subsequent development phases.
-    \end{itemize}
-    \item \textbf{Testing and Verification}:
-    \begin{itemize}
-        \item Unit testing will be performed for each module during development.
-        \item Integration testing will be conducted immediately after module integration in \textbf{Week 3}.
-        \item End-to-end testing will occur in \textbf{Week 4} to ensure Rev 0 readiness.
-    \end{itemize}
+  \item \textbf{Documentation}:
+        \begin{itemize}
+          \item Week 1 is entirely focused on finalizing all project documentation to ensure clarity and direction for subsequent development phases.
+        \end{itemize}
+  \item \textbf{Testing and Verification}:
+        \begin{itemize}
+          \item Unit testing will be performed for each module during development.
+          \item Integration testing will be conducted immediately after module integration in \textbf{Week 3}.
+          \item End-to-end testing will occur in \textbf{Week 4} to ensure Rev 0 readiness.
+        \end{itemize}
 \end{itemize}
 
 \subsection*{Table of Responsibility To Date}
 
 \begin{center}
-	% \begin{tabular}{ | c | c | }
-	\begin{tabular}{| p{0.3\textwidth} | p{0.6\textwidth} |}
-		\hline
-		Team Member & Responsibility \\ 
-		\toprule
+  % \begin{tabular}{ | c | c | }
+  \begin{tabular}{| p{0.3\textwidth} | p{0.6\textwidth} |}
+    \hline
+    Team Member & Responsibility                    \\
+    \toprule
 
-		\multirow{3}{0.3\textwidth}{Emma Wigglesworth}
-		& User Interface \\
-		& Scheduling Module \\
-		& Scheduling Algorithm Module \\
+    \multirow{3}{0.3\textwidth}{Emma Wigglesworth}
+                & User Interface                    \\
+                & Scheduling Module                 \\
+                & Scheduling Algorithm Module       \\
 
-		\midrule
+    \midrule
 
-		\multirow{4}{0.3\textwidth}{Derek Li}
-		& Notification Module \\
-		& Announcement Module \\
-		& Team Management Module \\
-		& Waiver Module \\
+    \multirow{4}{0.3\textwidth}{Derek Li}
+                & Notification Module               \\
+                & Announcement Module               \\
+                & Team Management Module            \\
+                & Waiver Module                     \\
 
-		\midrule
+    \midrule
 
-		\multirow{2}{0.3\textwidth}{Jad Haytaoglu}
-		& Game Management Module \\
-		& User Interface Module \\
+    \multirow{2}{0.3\textwidth}{Jad Haytaoglu}
+                & Game Management Module            \\
+                & User Interface Module             \\
 
-		\midrule
+    \midrule
 
-		\multirow{8}{0.3\textwidth}{Damien Cheung}
-		& Module Hierarchy \\
-		& Module Decomposition \\
-		& First Traceability Matrix \\
-		& Use Hierarchy Between Modules \\
-		& GameT Module \\
-		& TeamT Module \\
-		& PlayerT Module \\
-		& Backend/Database Module \\
+    \multirow{8}{0.3\textwidth}{Damien Cheung}
+                & Module Hierarchy                  \\
+                & Module Decomposition              \\
+                & First Traceability Matrix         \\
+                & Use Hierarchy Between Modules     \\
+                & GameT Module                      \\
+                & TeamT Module                      \\
+                & PlayerT Module                    \\
+                & Backend/Database Module           \\
 
-		\midrule
+    \midrule
 
-		\multirow{5}{0.3\textwidth}{Temituoyo Ugborogho}
-		& Anticipated and Unlikely Changes \\
-		& Second Traceability Matrix \\
-		& Design of Communication Protocols \\
-		& Timeline \\
-		& Authentication Module \\
+    \multirow{5}{0.3\textwidth}{Temituoyo Ugborogho}
+                & Anticipated and Unlikely Changes  \\
+                & Second Traceability Matrix        \\
+                & Design of Communication Protocols \\
+                & Timeline                          \\
+                & Authentication Module             \\
 
-		\bottomrule
-
-	\end{tabular}
+    \bottomrule
+  \end{tabular}
 \end{center}
 
 More info can be found \href{https://github.com/dcheung11/team-6-capstone-project}{here.}
@@ -964,5 +976,34 @@ More info can be found \href{https://github.com/dcheung11/team-6-capstone-projec
 \bibliography{../../../refs/References}
 
 \newpage{}
+
+\subsection{Revision 1 Traceability}
+The following table tracks all significant changes made to the document based on feedback, requirements changes, and improvements:
+
+\newcommand{\issueLink}[1]{\href{https://github.com/dcheung11/team-6-capstone-project/issues/#1}{Issue #1}}
+
+\begin{longtable}{|p{0.15\textwidth}|p{0.35\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|}
+  \caption{Traceability of Revision 1 Changes} \label{tab:revision_traceability}                                                                             \\
+  \hline
+  \textbf{Change ID} & \textbf{Description of Change}                                                 & \textbf{Affected Section(s)} & \textbf{GitHub Issue} \\
+  \hline
+  \endfirsthead
+
+  \multicolumn{4}{c}{\tablename\ \thetable{} -- Continued from previous page}                                                                                \\
+  \hline
+  \textbf{Change ID} & \textbf{Description of Change}                                                 & \textbf{Affected Section(s)} & \textbf{GitHub Issue} \\
+  \hline
+  \endhead
+
+  \hline \multicolumn{4}{r}{Continued on next page}                                                                                                          \\
+  \endfoot
+
+  \hline
+  \endlastfoot
+
+  REV1.1             & Added explanations to AC/UCs                                            & 4 - Anticipated and Unlikely Changes    & \issueLink{511}          \\
+  REV1.2             & Changed Protocols to use noun endpoints and HTTP requests explain actions & 11 - Design of Communication Protocols  & \issueLink{511}                    \\
+  REV1.3             & Changed image attachments to pdfs                        & 9, 10                         & \issueLink{511}          \\
+\end{longtable}
 
 \end{document}
