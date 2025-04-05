@@ -98,7 +98,7 @@ The software being tested is the McMaster GSA Softball League Management Platfor
 \end{itemize}
 \subsubsection*{Out of Scope}
 \begin{itemize}
-    \item \textbf{Accessibility Testing}: Accessibility checks, such as screen reader compatibility, keyboard-only navigation, and compliance with accessibility standards (e.g., WCAG), will not be covered in this scope. This decision is made because the platform’s primary user base does not require stringent accessibility support, and our focus is primarily on basic usability rather than comprehensive accessibility.
+    \item \textbf{Accessibility Testing}: Accessibility checks, such as screen reader compatibility, keyboard-only navigation, and compliance with accessibility standards (e.g., WCAG), will not be covered in this scope. This decision is made because the platform's primary user base does not require stringent accessibility support, and our focus is primarily on basic usability rather than comprehensive accessibility.
 
     \item \textbf{Performance and Load Testing}: Extensive load and stress testing to measure system performance under high user traffic will be omitted. Given the platform's limited expected user base and the controlled environment in which it will operate, performance considerations are minimal. Our team will assume that system responsiveness and speed are sufficient for a small to medium load without simulating peak traffic.
 
@@ -222,7 +222,7 @@ V\&V Team Lead: Derek
 \noindent Our approach for SRS verification involves understanding the following objectives:
 
 \begin{itemize}
-    \item Validate that the SRS covers the project’s functional and non-functional requirements
+    \item Validate that the SRS covers the project's functional and non-functional requirements
     \item Verify that requirements are clearly defined, consistent and testable
     \item Validate that requirements are feasible and achievable within project constraints
 \end{itemize}
@@ -333,23 +333,36 @@ Checklist:
 
 \subsection{Automated Testing and Verification Tools}
 
-\noindent Primary Testing Tool: Playwright\\
+\noindent Primary Testing Tools:
+\begin{itemize}
+    \item \textbf{Playwright}: End-to-end testing framework for cross-browser testing
+    \item \textbf{Jest}: Unit testing framework for both frontend and backend
+    \item \textbf{React Testing Library}: Component testing for React frontend
+\end{itemize}
 
-\noindent Playwright is the most modern end-to-end testing framework. It can support testing across different browsers like Chrome, Firefox, and Safari. The support that this framework has is ideal for ensuring that our platform works smoothly across various devices and browsers.\\
+\noindent Code Quality Tools:
+\begin{itemize}
+    \item \textbf{ESLint}: For JavaScript/TypeScript linting and code style enforcement
+    \item \textbf{Prettier}: For consistent code formatting
+\end{itemize}
 
-\noindent Compared to other testing frameworks, Playwright offers faster execution, and built-in capabilities for handling complex UI interactions like pop-ups, a fast and growing online community, and Microsoft, a tech giant, backs it up. \\
+\noindent Continuous Integration:
+\begin{itemize}
+    \item \textbf{GitHub Actions}: For automated testing, documentation generation, and deployment
+    \item \textbf{Jest Coverage Reports}: For tracking test coverage metrics
+\end{itemize}
 
-\noindent Linting Tool: ESLint\\
+\noindent Performance Testing:
+\begin{itemize}
+    \item \textbf{Chrome DevTools}: For frontend performance profiling
+    \item \textbf{Node.js Profiler}: For backend performance analysis
+\end{itemize}
 
-\noindent ESLint will be used to catch potential issues in the code, such as syntax errors, security vulnerabilities, or deviations from coding standards, before execution.\\
-
-\noindent Saves time in code reviews and reduces the risk of runtime errors by enforcing best practices during development.
-
-\noindent Continuous Integration Tool: GitHub Actions\\
-
-\noindent GitHub Actions will be used for continuous integration. At the early phases of this project, workflows will be used to automatically generate/compile documentation upon pull request merging. In the future, we may invoke workflows to deploy the web application upon merge to development branch. \\
-
-\noindent Saves time in PDF generation and code reviews and prevents Latex errors from being pushed to main branch. \\
+\noindent Security Testing:
+\begin{itemize}
+    \item \textbf{OWASP ZAP}: For security vulnerability scanning
+    \item \textbf{Helmet.js}: For HTTP security headers
+\end{itemize}
 
 \subsection{Software Validation Plan}
 
@@ -373,15 +386,15 @@ Methods: \\
 
 \section{System Tests}
 
-This section goes over the tests for both functional and non-functional requirements of the platform. Functional requirements tests cover core features like authentication, team management, and scheduling. These tests are focused on making sure the system does exactly what it’s supposed to, based on the requirements laid out in the SRS.
+This section goes over the tests for both functional and non-functional requirements of the platform. Functional requirements tests cover core features like authentication, team management, and scheduling. These tests are focused on making sure the system does exactly what it's supposed to, based on the requirements laid out in the SRS.
 
-The non-functional requirements tests are split into categories to check additional qualities of the system: Look and Feel, Usability and Humanity, Performance, Operational and Environmental, Maintainability and Support, and Security. These tests make sure the platform isn’t just functional but also user-friendly, reliable, compatible across devices, and secure. Each section breaks down the tests and criteria we’ll use to evaluate these areas.
+The non-functional requirements tests are split into categories to check additional qualities of the system: Look and Feel, Usability and Humanity, Performance, Operational and Environmental, Maintainability and Support, and Security. These tests make sure the platform isn't just functional but also user-friendly, reliable, compatible across devices, and secure. Each section breaks down the tests and criteria we'll use to evaluate these areas.
 
 \subsection{Tests for Functional Requirements}
 
 This section is divided into different areas to cover subsets of the functional requirements comprehensively. The following tests cover core features like authentication, team management, and scheduling. References to the SRS are provided to show the alignment with documented requirements.
 
-It should be noted that when \texttt{Roles} are described doing actions in the functional tests (e.g. ``Captain inputs...''), these are assumed a tester acting in place of the role.
+It should be noted that when \texttt{Roles} are described doing actions in the functional tests (e.g. "Captain inputs..."), these are assumed a tester acting in place of the role.
 
 \subsubsection{Authentication and Access Control}
 
@@ -597,7 +610,7 @@ This section tests game scheduling and rescheduling requests, focusing on the in
 
           Output: Override is reflected in the schedule. Notifications are sent to all IDs in \texttt{Roster} of teams associated with the overridden game.
 
-          Test Case Derivation: Schedule changes should be reflected in all affected user’s view and they should be notified of the changes.
+          Test Case Derivation: Schedule changes should be reflected in all affected user's view and they should be notified of the changes.
 
           How Test Will Be Performed: Commissioner applies an override on an existing game. Verify the game change (\texttt{Schedule view, SlotNumber}, and \texttt{Available Slots} are updated). Verify notifications are received by both teams.
 
@@ -651,7 +664,7 @@ This section includes tests for league-wide announcements and commissioner game 
 
           Input: Tester navigates through primary views (including login, team management, and schedule viewing)
 
-          Output: The platform’s interface should be modern, intuitive, and visually consistent across all views.
+          Output: The platform's interface should be modern, intuitive, and visually consistent across all views.
 
           Test Case Derivation: Ensures a consistent, modern interface as specified.
 
@@ -921,7 +934,7 @@ This section includes tests for league-wide announcements and commissioner game 
 
 \end{enumerate}
 
-\subsubsection{C ultural}
+\subsubsection{Cultural}
 
 \begin{enumerate}
 
@@ -982,18 +995,20 @@ Note : Requirement IDs are from SRS
 	\centering
     \begin{tabular}{ |c|c|c| }
         \hline
-        \textbf{Requirement ID } & \textbf{Test Case ID(s)}        & \textbf{Description of Coverage}           \\ \hline
-        FR-1                     & \makecell{Login-Invalid,                                                     \\ Login-Valid} & \makecell{Tests login functionality \\ with valid and invalid credentials.} \\ \hline
-        FR-2                     & \makecell{Captain-TeamCreation,                                              \\ Captain-TeamDuplication} & \makecell{Ensures unique team creation \\ and duplication prevention.} \\ \hline
-        FR-3                     & \makecell{Player-JoinTeam,                                                   \\ Captain-ApproveJoin} & \makecell{Covers team joining requests and\\ approvals.} \\ \hline
-        FR-7                     & Game-ScheduleGeneration         & \makecell{Verifies automated schedule      \\ generation.} \\ \hline
-        FR-8                     & Captain-GameReport              & \makecell{Ensures captains can submit      \\ game results.} \\ \hline
-        FR-9                     & Captain-RescheduleRequest       & \makecell{Verifies rescheduling requests.} \\ \hline
-        FR-10                    & Admin-OverrideSchedule          & \makecell{Validates admin ability to       \\ override schedules.} \\ \hline
-        NFR-11.1                 & Usability-NavigationTest        & \makecell{Tests user ease of navigation    \\ through the platform.} \\ \hline
-        NFR-12.4                 & Performance-ScheduleValidation  & \makecell{Verifies schedule accuracy under \\ performance constraints.} \\ \hline
-        NFR-13.2                 & Compliance-W3CStandards         & \makecell{Confirms adherence to web        \\ standards (W3C).} \\ \hline
-        % \label{table:traceability_matrix}
+        \textbf{Requirement ID} & \textbf{Test Case ID(s)}        & \textbf{Description of Coverage}           \\ \hline
+        FR-1                     & \makecell{FR-1: Login with Invalid Credentials, \\ FR-2: Login with Valid Credentials} & \makecell{Tests login functionality \\ with valid and invalid credentials.} \\ \hline
+        FR-2                     & \makecell{FR-3: Captain Registering a Team, \\ FR-4: Captain Team Duplication, \\ FR-5: Captain Multiple Teams} & \makecell{Ensures unique team creation \\ and duplication prevention.} \\ \hline
+        FR-3                     & \makecell{FR-6: Player Joining a Team, \\ FR-7: Captain Approving Join Request} & \makecell{Covers team joining requests and\\ approvals.} \\ \hline
+        FR-7                     & \makecell{FR-7: Automated Season Schedule, \\ TPERF-2: Schedule Performance Validation} & \makecell{Verifies automated schedule      \\ generation and performance.} \\ \hline
+        FR-8                     & \makecell{FR-8: Captain Game Reporting, \\ Game Results Submission} & \makecell{Ensures captains can submit      \\ game results and handle rescheduling.} \\ \hline
+        FR-9                     & \makecell{FR-9: Rescheduling Request, \\ Schedule Update Notification} & \makecell{Verifies rescheduling requests.} \\ \hline
+        FR-10                    & \makecell{FR-10: Admin Schedule Override, \\ FR-11: Announcement Posting} & \makecell{Validates admin ability to       \\ override schedules and post announcements.} \\ \hline
+        NFR-11.1                 & \makecell{TUH-1: Localization and Easy Navigation, \\ TUH-2: Task Completion Time, \\ TUH-3: Navigation Assistance} & \makecell{Tests user ease of navigation    \\ through the platform.} \\ \hline
+        NFR-12.4                 & \makecell{TPERF-1: Accurate Data Representations, \\ TPERF-2: Schedule Performance Validation} & \makecell{Verifies schedule accuracy under \\ performance constraints.} \\ \hline
+        NFR-13.2                 & \makecell{TOPE-1: Cross-browser Compatibility, \\ TOPE-2: Web Standards Compliance} & \makecell{Confirms adherence to web        \\ standards and cross-browser compatibility.} \\ \hline
+        NFR-15.1                 & \makecell{TSEC-1: Data Access Governance, \\ TSEC-2: Input Validation, \\ TSEC-3: SQL Injection Prevention} & \makecell{Validates security measures and\\ access control.} \\ \hline
+        NFR-16.1                 & \makecell{TCU-1: Canadian Localization} & \makecell{Ensures proper localization and\\ cultural compliance.} \\ \hline
+        NFR-17.1                 & \makecell{TC-1: Account Deletion Compliance, \\ TC-2: Web Standards Adherence} & \makecell{Verifies compliance with standards\\ and data management.} \\ \hline
     \end{tabular}
 	\caption{Traceability Between Test Cases and Requirements}
 \end{table}
@@ -1007,7 +1022,32 @@ The primary focus of unit testing in this project is on verifying the correctnes
 
 Thus, our unit test structure will focus on the main classes used in our application and we allow Functional and Non-Functional rquirements to be tested in other methods (Manual, System, Integration)
 
-We focus on the primary models in our system: \texttt{Player, Team, Game, Schedule, Gameslot}. While we would ideally hope for all models to be covered, the primary focus is on the models that are most critical to the system's functionality and this method will allow us to complete the most critical tests within our time constraints. 
+\begin{itemize}
+    \item \textbf{Backend Testing}:
+    \begin{itemize}
+        \item Jest as the primary testing framework
+        \item MongoDB Memory Server for database testing
+        \item Supertest for API endpoint testing
+        \item Coverage reporting through Jest's built-in coverage tools
+    \end{itemize}
+    
+    \item \textbf{Frontend Testing}:
+    \begin{itemize}
+        \item Jest with React Testing Library
+        \item Jest DOM for DOM-specific assertions
+        \item Component testing for React components
+        \item Integration with GitHub Actions for CI/CD
+    \end{itemize}
+\end{itemize}
+
+\subsection{Code Coverage Goals}
+
+\begin{itemize}
+    \item Minimum 80\% coverage for all backend models
+    \item Minimum 70\% coverage for backend controllers
+    \item Minimum 60\% coverage for frontend components
+    \item Coverage reports generated on every test run
+\end{itemize}
 
 \subsection{Tests for Models/Classes}
 
@@ -1186,58 +1226,193 @@ The following anticipated changes (AC) are covered by corresponding test cases:
     \item \textbf{AC7:} Improved Notification System $\rightarrow$ TC-10 (Notification Delivery and Response)
 \end{itemize}
 
-\bibliographystyle{plainnat}
+\subsection{Test Data}
+The test data will be managed through the following approaches:
+\begin{itemize}
+    \item \textbf{Development Data:} Using MongoDB with sample data for development and testing
+    \item \textbf{Data Validation:} Ensuring data integrity through MongoDB schema validation
+    \item \textbf{Test Environment:} Separate test database to prevent interference with development data
+\end{itemize}
 
-\bibliography{../../refs/References}
+\subsection{Test Environment Setup}
+The test environment will be configured as follows:
+\begin{itemize}
+    \item \textbf{Development Environment:}
+    \begin{itemize}
+        \item Node.js with Express backend
+        \item MongoDB database
+        \item React frontend with TypeScript
+    \end{itemize}
+    \item \textbf{Testing Tools:}
+    \begin{itemize}
+        \item Jest for unit testing
+        \item Playwright for end-to-end testing
+        \item ESLint for code quality
+    \end{itemize}
+\end{itemize}
 
-\newpage
+\subsection{Test Execution}
+The test execution process will be managed as follows:
 
-\section{Appendix}
+\begin{itemize}
+    \item \textbf{Automated Testing:}
+    \begin{itemize}
+        \item Unit tests run on every pull request
+        \item End-to-end tests for critical user flows
+        \item Code quality checks through ESLint
+    \end{itemize}
+    
+    \item \textbf{Manual Testing:}
+    \begin{itemize}
+        \item Usability testing with 5 participants
+        \item Cross-browser testing
+        \item Mobile responsiveness testing
+    \end{itemize}
+    
+    \item \textbf{Test Results:}
+    \begin{itemize}
+        \item Test coverage reports from Jest
+        \item Usability testing feedback and observations
+        \item Bug tracking through GitHub Issues
+    \end{itemize}
+\end{itemize}
 
-This is where you can place additional information.
+\section{Unit Testing Summary}
 
-\subsection{Symbolic Parameters}
+\subsection{Backend Unit Testing}
 
-The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
-Their values are defined in this section for easy maintenance.
-\begin{longtable}{|l|l|l|p{5cm}|}
+Our backend unit testing is conducted using Jest and executed via npm test in the backend directory. The test files are located in the backend/test folder. These unit tests focus on verifying the fundamental functionality of our backend models, ensuring they behave as expected when interacting with MongoDB.
 
+\subsubsection{Player Model Tests}
+\begin{itemize}
+    \item \textbf{test-player-creation}: Verifies that the player model can be created with valid input and default fields are set correctly.
+    \item \textbf{test-player-uniqueness}: Verifies that the player model enforces uniqueness for the email field.
+    \item \textbf{test-player-validation}: Ensures proper validation of required fields and data types.
+\end{itemize}
+
+\subsubsection{Team Model Tests}
+\begin{itemize}
+    \item \textbf{test-team-creation}: Verifies that the team model can be created with valid input and default fields are set correctly.
+    \item \textbf{test-team-uniqueness}: Ensures team names are unique within a season.
+    \item \textbf{test-team-validation}: Validates required fields and data types.
+\end{itemize}
+
+\subsubsection{Game Model Tests}
+\begin{itemize}
+    \item \textbf{test-game-creation}: Verifies that a game can be created with valid input and default fields are set correctly.
+    \item \textbf{test-game-validation}: Ensures proper validation of game-related fields.
+    \item \textbf{test-game-updates}: Verifies that game updates (scores, status) are handled correctly.
+\end{itemize}
+
+\subsubsection{Schedule Model Tests}
+\begin{itemize}
+    \item \textbf{test-schedule-creation}: Verifies that a schedule can be created with valid input.
+    \item \textbf{test-schedule-validation}: Ensures proper validation of schedule-related fields.
+    \item \textbf{test-schedule-updates}: Verifies that schedule updates are handled correctly.
+\end{itemize}
+
+\subsection{Frontend Unit Testing}
+
+Our frontend unit testing is conducted using Jest and React Testing Library. The test files are located in the frontend/src/test directory.
+
+\subsubsection{Component Tests}
+\begin{itemize}
+    \item \textbf{test-login-component}: Verifies that the login form renders correctly and handles user input.
+    \item \textbf{test-team-management}: Ensures team management components function as expected.
+    \item \textbf{test-schedule-view}: Verifies that the schedule view renders and updates correctly.
+\end{itemize}
+
+\subsubsection{Integration Tests}
+\begin{itemize}
+    \item \textbf{test-authentication-flow}: Verifies the complete authentication process.
+    \item \textbf{test-team-creation-flow}: Ensures the team creation process works end-to-end.
+    \item \textbf{test-game-scheduling-flow}: Verifies the game scheduling process.
+\end{itemize}
+
+\section{Feedback and Changes Documentation}
+
+\subsection{Supervisor Feedback Implementation}
+
+\begin{itemize}
+    \item \textbf{Team Invitation System}: Based on supervisor feedback, we modified the team joining process to only allow captains to invite players, rather than allowing players to request to join teams. This change was implemented to prevent spam and improve the user experience for captains.
+    \item \textbf{Game Result Submission}: Simplified the game result submission process by removing the need for captains to manually input game results (Win/Lose/Tie). Instead, results are automatically calculated based on scores.
+    \item \textbf{User Interface Consistency}: Addressed feedback regarding inconsistent color usage (yellow appearing randomly) by implementing a standardized color scheme across all views.
+\end{itemize}
+
+\subsection{User Testing Feedback Implementation}
+
+\begin{itemize}
+    \item \textbf{Navigation Flow}: Based on feedback from 5 test users, we improved the navigation flow to ensure all main views are accessible within \texttt{MAX\_NAVTIME} seconds.
+    \item \textbf{Mobile Responsiveness}: Enhanced mobile responsiveness based on user feedback, ensuring consistent experience across devices.
+    \item \textbf{Form Validation}: Implemented stricter validation for email addresses and other form fields based on user testing feedback.
+\end{itemize}
+
+\subsection{Team Feedback Implementation}
+
+\begin{itemize}
+    \item \textbf{Testing Strategy}: Modified our testing approach based on team feedback, focusing more on manual testing for certain features where it proved more effective than automated testing.
+    \item \textbf{Documentation Updates}: Enhanced documentation based on team feedback to ensure clarity and completeness.
+    \item \textbf{Code Organization}: Restructured code organization based on team feedback to improve maintainability.
+\end{itemize}
+
+\subsection{TA/Instructor Feedback Implementation}
+
+\begin{itemize}
+    \item \textbf{Test Coverage}: Increased test coverage based on feedback, particularly for edge cases and error handling.
+    \item \textbf{Documentation Standards}: Improved documentation to meet the required standards for clarity and completeness.
+    \item \textbf{Code Quality}: Enhanced code quality through implementation of suggested improvements in error handling and validation.
+\end{itemize}
+
+\subsection{Traceability of Changes}
+
+\begin{longtable}{|p{0.33\textwidth}|p{0.33\textwidth}|p{0.33\textwidth}|}
+    \caption{Traceability of Changes to Feedback Sources}\\ \hline
+    \textbf{Change} & \textbf{Feedback Source} & \textbf{Reason for Change} \\ \hline
+    \endfirsthead
+    \multicolumn{3}{c}%
+    {{\bfseries Table -- Continued}} \\ \hline
+    \textbf{Change} & \textbf{Feedback Source} & \textbf{Reason for Change} \\ \hline
+    \endhead
+    \hline \multicolumn{3}{r}{{Continued on next page}} \\ \hline
+    \endfoot
     \hline
-    parameter                                     & value & unit & description                                                       \\
-    \hline
-    \texttt{MIN\_NAVTIME}\label{MIN_NAVTIME}      & 60    & s    & the minimum time for testers to navigate to a main view           \\
-    \hline
-    \texttt{MIN\_TESTERS}\label{MIN_TESTERS}      & 5     & n/a  & the minimum testers required for a certain system test            \\
-    \hline
-    \texttt{AVG\_TASK\_TIME}\label{AVG_TASK_TIME} & 3     & min  & the average task time for a task completion                       \\
-    \hline
-    \texttt{MAX\_GAME\_DIFF}\label{MAX_GAME_DIFF} & 2     & n/a  & the maximum difference of total scheduled games between two teams \\
-    \hline
-	\caption{Symbolic Parameters}
+    \endlastfoot
+    
+    Modified team joining process & Supervisor & Prevent spam and improve captain experience \\ \hline
+    Simplified game result submission & Team & Improve user experience and reduce errors \\ \hline
+    Standardized color scheme & User Testing & Address visual consistency issues \\ \hline
+    Enhanced mobile responsiveness & User Testing & Improve cross-device experience \\ \hline
+    Improved form validation & User Testing & Prevent invalid data entry \\ \hline
+    Modified testing strategy & Team & Optimize testing efficiency \\ \hline
+    Increased test coverage & TA/Instructor & Ensure comprehensive testing \\ \hline
+    Enhanced documentation & TA/Instructor & Meet documentation standards \\ \hline
 \end{longtable}
 
-\subsection{Usability Survey Questions}
+\section{Test Maintenance}
 
-\paragraph{Learning}
+The test suite will be maintained through the following processes:
+
 \begin{itemize}
-    \item{How easy was it to learn how to use the platform? (1-5)}
-    \item{How helpful were the instructions or help resources in learning how to use the platform? (1-5)}
-    \item{How confident do you feel using the platform without assistance after your initial experience? (1-5)}
-\end{itemize}
-
-\paragraph{Usability}
-\begin{itemize}
-    \item{How intuitive do you find the navigation of the platform? (1-5)}
-    \item{Did you encounter any errors or issues while using the platform? If so, please describe them. (Open-ended)}
-\end{itemize}
-
-
-\paragraph{Accessibility}
-\begin{itemize}
-    \item{How accessible do you find the platform in terms of visual design (e.g., color contrast, text size, font)? (1-5)}
-    \item{Did you encounter any errors or issues while using the platform? If so, please describe them. (Open-ended)}
-    \item{Do you have any suggestions for improving the accessibility of the platform?
-          (Open-ended)}
+    \item \textbf{Regular Updates:}
+    \begin{itemize}
+        \item Test cases updated with new features
+        \item Bug fixes and regression testing
+        \item Documentation updates in GitHub
+    \end{itemize}
+    
+    \item \textbf{Code Quality:}
+    \begin{itemize}
+        \item ESLint for code style enforcement
+        \item TypeScript for type safety
+        \item Code review process for new features
+    \end{itemize}
+    
+    \item \textbf{Documentation:}
+    \begin{itemize}
+        \item README updates for setup instructions
+        \item API documentation
+        \item Test case documentation
+    \end{itemize}
 \end{itemize}
 
 \newpage{}
@@ -1348,5 +1523,55 @@ graduate attribute of Lifelong Learning.
 
 \section*{Notes}
 This section will be completed at the end of Phase 2 as specified in section 21.2.2 in the SRS.
+
+\section{Appendix}
+
+This is where you can place additional information.
+
+\subsection{Symbolic Parameters}
+
+The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
+Their values are defined in this section for easy maintenance.
+\begin{longtable}{|l|l|l|p{5cm}|}
+
+    \hline
+    parameter                                     & value & unit & description                                                       \\
+    \hline
+    \texttt{MIN\_NAVTIME}\label{MIN_NAVTIME}      & 60    & s    & the minimum time for testers to navigate to a main view           \\
+    \hline
+    \texttt{MIN\_TESTERS}\label{MIN_TESTERS}      & 5     & n/a  & the minimum testers required for a certain system test            \\
+    \hline
+    \texttt{AVG\_TASK\_TIME}\label{AVG_TASK_TIME} & 3     & min  & the average task time for a task completion                       \\
+    \hline
+    \texttt{MAX\_GAME\_DIFF}\label{MAX_GAME_DIFF} & 2     & n/a  & the maximum difference of total scheduled games between two teams \\
+    \hline
+	\caption{Symbolic Parameters}
+\end{longtable}
+
+\subsection{Usability Survey Questions}
+
+\paragraph{Learning}
+\begin{itemize}
+    \item{How easy was it to learn how to use the platform? (1-5)}
+    \item{How helpful were the instructions or help resources in learning how to use the platform? (1-5)}
+    \item{How confident do you feel using the platform without assistance after your initial experience? (1-5)}
+\end{itemize}
+
+\paragraph{Usability}
+\begin{itemize}
+    \item{How intuitive do you find the navigation of the platform? (1-5)}
+    \item{Did you encounter any errors or issues while using the platform? If so, please describe them. (Open-ended)}
+\end{itemize}
+
+
+\paragraph{Accessibility}
+\begin{itemize}
+    \item{How accessible do you find the platform in terms of visual design (e.g., color contrast, text size, font)? (1-5)}
+    \item{Did you encounter any errors or issues while using the platform? If so, please describe them. (Open-ended)}
+    \item{Do you have any suggestions for improving the accessibility of the platform?
+          (Open-ended)}
+\end{itemize}
+
+\newpage{}
 
 \end{document}
