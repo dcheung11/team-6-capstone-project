@@ -1,3 +1,8 @@
+# Please Read:
+The most recent documentation exists in the `main` branch.
+
+ Please refer to/checkout  the `development` branch for source code and running the most recent version of the web application. The instructions for installation and more exist in the `development` branch. 
+
 # McMaster Softball League Online Scheduling and League Management Platform
 
 Developer Names:
