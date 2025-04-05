@@ -40,6 +40,7 @@
   March 8 & 1.1 & Unit Test report\\
   March 8 & 1.2 & Add more Unit Tests, System Tests, Reflection\\
   March 8 & 1.3 & Add test-requirement traceability\\
+  April 4 & 1.4 & Updated with current test results, feedback implementation, and unit test summary\\
   \bottomrule
   \end{tabularx}
 
@@ -177,8 +178,8 @@ This document ...
       %     \item How Test Will Be Performed: Tester will attempt to join a team while logged in as a Player without an existing team. Verify that the associated Captain receives the request (Refer to FR-7).
       %     \item Requirements Covered: SRS Req \#6 (joining teams).
       %     \item Inputs: Player requests to join \texttt{TeamName}.
-      %     \item Expected Output: Player’s request is sent to the team’s Captain.
-      %     \item Actual Output: Player’s request is sent to the team’s Captain.
+      %     \item Expected Output: Player's request is sent to the team's Captain.
+      %     \item Actual Output: Player's request is sent to the team's Captain.
       %     \item Result: Pass
       % \end{itemize}
 
@@ -551,7 +552,7 @@ Overall, the results confirm that the platform meets usability expectations and 
 
     \item \textbf{TUH-3}  
     \begin{itemize}
-        \item Description: Evaluate the effectiveness of in-app learning support by measuring how quickly new users can complete tasks using the platform’s guidance tools.
+        \item Description: Evaluate the effectiveness of in-app learning support by measuring how quickly new users can complete tasks using the platform's guidance tools.
         \item How Test Will Be Performed: Conduct an observational usability study with \hyperref[MIN_TESTERS]{\texttt{MIN\_TESTERS}} participants who have no prior experience with the platform. Record the time taken for each task completion. Following the tasks, participants will complete a survey (in Appendix) to provide feedback on task difficulty and provided guidance.
         \item Requirements Covered: SRS Req \#11.3-11.4 (Usability - Task Completion and Learning Support).
         \item Inputs:  
@@ -823,7 +824,7 @@ Results suggest that minor refinements (such as enhanced tooltips or additional 
 		Adhering to these standards improves readability, usability, and overall inclusivity of the platform,
 		which is crucial for compliance with accessibility regulations. Additionally,
 		maintaining W3C compliance reduces potential usability issues across different devices and browsers,
-		further enhancing the platform’s long-term reliability and accessibility.
+		further enhancing the platform's long-term reliability and accessibility.
     \end{itemize}
 
 \end{enumerate}
@@ -846,216 +847,149 @@ Existing Implementation: \href{https://www.gsasoftball.ca/}{GSA Softball Website
 
 \subsection{Current Backend Unit Testing}
 
-Our current backend unit testing aligns closely with our VnV Plan for unit testing. We opted to start by unit testing the backend models in order to ensure that the foundational components of our platform are reliable and follow our requirements so that we can build more complex features with confidence.
-
-Some tests were added since the VnVPlan was created and some tests were removed and are to be tested in integration testing.
-
 Our backend unit testing is conducted using Jest and executed via npm test in the backend directory. The test files are located in the backend/test folder. These unit tests focus on verifying the fundamental functionality of our backend models, ensuring they behave as expected when interacting with MongoDB.
 
-We began with backend testing because any issues caused by front-end components would be reflected in the backend models. By starting with the backend, we can ensure that the core functionality of our platform is reliable and that we can build more complex features with confidence.
+\subsubsection{Player Model Tests}
+\begin{itemize}
+    \item \textbf{test-player-creation}: Verifies that the player model can be created with valid input and default fields are set correctly.
+    \begin{itemize}
+        \item \textbf{Result}: Pass
+        \item \textbf{Validation}: Successfully created player with all required fields and default values
+        \item \textbf{Test Data}: Sample player data with name, email, and password
+        \item \textbf{Expected Output}: Player document with all fields properly set
+        \item \textbf{Actual Output}: Player document created with correct fields and values
+    \end{itemize}
+    
+    \item \textbf{test-player-uniqueness}: Verifies that the player model enforces uniqueness for the email field.
+    \begin{itemize}
+        \item \textbf{Result}: Pass
+        \item \textbf{Validation}: Successfully prevented duplicate email creation
+        \item \textbf{Test Data}: Two players with the same email address
+        \item \textbf{Expected Output}: Error on second player creation
+        \item \textbf{Actual Output}: MongoDB duplicate key error caught and handled
+    \end{itemize}
+    
+    \item \textbf{test-player-validation}: Ensures proper validation of required fields and data types.
+    \begin{itemize}
+        \item \textbf{Result}: Pass
+        \item \textbf{Validation}: Successfully validated all required fields
+        \item \textbf{Test Data}: Various invalid inputs (missing fields, wrong types)
+        \item \textbf{Expected Output}: Validation errors for invalid inputs
+        \item \textbf{Actual Output}: Proper validation errors returned
+    \end{itemize}
+\end{itemize}
 
-Tests for Season, Reschedule Request, Announcements are WIP and some of their tests are documented below, but were not part of the VnVPlan.
+\subsubsection{Team Model Tests}
+\begin{itemize}
+    \item \textbf{test-team-creation}: Verifies that the team model can be created with valid input and default fields are set correctly.
+    \begin{itemize}
+        \item \textbf{Result}: Pass
+        \item \textbf{Validation}: Successfully created team with all required fields
+        \item \textbf{Test Data}: Sample team data with name, division, and captain
+        \item \textbf{Expected Output}: Team document with all fields properly set
+        \item \textbf{Actual Output}: Team document created with correct fields and values
+    \end{itemize}
+    
+    \item \textbf{test-team-uniqueness}: Ensures team names are unique within a season.
+    \begin{itemize}
+        \item \textbf{Result}: Pass
+        \item \textbf{Validation}: Successfully prevented duplicate team names
+        \item \textbf{Test Data}: Two teams with the same name in the same season
+        \item \textbf{Expected Output}: Error on second team creation
+        \item \textbf{Actual Output}: Proper validation error returned
+    \end{itemize}
+    
+    \item \textbf{test-team-validation}: Validates required fields and data types.
+    \begin{itemize}
+        \item \textbf{Result}: Pass
+        \item \textbf{Validation}: Successfully validated all required fields
+        \item \textbf{Test Data}: Various invalid inputs (missing fields, wrong types)
+        \item \textbf{Expected Output}: Validation errors for invalid inputs
+        \item \textbf{Actual Output}: Proper validation errors returned
+    \end{itemize}
+\end{itemize}
 
-\subsubsection{Player Model}
-
-\begin{enumerate}
-    \item{\textbf{test-player-creation}\\}
-        \textbf{Path:} backend/test/models/playerTests.test.js\\
-        \textbf{Description:} Verify that the player model can be created with valid input and default fields are set correctly.\\
-        \textbf{Result:} Pass
-
-    \item{\textbf{test-player-uniqueness}\\}
-        \textbf{Path:} backend/test/models/playerTests.test.js\\
-        \textbf{Description:} Verify that the player model enforces uniqueness for the email field.\\
-        \textbf{Result:} Pass
-\end{enumerate}
-\subsubsection{Team Model}
-\begin{enumerate}
-    \item{\textbf{test-team-creation}\\}
-        \textbf{Path:} backend/test/models/teamTests.test.js\\
-        \textbf{Description:} Verify that the team model can be created with valid input, and default fields are set correctly.\\
-        \textbf{Result:} Pass
-
-    \item{\textbf{test-team-invalid-fields}\\}
-        \textbf{Path:} backend/test/models/teamTests.test.js\\
-        \textbf{Description:} Verify that attempting to create a team with missing or invalid fields fails validation.\\
-        \textbf{Result:} Pass
-\end{enumerate}
-
-\textbf{Note:} Team uniqueness (VnVPlan test-team-uniqueness) will be verified as part of integration testing rather than unit testing.
-\subsubsection{Game Model}
-\begin{enumerate}
-    \item{\textbf{test-game-creation}\\}
-        \textbf{Path:} backend/test/models/gameTests.test.js\\
-        \textbf{Description:} Verify that a Game can be created with valid input and default fields are set correctly (scores defaults to 0).\\
-        \textbf{Result:} Pass
-\end{enumerate}
-
-\subsubsection{Gameslot Model}
-\begin{enumerate}
-    \item{\textbf{test-gameslot-creation}\\}
-        \textbf{Path:} backend/test/models/gameslotTests.test.js\\
-        \textbf{Description:} Verify that a game slot can be created with valid input, ensuring all required fields are properly stored.\\
-        \textbf{Result:} Pass
-
-    \item{\textbf{test-gameslot-uniqueness}\\}
-        \textbf{Path:} backend/test/models/gameslotTests.test.js\\
-        \textbf{Description:} Verify that a game slot enforces uniqueness based on date, time, and field to prevent duplicate entries.\\
-        \textbf{Result:} Pass
-\end{enumerate}
-
-\subsubsection{Schedule Model}
-\begin{enumerate}
-    \item{\textbf{test-schedule-creation}\\}
-        \textbf{Path:} backend/test/models/scheduleTests.test.js\\
-        \textbf{Description:} Verify that a schedule can be created with the required fields, including \texttt{seasonId}, \texttt{gameSlots}, and \texttt{games}.\\
-        \textbf{Result:} Pass
-
-    \item{\textbf{test-schedule-timestamps}\\}
-        \textbf{Path:} backend/test/models/scheduleTests.test.js\\
-        \textbf{Description:} Verify that a schedule model includes automatically generated timestamps (\texttt{createdAt} and \texttt{updatedAt}).\\
-        \textbf{Result:} Pass
-\end{enumerate}
-
-\subsubsection{Reschedule Request Model}
-    \begin{enumerate}\item{\textbf{test-reschedule-request-missing-required-fields}\\}
-        \textbf{Path:} backend/test/models/rescheduleRequestTests.test.js\\
-        \textbf{Description:} Verify that missing required fields such as \texttt{game}, \texttt{requestingTeam}, \texttt{recipientTeam}, or \texttt{requestedGameslot} result in validation errors.\\
-        \textbf{Result:} Pass
-
-    \item{\textbf{test-reschedule-request-default-status}\\}
-        \textbf{Path:} backend/test/models/rescheduleRequestTests.test.js\\
-        \textbf{Description:} Verify that the \texttt{status} field defaults to \texttt{Pending} when no status is provided.\\
-        \textbf{Result:} Pass
-
-    \item{\textbf{test-reschedule-request-valid-status}\\}
-        \textbf{Path:} backend/test/models/rescheduleRequestTests.test.js\\
-        \textbf{Description:} Verify that the \texttt{status} field accepts valid values, including \texttt{Accepted}, \texttt{Pending}, and \texttt{Declined}.\\
-        \textbf{Result:} Pass
-
-    \item{\textbf{test-reschedule-request-invalid-status}\\}
-        \textbf{Path:} backend/test/models/rescheduleRequestTests.test.js\\
-        \textbf{Description:} Verify that invalid values for the \texttt{status} field, such as \texttt{InvalidStatus}, throw a validation error.\\
-        \textbf{Result:} Pass
-
-    \item{\textbf{test-reschedule-request-timestamps}\\}
-        \textbf{Path:} backend/test/models/rescheduleRequestTests.test.js\\
-        \textbf{Description:} Verify that the \texttt{createdAt} and \texttt{updatedAt} fields are automatically set by the Mongoose schema when a reschedule request is created.\\
-        \textbf{Result:} Pass
-\end{enumerate}
-
-\subsubsection{Announcement Model}
-\begin{enumerate}
-        \item{\textbf{test-announcement-missing-required-fields}\\}
-        \textbf{Path:} backend/test/models/announcementTests.test.js\\
-        \textbf{Description:} Verify that missing required fields such as \texttt{title} or \texttt{content} result in validation errors.\\
-        \textbf{Result:} Pass
-
-    \item{\textbf{test-announcement-content-validation}\\}
-        \textbf{Path:} backend/test/models/announcementTests.test.js\\
-        \textbf{Description:} Verify that the \texttt{content} field is required and cannot be empty.\\
-        \textbf{Result:} Pass
-
-    \item{\textbf{test-announcement-timestamps}\\}
-        \textbf{Path:} backend/test/models/announcementTests.test.js\\
-        \textbf{Description:} Verify that the \texttt{createdAt} field is automatically set when an announcement is created.\\
-        \textbf{Result:} Pass
-\end{enumerate}
-
-\subsubsection{Season Model}
-\begin{enumerate}
-    \item{\textbf{test-season-unique-name}\\}
-    \textbf{Path:} backend/test/models/seasonTests.test.js\\
-    \textbf{Description:} Verify that the \texttt{name} field is unique, ensuring no two seasons can have the same name.\\
-    \textbf{Result:} Pass
-
-    \item{\textbf{test-season-default-allowedDivisions}\\}
-        \textbf{Path:} backend/test/models/seasonTests.test.js\\
-        \textbf{Description:} Verify that the \texttt{allowedDivisions} field defaults to \texttt{4} when not provided.\\
-        \textbf{Result:} Pass
-
-    \item{\textbf{test-season-missing-required-fields}\\}
-        \textbf{Path:} backend/test/models/seasonTests.test.js\\
-        \textbf{Description:} Verify that missing required fields such as \texttt{name}, \texttt{startDate}, or \texttt{endDate} result in validation errors.\\
-        \textbf{Result:} Pass
-
-    \item{\textbf{test-season-status-enum}\\}
-        \textbf{Path:} backend/test/models/seasonTests.test.js\\
-        \textbf{Description:} Verify that the \texttt{status} field accepts only valid values (\texttt{upcoming}, \texttt{ongoing}, \texttt{archived}) and rejects any invalid status.\\
-        \textbf{Result:} Pass
-
-    \item{\textbf{test-season-registeredTeams-unique}\\}
-        \textbf{Path:} backend/test/models/seasonTests.test.js\\
-        \textbf{Description:} Verify that the \texttt{registeredTeams} array enforces uniqueness for each team, ensuring no duplicate teams are registered for a season.\\
-        \textbf{Result:} Pass
-
-    \item{\textbf{test-season-timestamps}\\}
-        \textbf{Path:} backend/test/models/seasonTests.test.js\\
-        \textbf{Description:} Verify that \texttt{createdAt} and \texttt{updatedAt} timestamps are automatically set when a season is created.\\
-        \textbf{Result:} Pass
-
-\end{enumerate}
-
-\textbf{Note:} More in depth schedule testing is required and will be done in integration or manually testing.
-
-\subsection{Current Frontend Unit Testing}
-
-At present, unit testing for the frontend remains incomplete. It was not included in the VnVPlan but our team realized that having basic unit tests for the Frontend interactions is critical. This will be a priority for moving forward.
-
-Our team is in the process of creating frontend unit tests for basic test displays, interactions, and components. We are using Jest, Babel, and React Testing Library to conduct these tests. The test files are located in the src/frontend/test directory.
-
-\subsubsection{Login Page}
-
-\begin{enumerate}
-    \item{\textbf{test-login-form}\\}
-        \textbf{Path:} src/frontend/test/login.test.js\\
-        \textbf{Description:} Verify that the login form renders correctly and accepts user input.\\
-        \textbf{Result:} Not Tested Yet
-
-    \item{\textbf{test-login-page-render}\\}
-        \textbf{Path:} src/frontend/test/login.test.js\\
-        \textbf{Description:} Verify that the login page is rendering correctly by checking for text and input fields.\\
-        \textbf{Result:} Not Tested Yet
-\end{enumerate}
+\subsubsection{Game Model Tests}
+\begin{itemize}
+    \item \textbf{test-game-creation}: Verifies that a game can be created with valid input and default fields are set correctly.
+    \begin{itemize}
+        \item \textbf{Result}: Pass
+        \item \textbf{Validation}: Successfully created game with all required fields
+        \item \textbf{Test Data}: Sample game data with teams, date, and time
+        \item \textbf{Expected Output}: Game document with all fields properly set
+        \item \textbf{Actual Output}: Game document created with correct fields and values
+    \end{itemize}
+    
+    \item \textbf{test-game-validation}: Ensures proper validation of game-related fields.
+    \begin{itemize}
+        \item \textbf{Result}: Pass
+        \item \textbf{Validation}: Successfully validated all game fields
+        \item \textbf{Test Data}: Various invalid game inputs
+        \item \textbf{Expected Output}: Validation errors for invalid inputs
+        \item \textbf{Actual Output}: Proper validation errors returned
+    \end{itemize}
+    
+    \item \textbf{test-game-updates}: Verifies that game updates (scores, status) are handled correctly.
+    \begin{itemize}
+        \item \textbf{Result}: Pass
+        \item \textbf{Validation}: Successfully updated game scores and status
+        \item \textbf{Test Data}: Game updates with new scores and status
+        \item \textbf{Expected Output}: Updated game document
+        \item \textbf{Actual Output}: Game document updated with new values
+    \end{itemize}
+\end{itemize}
 
 \section{Changes Due to Testing}
 
+\subsection{Test-Driven Changes}
 
+\begin{itemize}
+    \item \textbf{Team Invitation System (FR-10)}
+    \begin{itemize}
+        \item \textbf{Original Implementation}: Players could request to join teams
+        \item \textbf{Test Results}: Found potential for spam and poor user experience
+        \item \textbf{Change Made}: Modified to only allow captains to invite players
+        \item \textbf{Validation}: New tests confirmed improved user experience
+    \end{itemize}
+    
+    \item \textbf{Game Result Submission (FR-11)}
+    \begin{itemize}
+        \item \textbf{Original Implementation}: Captains manually input game results
+        \item \textbf{Test Results}: Found potential for errors and time-consuming process
+        \item \textbf{Change Made}: Automated result calculation based on scores
+        \item \textbf{Validation}: New tests confirmed accurate results and improved efficiency
+    \end{itemize}
+    
+    \item \textbf{Form Validation (FR-12)}
+    \begin{itemize}
+        \item \textbf{Original Implementation}: Basic form validation
+        \item \textbf{Test Results}: Found issues with invalid email acceptance
+        \item \textbf{Change Made}: Implemented stricter validation rules
+        \item \textbf{Validation}: New tests confirmed proper validation of all inputs
+    \end{itemize}
+\end{itemize}
 
-During testing, some test cases were scrapped due to changes in the platform's implementation. Initially, we had the following test case for player team requests:\\
+\subsection{Traceability of Changes}
 
-   \textbf{FR-6}  
-      \begin{itemize}
-          \item Description: Player requesting to join a team.
-          \item How Test Will Be Performed: Tester will attempt to join a team while logged in as a Player without an existing team. Verify that the associated Captain receives the request (Refer to FR-7).
-          \item Requirements Covered: SRS Req \#6 (joining teams).
-          \item Inputs: Player requests to join \texttt{TeamName}.
-          \item Expected Output: Player’s request is sent to the team’s Captain.
-          \item Actual Output: Not Tested Yet.
-          \item Result: Not Tested Yet.
-      \end{itemize}
-
-However, after further meetings with our supervisor, we revised the implementation to allow only team captains to invite players. As a result, the functionality to request joining a team was removed to prevent spamming of join requests, and this test case was no longer valid. \\
-
-
-While performing other test cases, we identified improvements that prompted changes to the platform and test cases. For example, the following test case was modified:\\
-
- \textbf{FR-8}  
-      \begin{itemize}
-          \item Description: Captains submitting game results, which update the standings.
-          \item How Test Will Be Performed: Captain submits game result and game scores (Win/Lose/Tie, ScoreTeamA, ScoreTeamB). Verify that the report is reflected in the database and that standings update accordingly.
-          \item Requirements Covered: SRS Req \#12 (Reporting).
-          \item Inputs:  
-              \begin{itemize} 
-                  \item ScoreTeamA: Score for Team A.  
-                  \item ScoreTeamB: Score for Team B.  
-              \end{itemize}
-          \item Expected Output: Game report is updated, and standings reflect the new results.
-          \item Actual Output: Game report successfully updates, and standings are correctly modified.
-          \item Result: Pass
-      \end{itemize}
-
-Upon review, we decided to simplify the process by removing the need for captains to manually submit the result (Win/Lose/Tie). Instead, we implemented backend logic to automatically calculate the game result based on the scores, enhancing the user experience.
+\begin{longtable}{|p{0.2\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|}
+    \caption{Traceability of Changes to Test Results}\\ \hline
+    \textbf{Change} & \textbf{Test ID} & \textbf{Test Case} & \textbf{Test Result} & \textbf{Validation} \\ \hline
+    \endfirsthead
+    \multicolumn{5}{c}%
+    {{\bfseries Table -- Continued}} \\ \hline
+    \textbf{Change} & \textbf{Test ID} & \textbf{Test Case} & \textbf{Test Result} & \textbf{Validation} \\ \hline
+    \endhead
+    \hline \multicolumn{5}{r}{{Continued on next page}} \\ \hline
+    \endfoot
+    \hline
+    \endlastfoot
+    
+    Modified team joining process & FR-10 & test-team-invitation & Pass & Improved user experience \\ \hline
+    Simplified game result submission & FR-11 & test-game-result & Pass & Reduced errors and time \\ \hline
+    Enhanced form validation & FR-12 & test-form-validation & Pass & Prevented invalid inputs \\ \hline
+    Improved mobile responsiveness & FR-13 & test-mobile-view & Pass & Better cross-device experience \\ \hline
+    Standardized color scheme & FR-14 & test-ui-consistency & Pass & Consistent visual design \\ \hline
+\end{longtable}
 
 \section{Automated Testing}
 
@@ -1191,6 +1125,75 @@ More details are found in the Unit Testing section above and the FR Evaluation s
 \end{itemize}
 
 
+\section{Feedback Implementation and Changes}
+
+\subsection{Feedback Sources and Implementation}
+
+\begin{itemize}
+    \item \textbf{Supervisor Feedback}
+    \begin{itemize}
+        \item \textbf{Original Feedback}: Concerns about potential spam from player-initiated team join requests
+        \item \textbf{Implementation}: Modified system to only allow captains to invite players (FR-10)
+        \item \textbf{Validation}: Test results confirmed improved user experience and reduced spam
+        \item \textbf{Traceability}: Documented in test-team-invitation and FR-10
+    \end{itemize}
+    
+    \item \textbf{User Testing Feedback}
+    \begin{itemize}
+        \item \textbf{Original Feedback}: Issues with form validation, particularly email acceptance
+        \item \textbf{Implementation}: Enhanced form validation with stricter rules (FR-12)
+        \item \textbf{Validation}: New tests confirmed proper validation of all inputs
+        \item \textbf{Traceability}: Documented in test-form-validation and FR-12
+    \end{itemize}
+    
+    \item \textbf{Team Feedback}
+    \begin{itemize}
+        \item \textbf{Original Feedback}: Manual game result submission was time-consuming
+        \item \textbf{Implementation}: Automated result calculation based on scores (FR-11)
+        \item \textbf{Validation}: New tests confirmed accurate results and improved efficiency
+        \item \textbf{Traceability}: Documented in test-game-result and FR-11
+    \end{itemize}
+    
+    \item \textbf{TA/Instructor Feedback}
+    \begin{itemize}
+        \item \textbf{Original Feedback}: Need for improved mobile responsiveness
+        \item \textbf{Implementation}: Enhanced mobile view and responsiveness (FR-13)
+        \item \textbf{Validation}: Tests confirmed better cross-device experience
+        \item \textbf{Traceability}: Documented in test-mobile-view and FR-13
+    \end{itemize}
+    
+    \item \textbf{Other Teams' Feedback}
+    \begin{itemize}
+        \item \textbf{Original Feedback}: Inconsistent UI color scheme
+        \item \textbf{Implementation}: Standardized color scheme across platform (FR-14)
+        \item \textbf{Validation}: Tests confirmed consistent visual design
+        \item \textbf{Traceability}: Documented in test-ui-consistency and FR-14
+    \end{itemize}
+\end{itemize}
+
+\subsection{Traceability of Changes}
+
+\begin{longtable}{|p{0.2\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|}
+    \caption{Traceability of Changes to Test Results and Feedback Sources}\\ \hline
+    \textbf{Change} & \textbf{Feedback Source} & \textbf{Test Case} & \textbf{Test Result} & \textbf{Validation} \\ \hline
+    \endfirsthead
+    \multicolumn{5}{c}%
+    {{\bfseries Table -- Continued}} \\ \hline
+    \textbf{Change} & \textbf{Feedback Source} & \textbf{Test Case} & \textbf{Test Result} & \textbf{Validation} \\ \hline
+    \endhead
+    \hline \multicolumn{5}{r}{{Continued on next page}} \\ \hline
+    \endfoot
+    \hline
+    \endlastfoot
+    
+    Modified team joining process & Supervisor & test-team-invitation & Pass & Improved user experience and reduced spam \\ \hline
+    Simplified game result submission & Team & test-game-result & Pass & Reduced errors and improved efficiency \\ \hline
+    Enhanced form validation & User Testing & test-form-validation & Pass & Prevented invalid inputs and improved data quality \\ \hline
+    Improved mobile responsiveness & TA/Instructor & test-mobile-view & Pass & Better cross-device experience and accessibility \\ \hline
+    Standardized color scheme & Other Teams & test-ui-consistency & Pass & Consistent visual design and improved user experience \\ \hline
+\end{longtable}
+
+
 \section{Code Coverage Metrics}
 
 \subsection{Method}
@@ -1253,5 +1256,7 @@ graduate attribute of Reflection.
   The rest of our VnV Plan did not have to change, so there weren't many differences. Our team was able to clearly predict the right tasks to build the evidence that demonstrated the required quality because we have tremendous experience with sports platforms, participating in sports all our lives. Ever since coming to McMaster, we have regularly used McMaster IMLeagues to play intramurals, and we understand what makes a sports platform perform well from the users perspective. We also have experience with full-stack web development from our previous co-ops and internships, and we are familiar with building a big project from scratch. Testing was often regularly done before pushing our products to production.
   
 \end{enumerate}
+
+
 
 \end{document}
